@@ -8,6 +8,7 @@
 
 .cropper-container {
     background-color: #fff;
+    overflow: hidden;
     position: relative;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;

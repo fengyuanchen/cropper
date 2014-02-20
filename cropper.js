@@ -28,6 +28,9 @@
         construstor: Cropper,
         
         init: function() {
+            var ratio = this.defaults.aspectRatio;
+            
+            this.defaults.aspectRatio = typeof ratio === "number" && ratio > 0 ? ratio : 1;
             this.enable();
         },
 
@@ -48,11 +51,11 @@
             this.$cropper = $(Cropper.template);
             this.$dragger = this.$cropper.find(".cropper-dragger");
            
-            Cropper.fn.hide($element);
+            Cropper.fn.toggle($element);
             $element.after(this.$cropper);
             
             if (!this.defaults.modal) {
-                Cropper.fn.hide(this.$cropper.find(".cropper-modal"));
+                Cropper.fn.toggle(this.$cropper.find(".cropper-modal"));
             }
 
             this.setPreview();
@@ -69,7 +72,7 @@
 
             this.removeListener();
             this.$cropper.empty().remove();
-            Cropper.fn.show(this.$element);
+            Cropper.fn.toggle(this.$element);
 
             this.$cropper = null;
             this.$dragger = null;
@@ -95,18 +98,6 @@
             $document.off("mousemove", this.mousemove);
             $document.off("mouseup", this.mouseup);
         },
-        
-        mousedown: function(e) {
-            var $target = $(e.target),
-                resize = $target.data().resize;
-
-            if (typeof resize === "string" && resize.length > 0) {
-                this.mouseX1 = e.clientX;
-                this.mouseY1 = e.clientY;
-                this.resize = resize;
-                this.$target = $target;
-            }
-        },
 
         load: function() {
             var url;
@@ -124,10 +115,19 @@
 
             this.enable();
         },
+        
+        mousedown: function(e) {
+            var resize = $(e.target).data().resize;
+
+            if (typeof resize === "string" && resize.length > 0) {
+                this.mouseX1 = e.clientX;
+                this.mouseY1 = e.clientY;
+                this.resize = resize;
+            }
+        },
 
         mousemove: function(e) {
             if (this.resize) {
-                this.offset = this.$target.offset();
                 this.mouseX2 = e.clientX;
                 this.mouseY2 = e.clientY;
                 this.resizing();
@@ -152,19 +152,19 @@
                         naturalWidth: this.naturalWidth
                     };
                 } else {
-                    Cropper.fn.setSize($this, {
+                    Cropper.fn.size($this, {
                         height: "auto",
                         width: "auto"
                     });
 
-                    image = Cropper.fn.getSize($this);
+                    image = Cropper.fn.size($this);
                     image = {
                         naturalHeight: image.height,
                         naturalWidth: image.width
                     };
                 }
 
-                Cropper.fn.setSize($this, {
+                Cropper.fn.size($this, {
                     height: "100%",
                     width: "100%"
                 });
@@ -190,7 +190,7 @@
         
         setCropper: function() {
             var $container = this.$element.parent(),
-                container = Cropper.fn.getSize($container),
+                container = Cropper.fn.size($container),
                 image = this.image,
                 cropper;
 
@@ -269,8 +269,8 @@
             var dragger = this.dragger,
                 cropper = this.cropper;
 
-            dragger.width = dragger.width > dragger.maxWidth ? dragger.maxWidth : dragger.width;
-            dragger.height = dragger.height > dragger.maxHeight ? dragger.maxHeight : dragger.height;
+            dragger.width = dragger.width > dragger.maxWidth ? dragger.maxWidth : Math.abs(dragger.width);
+            dragger.height = dragger.height > dragger.maxHeight ? dragger.maxHeight : Math.abs(dragger.height);
 
             dragger.maxLeft = cropper.width - dragger.width;
             dragger.maxTop = cropper.height - dragger.height;
@@ -293,12 +293,11 @@
 
         resizing: function() {
             var resize = this.resize,
-                offset = this.offset,
                 dragger = this.dragger,
                 ratio = this.defaults.aspectRatio,
                 range = {
-                    x: this.mouseX2 - ((offset.left + 2) - $document.scrollLeft()),
-                    y: this.mouseY2 - ((offset.top + 2) - $document.scrollTop())
+                    x: this.mouseX2 - this.mouseX1,
+                    y: this.mouseY2 - this.mouseY1
                 };
 
             range.X = range.y * ratio;
@@ -311,6 +310,7 @@
                     dragger.width += range.x;
                     dragger.height = dragger.width / ratio;
                     dragger.top -= range.Y / 2;
+                    this.resize = dragger.width < 0 ? "w" : resize;
                     break;
 
                 case "n":
@@ -318,6 +318,7 @@
                     dragger.width = dragger.height * ratio;
                     dragger.left += range.X / 2;
                     dragger.top += range.y;
+                    this.resize = dragger.height < 0 ? "s" : resize;
                     break;
 
                 case "w":
@@ -325,18 +326,21 @@
                     dragger.height = dragger.width / ratio;
                     dragger.left += range.x;
                     dragger.top += range.Y / 2;
+                    this.resize = dragger.width < 0 ? "e" : resize;
                     break;
 
                 case "s":
                     dragger.height += range.y;
                     dragger.width = dragger.height * ratio;
                     dragger.left -= range.X / 2;
+                    this.resize = dragger.height < 0 ? "n" : resize;
                     break;
 
                 case "ne":
                     dragger.height -= range.y;
                     dragger.width = dragger.height * ratio;
                     dragger.top += range.y;
+                    this.resize = dragger.height < 0 ? "sw" : resize;
                     break;
 
                 case "nw":
@@ -344,17 +348,20 @@
                     dragger.width = dragger.height * ratio;
                     dragger.left += range.X;
                     dragger.top += range.y;
+                    this.resize = dragger.height < 0 ? "se" : resize;
                     break;
 
                 case "sw":
                     dragger.width -= range.x;
                     dragger.height = dragger.width / ratio;
                     dragger.left += range.x;
+                    this.resize = dragger.width < 0 ? "ne" : resize;
                     break;
 
                 case "se":
                     dragger.width += range.x;
                     dragger.height = dragger.width / ratio;
+                    this.resize = dragger.width < 0 ? "nw" : resize;
                     break;
 
                 // move
@@ -414,14 +421,10 @@
 
     // Common methods
     Cropper.fn = {
-        show: function($e) {
-            $e.removeClass("cropper-hidden");
+        toggle: function($e) {
+            $e.toggleClass("cropper-hidden");
         },
         
-        hide: function($e) {
-            $e.addClass("cropper-hidden");
-        },
-
         position: function($e, option) {
             var position = $e.css("position");
 
@@ -430,26 +433,26 @@
             }
         },
         
-        getSize: function($e) {
-            return {
-                height: $e.height(),
-                width: $e.width()
-            };
+        size: function($e, options) {
+            if ($.isPlainObject(options)) {
+                $e.css(options);
+            } else {
+                return {
+                    height: $e.height(),
+                    width: $e.width()
+                };
+            }
         },
         
-        setSize: function($e, options) {
-            $e.css({
-                height: options.height,
-                width: options.widht
-            });
-        },
-
         round: function(data, fn) {
-            var i;
+            var value,
+                i;
 
             for (i in data) {
-                if (data.hasOwnProperty(i)) {
-                    data[i] = Math.round($.isFunction(fn) ? fn(data[i]) : data[i]);
+                value = data[i];
+
+                if (data.hasOwnProperty(i) && typeof value === "number") {
+                    data[i] = Math.round($.isFunction(fn) ? fn(value) : value);
                 }
             }
 
@@ -483,21 +486,17 @@
 
     Cropper.defaults = {
         aspectRatio: 1,
-
-        done: function(/* data */) {
-            // Nothing
-        },
-
+        done: function(/* data */) { /* handle data */ },
         modal: true,
-        preview: undefined
+        preview: ""
     };
 
     Cropper.setDefaults = function(options) {
-        var option;
+        var i;
 
-        for (option in options) {
-            if (options.hasOwnProperty(option) && typeof Cropper.defaults[option] !== "undefined") {
-                Cropper.defaults[option] = options[option];
+        for (i in options) {
+            if (options.hasOwnProperty(i) && typeof Cropper.defaults[i] !== "undefined") {
+                Cropper.defaults[i] = options[i];
             }
         }
     };
@@ -505,24 +504,14 @@
     // Define as a jquery method
     $.fn.cropper = function(options) {
         return this.each(function() {
-            var $this = $(this),
-                data = $this.data("cropper");
-            
-            if (!data) {
-                data = new Cropper(this, options);
-                $this.data("cropper", data);
-            }
-            
-            if (typeof options === "string" && $.isFunction(data[options])) {
-                data[options]();
-            }
+            $(this).data("cropper", new Cropper(this, options));
         });
     };
 
     $.fn.cropper.Constructor = Cropper;
     $.fn.cropper.setDefaults = Cropper.setDefaults;
 
-    $(function(){
+    $(function() {
         $("[cropper]").cropper();
     });
 }));

@@ -1,7 +1,6 @@
-# Image Cropper
+# [Image Cropper](http://fengyuanchen.github.io/cropper)
 
 A jquery image cropping plugin.
-
 
 
 ## Installation
@@ -85,6 +84,6 @@ Show the black modal layer.
 #### preview
 
 * type: string
-* default: undefined
+* default: ""
 
 A jquery selector string, add extra elements to show preview.
