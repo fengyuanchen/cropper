@@ -1,8 +1,8 @@
-/*
+/*!
  * Cropper v0.1.0
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright 2014 Fenngyuan Chen
+ * Copyright 2014 Fengyuan Chen
  * Released under the MIT license
  */
 
@@ -492,16 +492,10 @@
     };
 
     Cropper.setDefaults = function(options) {
-        var i;
-
-        for (i in options) {
-            if (options.hasOwnProperty(i) && typeof Cropper.defaults[i] !== "undefined") {
-                Cropper.defaults[i] = options[i];
-            }
-        }
+        $.extend(Cropper.defaults, options);
     };
 
-    // Define as a jquery method
+    // Register as jQuery plugin
     $.fn.cropper = function(options) {
         return this.each(function() {
             $(this).data("cropper", new Cropper(this, options));

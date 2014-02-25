@@ -1,3 +1,4 @@
+# Files to ignore
 node_modules
 build
 demos

@@ -1,7 +1,6 @@
 # [Image Cropper](http://fengyuanchen.github.io/cropper)
 
-A jquery image cropping plugin.
-
+A jQuery image cropping plugin.
 
 ## Installation
 
