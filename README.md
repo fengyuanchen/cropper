@@ -2,7 +2,10 @@
 
 A jQuery image cropping plugin.
 
-## Installation
+
+## Getting started
+
+### Installation
 
 Include files:
 
@@ -12,41 +15,19 @@ Include files:
 <script src="/path/to/cropper.js"></script>
 ```
 
+### Usage
 
-## Usage
-
-#### Method 1:
-
-Auto init by add the `cropper` attribute to the element.
+Initialize with `$.fn.cropper` method.
 
 ```html
-<img cropper src="example.png">
-```
-#### Method 2:
-
-Init with the jQuery method `cropper`.
-
-```html
-<img class="cropper" src="example.png">
+<img class="cropper" src="picture.jpg">
 ```
 
 ```javascript
-$(".cropper").cropper();
-```
-
-
-## Setup
-
-### Set defaults
-
-For example:
-
-```javascript
-$.fn.cropper.setDefaults({
-	aspectRatio: 16/9,
+$(".cropper").cropper({
+    aspectRatio: 16/9,
     modal: false,
     preview: ".extra-preview",
-
     done: function(data) {
         console.log(data);
     }
@@ -55,12 +36,14 @@ $.fn.cropper.setDefaults({
 
 ### Options
 
+Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.setDefaults(options)`.
+
 #### aspectRatio
 
 * type: number
 * default: 1
 
-The aspect ratio of the cropping zone. (e.g., "16/9", "4/3", "2/1", etc.)
+The aspect ratio of the cropping zone. e.g., "2", "1.3", "0.5", etc..
 
 #### done
 
@@ -71,14 +54,14 @@ The aspect ratio of the cropping zone. (e.g., "16/9", "4/3", "2/1", etc.)
 function(data) {}
 ```
 
-The function will be run and put in the result data (a plain object) when the cropping zone was moved.
+The function will be passed a object data and run when the cropping zone was moving.
 
 #### modal
 
 * type: boolean
 * default: true
 
-Show the black modal layer.
+Show (true) or hide (false) the black modal layer.
 
 #### preview
 

@@ -30,7 +30,8 @@
         init: function() {
             var ratio = this.defaults.aspectRatio;
             
-            this.defaults.aspectRatio = typeof ratio === "number" && ratio > 0 ? ratio : 1;
+            ratio = typeof ratio !== "number" ? parseInt(ratio, 10) : ratio;
+            this.defaults.aspectRatio = ratio && ratio > 0 ? ratio : 1;
             this.enable();
         },
 
@@ -106,7 +107,7 @@
                 url = this.$element.prop("src");
 
                 if (url && url !== this.url) {
-                    this.destory();
+                    this.disable();
                     this.enable(url);
                 }
 
@@ -115,27 +116,27 @@
 
             this.enable();
         },
-        
-        mousedown: function(e) {
-            var resize = $(e.target).data().resize;
 
-            if (typeof resize === "string" && resize.length > 0) {
+        mousedown: function(e) {
+            var direction = $(e.target).data().direction;
+
+            if (typeof direction === "string" && direction.length > 0) {
                 this.mouseX1 = e.clientX;
                 this.mouseY1 = e.clientY;
-                this.resize = resize;
+                this.direction = direction;
             }
         },
 
         mousemove: function(e) {
-            if (this.resize) {
+            if (this.direction) {
                 this.mouseX2 = e.clientX;
                 this.mouseY2 = e.clientY;
-                this.resizing();
+                this.dragging();
             }
         },
         
         mouseup: function() {
-            this.resize = "";
+            this.direction = "";
         },
         
         setImage: function() {
@@ -218,6 +219,7 @@
 
             image.height = cropper.height;
             image.width = cropper.width;
+            image.ratio = image.width / image.naturalWidth;
 
             Cropper.fn.position($container);
             this.$cropper.css({
@@ -287,12 +289,13 @@
                 width: dragger.width
             });
 
+            this.dragger = dragger;
             this.preview();
             this.output();
         },
 
-        resizing: function() {
-            var resize = this.resize,
+        dragging: function() {
+            var direction = this.direction,
                 dragger = this.dragger,
                 ratio = this.defaults.aspectRatio,
                 range = {
@@ -303,14 +306,14 @@
             range.X = range.y * ratio;
             range.Y = range.x / ratio;
 
-            switch (resize) {
+            switch (direction) {
 
-                // resize
+                // dragging
                 case "e":
                     dragger.width += range.x;
                     dragger.height = dragger.width / ratio;
                     dragger.top -= range.Y / 2;
-                    this.resize = dragger.width < 0 ? "w" : resize;
+                    this.direction = dragger.width < 0 ? "w" : direction;
                     break;
 
                 case "n":
@@ -318,7 +321,7 @@
                     dragger.width = dragger.height * ratio;
                     dragger.left += range.X / 2;
                     dragger.top += range.y;
-                    this.resize = dragger.height < 0 ? "s" : resize;
+                    this.direction = dragger.height < 0 ? "s" : direction;
                     break;
 
                 case "w":
@@ -326,21 +329,21 @@
                     dragger.height = dragger.width / ratio;
                     dragger.left += range.x;
                     dragger.top += range.Y / 2;
-                    this.resize = dragger.width < 0 ? "e" : resize;
+                    this.direction = dragger.width < 0 ? "e" : direction;
                     break;
 
                 case "s":
                     dragger.height += range.y;
                     dragger.width = dragger.height * ratio;
                     dragger.left -= range.X / 2;
-                    this.resize = dragger.height < 0 ? "n" : resize;
+                    this.direction = dragger.height < 0 ? "n" : direction;
                     break;
 
                 case "ne":
                     dragger.height -= range.y;
                     dragger.width = dragger.height * ratio;
                     dragger.top += range.y;
-                    this.resize = dragger.height < 0 ? "sw" : resize;
+                    this.direction = dragger.height < 0 ? "sw" : direction;
                     break;
 
                 case "nw":
@@ -348,23 +351,23 @@
                     dragger.width = dragger.height * ratio;
                     dragger.left += range.X;
                     dragger.top += range.y;
-                    this.resize = dragger.height < 0 ? "se" : resize;
+                    this.direction = dragger.height < 0 ? "se" : direction;
                     break;
 
                 case "sw":
                     dragger.width -= range.x;
                     dragger.height = dragger.width / ratio;
                     dragger.left += range.x;
-                    this.resize = dragger.width < 0 ? "ne" : resize;
+                    this.direction = dragger.width < 0 ? "ne" : direction;
                     break;
 
                 case "se":
                     dragger.width += range.x;
                     dragger.height = dragger.width / ratio;
-                    this.resize = dragger.width < 0 ? "nw" : resize;
+                    this.direction = dragger.width < 0 ? "nw" : direction;
                     break;
 
-                // move
+                // moving
                 default:
                     dragger.left += this.mouseX2 - this.mouseX1;
                     dragger.top += this.mouseY2 - this.mouseY1;
@@ -376,7 +379,7 @@
         },
 
         output: function() {
-            var ratio = this.image.width / this.image.naturalWidth,
+            var ratio = this.image.ratio,
                 dragger = this.dragger,
                 data = {
                     x1: dragger.left,
@@ -387,21 +390,19 @@
                     width: dragger.width
                 };
 
-            data = Cropper.fn.round(data, function(n) {
+            this.defaults.done(Cropper.fn.round(data, function(n) {
                 return n / ratio;
-            });
-
-            this.defaults.done(data);
+            }));
         },
         
         preview: function() {
-            var that = this;
+            var that = this,
+                cropper = that.cropper,
+                dragger = that.dragger;
 
             this.$preview.each(function() {
                 var $this = $(this),
-                    cropper = that.cropper,
-                    dragger = that.dragger,
-                    ratio = $this.width() / dragger.width,
+                    ratio = $this.outerWidth() / dragger.width,
                     styles = {
                         height: cropper.height,
                         marginLeft: - dragger.left,
@@ -409,12 +410,10 @@
                         width: cropper.width
                     };
                 
-                styles = Cropper.fn.round(styles, function(n) {
-                    return n * ratio;
-                });
-                
                 $this.css({overflow: "hidden"});
-                $this.find("img").css(styles);
+                $this.find("img").css(Cropper.fn.round(styles, function(n) {
+                    return n * ratio;
+                }));
             });
         }
     };
@@ -467,19 +466,19 @@
                 '<span class="cropper-preview"></span>',
                 '<span class="cropper-dashed dashed-h"></span>',
                 '<span class="cropper-dashed dashed-v"></span>',
-                '<span class="cropper-face" data-resize="*"></span>',
-                '<span class="cropper-line line-e" data-resize="e"></span>',
-                '<span class="cropper-line line-n" data-resize="n"></span>',
-                '<span class="cropper-line line-w" data-resize="w"></span>',
-                '<span class="cropper-line line-s" data-resize="s"></span>',
-                '<span class="cropper-point point-e" data-resize="e"></span>',
-                '<span class="cropper-point point-n" data-resize="n"></span>',
-                '<span class="cropper-point point-w" data-resize="w"></span>',
-                '<span class="cropper-point point-s" data-resize="s"></span>',
-                '<span class="cropper-point point-ne" data-resize="ne"></span>',
-                '<span class="cropper-point point-nw" data-resize="nw"></span>',
-                '<span class="cropper-point point-sw" data-resize="sw"></span>',
-                '<span class="cropper-point point-se" data-resize="se"></span>',
+                '<span class="cropper-face" data-direction="*"></span>',
+                '<span class="cropper-line line-e" data-direction="e"></span>',
+                '<span class="cropper-line line-n" data-direction="n"></span>',
+                '<span class="cropper-line line-w" data-direction="w"></span>',
+                '<span class="cropper-line line-s" data-direction="s"></span>',
+                '<span class="cropper-point point-e" data-direction="e"></span>',
+                '<span class="cropper-point point-n" data-direction="n"></span>',
+                '<span class="cropper-point point-w" data-direction="w"></span>',
+                '<span class="cropper-point point-s" data-direction="s"></span>',
+                '<span class="cropper-point point-ne" data-direction="ne"></span>',
+                '<span class="cropper-point point-nw" data-direction="nw"></span>',
+                '<span class="cropper-point point-sw" data-direction="sw"></span>',
+                '<span class="cropper-point point-se" data-direction="se"></span>',
             '</div>',
         '</div>'
     ].join("");
@@ -498,7 +497,17 @@
     // Register as jQuery plugin
     $.fn.cropper = function(options) {
         return this.each(function() {
-            $(this).data("cropper", new Cropper(this, options));
+            var $this = $(this),
+                data = $this.data("cropper");
+            
+            if (!data) {
+                data = new Cropper(this, options);
+                $this.data("cropper", data);
+            }
+            
+            if (typeof options === "string" && $.isFunction(data[options])) {
+                data[options]();
+            }
         });
     };
 
