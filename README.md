@@ -3,19 +3,21 @@
 A jQuery image cropping plugin.
 
 
-## Getting started
+# Getting started
 
-### Installation
+
+## Installation
 
 Include files:
 
 ```html
 <script src="/path/to/jquery.js"></script><!-- jQuery is required -->
-<link rel="stylesheet" href="/path/to/cropper.css">
+<link  href="/path/to/cropper.css" rel="stylesheet">
 <script src="/path/to/cropper.js"></script>
 ```
 
-### Usage
+
+## Usage
 
 Initialize with `$.fn.cropper` method.
 
@@ -34,9 +36,14 @@ $(".cropper").cropper({
 });
 ```
 
-### Options
+
+## Configure
+
+### Setup
 
 Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.setDefaults(options)`.
+
+### Options
 
 #### aspectRatio
 
