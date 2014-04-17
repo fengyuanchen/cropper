@@ -76,3 +76,14 @@ Show (true) or hide (false) the black modal layer.
 * default: ""
 
 A jquery selector string, add extra elements to show preview.
+
+
+## Methods
+
+### enable
+
+Enable the cropper, use with `$("#target").cropper("enable")`.
+
+### disable
+
+Disable the cropper, use with `$("#target").cropper("disable")`.
