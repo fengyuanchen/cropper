@@ -28,6 +28,9 @@
         "type": "MIT",
         "url": "https://github.com/fengyuanchen/cropper/blob/master/LICENSE"
     },
+    "dependencies": {
+        "jquery": ">= 1.9.0"
+    },
     "devDependencies": {
         "grunt": "~0.4.2",
         "grunt-banner": "~0.2.1",

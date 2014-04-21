@@ -5,6 +5,15 @@ A jQuery image cropping plugin.
 
 # Getting started
 
+## Quick start
+
+Four quick start options are available:
+
+- [Download the latest release](https://github.com/fengyuanchen/cropper/zipball/master).
+- Clone the repository: `git clone https://github.com/fengyuanchen/cropper.git`.
+- Install with [NPM](http://npmjs.org): `npm install cropper`.
+- Install with [Bower](http://bower.io): `bower install cropper`.
+
 
 ## Installation
 
@@ -47,15 +56,15 @@ Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.s
 
 #### aspectRatio
 
-* type: number
-* default: 1
+- type: number
+- default: 1
 
 The aspect ratio of the cropping zone. e.g., "2", "1.3", "0.5", etc..
 
 #### done
 
-* type: function
-* default:
+- type: function
+- default:
 
 ```javascript
 function(data) {}
@@ -65,15 +74,15 @@ The function will be passed a object data and run when the cropping zone was mov
 
 #### modal
 
-* type: boolean
-* default: true
+- type: boolean
+- default: true
 
 Show (true) or hide (false) the black modal layer.
 
 #### preview
 
-* type: string
-* default: ""
+- type: string
+- default: ""
 
 A jquery selector string, add extra elements to show preview.
 
@@ -91,11 +100,11 @@ Disable the cropper, use with `$("#target").cropper("disable")`.
 
 ## Browser Support
 
-* IE 8+
-* Chrome 33+
-* Firefox 27+
-* Safari 5.1+
-* Opera 19+
+- IE 8+
+- Chrome 33+
+- Firefox 27+
+- Safari 5.1+
+- Opera 19+
 
 As a jQuery plugin, you can reference the [jQuery Browser Support](http://jquery.com/browser-support/).
 
