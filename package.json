@@ -1,11 +1,33 @@
 {
     "name": "cropper",
-    "title": "Cropper",
     "description": "A jQuery image cropping plugin.",
     "version": "0.1.0",
-    "author": "Fengyuan Chen",
+    "keywords": [
+        "image",
+        "cropping",
+        "jquery",
+        "plugin",
+        "css",
+        "javacript",
+        "front-end",
+        "web"
+    ],
+    "author": {
+        "name": "Fengyuan Chen",
+        "url": "https://github.com/fengyuanchen/"
+    },
     "homepage": "https://github.com/fengyuanchen/cropper",
-    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fengyuanchen/cropper.git"
+    },
+    "bugs": {
+        "url": "https://github.com/fengyuanchen/cropper/issues"
+    },
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/fengyuanchen/cropper/blob/master/LICENSE"
+    },
     "devDependencies": {
         "grunt": "~0.4.2",
         "grunt-banner": "~0.2.1",
@@ -15,6 +37,7 @@
         "grunt-contrib-csslint": "~0.2.0",
         "grunt-contrib-cssmin": "~0.8.0",
         "grunt-contrib-copy": "~0.5.0",
-        "grunt-contrib-watch": "~0.5.3"
+        "grunt-contrib-watch": "~0.5.3",
+        "load-grunt-tasks": "~0.4.0"
     }
 }

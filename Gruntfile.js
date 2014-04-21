@@ -2,17 +2,14 @@ module.exports = function(grunt) {
 
     "use strict";
 
-    var pkg = grunt.file.readJSON("package.json"),
-        key;
-
     grunt.initConfig({
-        pkg: pkg,
+        pkg: grunt.file.readJSON("package.json"),
         banner: "/*!\n" +
-                " * <%= pkg.title %> v<%= pkg.version %>\n" +
+                " * Cropper v<%= pkg.version %>\n" +
                 " * <%= pkg.homepage %>\n" +
                 " *\n" +
-                " * Copyright <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
-                " * Released under the <%= pkg.license %> license\n" +
+                " * Copyright <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
+                " * Released under the <%= pkg.license.type %> license\n" +
                 " */\n",
         clean: {
             files: ["build/<%= pkg.version %>", "dist/"]
@@ -74,11 +71,7 @@ module.exports = function(grunt) {
     });
 
     // Loading dependencies
-    for (key in pkg.devDependencies) {
-        if (key !== "grunt" && key.indexOf("grunt") === 0) {
-            grunt.loadNpmTasks(key);
-        }
-    }
+    require("load-grunt-tasks")(grunt);
 
     grunt.registerTask("default", ["clean", "jshint", "uglify", "csslint", "cssmin", "copy:dist", "usebanner", "copy:build"]);
 };
