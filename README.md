@@ -80,10 +80,26 @@ A jquery selector string, add extra elements to show preview.
 
 ## Methods
 
-### enable
+#### enable
 
 Enable the cropper, use with `$("#target").cropper("enable")`.
 
-### disable
+#### disable
 
 Disable the cropper, use with `$("#target").cropper("disable")`.
+
+
+## Browser Support
+
+* IE 8+
+* Chrome 33+
+* Firefox 27+
+* Safari 5.1+
+* Opera 19+
+
+As a jQuery plugin, you can reference the [jQuery Browser Support](http://jquery.com/browser-support/).
+
+
+## [License](https://github.com/fengyuanchen/cropper/blob/master/LICENSE)
+
+Released under the [MIT](http://opensource.org/licenses/mit-license.html) license.
