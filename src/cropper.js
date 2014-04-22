@@ -23,9 +23,10 @@
 
         init: function() {
             var ratio = this.defaults.aspectRatio;
-
-            ratio = typeof ratio !== "number" ? parseInt(ratio, 10) : ratio;
-            this.defaults.aspectRatio = ratio && ratio > 0 ? ratio : 1;
+            if(ratio !== false) {
+                ratio = typeof ratio !== "number" ? parseInt(ratio, 10) : ratio;
+                this.defaults.aspectRatio = ratio && ratio > 0 ? ratio : 1;
+            }
             this.enable();
         },
 
@@ -229,7 +230,7 @@
 
         setDragger: function() {
             var cropper = this.cropper,
-                ratio = this.defaults.aspectRatio,
+                ratio = this.defaults.aspectRatio || (this.image.naturalWidth/this.image.naturalHeight),
                 dragger;
 
             if (((cropper.height * ratio) - cropper.width) >= 0) {
@@ -254,6 +255,7 @@
 
             dragger.height *= 0.8;
             dragger.width *= 0.8;
+
             dragger.left = (cropper.width - dragger.width) / 2;
             dragger.top = (cropper.height - dragger.height) / 2;
 
@@ -297,16 +299,21 @@
                     y: this.mouseY2 - this.mouseY1
                 };
 
-            range.X = range.y * ratio;
-            range.Y = range.x / ratio;
+            if(ratio){
+                range.X = range.y * ratio;
+                range.Y = range.x / ratio;
+            }
 
             switch (direction) {
 
                 // dragging
                 case "e":
                     dragger.width += range.x;
-                    dragger.height = dragger.width / ratio;
-                    dragger.top -= range.Y / 2;
+
+                    if(ratio) {
+                        dragger.height = dragger.width / ratio;
+                        dragger.top -= range.Y / 2;
+                    }
 
                     if (dragger.width < 0) {
                         this.direction = "w";
@@ -317,9 +324,12 @@
 
                 case "n":
                     dragger.height -= range.y;
-                    dragger.width = dragger.height * ratio;
-                    dragger.left += range.X / 2;
                     dragger.top += range.y;
+
+                    if(ratio){
+                        dragger.width = dragger.height * ratio;
+                        dragger.left += range.X / 2;
+                    }
 
                     if (dragger.height < 0) {
                         this.direction = "s";
@@ -330,9 +340,12 @@
 
                 case "w":
                     dragger.width -= range.x;
-                    dragger.height = dragger.width / ratio;
                     dragger.left += range.x;
-                    dragger.top += range.Y / 2;
+
+                    if(ratio) {
+                        dragger.height = dragger.width / ratio;
+                        dragger.top += range.Y / 2;
+                    }
 
                     if (dragger.width < 0) {
                         this.direction = "e";
@@ -343,8 +356,11 @@
 
                 case "s":
                     dragger.height += range.y;
-                    dragger.width = dragger.height * ratio;
-                    dragger.left -= range.X / 2;
+
+                    if(ratio) {
+                        dragger.width = dragger.height * ratio;
+                        dragger.left -= range.X / 2;
+                    }
 
                     if (dragger.height < 0) {
                         this.direction = "n";
@@ -355,8 +371,13 @@
 
                 case "ne":
                     dragger.height -= range.y;
-                    dragger.width = dragger.height * ratio;
                     dragger.top += range.y;
+
+                    if(ratio){
+                        dragger.width = dragger.height * ratio;
+                    } else {
+                        dragger.width += range.x;
+                    }
 
                     if (dragger.height < 0) {
                         this.direction = "sw";
@@ -368,9 +389,15 @@
 
                 case "nw":
                     dragger.height -= range.y;
-                    dragger.width = dragger.height * ratio;
-                    dragger.left += range.X;
                     dragger.top += range.y;
+
+                    if(ratio){
+                        dragger.width = dragger.height * ratio;
+                        dragger.left += range.X;
+                    } else {
+                        dragger.width -= range.x;
+                        dragger.left += range.x;
+                    }
 
                     if (dragger.height < 0) {
                         this.direction = "se";
@@ -382,8 +409,13 @@
 
                 case "sw":
                     dragger.width -= range.x;
-                    dragger.height = dragger.width / ratio;
                     dragger.left += range.x;
+
+                    if(ratio){
+                        dragger.height = dragger.width / ratio;
+                    } else {
+                        dragger.height += range.y;
+                    }
 
                     if (dragger.width < 0) {
                         this.direction = "ne";
@@ -395,7 +427,12 @@
 
                 case "se":
                     dragger.width += range.x;
-                    dragger.height = dragger.width / ratio;
+
+                    if(ratio){
+                        dragger.height = dragger.width / ratio;
+                    } else {
+                        dragger.height += range.y;
+                    }
 
                     if (dragger.width < 0) {
                         this.direction = "nw";
@@ -425,7 +462,8 @@
                     x2: dragger.left + dragger.width,
                     y2: dragger.top + dragger.height,
                     height: dragger.height,
-                    width: dragger.width
+                    width: dragger.width,
+                    image: this.image
                 };
 
             this.defaults.done(Cropper.fn.round(data, function(n) {
