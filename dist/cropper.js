@@ -74,24 +74,21 @@
         },
 
         disable: function() {
+            if (this.active) {
+                this.removeListener();
+                this.$cropper.empty().remove();
+                Cropper.fn.toggle(this.$element);
 
-            if (!this.active) {
-                return;
+                this.$cropper = null;
+                this.$dragger = null;
+                this.$preview = null;
+
+                this.cropper = null;
+                this.dragger = null;
+                this.image = null;
+                this.url = "";
+                this.active = false;
             }
-
-            this.removeListener();
-            this.$cropper.empty().remove();
-            Cropper.fn.toggle(this.$element);
-
-            this.$cropper = null;
-            this.$dragger = null;
-            this.$preview = null;
-
-            this.cropper = null;
-            this.dragger = null;
-            this.image = null;
-            this.url = "";
-            this.active = false;
         },
 
         addListener: function() {
@@ -148,8 +145,8 @@
         },
 
         setAspectRatio: function(ratio) {
-            if ($.isNumeric(ratio) && ratio > 0) {
-                this.defaults.aspectRatio = ratio;
+            if (ratio === "auto" || ($.isNumeric(ratio) && ratio > 0)) {
+                this.defaults.aspectRatio = ratio === "auto" ? NaN : ratio;
                 this.active && this.setDragger();
             }
         },
@@ -185,6 +182,7 @@
                     width: "100%"
                 });
 
+                image.aspectRatio = image.naturalWidth / image.naturalHeight;
                 that.image = image;
                 that.setCropper();
             });
@@ -216,7 +214,7 @@
 
             if (((image.naturalWidth * container.height / image.naturalHeight) - container.width) >= 0) {
                 cropper = {
-                    height: container.width * image.naturalHeight / image.naturalWidth,
+                    height: container.width / image.aspectRatio,
                     width: container.width,
                     left: 0
                 };
@@ -225,7 +223,7 @@
             } else {
                 cropper = {
                     height: container.height,
-                    width: container.height * image.naturalWidth / image.naturalHeight,
+                    width: container.height * image.aspectRatio,
                     top: 0
                 };
 
@@ -254,7 +252,7 @@
 
         setDragger: function() {
             var cropper = this.cropper,
-                ratio = this.defaults.aspectRatio || (this.image.naturalWidth / this.image.naturalHeight),
+                ratio = this.defaults.aspectRatio || this.image.aspectRatio,
                 dragger;
 
             if (((cropper.height * ratio) - cropper.width) >= 0) {
@@ -285,6 +283,84 @@
 
             this.dragger = Cropper.fn.round(dragger);
             this.resetDragger();
+        },
+
+        transformData: function(data, type) {
+            var ratio = this.image.ratio,
+                keys = /^(x1|y1|x2|y2|width|height)$/i,
+                result = {};
+
+            ratio = type === "set" ? ratio : 1 / ratio;
+
+            $.each(data, function(i, n) {
+                if (keys.test(i) && $.isNumeric(n)) {
+                    result[i] = Math.round(n * ratio);
+                }
+            });
+
+            return result;
+        },
+
+        setData: function(data) {
+            var cropper = this.cropper,
+                dragger = this.dragger,
+                aspectRatio = this.defaults.aspectRatio || 1;
+
+            if (!this.active) {
+                return;
+            }
+
+            if ($.isPlainObject(data) && !$.isEmptyObject(data)) {
+                data = this.transformData(data, "set");
+
+                if (isNumber(data.x1) && data.x1 >= 0 && data.x1 <= cropper.width) {
+                    dragger.left = data.x1;
+                }
+
+                if (isNumber(data.y1) && data.y1 >= 0 && data.y1 <= cropper.height) {
+                    dragger.top = data.y1;
+                }
+
+                if (isNumber(data.width) && data.width > 0 && data.width <= cropper.width) {
+                    dragger.width = data.width;
+                    dragger.height = dragger.width / aspectRatio;
+                } else if (isNumber(data.height) && data.height > 0 && data.height <= cropper.height) {
+                    dragger.height = data.height;
+                    dragger.width = dragger.height * aspectRatio;
+                } else if (isNumber(data.x2) && data.x2 > 0 && data.x2 <= cropper.width) {
+                    dragger.width = data.x2 - dragger.left;
+                    dragger.height = dragger.width / aspectRatio;
+                } else if (isNumber(data.y2) && data.y2 > 0 && data.y2 <= cropper.height) {
+                    dragger.height = data.y2 - dragger.top;
+                    dragger.width = dragger.height * aspectRatio;
+                }
+            } else {
+                dragger.left = cropper.width * 0.1;
+                dragger.top = cropper.height * 0.1;
+                dragger.height = cropper.height * 0.8;
+                dragger.width = cropper.width * 0.8;
+            }
+
+            this.dragger = dragger;
+            this.resetDragger();
+        },
+
+        getData: function() {
+            var dragger = this.dragger,
+                data = {};
+
+            if (this.active) {
+                data = this.transformData({
+                    x1: dragger.left,
+                    y1: dragger.top,
+                    width: dragger.width,
+                    height: dragger.height,
+                    x2: dragger.left + dragger.width,
+                    y2: dragger.top + dragger.height
+                }, "get");
+            }
+
+            return data;
         },
 
         resetDragger: function() {
@@ -478,21 +554,7 @@
         },
 
         output: function() {
-            var ratio = this.image.ratio,
-                dragger = this.dragger,
-                data = {
-                    x1: dragger.left,
-                    y1: dragger.top,
-                    x2: dragger.left + dragger.width,
-                    y2: dragger.top + dragger.height,
-                    height: dragger.height,
-                    width: dragger.width,
-                    image: this.image
-                };
-
-            this.defaults.done(Cropper.fn.round(data, function(n) {
-                return n / ratio;
-            }));
+            this.defaults.done(this.getData());
         },
 
         preview: function() {
@@ -585,6 +647,7 @@
 
     Cropper.defaults = {
         aspectRatio: "auto",
+        data: {},
         done: function(/* data */) {},
         modal: true,
         preview: ""

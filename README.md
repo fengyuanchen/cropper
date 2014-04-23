@@ -62,6 +62,27 @@ Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.s
 The aspect ratio of the cropping zone. e.g., "2", "1.3", "0.5", etc..
 Just set it with "auto" to free ratio.
 
+#### data
+
+- type: object
+- default: {}
+- example:
+
+```javascript
+{
+    x1: 100,
+    y1: 50,
+    width: 480,
+    height: 270,
+    x2: 580, // optional (x2 = x1 + width)
+    y2: 370 // optional (y2 = y1 + height)
+}
+```
+
+If you already have a cropped zone data of the image, and you want to re-render it, just set this option.
+
+**Tips:** It's possible to save the data in cookie or other where when a page is unload(abort), and then when the page is reload, get the data and re-render it.
+
 #### done
 
 - type: function
@@ -100,16 +121,30 @@ A jquery selector string, add extra elements to show preview.
 - Disable the cropper.
 - use with `$("#target").cropper("disable")`.
 
-#### getImgInfo
+#### getData
 
-- Get the image information, contains: "naturalWidth", "naturalHeight", "width", "height", "ratio".
-- The "ratio" is a value of "width / naturalWidth".
-- Use with `$("#target").cropper("getImgInfo")`.
+- Get the current cropped zone data.
+- Use with `$("#target").cropper("getData")`.
+
+#### setData
+
+- Reset the cropping zone.
+- Param: A object contains "x1", "y1", "width", "height", "x2"(optional), "y2"(optional).
+- Use with `$("#target").cropper("setData", data)`.
 
 #### setAspectRatio
 
 - Enable to reset the aspect ratio after initialization.
+- Param: a positive number.
 - Use with `$("#target").cropper("setAspectRatio", 1.618)`.
+
+
+#### getImgInfo
+
+- Get the image information, contains: "naturalWidth", "naturalHeight", "width", "height", "aspectRatio", "ratio".
+- The "aspectRatio" is the value of "naturalWidth / naturalHeight".
+- The "ratio" is the value of "width / naturalWidth".
+- Use with `$("#target").cropper("getImgInfo")`.
 
 
 ## Browser Support
