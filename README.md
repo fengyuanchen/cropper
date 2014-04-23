@@ -109,7 +109,7 @@ A jquery selector string, add extra elements to show preview.
 #### setAspectRatio
 
 - Enable to reset the aspect ratio after initialization.
-- Use with `$("#target").cropper("setAspectRatio", 0.618)`.
+- Use with `$("#target").cropper("setAspectRatio", 1.618)`.
 
 
 ## Browser Support
