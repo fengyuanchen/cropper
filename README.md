@@ -56,11 +56,10 @@ Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.s
 
 #### aspectRatio
 
-- type: string or number
-- default: "auto"
+- type: number
+- default: 1
 
 The aspect ratio of the cropping zone. e.g., "2", "1.3", "0.5", etc..
-Just set it with "auto" to free ratio.
 
 #### done
 
@@ -92,19 +91,11 @@ A jquery selector string, add extra elements to show preview.
 
 #### enable
 
-- Enable the cropper.
-- use with `$("#target").cropper("enable")`.
+Enable the cropper, use with `$("#target").cropper("enable")`.
 
 #### disable
 
-- Disable the cropper.
-- use with `$("#target").cropper("disable")`.
-
-#### getImgInfo
-
-- Get the image information, contains: "naturalWidth", "naturalHeight", "width", "height", "ratio".
-- The "ratio" is a value of "width / naturalWidth".
-- Use with `$("#target").cropper("getImgInfo")`.
+Disable the cropper, use with `$("#target").cropper("disable")`.
 
 
 ## Browser Support

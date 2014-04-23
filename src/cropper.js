@@ -23,15 +23,10 @@
 
         init: function() {
             var ratio = this.defaults.aspectRatio;
-
-            if ($.isNumeric(ratio)) {
-                ratio = ratio > 0 ? ratio : 1;
-            } else {
-                ratio = NaN;
+            if(ratio !== false) {
+                ratio = typeof ratio !== "number" ? parseInt(ratio, 10) : ratio;
+                this.defaults.aspectRatio = ratio && ratio > 0 ? ratio : 1;
             }
-
-            this.defaults.aspectRatio = ratio;
-
             this.enable();
         },
 
@@ -177,10 +172,6 @@
             this.$cropper.prepend($image);
         },
 
-        getImgInfo: function() {
-            return this.image;
-        },
-
         setPreview: function() {
             var preview = this.defaults.preview;
 
@@ -308,7 +299,7 @@
                     y: this.mouseY2 - this.mouseY1
                 };
 
-            if (ratio) {
+            if(ratio){
                 range.X = range.y * ratio;
                 range.Y = range.x / ratio;
             }
@@ -319,7 +310,7 @@
                 case "e":
                     dragger.width += range.x;
 
-                    if (ratio) {
+                    if(ratio) {
                         dragger.height = dragger.width / ratio;
                         dragger.top -= range.Y / 2;
                     }
@@ -335,7 +326,7 @@
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
-                    if (ratio) {
+                    if(ratio){
                         dragger.width = dragger.height * ratio;
                         dragger.left += range.X / 2;
                     }
@@ -351,7 +342,7 @@
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
-                    if (ratio) {
+                    if(ratio) {
                         dragger.height = dragger.width / ratio;
                         dragger.top += range.Y / 2;
                     }
@@ -366,7 +357,7 @@
                 case "s":
                     dragger.height += range.y;
 
-                    if (ratio) {
+                    if(ratio) {
                         dragger.width = dragger.height * ratio;
                         dragger.left -= range.X / 2;
                     }
@@ -382,7 +373,7 @@
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
-                    if (ratio) {
+                    if(ratio){
                         dragger.width = dragger.height * ratio;
                     } else {
                         dragger.width += range.x;
@@ -400,7 +391,7 @@
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
-                    if (ratio) {
+                    if(ratio){
                         dragger.width = dragger.height * ratio;
                         dragger.left += range.X;
                     } else {
@@ -420,7 +411,7 @@
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
-                    if (ratio) {
+                    if(ratio){
                         dragger.height = dragger.width / ratio;
                     } else {
                         dragger.height += range.y;
@@ -437,7 +428,7 @@
                 case "se":
                     dragger.width += range.x;
 
-                    if (ratio) {
+                    if(ratio){
                         dragger.height = dragger.width / ratio;
                     } else {
                         dragger.height += range.y;
@@ -569,7 +560,7 @@
     ].join("");
 
     Cropper.defaults = {
-        aspectRatio: "auto",
+        aspectRatio: 1,
         done: function(/* data */) {},
         modal: true,
         preview: ""
@@ -581,9 +572,7 @@
 
     // Register as jQuery plugin
     $.fn.cropper = function(options) {
-        var result = this;
-
-        this.each(function() {
+        return this.each(function() {
             var $this = $(this),
                 data = $this.data("cropper");
 
@@ -593,11 +582,9 @@
             }
 
             if (typeof options === "string" && $.isFunction(data[options])) {
-                result = data[options]();
+                data[options]();
             }
         });
-
-        return result;
     };
 
     $.fn.cropper.Constructor = Cropper;
