@@ -3,3 +3,5 @@ node_modules
 build
 demos
 tests
+*.bak
+CHANGELOG.md
