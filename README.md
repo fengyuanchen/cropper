@@ -106,6 +106,11 @@ A jquery selector string, add extra elements to show preview.
 - The "ratio" is a value of "width / naturalWidth".
 - Use with `$("#target").cropper("getImgInfo")`.
 
+#### setAspectRatio
+
+- Enable to reset the aspect ratio after initialization.
+- Use with `$("#target").cropper("setAspectRatio")`.
+
 
 ## Browser Support
 

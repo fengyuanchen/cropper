@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.1.1
+ * Cropper v0.2.0
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -147,6 +147,13 @@
             this.direction = "";
         },
 
+        setAspectRatio: function(ratio) {
+            if ($.isNumeric(ratio) && ratio > 0) {
+                this.defaults.aspectRatio = ratio;
+                this.active && this.setDragger();
+            }
+        },
+
         setImage: function() {
             var that = this,
                 $image = $('<img src="' + this.url + '">');
@@ -247,7 +254,7 @@
 
         setDragger: function() {
             var cropper = this.cropper,
-                ratio = this.defaults.aspectRatio || (this.image.naturalWidth/this.image.naturalHeight),
+                ratio = this.defaults.aspectRatio || (this.image.naturalWidth / this.image.naturalHeight),
                 dragger;
 
             if (((cropper.height * ratio) - cropper.width) >= 0) {
@@ -588,7 +595,7 @@
     };
 
     // Register as jQuery plugin
-    $.fn.cropper = function(options) {
+    $.fn.cropper = function(options, settings) {
         var result = this;
 
         this.each(function() {
@@ -601,7 +608,7 @@
             }
 
             if (typeof options === "string" && $.isFunction(data[options])) {
-                result = data[options]();
+                result = data[options](settings);
             }
         });
 
