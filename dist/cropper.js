@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.2.0
+ * Cropper v0.2.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -313,24 +313,24 @@
             if ($.isPlainObject(data) && !$.isEmptyObject(data)) {
                 data = this.transformData(data, "set");
 
-                if (isNumber(data.x1) && data.x1 >= 0 && data.x1 <= cropper.width) {
+                if ($.isNumeric(data.x1) && data.x1 >= 0 && data.x1 <= cropper.width) {
                     dragger.left = data.x1;
                 }
 
-                if (isNumber(data.y1) && data.y1 >= 0 && data.y1 <= cropper.height) {
+                if ($.isNumeric(data.y1) && data.y1 >= 0 && data.y1 <= cropper.height) {
                     dragger.top = data.y1;
                 }
 
-                if (isNumber(data.width) && data.width > 0 && data.width <= cropper.width) {
+                if ($.isNumeric(data.width) && data.width > 0 && data.width <= cropper.width) {
                     dragger.width = data.width;
                     dragger.height = dragger.width / aspectRatio;
-                } else if (isNumber(data.height) && data.height > 0 && data.height <= cropper.height) {
+                } else if ($.isNumeric(data.height) && data.height > 0 && data.height <= cropper.height) {
                     dragger.height = data.height;
                     dragger.width = dragger.height * aspectRatio;
-                } else if (isNumber(data.x2) && data.x2 > 0 && data.x2 <= cropper.width) {
+                } else if ($.isNumeric(data.x2) && data.x2 > 0 && data.x2 <= cropper.width) {
                     dragger.width = data.x2 - dragger.left;
                     dragger.height = dragger.width / aspectRatio;
-                } else if (isNumber(data.y2) && data.y2 > 0 && data.y2 <= cropper.height) {
+                } else if ($.isNumeric(data.y2) && data.y2 > 0 && data.y2 <= cropper.height) {
                     dragger.height = data.y2 - dragger.top;
                     dragger.width = dragger.height * aspectRatio;
                 }

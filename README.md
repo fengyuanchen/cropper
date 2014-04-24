@@ -130,7 +130,7 @@ A jquery selector string, add extra elements to show preview.
 
 - Reset the cropping zone.
 - Param: A object contains "x1", "y1", "width", "height", "x2"(optional), "y2"(optional).
-- Use with `$("#target").cropper("setData", data)`.
+- Use with `$("#target").cropper("setData", {width: 480, height: 270})`.
 
 #### setAspectRatio
 
