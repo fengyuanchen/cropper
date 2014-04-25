@@ -62,6 +62,13 @@ Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.s
 The aspect ratio of the cropping zone. e.g., "2", "1.3", "0.5", etc..
 Just set it with "auto" to free ratio.
 
+### fixed
+
+- type: boolean
+- default: false
+
+If true the cropping zone remains fixed and you drag the image around instead of the zone.
+
 #### data
 
 - type: object
@@ -138,6 +145,11 @@ A jquery selector string, add extra elements to show preview.
 - Param: a positive number.
 - Use with `$("#target").cropper("setAspectRatio", 1.618)`.
 
+### setFixed
+
+- Enable or disable fixed cropping zone.
+- Param: boolean or 'toggle'
+- Use with: `$("#target").cropper("setFixed", "toggle")`.
 
 #### getImgInfo
 

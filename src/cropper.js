@@ -143,6 +143,15 @@
             }
         },
 
+        setFixed: function(value){
+            this.disable();
+            if ( value = "toggle" ){
+                value = !this.defaults.fixed;
+            }
+            this.defaults.fixed = value;
+            this.enable();
+        },
+
         setImage: function() {
             var that = this,
                 $image = $('<img src="' + this.url + '">');
