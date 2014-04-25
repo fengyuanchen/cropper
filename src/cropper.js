@@ -357,6 +357,18 @@
                 dragger.width = cropper.width * 0.8;
             }
 
+            if ( this.defaults.fixed ){
+                dragger.left = (cropper.width - dragger.width) / 2;
+                dragger.top = (cropper.height - dragger.height) / 2;
+
+                this.$dragger.css({
+                    left: dragger.left,
+                    top: dragger.top,
+                });
+                dragger.left = -this.$dragger.position().left;
+                dragger.top = -this.$dragger.position().top;
+            }
+
             this.dragger = dragger;
             this.resetDragger();
         },
