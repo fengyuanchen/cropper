@@ -277,8 +277,13 @@
             dragger.height *= 0.8;
             dragger.width *= 0.8;
 
-            dragger.left = (cropper.width - dragger.width) / 2;
-            dragger.top = (cropper.height - dragger.height) / 2;
+            if ( !this.defaults.fixed ){
+                dragger.left = (cropper.width - dragger.width) / 2;
+                dragger.top = (cropper.height - dragger.height) / 2;
+            } else {
+                dragger.left = -this.$dragger.position().left;
+                dragger.top = -this.$dragger.position().top;
+            }
 
             this.dragger = Cropper.fn.round(dragger);
             this.resetDragger();
@@ -372,17 +377,32 @@
             dragger.maxLeft = cropper.width - dragger.width;
             dragger.maxTop = cropper.height - dragger.height;
 
-            dragger.left = dragger.left < 0 ? 0 : dragger.left > dragger.maxLeft ? dragger.maxLeft : dragger.left;
-            dragger.top = dragger.top < 0 ? 0 : dragger.top > dragger.maxTop ? dragger.maxTop : dragger.top;
+            if ( !this.defaults.fixed ){
+                dragger.left = dragger.left < 0 ? 0 : dragger.left > dragger.maxLeft ? dragger.maxLeft : dragger.left;
+                dragger.top = dragger.top < 0 ? 0 : dragger.top > dragger.maxTop ? dragger.maxTop : dragger.top;
 
-            dragger = Cropper.fn.round(dragger);
+                dragger = Cropper.fn.round(dragger);
 
-            this.$dragger.css({
-                height: dragger.height,
-                left: dragger.left,
-                top: dragger.top,
-                width: dragger.width
-            });
+                this.$dragger.css({
+                    height: dragger.height,
+                    left: dragger.left,
+                    top: dragger.top,
+                    width: dragger.width
+                });
+            } else {
+                dragger.left = Math.max(Math.min(dragger.left, 0), -dragger.maxLeft);
+                dragger.top = Math.max(Math.min(dragger.top, 0), -dragger.maxTop);
+
+                dragger = Cropper.fn.round(dragger);
+
+                var offset = this.$dragger.position(),
+                    left = dragger.left + offset.left,
+                    top = dragger.top + offset.top;
+
+                this.$dragger.parent().css({
+                    'background-position': left + 'px ' + top + 'px',
+                });
+            }
 
             this.dragger = dragger;
             this.preview();
@@ -570,6 +590,11 @@
                         marginTop: - dragger.top,
                         width: cropper.width
                     };
+
+                if ( that.defaults.fixed ){
+                    styles.marginLeft = -styles.marginLeft;
+                    styles.marginTop = -styles.marginTop;
+                }
 
                 $this.css({overflow: "hidden"});
                 $this.find("img").css(Cropper.fn.round(styles, function(n) {
