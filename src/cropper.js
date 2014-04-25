@@ -49,7 +49,7 @@
             }
 
             this.url = url;
-            this.$cropper = $(Cropper.template);
+            this.$cropper = $(this.defaults.fixed ? Cropper.template_fixed : Cropper.template_free);
             this.$dragger = this.$cropper.find(".cropper-dragger");
 
             Cropper.fn.toggle($element);
@@ -613,7 +613,7 @@
         }
     };
 
-    Cropper.template = [
+    Cropper.template_free = [
         '<div class="cropper-container">',
             '<div class="cropper-modal"></div>',
             '<div class="cropper-dragger">',
@@ -637,11 +637,28 @@
         '</div>'
     ].join("");
 
+    Cropper.template_fixed = [
+        '<div class="cropper-container">',
+            '<div class="cropper-modal"></div>',
+            '<div class="cropper-dragger">',
+                '<span class="cropper-preview"></span>',
+                '<span class="cropper-dashed dashed-h"></span>',
+                '<span class="cropper-dashed dashed-v"></span>',
+                '<span class="cropper-face" data-direction="*"></span>',
+                '<span class="cropper-line line-e"></span>',
+                '<span class="cropper-line line-n"></span>',
+                '<span class="cropper-line line-w"></span>',
+                '<span class="cropper-line line-s"></span>',
+            '</div>',
+        '</div>'
+    ].join("");
+
     Cropper.defaults = {
         aspectRatio: "auto",
         data: {},
         done: function(/* data */) {},
         modal: true,
+        fixed: false,
         preview: ""
     };
 
