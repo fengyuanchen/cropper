@@ -363,13 +363,18 @@
                 data = {};
 
             if (this.active) {
+                var k = 1;
+                if ( this.defaults.fixed ){
+                    k = -1;
+                }
+
                 data = this.transformData({
-                    x1: dragger.left,
-                    y1: dragger.top,
+                    x1: k*dragger.left,
+                    y1: k*dragger.top,
                     width: dragger.width,
                     height: dragger.height,
-                    x2: dragger.left + dragger.width,
-                    y2: dragger.top + dragger.height
+                    x2: k*dragger.left + dragger.width,
+                    y2: k*dragger.top + dragger.height
                 }, "get");
             }
 
