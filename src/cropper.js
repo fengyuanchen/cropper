@@ -586,14 +586,14 @@
                     ratio = $this.outerWidth() / dragger.width,
                     styles = {
                         height: cropper.height,
-                        marginLeft: - dragger.left,
-                        marginTop: - dragger.top,
+                        marginLeft: - dragger.left - 1,
+                        marginTop: - dragger.top - 1,
                         width: cropper.width
                     };
 
                 if ( that.defaults.fixed ){
-                    styles.marginLeft = -styles.marginLeft;
-                    styles.marginTop = -styles.marginTop;
+                    styles.marginLeft = dragger.left - 1;
+                    styles.marginTop = dragger.top - 1;
                 }
 
                 $this.css({overflow: "hidden"});
