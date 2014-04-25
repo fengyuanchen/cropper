@@ -177,6 +177,13 @@
                 image.aspectRatio = image.naturalWidth / image.naturalHeight;
                 that.image = image;
                 that.setCropper();
+
+                $this.hide();
+                $this.parent().css({
+                    'background-image': 'url(' + this.src + ')',
+                    'background-repeat': 'no-repeat',
+                    'background-size': '100%',
+                });
             });
 
             this.$cropper.prepend($image);
