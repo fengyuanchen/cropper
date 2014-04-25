@@ -416,6 +416,11 @@
                     left = dragger.left + offset.left,
                     top = dragger.top + offset.top;
 
+                this.$dragger.css({
+                    height: dragger.height,
+                    width: dragger.width
+                });
+
                 this.$dragger.parent().css({
                     'background-position': left + 'px ' + top + 'px',
                 });
