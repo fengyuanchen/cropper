@@ -90,26 +90,34 @@
     opacity: 0.1;
     filter: alpha(opacity=10);
 }
-.cropper-container .line-e {
+.cropper-container .cursor-e {
     cursor: e-resize;
+}
+.cropper-container .cursor-n {
+    cursor: n-resize;
+}
+.cropper-container .cursor-w {
+    cursor: w-resize;
+}
+.cropper-container .cursor-s {
+    cursor: s-resize;
+}
+.cropper-container .line-e {
     right: -2px;
     top: 0;
     width: 4px;
 }
 .cropper-container .line-n {
-    cursor: n-resize;
     height: 4px;
     left: 0;
     top: -2px;
 }
 .cropper-container .line-w {
-    cursor: w-resize;
     left: -2px;
     top: 0;
     width: 4px;
 }
 .cropper-container .line-s {
-    cursor: s-resize;
     bottom: -2px;
     height: 4px;
     left: 0;

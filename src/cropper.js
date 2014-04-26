@@ -49,7 +49,7 @@
             }
 
             this.url = url;
-            this.$cropper = $(Cropper.template);
+            this.$cropper = $(this.defaults.fixed ? Cropper.template_fixed : Cropper.template_free);
             this.$dragger = this.$cropper.find(".cropper-dragger");
 
             Cropper.fn.toggle($element);
@@ -143,6 +143,15 @@
             }
         },
 
+        setFixed: function(value){
+            this.disable();
+            if ( value = "toggle" ){
+                value = !this.defaults.fixed;
+            }
+            this.defaults.fixed = value;
+            this.enable();
+        },
+
         setImage: function() {
             var that = this,
                 $image = $('<img src="' + this.url + '">');
@@ -177,6 +186,13 @@
                 image.aspectRatio = image.naturalWidth / image.naturalHeight;
                 that.image = image;
                 that.setCropper();
+
+                $this.hide();
+                $this.parent().css({
+                    'background-image': 'url(' + this.src + ')',
+                    'background-repeat': 'no-repeat',
+                    'background-size': '100%',
+                });
             });
 
             this.$cropper.prepend($image);
@@ -269,9 +285,17 @@
 
             dragger.height *= 0.8;
             dragger.width *= 0.8;
-
             dragger.left = (cropper.width - dragger.width) / 2;
             dragger.top = (cropper.height - dragger.height) / 2;
+
+            if ( this.defaults.fixed ){
+                this.$dragger.css({
+                    left: dragger.left,
+                    top: dragger.top,
+                });
+                dragger.left = -this.$dragger.position().left;
+                dragger.top = -this.$dragger.position().top;
+            }
 
             this.dragger = Cropper.fn.round(dragger);
             this.resetDragger();
@@ -338,6 +362,18 @@
                 dragger.width = cropper.width * 0.8;
             }
 
+            if ( this.defaults.fixed ){
+                dragger.left = (cropper.width - dragger.width) / 2;
+                dragger.top = (cropper.height - dragger.height) / 2;
+
+                this.$dragger.css({
+                    left: dragger.left,
+                    top: dragger.top,
+                });
+                dragger.left = -this.$dragger.position().left;
+                dragger.top = -this.$dragger.position().top;
+            }
+
             this.dragger = dragger;
             this.resetDragger();
         },
@@ -347,13 +383,18 @@
                 data = {};
 
             if (this.active) {
+                var k = 1;
+                if ( this.defaults.fixed ){
+                    k = -1;
+                }
+
                 data = this.transformData({
-                    x1: dragger.left,
-                    y1: dragger.top,
+                    x1: k*dragger.left,
+                    y1: k*dragger.top,
                     width: dragger.width,
                     height: dragger.height,
-                    x2: dragger.left + dragger.width,
-                    y2: dragger.top + dragger.height
+                    x2: k*dragger.left + dragger.width,
+                    y2: k*dragger.top + dragger.height
                 }, "get");
             }
 
@@ -370,17 +411,37 @@
             dragger.maxLeft = cropper.width - dragger.width;
             dragger.maxTop = cropper.height - dragger.height;
 
-            dragger.left = dragger.left < 0 ? 0 : dragger.left > dragger.maxLeft ? dragger.maxLeft : dragger.left;
-            dragger.top = dragger.top < 0 ? 0 : dragger.top > dragger.maxTop ? dragger.maxTop : dragger.top;
+            if ( !this.defaults.fixed ){
+                dragger.left = dragger.left < 0 ? 0 : dragger.left > dragger.maxLeft ? dragger.maxLeft : dragger.left;
+                dragger.top = dragger.top < 0 ? 0 : dragger.top > dragger.maxTop ? dragger.maxTop : dragger.top;
 
-            dragger = Cropper.fn.round(dragger);
+                dragger = Cropper.fn.round(dragger);
 
-            this.$dragger.css({
-                height: dragger.height,
-                left: dragger.left,
-                top: dragger.top,
-                width: dragger.width
-            });
+                this.$dragger.css({
+                    height: dragger.height,
+                    left: dragger.left,
+                    top: dragger.top,
+                    width: dragger.width
+                });
+            } else {
+                dragger.left = Math.max(Math.min(dragger.left, 0), -dragger.maxLeft);
+                dragger.top = Math.max(Math.min(dragger.top, 0), -dragger.maxTop);
+
+                dragger = Cropper.fn.round(dragger);
+
+                var offset = this.$dragger.position(),
+                    left = dragger.left + offset.left,
+                    top = dragger.top + offset.top;
+
+                this.$dragger.css({
+                    height: dragger.height,
+                    width: dragger.width
+                });
+
+                this.$dragger.parent().css({
+                    'background-position': left + 'px ' + top + 'px',
+                });
+            }
 
             this.dragger = dragger;
             this.preview();
@@ -564,10 +625,15 @@
                     ratio = $this.outerWidth() / dragger.width,
                     styles = {
                         height: cropper.height,
-                        marginLeft: - dragger.left,
-                        marginTop: - dragger.top,
+                        marginLeft: - dragger.left - 1,
+                        marginTop: - dragger.top - 1,
                         width: cropper.width
                     };
+
+                if ( that.defaults.fixed ){
+                    styles.marginLeft = dragger.left - 1;
+                    styles.marginTop = dragger.top - 1;
+                }
 
                 $this.css({overflow: "hidden"});
                 $this.find("img").css(Cropper.fn.round(styles, function(n) {
@@ -618,7 +684,7 @@
         }
     };
 
-    Cropper.template = [
+    Cropper.template_free = [
         '<div class="cropper-container">',
             '<div class="cropper-modal"></div>',
             '<div class="cropper-dragger">',
@@ -626,10 +692,10 @@
                 '<span class="cropper-dashed dashed-h"></span>',
                 '<span class="cropper-dashed dashed-v"></span>',
                 '<span class="cropper-face" data-direction="*"></span>',
-                '<span class="cropper-line line-e" data-direction="e"></span>',
-                '<span class="cropper-line line-n" data-direction="n"></span>',
-                '<span class="cropper-line line-w" data-direction="w"></span>',
-                '<span class="cropper-line line-s" data-direction="s"></span>',
+                '<span class="cropper-line line-e cursor-e" data-direction="e"></span>',
+                '<span class="cropper-line line-n cursor-n" data-direction="n"></span>',
+                '<span class="cropper-line line-w cursor-w" data-direction="w"></span>',
+                '<span class="cropper-line line-s cursor-s" data-direction="s"></span>',
                 '<span class="cropper-point point-e" data-direction="e"></span>',
                 '<span class="cropper-point point-n" data-direction="n"></span>',
                 '<span class="cropper-point point-w" data-direction="w"></span>',
@@ -642,11 +708,28 @@
         '</div>'
     ].join("");
 
+    Cropper.template_fixed = [
+        '<div class="cropper-container">',
+            '<div class="cropper-modal"></div>',
+            '<div class="cropper-dragger">',
+                '<span class="cropper-preview"></span>',
+                '<span class="cropper-dashed dashed-h"></span>',
+                '<span class="cropper-dashed dashed-v"></span>',
+                '<span class="cropper-face" data-direction="*"></span>',
+                '<span class="cropper-line line-e"></span>',
+                '<span class="cropper-line line-n"></span>',
+                '<span class="cropper-line line-w"></span>',
+                '<span class="cropper-line line-s"></span>',
+            '</div>',
+        '</div>'
+    ].join("");
+
     Cropper.defaults = {
         aspectRatio: "auto",
         data: {},
         done: function(/* data */) {},
         modal: true,
+        fixed: false,
         preview: ""
     };
 
