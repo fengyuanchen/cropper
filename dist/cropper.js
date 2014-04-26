@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.2.1
+ * Cropper v0.2.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -30,15 +30,15 @@
         construstor: Cropper,
 
         init: function() {
-            var ratio = this.defaults.aspectRatio;
+            var aspectRatio = this.defaults.aspectRatio;
 
-            if ($.isNumeric(ratio)) {
-                ratio = ratio > 0 ? ratio : 1;
+            if ($.isNumeric(aspectRatio)) {
+                aspectRatio = aspectRatio > 0 ? aspectRatio : 1;
             } else {
-                ratio = NaN;
+                aspectRatio = NaN;
             }
 
-            this.defaults.aspectRatio = ratio;
+            this.defaults.aspectRatio = aspectRatio;
 
             this.enable();
         },
@@ -144,9 +144,9 @@
             this.direction = "";
         },
 
-        setAspectRatio: function(ratio) {
-            if (ratio === "auto" || ($.isNumeric(ratio) && ratio > 0)) {
-                this.defaults.aspectRatio = ratio === "auto" ? NaN : ratio;
+        setAspectRatio: function(aspectRatio) {
+            if (aspectRatio === "auto" || ($.isNumeric(aspectRatio) && aspectRatio > 0)) {
+                this.defaults.aspectRatio = aspectRatio === "auto" ? NaN : aspectRatio;
                 this.active && this.setDragger();
             }
         },
@@ -252,26 +252,26 @@
 
         setDragger: function() {
             var cropper = this.cropper,
-                ratio = this.defaults.aspectRatio || this.image.aspectRatio,
+                aspectRatio = this.defaults.aspectRatio || this.image.aspectRatio,
                 dragger;
 
-            if (((cropper.height * ratio) - cropper.width) >= 0) {
+            if (((cropper.height * aspectRatio) - cropper.width) >= 0) {
                 dragger = {
-                    height: cropper.width / ratio,
+                    height: cropper.width / aspectRatio,
                     width: cropper.width,
                     left: 0,
-                    top: (cropper.height - (cropper.width / ratio)) / 2,
+                    top: (cropper.height - (cropper.width / aspectRatio)) / 2,
                     maxWidth: cropper.width,
-                    maxHeight: cropper.width / ratio
+                    maxHeight: cropper.width / aspectRatio
                 };
             } else {
                 dragger = {
                     height: cropper.height,
-                    width: cropper.height * ratio,
-                    left: (cropper.width - (cropper.height * ratio)) / 2,
+                    width: cropper.height * aspectRatio,
+                    left: (cropper.width - (cropper.height * aspectRatio)) / 2,
                     top: 0,
                     maxHeight: cropper.height,
-                    maxWidth: cropper.height * ratio
+                    maxWidth: cropper.height * aspectRatio
                 };
             }
 
@@ -304,7 +304,7 @@
         setData: function(data) {
             var cropper = this.cropper,
                 dragger = this.dragger,
-                aspectRatio = this.defaults.aspectRatio || 1;
+                aspectRatio = this.defaults.aspectRatio;
 
             if (!this.active) {
                 return;
@@ -321,18 +321,23 @@
                     dragger.top = data.y1;
                 }
 
-                if ($.isNumeric(data.width) && data.width > 0 && data.width <= cropper.width) {
+                if (aspectRatio){
+                    if ($.isNumeric(data.width) && data.width > 0 && data.width <= cropper.width) {
+                        dragger.width = data.width;
+                        dragger.height = dragger.width / aspectRatio;
+                    } else if ($.isNumeric(data.height) && data.height > 0 && data.height <= cropper.height) {
+                        dragger.height = data.height;
+                        dragger.width = dragger.height * aspectRatio;
+                    } else if ($.isNumeric(data.x2) && data.x2 > 0 && data.x2 <= cropper.width) {
+                        dragger.width = data.x2 - dragger.left;
+                        dragger.height = dragger.width / aspectRatio;
+                    } else if ($.isNumeric(data.y2) && data.y2 > 0 && data.y2 <= cropper.height) {
+                        dragger.height = data.y2 - dragger.top;
+                        dragger.width = dragger.height * aspectRatio;
+                    }
+                } else {
                     dragger.width = data.width;
-                    dragger.height = dragger.width / aspectRatio;
-                } else if ($.isNumeric(data.height) && data.height > 0 && data.height <= cropper.height) {
                     dragger.height = data.height;
-                    dragger.width = dragger.height * aspectRatio;
-                } else if ($.isNumeric(data.x2) && data.x2 > 0 && data.x2 <= cropper.width) {
-                    dragger.width = data.x2 - dragger.left;
-                    dragger.height = dragger.width / aspectRatio;
-                } else if ($.isNumeric(data.y2) && data.y2 > 0 && data.y2 <= cropper.height) {
-                    dragger.height = data.y2 - dragger.top;
-                    dragger.width = dragger.height * aspectRatio;
                 }
             } else {
                 dragger.left = cropper.width * 0.1;
@@ -393,15 +398,15 @@
         dragging: function() {
             var direction = this.direction,
                 dragger = this.dragger,
-                ratio = this.defaults.aspectRatio,
+                aspectRatio = this.defaults.aspectRatio,
                 range = {
                     x: this.mouseX2 - this.mouseX1,
                     y: this.mouseY2 - this.mouseY1
                 };
 
-            if (ratio) {
-                range.X = range.y * ratio;
-                range.Y = range.x / ratio;
+            if (aspectRatio) {
+                range.X = range.y * aspectRatio;
+                range.Y = range.x / aspectRatio;
             }
 
             switch (direction) {
@@ -410,8 +415,8 @@
                 case "e":
                     dragger.width += range.x;
 
-                    if (ratio) {
-                        dragger.height = dragger.width / ratio;
+                    if (aspectRatio) {
+                        dragger.height = dragger.width / aspectRatio;
                         dragger.top -= range.Y / 2;
                     }
 
@@ -426,8 +431,8 @@
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
-                    if (ratio) {
-                        dragger.width = dragger.height * ratio;
+                    if (aspectRatio) {
+                        dragger.width = dragger.height * aspectRatio;
                         dragger.left += range.X / 2;
                     }
 
@@ -442,8 +447,8 @@
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
-                    if (ratio) {
-                        dragger.height = dragger.width / ratio;
+                    if (aspectRatio) {
+                        dragger.height = dragger.width / aspectRatio;
                         dragger.top += range.Y / 2;
                     }
 
@@ -457,8 +462,8 @@
                 case "s":
                     dragger.height += range.y;
 
-                    if (ratio) {
-                        dragger.width = dragger.height * ratio;
+                    if (aspectRatio) {
+                        dragger.width = dragger.height * aspectRatio;
                         dragger.left -= range.X / 2;
                     }
 
@@ -473,8 +478,8 @@
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
-                    if (ratio) {
-                        dragger.width = dragger.height * ratio;
+                    if (aspectRatio) {
+                        dragger.width = dragger.height * aspectRatio;
                     } else {
                         dragger.width += range.x;
                     }
@@ -491,8 +496,8 @@
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
-                    if (ratio) {
-                        dragger.width = dragger.height * ratio;
+                    if (aspectRatio) {
+                        dragger.width = dragger.height * aspectRatio;
                         dragger.left += range.X;
                     } else {
                         dragger.width -= range.x;
@@ -511,8 +516,8 @@
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
-                    if (ratio) {
-                        dragger.height = dragger.width / ratio;
+                    if (aspectRatio) {
+                        dragger.height = dragger.width / aspectRatio;
                     } else {
                         dragger.height += range.y;
                     }
@@ -528,8 +533,8 @@
                 case "se":
                     dragger.width += range.x;
 
-                    if (ratio) {
-                        dragger.height = dragger.width / ratio;
+                    if (aspectRatio) {
+                        dragger.height = dragger.width / aspectRatio;
                     } else {
                         dragger.height += range.y;
                     }
