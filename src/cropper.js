@@ -274,7 +274,7 @@
             dragger.top = (cropper.height - dragger.height) / 2;
 
             this.dragger = Cropper.fn.round(dragger);
-            this.resetDragger();
+            this.setData(this.defaults.data);
         },
 
         transformData: function(data, type) {

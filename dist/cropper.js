@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.2.2
+ * Cropper v0.2.3
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -282,7 +282,7 @@
             dragger.top = (cropper.height - dragger.height) / 2;
 
             this.dragger = Cropper.fn.round(dragger);
-            this.resetDragger();
+            this.setData(this.defaults.data);
         },
 
         transformData: function(data, type) {
