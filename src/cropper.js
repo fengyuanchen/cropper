@@ -331,16 +331,6 @@
                     dragger.width = data.width;
                     dragger.height = data.height;
                 }
-            } else {
-                dragger.left = cropper.width * 0.1;
-                dragger.top = cropper.height * 0.1;
-                dragger.height = cropper.height * 0.8;
-                dragger.width = cropper.width * 0.8;
-
-                //respect aspect ratio
-                var minDimension = dragger.height < dragger.width ? Math.abs(dragger.height) : Math.abs(dragger.width);
-                dragger.width = minDimension;
-                dragger.height = minDimension;
             }
 
             this.dragger = dragger;

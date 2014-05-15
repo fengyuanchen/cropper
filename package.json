@@ -1,7 +1,7 @@
 {
     "name": "cropper",
     "description": "A jQuery image cropping plugin.",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "keywords": [
         "image",
         "cropping",
