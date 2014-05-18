@@ -161,15 +161,15 @@ A jquery selector string, add extra elements to show preview.
 
 #### dragstart
 
-This event will be triggered when mousedown / touchstart.
+This event will be triggered before the cropping zone start to move.
 
 #### dragmove
 
-This event will be triggered when mousemove / touchmove.
+This event will be triggered when the cropping zone was moving.
 
 #### dragend
 
-This event will be triggered when mouseup / touchend.
+This event will be triggered after the cropping zone stop to move.
 
 
 ## Browser Support
