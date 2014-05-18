@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.2.4
+ * Cropper v0.3.0
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -18,7 +18,8 @@
 
     "use strict";
 
-    var $document = $(document),
+    var $window = $(window),
+        $document = $(document),
         Cropper = function(element, options) {
             options = $.isPlainObject(options) ? options : {};
             this.$element = $(element);
@@ -43,14 +44,15 @@
             this.enable();
         },
 
-        enable: function(url) {
-            var $element = this.$element;
+        enable: function() {
+            var $element = this.$element,
+                url;
 
             if (this.active) {
                 return;
             }
 
-            url = url || $element.prop("src");
+            url = $element.prop("src");
 
             if (!url) {
                 throw new Error("Invalid image!");
@@ -93,16 +95,18 @@
 
         addListener: function() {
             this.$element.on("load", $.proxy(this.load, this));
-            this.$dragger.on("mousedown", $.proxy(this.mousedown, this));
-            $document.on("mousemove", $.proxy(this.mousemove, this));
-            $document.on("mouseup", $.proxy(this.mouseup, this));
+            $document.bind("mousedown touchstart", $.proxy(this.dragstart, this));
+            $document.bind("mousemove touchmove", $.proxy(this.dragmove, this));
+            $document.bind("mouseup touchend", $.proxy(this.dragend, this));
+            $window.on("resize", $.proxy(this.resize, this));
         },
 
         removeListener: function() {
             this.$element.off("load", this.load);
-            this.$dragger.off("mousedown", this.mousedown);
-            $document.off("mousemove", this.mousemove);
-            $document.off("mouseup", this.mouseup);
+            $document.unbind("mousedown touchstart", this.dragstart);
+            $document.unbind("mousemove touchmove", this.dragmove);
+            $document.unbind("mouseup touchend", this.dragend);
+            $window.off("resize", this.resize);
         },
 
         load: function() {
@@ -112,8 +116,7 @@
                 url = this.$element.prop("src");
 
                 if (url && url !== this.url) {
-                    this.disable();
-                    this.enable(url);
+                    this.rerender();
                 }
 
                 return;
@@ -122,26 +125,81 @@
             this.enable();
         },
 
-        mousedown: function(e) {
-            var direction = $(e.target).data().direction;
+        rerender: function() {
+            this.disable();
+            this.enable();
+        },
 
-            if (typeof direction === "string" && direction.length > 0) {
-                this.mouseX1 = e.clientX;
-                this.mouseY1 = e.clientY;
+        resize: function() {
+            clearTimeout(this.resizing);
+            this.resizing = setTimeout($.proxy(this.rerender, this), 200);
+        },
+
+        dragstart: function(event) {
+            var touches = Cropper.fn.getOriginalEvent(event).touches,
+                e = event,
+                touching,
+                direction;
+
+            if (touches && touches.length === 1) {
+                e = touches[0];
+                this.touchId = e.identifier;
+                touching = true;
+            }
+
+            direction = $(e.target).data().direction;
+
+            if (Cropper.fn.isDirection(direction)) {
+                this.startX = e.pageX;
+                this.startY = e.pageY;
                 this.direction = direction;
+                this.$element.trigger("dragstart");
+                touching && event.preventDefault();
             }
         },
 
-        mousemove: function(e) {
+        dragmove: function(event) {
+            var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
+                e = event,
+                touching;
+
+            if (touches && touches.length === 1) {
+                e = touches[0];
+                touching = true;
+
+                if (e.identifier !== this.touchId) {
+                    return;
+                }
+            }
+
             if (this.direction) {
-                this.mouseX2 = e.clientX;
-                this.mouseY2 = e.clientY;
+                this.$element.trigger("dragmove");
+                touching && event.preventDefault();
+                this.endX = e.pageX;
+                this.endY = e.pageY;
                 this.dragging();
             }
         },
 
-        mouseup: function() {
-            this.direction = "";
+        dragend: function(event) {
+            var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
+                e = event,
+                touching;
+
+            if (touches && touches.length === 1) {
+                e = touches[0];
+                touching = true;
+
+                if (e.identifier !== this.touchId) {
+                    return;
+                }
+            }
+
+            if (this.direction) {
+                this.direction = "";
+                this.$element.trigger("dragend");
+                touching && event.preventDefault();
+            }
         },
 
         setAspectRatio: function(aspectRatio) {
@@ -188,6 +246,13 @@
             });
 
             this.$cropper.prepend($image);
+        },
+
+        setImgSrc: function(src) {
+            if (typeof src !== "undefined" && src !== this.url) {
+                this.$element.attr("src", src);
+                this.rerender();
+            }
         },
 
         getImgInfo: function() {
@@ -287,13 +352,12 @@
 
         transformData: function(data, type) {
             var ratio = this.image.ratio,
-                keys = /^(x1|y1|x2|y2|width|height)$/i,
                 result = {};
 
             ratio = type === "set" ? ratio : 1 / ratio;
 
             $.each(data, function(i, n) {
-                if (keys.test(i) && $.isNumeric(n)) {
+                if (Cropper.fn.isDataOption(i) && $.isNumeric(n)) {
                     result[i] = Math.round(n * ratio);
                 }
             });
@@ -395,8 +459,8 @@
                 dragger = this.dragger,
                 aspectRatio = this.defaults.aspectRatio,
                 range = {
-                    x: this.mouseX2 - this.mouseX1,
-                    y: this.mouseY2 - this.mouseY1
+                    x: this.endX - this.startX,
+                    y: this.endY - this.startY
                 };
 
             if (aspectRatio) {
@@ -549,8 +613,8 @@
             }
 
             this.resetDragger();
-            this.mouseX1 = this.mouseX2;
-            this.mouseY1 = this.mouseY2;
+            this.startX = this.endX;
+            this.startY = this.endY;
         },
 
         output: function() {
@@ -618,6 +682,22 @@
             }
 
             return data;
+        },
+
+        getOriginalEvent: function(event) {
+            if (event && typeof event.originalEvent !== "undefined") {
+               event = event.originalEvent;
+            }
+
+            return event;
+        },
+
+        isDataOption: function(s) {
+            return /^(x1|y1|x2|y2|width|height)$/i.test(s);
+        },
+
+        isDirection: function(s) {
+            return /^(\*|e|n|w|s|ne|nw|sw|se)$/i.test(s);
         }
     };
 
@@ -675,7 +755,7 @@
             }
         });
 
-        return result;
+        return (typeof result !== "undefined" ? result : this);
     };
 
     $.fn.cropper.Constructor = Cropper;

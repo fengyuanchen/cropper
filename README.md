@@ -1,6 +1,17 @@
 # [Image Cropper](http://fengyuanchen.github.io/cropper)
 
-A jQuery image cropping plugin.
+A simple and lightweight jQuery image cropping plugin.
+
+
+# Features
+
+- Lightweight
+- Easy to use
+- Support touch
+- Support setup
+- Support methods
+- Support events
+- Cross Browsers
 
 
 # Getting started
@@ -37,7 +48,6 @@ Initialize with `$.fn.cropper` method.
 ```javascript
 $(".cropper").cropper({
     aspectRatio: 16/9,
-    modal: false,
     preview: ".extra-preview",
     done: function(data) {
         console.log(data);
@@ -46,13 +56,9 @@ $(".cropper").cropper({
 ```
 
 
-## Configure
-
-### Setup
+## Options
 
 Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.setDefaults(options)`.
-
-### Options
 
 #### aspectRatio
 
@@ -138,6 +144,10 @@ A jquery selector string, add extra elements to show preview.
 - Param: a positive number.
 - Use with `$("#target").cropper("setAspectRatio", 1.618)`.
 
+#### setImgSrc
+
+- Change the src of the image if need.
+- Use with `$("#target").cropper("setImgSrc", "example.jpg")`.
 
 #### getImgInfo
 
@@ -145,6 +155,21 @@ A jquery selector string, add extra elements to show preview.
 - The "aspectRatio" is the value of "naturalWidth / naturalHeight".
 - The "ratio" is the value of "width / naturalWidth".
 - Use with `$("#target").cropper("getImgInfo")`.
+
+
+## Events
+
+#### dragstart
+
+This event will be triggered when mousedown / touchstart.
+
+#### dragmove
+
+This event will be triggered when mousemove / touchmove.
+
+#### dragend
+
+This event will be triggered when mouseup / touchend.
 
 
 ## Browser Support

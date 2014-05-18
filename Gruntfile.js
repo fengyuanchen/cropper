@@ -38,6 +38,27 @@ module.exports = function(grunt) {
                 dest: "dist/<%= pkg.name %>.min.css"
             }
         },
+        autoprefixer: {
+            options: {
+                browsers: ["last 2 versions", "ie 8", "ie 9", "android 2.3", "android 4", "opera 12"]
+            },
+            core: {
+                options: {
+                    map: false
+                },
+                src: "dist/<%= pkg.name %>.css",
+                dest: "dist/<%= pkg.name %>.css"
+            }
+        },
+        csscomb: {
+            options: {
+                config: ".csscomb.json"
+            },
+            core: {
+                src: "dist/<%= pkg.name %>.css",
+                dest: "dist/<%= pkg.name %>.css"
+            }
+        },
         usebanner: {
             options: {
                 position: "top",
@@ -73,5 +94,5 @@ module.exports = function(grunt) {
     // Loading dependencies
     require("load-grunt-tasks")(grunt);
 
-    grunt.registerTask("default", ["clean", "jshint", "uglify", "csslint", "cssmin", "copy:dist", "usebanner", "copy:build"]);
+    grunt.registerTask("default", ["clean", "jshint", "uglify", "csslint", "cssmin", "copy:dist", "autoprefixer", "csscomb", "usebanner", "copy:build"]);
 };
