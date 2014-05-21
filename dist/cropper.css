@@ -47,7 +47,7 @@
             box-sizing: border-box;
     overflow: hidden;
     border-color: #69f;
-    border-color: rgba(51, 102, 255, .8);
+    border-color: rgba(51, 102, 255, .75);
     border-style: solid;
     border-width: 1px;
 }
@@ -85,8 +85,7 @@
 
 .cropper-container .cropper-face,
 .cropper-container .cropper-line,
-.cropper-container .cropper-point,
-.cropper-container .cropper-handle {
+.cropper-container .cropper-point {
     position: absolute;
     display: block;
     width: 100%;
@@ -94,6 +93,8 @@
     overflow: hidden;
     font-size: 0;
     line-height: 0;
+    filter: alpha(opacity=10);
+    opacity: .1;
 }
 
 .cropper-container .cropper-face {
@@ -101,14 +102,10 @@
     left: 0;
     cursor: move;
     background-color: #fff;
-    filter: alpha(opacity=10);
-    opacity: .1;
 }
 
 .cropper-container .cropper-line {
     background-color: #69f;
-    filter: alpha(opacity=10);
-    opacity: .1;
 }
 
 .cropper-container .line-e {
@@ -143,6 +140,8 @@
     width: 5px;
     height: 5px;
     background-color: #69f;
+    filter: alpha(opacity=75);
+    opacity: .75;
 }
 
 .cropper-container .point-e {
@@ -190,20 +189,47 @@
 .cropper-container .point-se {
     right: -2px;
     bottom: -2px;
+    width: 20px;
+    height: 20px;
+    overflow: visible;
     cursor: se-resize;
+    filter: alpha(opacity=100);
+    opacity: 1;
 }
 
-@media (max-width: 767px) {
-    .cropper-container .point-se {
-        width: 20px;
-        height: 20px;
-    }
+.cropper-container .point-se:before {
+    position: absolute;
+    right: -50%;
+    bottom: -50%;
+    display: block;
+    width: 200%;
+    height: 200%;
+    content: " ";
+    background-color: #69f;
+    filter: alpha(opacity=0);
+    opacity: 0;
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) {
     .cropper-container .point-se {
         width: 15px;
         height: 15px;
+    }
+}
+
+@media (min-width: 992px) {
+    .cropper-container .point-se {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .cropper-container .point-se {
+        width: 5px;
+        height: 5px;
+        filter: alpha(opacity=75);
+        opacity: .75;
     }
 }
 
