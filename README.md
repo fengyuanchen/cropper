@@ -8,11 +8,11 @@ A simple image cropping tool.
 
 # Features
 
-Support touch
-Support setup
-Support methods
-Support events
-Cross Browsers
+- Support touch
+- Support setup
+- Support methods
+- Support events
+- Cross Browsers
 
 
 # Getting started
