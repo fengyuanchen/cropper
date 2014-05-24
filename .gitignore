@@ -1,5 +1,6 @@
 # Files to ignore
 node_modules
+release
 build
 demos
 tests

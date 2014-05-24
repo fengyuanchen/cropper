@@ -1,17 +1,18 @@
 # [Image Cropper](http://fengyuanchen.github.io/cropper)
 
-A simple and lightweight jQuery image cropping plugin.
+A simple image cropping tool.
+
+- [Documentation](http://fengyuanchen.github.io/previewer)
+- [Demo](http://fengyuanchen.github.io/previewer#overview)
 
 
 # Features
 
-- Lightweight
-- Easy to use
-- Support touch
-- Support setup
-- Support methods
-- Support events
-- Cross Browsers
+Support touch
+Support setup
+Support methods
+Support events
+Cross Browsers
 
 
 # Getting started
@@ -180,7 +181,7 @@ This event will be triggered after the cropping zone stop to move.
 - Safari 5.1+
 - Opera 19+
 
-As a jQuery plugin, you can reference the [jQuery Browser Support](http://jquery.com/browser-support/).
+As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jquery.com/browser-support/).
 
 
 ## [License](https://github.com/fengyuanchen/cropper/blob/master/LICENSE)

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
                 " * Released under the <%= pkg.license.type %> license\n" +
                 " */\n",
         clean: {
-            files: ["build/<%= pkg.version %>", "dist/"]
+            files: ["build/<%= pkg.version %>.<%= grunt.template.today('yyyymmdd') %>/", "release/<%= pkg.version %>", "dist/"]
         },
         jshint: {
             options: {
@@ -24,18 +24,6 @@ module.exports = function(grunt) {
             dist: {
                 src: "src/<%= pkg.name %>.js",
                 dest: "dist/<%= pkg.name %>.min.js"
-            }
-        },
-        csslint: {
-            options: {
-                csslintrc: ".csslintrc"
-            },
-            files: ["src/*.css"]
-        },
-        cssmin: {
-            dist: {
-                src: "src/<%= pkg.name %>.css",
-                dest: "dist/<%= pkg.name %>.min.css"
             }
         },
         autoprefixer: {
@@ -59,6 +47,18 @@ module.exports = function(grunt) {
                 dest: "dist/<%= pkg.name %>.css"
             }
         },
+        csslint: {
+            options: {
+                csslintrc: ".csslintrc"
+            },
+            files: ["src/*.css"]
+        },
+        cssmin: {
+            dist: {
+                src: "src/<%= pkg.name %>.css",
+                dest: "dist/<%= pkg.name %>.min.css"
+            }
+        },
         usebanner: {
             options: {
                 position: "top",
@@ -78,7 +78,14 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: "dist/",
                 src: "**",
-                dest: "build/<%= pkg.version %>/",
+                dest: "build/<%= pkg.version %>.<%= grunt.template.today('yyyymmdd') %>/",
+                filter: "isFile"
+            },
+            release: {
+                expand: true,
+                cwd: "dist/",
+                src: "**",
+                dest: "release/<%= pkg.version %>/",
                 filter: "isFile"
             }
         },
@@ -94,5 +101,5 @@ module.exports = function(grunt) {
     // Loading dependencies
     require("load-grunt-tasks")(grunt);
 
-    grunt.registerTask("default", ["clean", "jshint", "uglify", "csslint", "cssmin", "copy:dist", "autoprefixer", "csscomb", "usebanner", "copy:build"]);
+    grunt.registerTask("default", ["clean", "jshint", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "usebanner", "copy:build", "copy:release"]);
 };

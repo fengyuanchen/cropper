@@ -1,16 +1,18 @@
 {
     "name": "cropper",
-    "description": "A simple and lightweight jQuery image cropping plugin.",
+    "description": "A simple image cropping tool.",
     "version": "0.3.0",
     "keywords": [
         "image",
         "cropping",
         "jquery",
         "plugin",
+        "html",
         "css",
         "javacript",
         "front-end",
-        "web"
+        "web",
+        "development"
     ],
     "author": {
         "name": "Fengyuan Chen",
