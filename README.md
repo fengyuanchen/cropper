@@ -2,8 +2,8 @@
 
 A simple image cropping tool.
 
-- [Documentation](http://fengyuanchen.github.io/previewer)
-- [Demo](http://fengyuanchen.github.io/previewer#overview)
+- [Documentation](http://fengyuanchen.github.io/cropper)
+- [Demo](http://fengyuanchen.github.io/cropper#overview)
 
 
 # Features
