@@ -4,5 +4,7 @@ release
 build
 demos
 tests
+assets
+docs
 *.bak
 CHANGELOG.md

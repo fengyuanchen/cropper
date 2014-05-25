@@ -21,7 +21,7 @@ A simple image cropping tool.
 
 Four quick start options are available:
 
-- [Download the latest release](https://github.com/fengyuanchen/cropper/zipball/master).
+- [Download the latest release](https://github.com/fengyuanchen/cropper/archive/master.zip).
 - Clone the repository: `git clone https://github.com/fengyuanchen/cropper.git`.
 - Install with [NPM](http://npmjs.org): `npm install cropper`.
 - Install with [Bower](http://bower.io): `bower install cropper`.
@@ -49,7 +49,6 @@ Initialize with `$.fn.cropper` method.
 ```javascript
 $(".cropper").cropper({
     aspectRatio: 16/9,
-    preview: ".extra-preview",
     done: function(data) {
         console.log(data);
     }

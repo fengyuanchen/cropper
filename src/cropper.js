@@ -14,8 +14,8 @@
         $document = $(document),
         Cropper = function(element, options) {
             options = $.isPlainObject(options) ? options : {};
-            this.$element = $(element);
-            this.defaults = $.extend({}, Cropper.defaults, this.$element.data(), options);
+            this.$image = $(element);
+            this.defaults = $.extend({}, Cropper.defaults, this.$image.data(), options);
             this.init();
         };
 
@@ -23,191 +23,31 @@
         construstor: Cropper,
 
         init: function() {
-            var aspectRatio = this.defaults.aspectRatio;
-
-            if ($.isNumeric(aspectRatio)) {
-                aspectRatio = aspectRatio > 0 ? aspectRatio : 1;
-            } else {
-                aspectRatio = NaN;
-            }
-
-            this.defaults.aspectRatio = aspectRatio;
-
-            this.enable();
+            this.setAspectRatio(this.defaults.aspectRatio);
+            this.render();
         },
 
-        enable: function() {
-            var $element = this.$element,
-                url;
-
-            if (this.active) {
-                return;
-            }
-
-            url = $element.prop("src");
-
-            if (!url) {
-                throw new Error("Invalid image!");
-            }
-
-            this.url = url;
-            this.$cropper = $(Cropper.template);
-            this.$dragger = this.$cropper.find(".cropper-dragger");
-
-            Cropper.fn.toggle($element);
-            $element.after(this.$cropper);
-
-            if (!this.defaults.modal) {
-                Cropper.fn.toggle(this.$cropper.find(".cropper-modal"));
-            }
-
-            this.setPreview();
-            this.setImage();
-            this.addListener();
-            this.active = true;
-        },
-
-        disable: function() {
-            if (this.active) {
-                this.removeListener();
-                this.$cropper.empty().remove();
-                Cropper.fn.toggle(this.$element);
-
-                this.$cropper = null;
-                this.$dragger = null;
-                this.$preview = null;
-
-                this.cropper = null;
-                this.dragger = null;
-                this.image = null;
-                this.url = "";
-                this.active = false;
-            }
-        },
-
-        addListener: function() {
-            this.$element.on("load", $.proxy(this.load, this));
-            $document.bind("mousedown touchstart", $.proxy(this.dragstart, this));
-            $document.bind("mousemove touchmove", $.proxy(this.dragmove, this));
-            $document.bind("mouseup touchend", $.proxy(this.dragend, this));
-            $window.on("resize", $.proxy(this.resize, this));
-        },
-
-        removeListener: function() {
-            this.$element.off("load", this.load);
-            $document.unbind("mousedown touchstart", this.dragstart);
-            $document.unbind("mousemove touchmove", this.dragmove);
-            $document.unbind("mouseup touchend", this.dragend);
-            $window.off("resize", this.resize);
-        },
-
-        load: function() {
-            var url;
-
-            if (this.active) {
-                url = this.$element.prop("src");
-
-                if (url && url !== this.url) {
-                    this.rerender();
-                }
-
-                return;
-            }
-
-            this.enable();
-        },
-
-        rerender: function() {
-            this.disable();
-            this.enable();
-        },
-
-        resize: function() {
-            clearTimeout(this.resizing);
-            this.resizing = setTimeout($.proxy(this.rerender, this), 200);
-        },
-
-        dragstart: function(event) {
-            var touches = Cropper.fn.getOriginalEvent(event).touches,
-                e = event,
-                touching,
-                direction;
-
-            if (touches && touches.length === 1) {
-                e = touches[0];
-                this.touchId = e.identifier;
-                touching = true;
-            }
-
-            direction = $(e.target).data().direction;
-
-            if (Cropper.fn.isDirection(direction)) {
-                this.startX = e.pageX;
-                this.startY = e.pageY;
-                this.direction = direction;
-                this.$element.trigger("dragstart");
-                touching && event.preventDefault();
-            }
-        },
-
-        dragmove: function(event) {
-            var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
-                e = event,
-                touching;
-
-            if (touches && touches.length === 1) {
-                e = touches[0];
-                touching = true;
-
-                if (e.identifier !== this.touchId) {
-                    return;
-                }
-            }
-
-            if (this.direction) {
-                this.$element.trigger("dragmove");
-                touching && event.preventDefault();
-                this.endX = e.pageX;
-                this.endY = e.pageY;
-                this.dragging();
-            }
-        },
-
-        dragend: function(event) {
-            var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
-                e = event,
-                touching;
-
-            if (touches && touches.length === 1) {
-                e = touches[0];
-                touching = true;
-
-                if (e.identifier !== this.touchId) {
-                    return;
-                }
-            }
-
-            if (this.direction) {
-                this.direction = "";
-                this.$element.trigger("dragend");
-                touching && event.preventDefault();
-            }
-        },
-
-        setAspectRatio: function(aspectRatio) {
-            if (aspectRatio === "auto" || ($.isNumeric(aspectRatio) && aspectRatio > 0)) {
-                this.defaults.aspectRatio = aspectRatio === "auto" ? NaN : aspectRatio;
-                this.active && this.setDragger();
-            }
-        },
-
-        setImage: function() {
+        render: function() {
             var that = this,
-                $image = $('<img src="' + this.url + '">');
+                $image = this.$image,
+                $clone,
+                src;
 
-            $image.on("load", function() {
-                var $this = $(this),
-                    image;
+            if (this.active) {
+                return;
+            }
+
+            if (this.$clone) {
+                this.$clone.remove(); // Remove the old clone
+            }
+
+            src = $image.attr("src"); // Don't use "prop"
+            $clone = $('<img src="' + src + '">');
+
+            $clone.on("load", function() {
+                var image;
+
+                $clone.off("load");
 
                 if (this.naturalWidth && this.naturalHeight) {
                     image = {
@@ -215,40 +55,93 @@
                         naturalWidth: this.naturalWidth
                     };
                 } else {
-                    Cropper.fn.size($this, {
+                    Cropper.fn.size($clone, {
                         height: "auto",
                         width: "auto"
                     });
 
-                    image = Cropper.fn.size($this);
+                    image = Cropper.fn.size($clone);
                     image = {
                         naturalHeight: image.height,
                         naturalWidth: image.width
                     };
                 }
 
-                Cropper.fn.size($this, {
+                Cropper.fn.size($clone, {
                     height: "100%",
                     width: "100%"
                 });
 
                 image.aspectRatio = image.naturalWidth / image.naturalHeight;
+                that.src = src;
                 that.image = image;
-                that.setCropper();
+                that.active = true;
+                that.createCropper();
             });
 
-            this.$cropper.prepend($image);
+            this.$clone = $clone;
+            $image.after($clone);
         },
 
-        setImgSrc: function(src) {
-            if (typeof src !== "undefined" && src !== this.url) {
-                this.$element.attr("src", src);
-                this.rerender();
+        destory: function() {
+            if (this.active) {
+                this.active = false;
+                this.removeCropper();
+                this.src = "";
+                this.image = null;
+                this.cropper = null;
+                this.dragger = null;
             }
         },
 
-        getImgInfo: function() {
-            return this.image;
+        rerender: function() {
+            this.destory();
+            this.render();
+        },
+
+        resize: function() {
+            clearTimeout(this.resizing);
+            this.resizing = setTimeout($.proxy(this.rerender, this), 200);
+        },
+
+        createCropper: function() {
+            this.$cropper = $(Cropper.template);
+            this.$dragger = this.$cropper.find(".cropper-dragger");
+            Cropper.fn.toggle(this.$image);
+            this.$image.after(this.$cropper);
+            this.$cropper.prepend(this.$clone);
+
+            if (!this.defaults.modal) {
+                Cropper.fn.toggle(this.$cropper.find(".cropper-modal"));
+            }
+
+            this.setPreview();
+            this.addListener();
+        },
+
+        removeCropper: function() {
+            this.removeListener();
+            this.$preview = null;
+            this.$clone.remove();
+            this.$clone = null;
+            this.$dragger = null;
+            this.$cropper.remove();
+            this.$cropper = null;
+            Cropper.fn.toggle(this.$image);
+        },
+
+        addListener: function() {
+            $document.bind("mousedown touchstart", $.proxy(this.dragstart, this));
+            $document.bind("mousemove touchmove", $.proxy(this.dragmove, this));
+            $document.bind("mouseup touchend", $.proxy(this.dragend, this));
+            $window.on("resize", $.proxy(this.resize, this));
+        },
+
+        removeListener: function() {
+            $document.unbind("mousedown touchstart", this.dragstart);
+            $document.unbind("mousemove touchmove", this.dragmove);
+            $document.unbind("mouseup touchend", this.dragend);
+            $window.off("resize", this.resize);
         },
 
         setPreview: function() {
@@ -260,11 +153,12 @@
                 this.$preview = this.$preview.add(preview);
             }
 
-            this.$preview.html('<img src="' + this.url + '">');
+            this.$preview.html('<img src="' + this.src + '">');
+            this.setCropper();
         },
 
         setCropper: function() {
-            var $container = this.$element.parent(),
+            var $container = this.$image.parent(),
                 container = Cropper.fn.size($container),
                 image = this.image,
                 cropper;
@@ -309,6 +203,7 @@
 
         setDragger: function() {
             var cropper = this.cropper,
+                // If not set, use the original aspect ratio of the image.
                 aspectRatio = this.defaults.aspectRatio || this.image.aspectRatio,
                 dragger;
 
@@ -340,83 +235,6 @@
 
             this.dragger = Cropper.fn.round(dragger);
             this.setData(this.defaults.data);
-        },
-
-        transformData: function(data, type) {
-            var ratio = this.image.ratio,
-                result = {};
-
-            ratio = type === "set" ? ratio : 1 / ratio;
-
-            $.each(data, function(i, n) {
-                if (Cropper.fn.isDataOption(i) && $.isNumeric(n)) {
-                    result[i] = Math.round(n * ratio);
-                }
-            });
-
-            return result;
-        },
-
-        setData: function(data) {
-            var cropper = this.cropper,
-                dragger = this.dragger,
-                aspectRatio = this.defaults.aspectRatio;
-
-            if (!this.active) {
-                return;
-            }
-
-            if ($.isPlainObject(data) && !$.isEmptyObject(data)) {
-                data = this.transformData(data, "set");
-
-                if ($.isNumeric(data.x1) && data.x1 >= 0 && data.x1 <= cropper.width) {
-                    dragger.left = data.x1;
-                }
-
-                if ($.isNumeric(data.y1) && data.y1 >= 0 && data.y1 <= cropper.height) {
-                    dragger.top = data.y1;
-                }
-
-                if (aspectRatio){
-                    if ($.isNumeric(data.width) && data.width > 0 && data.width <= cropper.width) {
-                        dragger.width = data.width;
-                        dragger.height = dragger.width / aspectRatio;
-                    } else if ($.isNumeric(data.height) && data.height > 0 && data.height <= cropper.height) {
-                        dragger.height = data.height;
-                        dragger.width = dragger.height * aspectRatio;
-                    } else if ($.isNumeric(data.x2) && data.x2 > 0 && data.x2 <= cropper.width) {
-                        dragger.width = data.x2 - dragger.left;
-                        dragger.height = dragger.width / aspectRatio;
-                    } else if ($.isNumeric(data.y2) && data.y2 > 0 && data.y2 <= cropper.height) {
-                        dragger.height = data.y2 - dragger.top;
-                        dragger.width = dragger.height * aspectRatio;
-                    }
-                } else {
-                    dragger.width = data.width;
-                    dragger.height = data.height;
-                }
-            }
-
-            this.dragger = dragger;
-            this.resetDragger();
-        },
-
-        getData: function() {
-            var dragger = this.dragger,
-                data = {};
-
-            if (this.active) {
-                data = this.transformData({
-                    x1: dragger.left,
-                    y1: dragger.top,
-                    width: dragger.width,
-                    height: dragger.height,
-                    x2: dragger.left + dragger.width,
-                    y2: dragger.top + dragger.height
-                }, "get");
-            }
-
-            return data;
         },
 
         resetDragger: function() {
@@ -633,6 +451,175 @@
                     return n * ratio;
                 }));
             });
+        },
+
+        // Public methods
+
+        enable: function() {
+            this.render();
+        },
+
+        disable: function() {
+            this.destory();
+        },
+
+        setAspectRatio: function(aspectRatio) {
+            if (aspectRatio === "auto" || ($.isNumeric(aspectRatio) && aspectRatio > 0)) {
+                this.defaults.aspectRatio = aspectRatio === "auto" ? NaN : aspectRatio;
+
+                if (this.active) {
+                    this.setDragger();
+                }
+            }
+        },
+
+        setData: function(data) {
+            var cropper = this.cropper,
+                dragger = this.dragger,
+                aspectRatio = this.defaults.aspectRatio;
+
+            if (!this.active) {
+                return;
+            }
+
+            if ($.isPlainObject(data) && !$.isEmptyObject(data)) {
+                data = Cropper.fn.transformData(data, this.image.ratio);
+
+                if (data.x1 && data.x1 <= cropper.width) {
+                    dragger.left = data.x1;
+                }
+
+                if (data.y1 && data.y1 <= cropper.height) {
+                    dragger.top = data.y1;
+                }
+
+                if (aspectRatio){
+                    if (data.width && data.width <= cropper.width) {
+                        dragger.width = data.width;
+                        dragger.height = dragger.width / aspectRatio;
+                    } else if (data.height && data.height <= cropper.height) {
+                        dragger.height = data.height;
+                        dragger.width = dragger.height * aspectRatio;
+                    } else if (data.x2 && data.x2 <= cropper.width) {
+                        dragger.width = data.x2 - dragger.left;
+                        dragger.height = dragger.width / aspectRatio;
+                    } else if (data.y2 && data.y2 <= cropper.height) {
+                        dragger.height = data.y2 - dragger.top;
+                        dragger.width = dragger.height * aspectRatio;
+                    }
+                } else {
+                    if (data.width && data.width <= cropper.width) {
+                        dragger.width = data.width;
+                    }
+
+                    if (data.height && data.height <= cropper.height) {
+                        dragger.height = data.height;
+                    }
+                }
+            }
+
+            this.dragger = dragger;
+            this.resetDragger();
+        },
+
+        getData: function() {
+            var dragger = this.dragger,
+                data = {};
+
+            if (this.active) {
+                data = {
+                    x1: dragger.left,
+                    y1: dragger.top,
+                    width: dragger.width,
+                    height: dragger.height,
+                    x2: dragger.left + dragger.width,
+                    y2: dragger.top + dragger.height
+                };
+
+                data = Cropper.fn.transformData(data, (1 / this.image.ratio));
+            }
+
+            return data;
+        },
+
+        setImgSrc: function(src) {
+            if (typeof src === "string" && src.length > 0 && src !== this.src) {
+                this.$image.attr("src", src);
+                this.rerender();
+            }
+        },
+
+        getImgInfo: function() {
+            return this.image || {};
+        },
+
+        // Public events
+
+        dragstart: function(event) {
+            var touches = Cropper.fn.getOriginalEvent(event).touches,
+                e = event,
+                touching,
+                direction;
+
+            if (touches && touches.length === 1) {
+                e = touches[0];
+                this.touchId = e.identifier;
+                touching = true;
+            }
+
+            direction = $(e.target).data().direction;
+
+            if (Cropper.fn.isDirection(direction)) {
+                this.startX = e.pageX;
+                this.startY = e.pageY;
+                this.direction = direction;
+                this.$image.trigger("dragstart");
+                touching && event.preventDefault();
+            }
+        },
+
+        dragmove: function(event) {
+            var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
+                e = event,
+                touching;
+
+            if (touches && touches.length === 1) {
+                e = touches[0];
+                touching = true;
+
+                if (e.identifier !== this.touchId) {
+                    return;
+                }
+            }
+
+            if (this.direction) {
+                this.$image.trigger("dragmove");
+                touching && event.preventDefault();
+                this.endX = e.pageX;
+                this.endY = e.pageY;
+                this.dragging();
+            }
+        },
+
+        dragend: function(event) {
+            var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
+                e = event,
+                touching;
+
+            if (touches && touches.length === 1) {
+                e = touches[0];
+                touching = true;
+
+                if (e.identifier !== this.touchId) {
+                    return;
+                }
+            }
+
+            if (this.direction) {
+                this.direction = "";
+                this.$image.trigger("dragend");
+                touching && event.preventDefault();
+            }
         }
     };
 
@@ -674,6 +661,19 @@
             }
 
             return data;
+        },
+
+        transformData: function(data, ratio) {
+            var that = this,
+                result = {};
+
+            $.each(data, function(i, n) {
+                if (that.isDataOption(i) && $.isNumeric(n) && n >= 0) {
+                    result[i] = Math.round(n * ratio);
+                }
+            });
+
+            return result;
         },
 
         getOriginalEvent: function(event) {
