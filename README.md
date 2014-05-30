@@ -14,6 +14,16 @@ A simple image cropping tool.
 - Support events
 - Cross Browsers
 
+# Main
+
+```html
+dist/
+├── cropper.css     ( 5 KB)
+├── cropper.min.css ( 3 KB)
+├── cropper.js      (25 KB)
+└── cropper.min.js  (10 KB)
+```
+
 
 # Getting started
 
