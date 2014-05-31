@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+  <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+  <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+  <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link href='../src/cropper.css' rel='stylesheet' type='text/css'>
+
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../src/cropper.js" charset="utf-8"></script>
+
+    <style>
+      .img-container {
+        max-width:960px;
+      }
+
+      .img-container > img {
+        width:100%;
+      }
+
+      .img-preview {
+        max-width:300px;
+      }
+
+      .left {
+        float:left;
+        width:960px;
+      }
+      .right {
+        float:left;
+        width:300px;
+      }
+    </style>
+
+    <script>
+      $(function() {
+        var $image = $(".img-container img");
+
+        $image.cropper({
+            aspectRatio: 16 / 9,
+            preview: ".img-preview",
+            done: function(data) {
+                
+            }
+        });
+
+      })
+    </script>
+  </head>
+  <body>
+
+    <div class="left">
+      <div class="img-container">
+        <img src="http://i.imgur.com/p5lkOUy.jpg">
+      </div>
+    </div>
+    <div class="right">
+      <div class="img-preview">
+      </div>
+    </div>
+
+
+  </body>
+</html>

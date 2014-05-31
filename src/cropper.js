@@ -416,6 +416,19 @@
 
                     break;
 
+                case "out":
+                    // Add support for clicking outside selection zone
+                    // XXX: It would be nice to lock the cursor in position
+                    // but these APIs are still beta-ish. See the following;
+                    // https://developer.mozilla.org/en-US/docs/WebAPI/Pointer_Lock
+                    // http://stackoverflow.com/questions/14586712
+                    this.direction = "nw";
+                    dragger.left = this.startX;
+                    dragger.top = this.startY;
+                    dragger.width = 0;
+                    dragger.height = 0;
+                    break;
+
                 // moving
                 default:
                     dragger.left += range.x;
@@ -569,6 +582,9 @@
 
             direction = $(e.target).data().direction;
 
+            // Add support for clicking outside selection zone
+            direction = (direction ? direction : 'out');
+
             if (Cropper.fn.isDirection(direction)) {
                 this.startX = e.pageX;
                 this.startY = e.pageY;
@@ -689,7 +705,7 @@
         },
 
         isDirection: function(s) {
-            return /^(\*|e|n|w|s|ne|nw|sw|se)$/i.test(s);
+            return /^(\*|e|n|w|s|ne|nw|sw|se|out)$/i.test(s);
         }
     };
 
