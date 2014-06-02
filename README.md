@@ -20,8 +20,8 @@ A simple image cropping tool.
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 3 KB)
-├── cropper.js      (25 KB)
-└── cropper.min.js  (10 KB)
+├── cropper.js      (26 KB)
+└── cropper.min.js  (11 KB)
 ```
 
 
@@ -65,17 +65,16 @@ $(".cropper").cropper({
 });
 ```
 
-
 ## Options
 
 Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.setDefaults(options)`.
 
 #### aspectRatio
 
-- type: string or number
+- type: string / number
 - default: "auto"
 
-The aspect ratio of the cropping zone. e.g., "2", "1.3", "0.5", etc..
+The aspect ratio of the cropping zone (e.g., "2", "1.3", "0.5", etc.).
 Just set it with "auto" to free ratio.
 
 #### data
@@ -108,7 +107,7 @@ If you already have a cropped zone data of the image, and you want to re-render 
 function(data) {}
 ```
 
-The function will be passed a object data and run when the cropping zone was moving.
+The function will be passed an object data and run when the cropping zone was moving.
 
 #### modal
 
@@ -130,12 +129,13 @@ A jquery selector string, add extra elements to show preview.
 #### enable
 
 - Enable the cropper.
-- use with `$("#target").cropper("enable")`.
+- Param: an optional callback function (will be run when the dragger was rendered).
+- Use with `$("#target").cropper("enable")` or `$("#target").cropper("enable", callback)`.
 
 #### disable
 
 - Disable the cropper.
-- use with `$("#target").cropper("disable")`.
+- Use with `$("#target").cropper("disable")`.
 
 #### getData
 
@@ -145,18 +145,19 @@ A jquery selector string, add extra elements to show preview.
 #### setData
 
 - Reset the cropping zone.
-- Param: A object contains "x1", "y1", "width", "height", "x2"(optional), "y2"(optional).
+- Param: an object contains "x1", "y1", "width", "height", "x2"(optional), "y2"(optional).
 - Use with `$("#target").cropper("setData", {width: 480, height: 270})`.
 
 #### setAspectRatio
 
-- Enable to reset the aspect ratio after initialization.
-- Param: a positive number.
+- Enable to reset the aspect ratio after initialized.
+- Param: "auto" or a positive number ("auto" for free ratio).
 - Use with `$("#target").cropper("setAspectRatio", 1.618)`.
 
 #### setImgSrc
 
 - Change the src of the image if need.
+- Param: a src string.
 - Use with `$("#target").cropper("setImgSrc", "example.jpg")`.
 
 #### getImgInfo

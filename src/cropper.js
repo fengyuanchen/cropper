@@ -11,7 +11,6 @@
     "use strict";
 
     var $window = $(window),
-        $document = $(document),
         Cropper = function(element, options) {
             options = $.isPlainObject(options) ? options : {};
             this.$image = $(element);
@@ -27,7 +26,7 @@
             this.render();
         },
 
-        render: function() {
+        render: function(callback) {
             var that = this,
                 $image = this.$image,
                 $clone,
@@ -79,11 +78,15 @@
                 that.createCropper();
             });
 
+            if ($.isFunction(callback)) {
+                $image.on("ready.cropper", callback);
+            }
+
             this.$clone = $clone;
             $image.after($clone);
         },
 
-        destory: function() {
+        unrender: function() {
             if (this.active) {
                 this.active = false;
                 this.removeCropper();
@@ -95,7 +98,7 @@
         },
 
         rerender: function() {
-            this.destory();
+            this.unrender();
             this.render();
         },
 
@@ -131,16 +134,16 @@
         },
 
         addListener: function() {
-            $document.bind("mousedown touchstart", $.proxy(this.dragstart, this));
-            $document.bind("mousemove touchmove", $.proxy(this.dragmove, this));
-            $document.bind("mouseup touchend", $.proxy(this.dragend, this));
+            this.$cropper.bind("mousedown touchstart", $.proxy(this.dragstart, this));
+            this.$cropper.bind("mousemove touchmove", $.proxy(this.dragmove, this));
+            this.$cropper.bind("mouseup mouseleave touchend touchleave", $.proxy(this.dragend, this));
             $window.on("resize", $.proxy(this.resize, this));
         },
 
         removeListener: function() {
-            $document.unbind("mousedown touchstart", this.dragstart);
-            $document.unbind("mousemove touchmove", this.dragmove);
-            $document.unbind("mouseup touchend", this.dragend);
+            this.$cropper.unbind("mousedown touchstart", this.dragstart);
+            this.$cropper.unbind("mousemove touchmove", this.dragmove);
+            this.$cropper.unbind("mouseup mouseleave touchend touchleave", this.dragend);
             $window.off("resize", this.resize);
         },
 
@@ -235,6 +238,7 @@
 
             this.dragger = Cropper.fn.round(dragger);
             this.setData(this.defaults.data);
+            this.$image.trigger("ready.cropper").off("ready.cropper");
         },
 
         resetDragger: function() {
@@ -455,12 +459,12 @@
 
         // Public methods
 
-        enable: function() {
-            this.render();
+        enable: function(callback) {
+            this.render(callback);
         },
 
         disable: function() {
-            this.destory();
+            this.unrender();
         },
 
         setAspectRatio: function(aspectRatio) {
@@ -476,7 +480,10 @@
         setData: function(data) {
             var cropper = this.cropper,
                 dragger = this.dragger,
-                aspectRatio = this.defaults.aspectRatio;
+                aspectRatio = this.defaults.aspectRatio,
+                isNumber = function(n) {
+                    return typeof n === "number";
+                };
 
             if (!this.active) {
                 return;
@@ -485,35 +492,39 @@
             if ($.isPlainObject(data) && !$.isEmptyObject(data)) {
                 data = Cropper.fn.transformData(data, this.image.ratio);
 
-                if (data.x1 && data.x1 <= cropper.width) {
+                if (isNumber(data.x1) && data.x1 <= cropper.width) {
                     dragger.left = data.x1;
                 }
 
-                if (data.y1 && data.y1 <= cropper.height) {
+                if (isNumber(data.y1) && data.y1 <= cropper.height) {
                     dragger.top = data.y1;
                 }
 
                 if (aspectRatio){
-                    if (data.width && data.width <= cropper.width) {
+                    if (isNumber(data.width) && data.width <= cropper.width) {
                         dragger.width = data.width;
                         dragger.height = dragger.width / aspectRatio;
-                    } else if (data.height && data.height <= cropper.height) {
+                    } else if (isNumber(data.height) && data.height <= cropper.height) {
                         dragger.height = data.height;
                         dragger.width = dragger.height * aspectRatio;
-                    } else if (data.x2 && data.x2 <= cropper.width) {
+                    } else if (isNumber(data.x2) && data.x2 <= cropper.width) {
                         dragger.width = data.x2 - dragger.left;
                         dragger.height = dragger.width / aspectRatio;
-                    } else if (data.y2 && data.y2 <= cropper.height) {
+                    } else if (isNumber(data.y2) && data.y2 <= cropper.height) {
                         dragger.height = data.y2 - dragger.top;
                         dragger.width = dragger.height * aspectRatio;
                     }
                 } else {
-                    if (data.width && data.width <= cropper.width) {
+                    if (isNumber(data.width) && data.width <= cropper.width) {
                         dragger.width = data.width;
+                    } else if (isNumber(data.x2) && data.x2 <= cropper.width) {
+                        dragger.width = data.x2 - dragger.left;
                     }
 
-                    if (data.height && data.height <= cropper.height) {
+                    if (isNumber(data.height) && data.height <= cropper.height) {
                         dragger.height = data.height;
+                    } else if (isNumber(data.y2) && data.height <= cropper.height) {
+                        dragger.height = data.y2 - dragger.top;
                     }
                 }
             }

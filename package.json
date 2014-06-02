@@ -1,7 +1,7 @@
 {
     "name": "cropper",
     "description": "A simple image cropping tool.",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "keywords": [
         "image",
         "cropping",
