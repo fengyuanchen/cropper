@@ -1,6 +1,6 @@
 # [Image Cropper](http://fengyuanchen.github.io/cropper)
 
-A simple image cropping tool.
+A simple jQuery image cropping plugin.
 
 - [Documentation](http://fengyuanchen.github.io/cropper)
 - [Demo](http://fengyuanchen.github.io/cropper#overview)
@@ -53,7 +53,10 @@ Include files:
 Initialize with `$.fn.cropper` method.
 
 ```html
-<img class="cropper" src="picture.jpg">
+<!-- Wrap the img with a block element -->
+<div>
+    <img class="cropper" src="picture.jpg">
+</div>
 ```
 
 ```javascript
@@ -64,6 +67,9 @@ $(".cropper").cropper({
     }
 });
 ```
+
+**Note:** The cropper is created base on the wrapper of the target `img`, so be sure to wrap the `img` with a block element.
+
 
 ## Options
 
