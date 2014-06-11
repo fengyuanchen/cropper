@@ -202,6 +202,6 @@ This event will be triggered after the cropping zone stop to move.
 As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jquery.com/browser-support/).
 
 
-## [License](https://github.com/fengyuanchen/cropper/blob/master/LICENSE)
+## [License](https://github.com/fengyuanchen/cropper/blob/master/LICENSE.md)
 
 Released under the [MIT](http://opensource.org/licenses/mit-license.html) license.
