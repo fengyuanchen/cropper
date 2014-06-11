@@ -442,7 +442,7 @@
 
             this.$preview.each(function() {
                 var $this = $(this),
-                    ratio = $this.outerWidth() / dragger.width,
+                    ratio = $this.width() / dragger.width,
                     styles = {
                         height: cropper.height,
                         marginLeft: - dragger.left,

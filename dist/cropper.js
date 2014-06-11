@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.3.2
+ * Cropper v0.3.3
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -450,7 +450,7 @@
 
             this.$preview.each(function() {
                 var $this = $(this),
-                    ratio = $this.outerWidth() / dragger.width,
+                    ratio = $this.width() / dragger.width,
                     styles = {
                         height: cropper.height,
                         marginLeft: - dragger.left,

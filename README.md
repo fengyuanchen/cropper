@@ -68,8 +68,10 @@ $(".cropper").cropper({
 });
 ```
 
-**Note:** The cropper is created base on the wrapper of the target `img`, so be sure to wrap the `img` with a block element.
-
+**Note:**
+- The cropper rendering was based on the wrapper of the target image, so be sure to wrap the image with a block element.
+- The cropper will be re-rendered when the window was resized.
+- The result data has be transformed to the true size (base on the natural image).
 
 ## Options
 
