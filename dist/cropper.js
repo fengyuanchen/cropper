@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.3.3
+ * Cropper v0.3.4
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen

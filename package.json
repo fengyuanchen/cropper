@@ -1,7 +1,7 @@
 {
     "name": "cropper",
     "description": "A simple jQuery image cropping plugin.",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "keywords": [
         "image",
         "cropping",
@@ -28,7 +28,7 @@
     },
     "license": {
         "type": "MIT",
-        "url": "https://github.com/fengyuanchen/cropper/blob/master/LICENSE"
+        "url": "https://github.com/fengyuanchen/cropper/blob/master/LICENSE.md"
     },
     "dependencies": {
         "jquery": ">= 1.9.0"
