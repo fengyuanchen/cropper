@@ -11,6 +11,11 @@
     -webkit-touch-callout: none;
 }
 
+.cropper-container img {
+    max-width: none !important;
+    max-height: none !important;
+}
+
 .cropper-container .cropper-modal {
     position: absolute;
     top: 0;
@@ -38,25 +43,25 @@
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     overflow: hidden;
-    border-width: 1px;
     border-color: #69f;
     border-color: rgba(51, 102, 255, .75);
     border-style: solid;
+    border-width: 1px;
 }
 
 .cropper-container .cropper-dashed {
     position: absolute;
     display: block;
     filter: alpha(opacity=50);
-    opacity: .5;
     border: 0 dashed #fff;
+    opacity: .5;
 }
 
 .cropper-container .dashed-h {
     top: 33.3%;
     left: 0;
-    height: 33.3%;
     width: 100%;
+    height: 33.3%;
     border-top-width: 1px;
     border-bottom-width: 1px;
 }
@@ -64,8 +69,8 @@
 .cropper-container .dashed-v {
     top: 0;
     left: 33.3%;
-    height: 100%;
     width: 33.3%;
+    height: 100%;
     border-right-width: 1px;
     border-left-width: 1px;
 }
@@ -185,8 +190,8 @@
     right: -50%;
     bottom: -50%;
     display: block;
-    height: 200%;
     width: 200%;
+    height: 200%;
     content: " ";
     background-color: #69f;
     filter: alpha(opacity=0);

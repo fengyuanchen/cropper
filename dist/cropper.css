@@ -19,6 +19,11 @@
     -webkit-touch-callout: none;
 }
 
+.cropper-container img {
+    max-width: none !important;
+    max-height: none !important;
+}
+
 .cropper-container .cropper-modal {
     position: absolute;
     top: 0;

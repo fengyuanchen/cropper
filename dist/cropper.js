@@ -6,7 +6,7 @@
  * Released under the MIT license
  */
 
-(function(factory) {
+(function (factory) {
     if (typeof define === "function" && define.amd) {
         // AMD. Register as anonymous module.
         define(["jquery"], factory);
@@ -14,12 +14,12 @@
         // Browser globals.
         factory(jQuery);
     }
-}(function($) {
+})(function ($) {
 
     "use strict";
 
     var $window = $(window),
-        Cropper = function(element, options) {
+        Cropper = function (element, options) {
             options = $.isPlainObject(options) ? options : {};
             this.$image = $(element);
             this.defaults = $.extend({}, Cropper.defaults, this.$image.data(), options);
@@ -29,13 +29,13 @@
     Cropper.prototype = {
         construstor: Cropper,
 
-        init: function() {
+        init: function () {
             this.setAspectRatio(this.defaults.aspectRatio);
             this.render();
         },
 
-        render: function(callback) {
-            var that = this,
+        render: function (callback) {
+            var _this = this,
                 $image = this.$image,
                 $clone,
                 src;
@@ -51,7 +51,7 @@
             src = $image.attr("src"); // Don't use "prop"
             $clone = $('<img src="' + src + '">');
 
-            $clone.on("load", function() {
+            $clone.on("load", function () {
                 var image;
 
                 $clone.off("load");
@@ -80,10 +80,10 @@
                 });
 
                 image.aspectRatio = image.naturalWidth / image.naturalHeight;
-                that.src = src;
-                that.image = image;
-                that.active = true;
-                that.createCropper();
+                _this.src = src;
+                _this.image = image;
+                _this.active = true;
+                _this.createCropper();
             });
 
             if ($.isFunction(callback)) {
@@ -94,7 +94,7 @@
             $image.after($clone);
         },
 
-        unrender: function() {
+        unrender: function () {
             if (this.active) {
                 this.active = false;
                 this.removeCropper();
@@ -103,19 +103,27 @@
                 this.cropper = null;
                 this.dragger = null;
             }
+
+            return this;
         },
 
-        rerender: function() {
-            this.unrender();
-            this.render();
+        rerender: function (reset) {
+            var _this = this;
+
+            this.unrender().render(function () {
+                if (!reset) {
+                    _this.setData(_this.data); // Restore
+                }
+            });
         },
 
-        resize: function() {
+        resize: function () {
+            this.data = this.getData(); // Record the current data
             clearTimeout(this.resizing);
             this.resizing = setTimeout($.proxy(this.rerender, this), 200);
         },
 
-        createCropper: function() {
+        createCropper: function () {
             this.$cropper = $(Cropper.template);
             this.$dragger = this.$cropper.find(".cropper-dragger");
             Cropper.fn.toggle(this.$image);
@@ -130,7 +138,7 @@
             this.addListener();
         },
 
-        removeCropper: function() {
+        removeCropper: function () {
             this.removeListener();
             this.$preview = null;
             this.$clone.remove();
@@ -141,21 +149,21 @@
             Cropper.fn.toggle(this.$image);
         },
 
-        addListener: function() {
+        addListener: function () {
             this.$cropper.bind("mousedown touchstart", $.proxy(this.dragstart, this));
             this.$cropper.bind("mousemove touchmove", $.proxy(this.dragmove, this));
             this.$cropper.bind("mouseup mouseleave touchend touchleave", $.proxy(this.dragend, this));
             $window.on("resize", $.proxy(this.resize, this));
         },
 
-        removeListener: function() {
+        removeListener: function () {
             this.$cropper.unbind("mousedown touchstart", this.dragstart);
             this.$cropper.unbind("mousemove touchmove", this.dragmove);
             this.$cropper.unbind("mouseup mouseleave touchend touchleave", this.dragend);
             $window.off("resize", this.resize);
         },
 
-        setPreview: function() {
+        setPreview: function () {
             var preview = this.defaults.preview;
 
             this.$preview = this.$cropper.find(".cropper-preview");
@@ -168,7 +176,7 @@
             this.setCropper();
         },
 
-        setCropper: function() {
+        setCropper: function () {
             var $container = this.$image.parent(),
                 container = Cropper.fn.size($container),
                 image = this.image,
@@ -192,7 +200,7 @@
                 cropper.left = (container.width - cropper.width) / 2;
             }
 
-            $.each(cropper, function(i, n) {
+            $.each(cropper, function (i, n) {
                 cropper[i] = Math.round(n);
             });
 
@@ -212,7 +220,7 @@
             this.setDragger();
         },
 
-        setDragger: function() {
+        setDragger: function () {
             var cropper = this.cropper,
                 // If not set, use the original aspect ratio of the image.
                 aspectRatio = this.defaults.aspectRatio || this.image.aspectRatio,
@@ -249,7 +257,7 @@
             this.$image.trigger("ready.cropper").off("ready.cropper");
         },
 
-        resetDragger: function() {
+        resetDragger: function () {
             var dragger = this.dragger,
                 cropper = this.cropper;
 
@@ -276,7 +284,7 @@
             this.output();
         },
 
-        dragging: function() {
+        dragging: function () {
             var direction = this.direction,
                 dragger = this.dragger,
                 aspectRatio = this.defaults.aspectRatio,
@@ -439,16 +447,16 @@
             this.startY = this.endY;
         },
 
-        output: function() {
+        output: function () {
             this.defaults.done(this.getData());
         },
 
-        preview: function() {
-            var that = this,
-                cropper = that.cropper,
-                dragger = that.dragger;
+        preview: function () {
+            var _this = this,
+                cropper = _this.cropper,
+                dragger = _this.dragger;
 
-            this.$preview.each(function() {
+            this.$preview.each(function () {
                 var $this = $(this),
                     ratio = $this.width() / dragger.width,
                     styles = {
@@ -459,7 +467,7 @@
                     };
 
                 $this.css({overflow: "hidden"});
-                $this.find("img").css(Cropper.fn.round(styles, function(n) {
+                $this.find("img").css(Cropper.fn.round(styles, function (n) {
                     return n * ratio;
                 }));
             });
@@ -467,15 +475,15 @@
 
         // Public methods
 
-        enable: function(callback) {
+        enable: function (callback) {
             this.render(callback);
         },
 
-        disable: function() {
+        disable: function () {
             this.unrender();
         },
 
-        setAspectRatio: function(aspectRatio) {
+        setAspectRatio: function (aspectRatio) {
             if (aspectRatio === "auto" || ($.isNumeric(aspectRatio) && aspectRatio > 0)) {
                 this.defaults.aspectRatio = aspectRatio === "auto" ? NaN : aspectRatio;
 
@@ -485,11 +493,11 @@
             }
         },
 
-        setData: function(data) {
+        setData: function (data) {
             var cropper = this.cropper,
                 dragger = this.dragger,
                 aspectRatio = this.defaults.aspectRatio,
-                isNumber = function(n) {
+                isNumber = function (n) {
                     return typeof n === "number";
                 };
 
@@ -541,7 +549,7 @@
             this.resetDragger();
         },
 
-        getData: function() {
+        getData: function () {
             var dragger = this.dragger,
                 data = {};
 
@@ -561,20 +569,20 @@
             return data;
         },
 
-        setImgSrc: function(src) {
+        setImgSrc: function (src) {
             if (typeof src === "string" && src.length > 0 && src !== this.src) {
                 this.$image.attr("src", src);
-                this.rerender();
+                this.rerender(true);
             }
         },
 
-        getImgInfo: function() {
+        getImgInfo: function () {
             return this.image || {};
         },
 
         // Public events
 
-        dragstart: function(event) {
+        dragstart: function (event) {
             var touches = Cropper.fn.getOriginalEvent(event).touches,
                 e = event,
                 touching,
@@ -597,7 +605,7 @@
             }
         },
 
-        dragmove: function(event) {
+        dragmove: function (event) {
             var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
                 e = event,
                 touching;
@@ -620,7 +628,7 @@
             }
         },
 
-        dragend: function(event) {
+        dragend: function (event) {
             var touches = Cropper.fn.getOriginalEvent(event).changedTouches,
                 e = event,
                 touching;
@@ -644,11 +652,11 @@
 
     // Common methods
     Cropper.fn = {
-        toggle: function($e) {
+        toggle: function ($e) {
             $e.toggleClass("cropper-hidden");
         },
 
-        position: function($e, option) {
+        position: function ($e, option) {
             var position = $e.css("position");
 
             if (position === "static") {
@@ -656,7 +664,7 @@
             }
         },
 
-        size: function($e, options) {
+        size: function ($e, options) {
             if ($.isPlainObject(options)) {
                 $e.css(options);
             } else {
@@ -667,7 +675,7 @@
             }
         },
 
-        round: function(data, fn) {
+        round: function (data, fn) {
             var value,
                 i;
 
@@ -682,12 +690,12 @@
             return data;
         },
 
-        transformData: function(data, ratio) {
-            var that = this,
+        transformData: function (data, ratio) {
+            var _this = this,
                 result = {};
 
-            $.each(data, function(i, n) {
-                if (that.isDataOption(i) && $.isNumeric(n) && n >= 0) {
+            $.each(data, function (i, n) {
+                if (_this.isDataOption(i) && $.isNumeric(n) && n >= 0) {
                     result[i] = Math.round(n * ratio);
                 }
             });
@@ -695,7 +703,7 @@
             return result;
         },
 
-        getOriginalEvent: function(event) {
+        getOriginalEvent: function (event) {
             if (event && typeof event.originalEvent !== "undefined") {
                event = event.originalEvent;
             }
@@ -703,11 +711,11 @@
             return event;
         },
 
-        isDataOption: function(s) {
+        isDataOption: function (s) {
             return /^(x1|y1|x2|y2|width|height)$/i.test(s);
         },
 
-        isDirection: function(s) {
+        isDirection: function (s) {
             return /^(\*|e|n|w|s|ne|nw|sw|se)$/i.test(s);
         }
     };
@@ -739,20 +747,20 @@
     Cropper.defaults = {
         aspectRatio: "auto",
         data: {},
-        done: function(/* data */) {},
+        done: function (/* data */) {},
         modal: true,
         preview: ""
     };
 
-    Cropper.setDefaults = function(options) {
+    Cropper.setDefaults = function (options) {
         $.extend(Cropper.defaults, options);
     };
 
     // Register as jQuery plugin
-    $.fn.cropper = function(options, settings) {
+    $.fn.cropper = function (options, settings) {
         var result = this;
 
-        this.each(function() {
+        this.each(function () {
             var $this = $(this),
                 data = $this.data("cropper");
 
@@ -772,7 +780,7 @@
     $.fn.cropper.Constructor = Cropper;
     $.fn.cropper.setDefaults = Cropper.setDefaults;
 
-    $(function() {
+    $(function () {
         $("img[cropper]").cropper();
     });
-}));
+});
