@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.3.4
+ * Cropper v0.3.5
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -111,7 +111,9 @@
             var _this = this;
 
             this.unrender().render(function () {
-                if (!reset) {
+                if (reset) {
+                    _this.reset();
+                } else {
                     _this.setData(_this.data); // Restore
                 }
             });
@@ -252,9 +254,14 @@
             dragger.left = (cropper.width - dragger.width) / 2;
             dragger.top = (cropper.height - dragger.height) / 2;
 
-            this.dragger = Cropper.fn.round(dragger);
+            this.defaultDragger = Cropper.fn.round(dragger);
+            this.dragger = this.getDragger();
             this.setData(this.defaults.data);
             this.$image.trigger("ready.cropper").off("ready.cropper");
+        },
+
+        getDragger: function () {
+            return $.extend({}, this.defaultDragger);
         },
 
         resetDragger: function () {
@@ -493,6 +500,15 @@
             }
         },
 
+        reset: function (deep) {
+            if (deep) {
+                this.defaults.data = {};
+            }
+
+            this.dragger = this.getDragger();
+            this.setData(this.defaults.data);
+        },
+
         setData: function (data) {
             var cropper = this.cropper,
                 dragger = this.dragger,
@@ -501,11 +517,16 @@
                     return typeof n === "number";
                 };
 
-            if (!this.active) {
+            if (!this.active || typeof data === "undefined") {
                 return;
             }
 
+            if (data === null || $.isEmptyObject(data)) {
+                dragger = this.getDragger();
+            }
+
             if ($.isPlainObject(data) && !$.isEmptyObject(data)) {
+                this.defaults.data = data;
                 data = Cropper.fn.transformData(data, this.image.ratio);
 
                 if (isNumber(data.x1) && data.x1 <= cropper.width) {

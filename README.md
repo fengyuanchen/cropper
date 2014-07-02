@@ -19,8 +19,8 @@ A simple jQuery image cropping plugin.
 ```html
 dist/
 ├── cropper.css     ( 5 KB)
-├── cropper.min.css ( 3 KB)
-├── cropper.js      (26 KB)
+├── cropper.min.css ( 4 KB)
+├── cropper.js      (27 KB)
 └── cropper.min.js  (11 KB)
 ```
 
@@ -156,6 +156,8 @@ A jquery selector string, add extra elements to show preview.
 - Param: an object contains "x1", "y1", "width", "height", "x2"(optional), "y2"(optional).
 - Use with `$("#target").cropper("setData", {width: 480, height: 270})`.
 
+**Tips:** If you want to remove the data, just use like this: `$("#target").cropper("setData", {})` or `$("#target").cropper("setData", null)`.
+
 #### setAspectRatio
 
 - Enable to reset the aspect ratio after initialized.
@@ -178,15 +180,15 @@ A jquery selector string, add extra elements to show preview.
 
 ## Events
 
-#### dragstart
+#### dragstart.cropper
 
 This event will be triggered before the cropping zone start to move.
 
-#### dragmove
+#### dragmove.cropper
 
 This event will be triggered when the cropping zone was moving.
 
-#### dragend
+#### dragend.cropper
 
 This event will be triggered after the cropping zone stop to move.
 
