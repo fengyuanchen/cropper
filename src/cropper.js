@@ -194,9 +194,7 @@
                 cropper.left = (container.width - cropper.width) / 2;
             }
 
-            $.each(cropper, function (i, n) {
-                cropper[i] = Math.round(n);
-            });
+            cropper = Cropper.fn.floor(cropper);
 
             image.height = cropper.height;
             image.width = cropper.width;
@@ -246,7 +244,7 @@
             dragger.left = (cropper.width - dragger.width) / 2;
             dragger.top = (cropper.height - dragger.height) / 2;
 
-            this.defaultDragger = Cropper.fn.round(dragger);
+            this.defaultDragger = Cropper.fn.floor(dragger);
             this.dragger = this.getDragger();
             this.setData(this.defaults.data);
             this.$image.trigger("ready.cropper").off("ready.cropper");
@@ -269,7 +267,7 @@
             dragger.left = dragger.left < 0 ? 0 : dragger.left > dragger.maxLeft ? dragger.maxLeft : dragger.left;
             dragger.top = dragger.top < 0 ? 0 : dragger.top > dragger.maxTop ? dragger.maxTop : dragger.top;
 
-            dragger = Cropper.fn.round(dragger);
+            dragger = Cropper.fn.floor(dragger);
 
             this.$dragger.css({
                 height: dragger.height,
@@ -466,7 +464,7 @@
                     };
 
                 $this.css({overflow: "hidden"});
-                $this.find("img").css(Cropper.fn.round(styles, function (n) {
+                $this.find("img").css(Cropper.fn.floor(styles, function (n) {
                     return n * ratio;
                 }));
             });
@@ -688,7 +686,7 @@
             }
         },
 
-        round: function (data, fn) {
+        floor: function (data, fn) {
             var value,
                 i;
 
@@ -696,7 +694,9 @@
                 value = data[i];
 
                 if (data.hasOwnProperty(i) && typeof value === "number") {
-                    data[i] = Math.round($.isFunction(fn) ? fn(value) : value);
+                    // Use the "Math.floor" rather than "Math.round"
+                    // https://github.com/fengyuanchen/cropper/issues/34
+                    data[i] = Math.floor($.isFunction(fn) ? fn(value) : value);
                 }
             }
 
@@ -709,7 +709,7 @@
 
             $.each(data, function (i, n) {
                 if (_this.isDataOption(i) && $.isNumeric(n) && n >= 0) {
-                    result[i] = Math.round(n * ratio);
+                    result[i] = Math.floor(n * ratio);
                 }
             });
 
@@ -790,7 +790,7 @@
         return (typeof result !== "undefined" ? result : this);
     };
 
-    $.fn.cropper.Constructor = Cropper;
+    $.fn.cropper.constructor = Cropper;
     $.fn.cropper.setDefaults = Cropper.setDefaults;
 
     $(function () {
