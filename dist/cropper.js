@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.3.6
+ * Cropper v0.3.7
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -202,11 +202,13 @@
                 cropper.left = (container.width - cropper.width) / 2;
             }
 
-            cropper = Cropper.fn.floor(cropper);
+            // Calculate the ratio value first before use the "Math.floor"
+            // https://github.com/fengyuanchen/cropper/issues/34
+            image.ratio = cropper.width / image.naturalWidth;
 
+            cropper = Cropper.fn.floor(cropper);
             image.height = cropper.height;
             image.width = cropper.width;
-            image.ratio = image.width / image.naturalWidth;
 
             Cropper.fn.position($container);
             this.$cropper.css({
@@ -786,8 +788,7 @@
                 data = $this.data("cropper");
 
             if (!data) {
-                data = new Cropper(this, options);
-                $this.data("cropper", data);
+                $this.data("cropper", (data = new Cropper(this, options)));
             }
 
             if (typeof options === "string" && $.isFunction(data[options])) {
