@@ -53,7 +53,7 @@ Include files:
 Initialize with `$.fn.cropper` method.
 
 ```html
-<!-- Wrap the img with a block element -->
+<!-- Be sure to wrap the img with a block element -->
 <div>
     <img class="cropper" src="picture.jpg">
 </div>
@@ -69,9 +69,9 @@ $(".cropper").cropper({
 ```
 
 **Note:**
-- The cropper rendering was based on the wrapper of the target image, so be sure to wrap the image with a block element.
+- The size of the cropper was based on the wrapper of the target image, so be sure to wrap the image with a block element.
 - The cropper will be re-rendered when the window was resized.
-- The result data has be transformed to the true size (base on the natural image).
+- The result data has be transformed to the true size (base on the natural width and height of the image).
 
 ## Options
 
