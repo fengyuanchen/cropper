@@ -83,7 +83,6 @@
             }
 
             this.$clone = $clone;
-            $image.after($clone);
         },
 
         unrender: function () {
