@@ -83,10 +83,7 @@
             }
 
             // Make the image invisible
-            $clone.css({
-                position: "fixed",
-                opacity: 0
-            });
+            $clone.css("opacity", 0);
 
             this.$clone = $clone;
 
@@ -259,10 +256,7 @@
             this.setData(this.defaults.data);
 
             // Make the image visible
-            this.$clone.css({
-                position: "static",
-                opacity: 1
-            });
+            this.$clone.css("opacity", 1);
 
             this.$image.trigger("ready.cropper").off("ready.cropper");
         },

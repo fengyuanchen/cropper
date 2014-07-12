@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.3.8
+ * Cropper v0.3.9
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -91,12 +91,11 @@
             }
 
             // Make the image invisible
-            $clone.css({
-                position: "fixed",
-                opacity: 0
-            });
+            $clone.css("opacity", 0);
 
             this.$clone = $clone;
+
+            // Append to document to trigger the load event.
             $image.after($clone);
         },
 
@@ -265,10 +264,7 @@
             this.setData(this.defaults.data);
 
             // Make the image visible
-            this.$clone.css({
-                position: "static",
-                opacity: 1
-            });
+            this.$clone.css("opacity", 1);
 
             this.$image.trigger("ready.cropper").off("ready.cropper");
         },
