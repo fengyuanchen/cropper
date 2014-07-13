@@ -34,7 +34,7 @@
         }
 
         public function setData($data) {
-            $this -> data = json_decode($data);
+            $this -> data = json_decode(stripslashes($data));
         }
 
         public function setFile($file) {
