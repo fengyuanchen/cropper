@@ -83,7 +83,7 @@
 
         public function getPathInfo($path) {
             $info = pathinfo($path);
-            $type  = $info['extension'];
+            $type  = strtolower($info['extension']); // Lower case
             $name  = strtr($info['basename'], '.' . $type, '');
 
             return array(
