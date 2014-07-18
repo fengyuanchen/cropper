@@ -1,107 +1,184 @@
 <?php
-    include 'class.thumbhandler.php'; // Class ThumbHandler
-
     class CropAvatar {
         private $src;
         private $data;
         private $file;
-        private $dist;
+        private $dst;
+        private $type;
+        private $extension;
+        private $srcDir = 'img/upload';
+        private $dstDir = 'img/avatar';
         private $msg;
 
         function __construct($src, $data, $file) {
+            $this -> setSrc($src);
+            $this -> setData($data);
+            $this -> setFile($file);
+            $this -> crop($this -> src, $this -> dst, $this -> data);
+        }
+
+        private function setSrc($src) {
             if (!empty($src)) {
-                $this -> setSrc($src);
-                $this -> setDist($this -> getPathInfo($src)['type']);
-            }
+                $type = exif_imagetype($src);
 
+                if ($type) {
+                    $this -> src = $src;
+                    $this -> type = $type;
+                    $this -> extension = image_type_to_extension($type);
+                    $this -> setDst();
+                }
+            }
+        }
+
+        private function setData($data) {
             if (!empty($data)) {
-                $this -> setData($data);
-            }
-
-            if (!empty($file)) {
-                $this -> setFile($file);
-            }
-
-            if (!empty($this -> src) && !empty($this -> dist) && !empty($this -> data)) {
-                $this -> crop($this -> src, $this -> dist, $this -> data);
-            } else {
-                $this -> dist = "";
+                $this -> data = json_decode(stripslashes($data));
             }
         }
 
-        public function setSrc($src) {
-            $this -> src = $src;
-        }
+        private function setFile($file) {
+            $errorCode = $file['error'];
 
-        public function setData($data) {
-            $this -> data = json_decode(stripslashes($data));
-        }
+            if ($errorCode === UPLOAD_ERR_OK) {
+                $type = exif_imagetype($file['tmp_name']);
 
-        public function setFile($file) {
-            if ($file['error'] === 0) {
-                $info = $this -> getPathInfo($file['name']);
-                $src  = $this -> makeDir('img/upload') . '/' . md5($info['name']) . '.' . $info['type'];
+                if ($type) {
+                    $dir = $this -> srcDir;
 
-                if (in_array($info['type'], array('jpg','jpeg','gif','png'))) {
-
-                    if (file_exists($src)) {
-                        unlink($src);
+                    if (!file_exists($dir)) {
+                        mkdir($dir, 0777);
                     }
 
-                    $result = move_uploaded_file($file['tmp_name'], $src);
+                    $extension = image_type_to_extension($type);
+                    $src = $dir . '/' . date('YmdHis') . $extension;
 
-                    if ($result) {
-                        $this -> src = $src;
-                        $this -> setDist($info['type']);
+                    if ($type == IMAGETYPE_GIF || $type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
+
+                        if (file_exists($src)) {
+                            unlink($src);
+                        }
+
+                        $result = move_uploaded_file($file['tmp_name'], $src);
+
+                        if ($result) {
+                            $this -> src = $src;
+                            $this -> type = $type;
+                            $this -> extension = $extension;
+                            $this -> setDst();
+                        } else {
+                             $this -> msg = 'Failed to save file';
+                        }
                     } else {
-                         $this -> msg = 'File saving failed!';
+                        $this -> msg = 'Please upload image with the following types: JPG, PNG, GIF';
                     }
                 } else {
-                    $this -> msg = 'Please upload image file with the following extensions: jpg, png, gif.';
+                    $this -> msg = 'Please upload image file';
                 }
             } else {
-                if (empty($this -> src)) {
-                    $this -> msg = 'File upload failed! Error code: ' . $file['error'];
-                }
+                $this -> msg = $this -> codeToMessage($errorCode);
             }
         }
 
-        public function setDist($type) {
-            $this -> dist = $this -> makeDir('img/avatar') . '/' . date('YmdHis') . '.' . $type;
-        }
+        private function setDst() {
+            $dir = $this -> dstDir;
 
-        public function crop($src, $dist, $data) {
-            $crop = new ThumbHandler();
-            $crop -> setSrcImg($src);
-            $crop -> setCutType(2);
-            $crop -> setSrcCutPosition($data -> x1, $data -> y1);
-            $crop -> setRectangleCut($data -> width, $data -> height);
-            $crop -> setImgDisplayQuality(100);
-            $crop -> setDstImg($dist);
-            $crop -> createImg($data -> width, $data -> height);
-        }
-
-        public function getPathInfo($path) {
-            $info = pathinfo($path);
-            $type  = strtolower($info['extension']); // Lower case
-            $name  = strtr($info['basename'], '.' . $type, '');
-
-            return array(
-                'name' => $name,
-                'type' => $type
-            );
-        }
-
-        public function makeDir($dir) {
             if (!file_exists($dir)) {
                 mkdir($dir, 0777);
             }
 
-            return $dir;
+            $this -> dst = $dir . '/' . date('YmdHis') . $this -> extension;
+        }
+
+        private function crop($src, $dst, $data) {
+            if (!empty($src) && !empty($dst) && !empty($data)) {
+                switch ($this -> type) {
+                    case IMAGETYPE_GIF:
+                        $src_img = imagecreatefromgif($src);
+                        break;
+
+                    case IMAGETYPE_JPEG:
+                        $src_img = imagecreatefromjpeg($src);
+                        break;
+
+                    case IMAGETYPE_PNG:
+                        $src_img = imagecreatefrompng($src);
+                        break;
+                }
+
+                if (!$src_img) {
+                    $this -> msg = "Failed to read the image file";
+                    return;
+                }
+
+                $dst_img = imagecreatetruecolor(220, 220);
+                $result = imagecopyresampled($dst_img, $src_img, 0, 0, $data -> x1, $data -> y1, 220, 220, $data -> width, $data -> height);
+
+                if ($result) {
+                    switch ($this -> type) {
+                        case IMAGETYPE_GIF:
+                            $result = imagegif($dst_img, $dst);
+                            break;
+
+                        case IMAGETYPE_JPEG:
+                            $result = imagejpeg($dst_img, $dst);
+                            break;
+
+                        case IMAGETYPE_PNG:
+                            $result = imagepng($dst_img, $dst);
+                            break;
+                    }
+
+                    if (!$result) {
+                        $this -> msg = "Failed to save the cropped image file";
+                    }
+                } else {
+                    $this -> msg = "Failed to crop the image file";
+                }
+
+                imagedestroy($src_img);
+                imagedestroy($dst_img);
+            }
+        }
+
+        private function codeToMessage($code) {
+            switch ($code) {
+                case UPLOAD_ERR_INI_SIZE:
+                    $message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+                    break;
+
+                case UPLOAD_ERR_FORM_SIZE:
+                    $message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+                    break;
+
+                case UPLOAD_ERR_PARTIAL:
+                    $message = 'The uploaded file was only partially uploaded';
+                    break;
+
+                case UPLOAD_ERR_NO_FILE:
+                    $message = 'No file was uploaded';
+                    break;
+
+                case UPLOAD_ERR_NO_TMP_DIR:
+                    $message = 'Missing a temporary folder';
+                    break;
+
+                case UPLOAD_ERR_CANT_WRITE:
+                    $message = 'Failed to write file to disk';
+                    break;
+
+                case UPLOAD_ERR_EXTENSION:
+                    $message = 'File upload stopped by extension';
+                    break;
+
+                default:
+                    $message = 'Unknown upload error';
+            }
+
+            return $message;
         }
 
         public function getResult() {
-            return !empty($this -> dist) ? $this -> dist : $this -> src;
+            return !empty($this -> data) ? $this -> dst : $this -> src;
         }
 
         public function getMsg() {
@@ -112,8 +189,8 @@
     $crop = new CropAvatar($_POST['avatar_src'], $_POST['avatar_data'], $_FILES['avatar_file']);
     $response = array(
         'state'  => 200,
-        'result' => $crop -> getResult(), // src, dist
-        'error' => $crop -> getMsg() // msg
+        'message' => $crop -> getMsg(),
+        'result' => $crop -> getResult()
     );
 
     echo json_encode($response);
