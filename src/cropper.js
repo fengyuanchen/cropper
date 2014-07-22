@@ -299,13 +299,15 @@
                 range = {
                     x: this.endX - this.startX,
                     y: this.endY - this.startY
-                };
+                },
+				newWidth,
+				newHeight,
+				data;
 
             if (aspectRatio) {
                 range.X = range.y * aspectRatio;
                 range.Y = range.x / aspectRatio;
             }
-            var newWidth, newHeight, data;
             switch (direction) {
 
                 // dragging
