@@ -107,6 +107,22 @@ If you already have a cropped zone data of the image, and you want to re-render 
 
 **Tips:** It's possible to save the data in cookie or other where when a page is unload(abort), and then when the page is reload, get the data and re-render it.
 
+#### minHeight
+
+- type: string / number
+- default: 0
+
+The minimum height (px of original image) of the cropping zone.
+Use this option only when you are sure that the image has this minimum height.
+
+#### minWidth
+
+- type: string / number
+- default: 0
+
+The minimum width (px of original image) of the cropping zone.
+Use this option only when you are sure that the image has this minimum width.
+
 #### done
 
 - type: function

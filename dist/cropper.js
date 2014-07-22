@@ -818,6 +818,8 @@
 
     Cropper.defaults = {
         aspectRatio: "auto",
+        minHeight: 0,
+        minWidth: 0,
         data: {},
         done: function (/* data */) {},
         modal: true,
