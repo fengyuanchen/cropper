@@ -46,7 +46,7 @@
         },
 
         init: function () {
-            this.localPreview = this.support.fileList && this.support.fileReader;
+            this.support.datauri = this.support.fileList && this.support.fileReader;
 
             if (!this.support.formData) {
                 this.initIframe();
@@ -127,7 +127,7 @@
             var files,
                 file;
 
-            if (this.localPreview) {
+            if (this.support.datauri) {
                 files = this.$avatarInput.prop("files");
 
                 if (files.length > 0) {
@@ -169,27 +169,22 @@
             var _this = this,
                 fileReader = new FileReader();
 
-            fileReader = new FileReader();
             fileReader.readAsDataURL(file);
 
             fileReader.onload = function () {
                 _this.url = this.result
-                _this.crop();
+                _this.startCropper();
             };
-        },
-
-        crop: function () {
-            var _this = this;
-
-            this.$img = $('<img src="' + this.url + '">');
-            this.$avatarWrapper.empty().html(this.$img);
-            this.startCropper();
         },
 
         startCropper: function () {
             var _this = this;
 
-            if (!this.active) {
+            if (this.active) {
+                this.$img.cropper("setImgSrc", this.url);
+            } else {
+                this.$img = $('<img src="' + this.url + '">');
+                this.$avatarWrapper.empty().html(this.$img);
                 this.$img.cropper({
                     aspectRatio: 1,
                     preview: this.$avatarPreview.selector,
@@ -214,7 +209,7 @@
         stopCropper: function () {
             if (this.active) {
                 this.$img.cropper("disable");
-                this.$img.remove();
+                this.$img.data("cropper", null).remove();
                 this.active = false;
             }
         },
@@ -267,7 +262,7 @@
                 if (data.result) {
                     this.url = data.result;
 
-                    if (this.localPreview || this.uploaded) {
+                    if (this.support.datauri || this.uploaded) {
                         this.uploaded = false;
                         this.cropDone();
                     } else {
