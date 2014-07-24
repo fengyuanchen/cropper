@@ -268,7 +268,7 @@
                     } else {
                         this.uploaded = true;
                         this.$avatarSrc.val(this.url);
-                        this.crop();
+                        this.startCropper();
                     }
 
                     this.$avatarInput.val("");
