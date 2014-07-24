@@ -306,6 +306,10 @@
                 range.Y = range.x / aspectRatio;
             }
 
+            if (this.fixedSize) {
+                direction = undefined;
+            }
+
             switch (direction) {
 
                 // dragging
@@ -444,7 +448,7 @@
 
                     break;
 
-                // moving
+                    // moving
                 default:
                     dragger.left += range.x;
                     dragger.top += range.y;
@@ -469,12 +473,12 @@
                     ratio = $this.width() / dragger.width,
                     styles = {
                         height: cropper.height,
-                        marginLeft: - dragger.left,
-                        marginTop: - dragger.top,
+                        marginLeft: -dragger.left,
+                        marginTop: -dragger.top,
                         width: cropper.width
                     };
 
-                $this.css({overflow: "hidden"});
+                $this.css({ overflow: "hidden" });
                 $this.find("img").css(Cropper.fn.floor(styles, function (n) {
                     return n * ratio;
                 }));
@@ -493,12 +497,24 @@
 
         setAspectRatio: function (aspectRatio) {
             if (aspectRatio === "auto" || ($.isNumeric(aspectRatio) && aspectRatio > 0)) {
+                this.fixedSize = false;
+
                 this.defaults.aspectRatio = aspectRatio === "auto" ? NaN : aspectRatio;
 
                 if (this.active) {
                     this.setDragger();
                 }
             }
+        },
+
+        setSize: function (data) {
+            this.setAspectRatio("auto");
+            this.setData({
+                width: data.width,
+                height: data.height
+            });
+
+            this.fixedSize = true;
         },
 
         reset: function (deep) {
@@ -538,7 +554,7 @@
                     dragger.top = data.y1;
                 }
 
-                if (aspectRatio){
+                if (aspectRatio) {
                     if (isNumber(data.width) && data.width <= cropper.width) {
                         dragger.width = data.width;
                         dragger.height = dragger.width / aspectRatio;
@@ -729,7 +745,7 @@
 
         getOriginalEvent: function (event) {
             if (event && typeof event.originalEvent !== "undefined") {
-               event = event.originalEvent;
+                event = event.originalEvent;
             }
 
             return event;
@@ -771,7 +787,7 @@
     Cropper.defaults = {
         aspectRatio: "auto",
         data: {},
-        done: function (/* data */) {},
+        done: function (/* data */) { },
         modal: true,
         preview: ""
     };
