@@ -529,6 +529,11 @@
             }
         },
 
+        setnoResize: function (noResize) {
+           this.defaults.noResize = noResize;
+           this.rerender();
+        },
+
         reset: function (deep) {
             if (deep) {
                 this.defaults.data = {};
