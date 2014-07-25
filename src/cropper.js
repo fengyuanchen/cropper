@@ -123,7 +123,11 @@
         },
 
         createCropper: function () {
-            this.$cropper = $(Cropper.template);
+            if(this.defaults.noResize){
+                this.$cropper = $(Cropper.templatenoResize);
+            }else{
+                this.$cropper = $(Cropper.template);
+            }
             this.$dragger = this.$cropper.find(".cropper-dragger");
             Cropper.fn.toggle(this.$image);
             this.$image.after(this.$cropper);
@@ -310,6 +314,9 @@
 
                 // dragging
                 case "e":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.width += range.x;
 
                     if (aspectRatio) {
@@ -325,6 +332,9 @@
                     break;
 
                 case "n":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
@@ -341,6 +351,9 @@
                     break;
 
                 case "w":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
@@ -357,6 +370,9 @@
                     break;
 
                 case "s":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.height += range.y;
 
                     if (aspectRatio) {
@@ -372,6 +388,9 @@
                     break;
 
                 case "ne":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
@@ -390,6 +409,9 @@
                     break;
 
                 case "nw":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
@@ -410,6 +432,9 @@
                     break;
 
                 case "sw":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
@@ -428,6 +453,9 @@
                     break;
 
                 case "se":
+                    if(this.defaults.noResize){
+                       break;
+                    }
                     dragger.width += range.x;
 
                     if (aspectRatio) {
@@ -499,6 +527,11 @@
                     this.setDragger();
                 }
             }
+        },
+
+        setnoResize: function (noResize) {
+           this.defaults.noResize = noResize;
+           this.rerender();
         },
 
         reset: function (deep) {
@@ -768,9 +801,27 @@
         '</div>'
     ].join("");
 
+        Cropper.templatenoResize = [
+        '<div class="cropper-container">',
+            '<div class="cropper-modal"></div>',
+            '<div class="cropper-dragger">',
+                '<span class="cropper-preview"></span>',
+                '<span class="cropper-dashed dashed-h"></span>',
+                '<span class="cropper-dashed dashed-v"></span>',
+                '<span class="cropper-face" data-direction="*"></span>',
+                '<span class="cropper-line line-e noresize" data-direction="e"></span>',
+                '<span class="cropper-line line-n noresize" data-direction="n"></span>',
+                '<span class="cropper-line line-w noresize" data-direction="w"></span>',
+                '<span class="cropper-line line-s noresize" data-direction="s"></span>',
+            '</div>',
+        '</div>'
+    ].join("");
+
+
     Cropper.defaults = {
         aspectRatio: "auto",
         data: {},
+        noResize: false,
         done: function (/* data */) {},
         modal: true,
         preview: ""

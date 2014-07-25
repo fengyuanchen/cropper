@@ -103,6 +103,14 @@ Just set it with "auto" to free ratio.
 }
 ```
 
+
+#### noResize
+
+- type: bolean / true or false
+- default: false
+
+The noResize, block the resize crop zone 
+
 If you already have a cropped zone data of the image, and you want to re-render it, just set this option.
 
 **Tips:** It's possible to save the data in cookie or other where when a page is unload(abort), and then when the page is reload, get the data and re-render it.
@@ -164,6 +172,12 @@ A jquery selector string, add extra elements to show preview.
 - Enable to reset the aspect ratio after initialized.
 - Param: "auto" or a positive number ("auto" for free ratio).
 - Use with `$("#target").cropper("setAspectRatio", 1.618)`.
+
+#### setnoResize
+
+- Enable block resize crop zone.
+- Param: true to block or false to free resize crop zone.
+- Use with `$("#target").cropper("setnoResize", true)`.
 
 #### setImgSrc
 
