@@ -310,6 +310,9 @@
 
                 // dragging
                 case "e":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.width += range.x;
 
                     if (aspectRatio) {
@@ -325,6 +328,9 @@
                     break;
 
                 case "n":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
@@ -341,6 +347,9 @@
                     break;
 
                 case "w":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
@@ -357,6 +366,9 @@
                     break;
 
                 case "s":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.height += range.y;
 
                     if (aspectRatio) {
@@ -372,6 +384,9 @@
                     break;
 
                 case "ne":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
@@ -390,6 +405,9 @@
                     break;
 
                 case "nw":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.height -= range.y;
                     dragger.top += range.y;
 
@@ -410,6 +428,9 @@
                     break;
 
                 case "sw":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.width -= range.x;
                     dragger.left += range.x;
 
@@ -428,6 +449,9 @@
                     break;
 
                 case "se":
+                    if(this.defaults.noresize){
+                       break;
+                    }
                     dragger.width += range.x;
 
                     if (aspectRatio) {
@@ -771,6 +795,7 @@
     Cropper.defaults = {
         aspectRatio: "auto",
         data: {},
+        noresize: false,
         done: function (/* data */) {},
         modal: true,
         preview: ""
