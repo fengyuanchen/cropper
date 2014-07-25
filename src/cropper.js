@@ -123,8 +123,8 @@
         },
 
         createCropper: function () {
-            if(this.defaults.noresize){
-                this.$cropper = $(Cropper.templatenoresize);
+            if(this.defaults.noResize){
+                this.$cropper = $(Cropper.templatenoResize);
             }else{
                 this.$cropper = $(Cropper.template);
             }
@@ -314,7 +314,7 @@
 
                 // dragging
                 case "e":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.width += range.x;
@@ -332,7 +332,7 @@
                     break;
 
                 case "n":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.height -= range.y;
@@ -351,7 +351,7 @@
                     break;
 
                 case "w":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.width -= range.x;
@@ -370,7 +370,7 @@
                     break;
 
                 case "s":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.height += range.y;
@@ -388,7 +388,7 @@
                     break;
 
                 case "ne":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.height -= range.y;
@@ -409,7 +409,7 @@
                     break;
 
                 case "nw":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.height -= range.y;
@@ -432,7 +432,7 @@
                     break;
 
                 case "sw":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.width -= range.x;
@@ -453,7 +453,7 @@
                     break;
 
                 case "se":
-                    if(this.defaults.noresize){
+                    if(this.defaults.noResize){
                        break;
                     }
                     dragger.width += range.x;
@@ -801,7 +801,7 @@
         '</div>'
     ].join("");
 
-    Cropper.templatenoresize = [
+        Cropper.templatenoResize = [
         '<div class="cropper-container">',
             '<div class="cropper-modal"></div>',
             '<div class="cropper-dragger">',
@@ -829,7 +829,7 @@
     Cropper.defaults = {
         aspectRatio: "auto",
         data: {},
-        noresize: false,
+        noResize: false,
         done: function (/* data */) {},
         modal: true,
         preview: ""
