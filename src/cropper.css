@@ -224,3 +224,7 @@
 .cropper-hidden {
     display: none !important;
 }
+
+.noresize{
+    cursor: default !important;
+}

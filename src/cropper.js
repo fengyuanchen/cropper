@@ -123,7 +123,11 @@
         },
 
         createCropper: function () {
-            this.$cropper = $(Cropper.template);
+            if(this.defaults.noresize){
+                this.$cropper = $(Cropper.templatenoresize);
+            }else{
+                this.$cropper = $(Cropper.template);
+            }
             this.$dragger = this.$cropper.find(".cropper-dragger");
             Cropper.fn.toggle(this.$image);
             this.$image.after(this.$cropper);
@@ -791,6 +795,31 @@
             '</div>',
         '</div>'
     ].join("");
+
+    Cropper.templatenoresize = [
+        '<div class="cropper-container">',
+            '<div class="cropper-modal"></div>',
+            '<div class="cropper-dragger">',
+                '<span class="cropper-preview"></span>',
+                '<span class="cropper-dashed dashed-h"></span>',
+                '<span class="cropper-dashed dashed-v"></span>',
+                '<span class="cropper-face" data-direction="*"></span>',
+                '<span class="cropper-line line-e noresize" data-direction="e"></span>',
+                '<span class="cropper-line line-n noresize" data-direction="n"></span>',
+                '<span class="cropper-line line-w noresize" data-direction="w"></span>',
+                '<span class="cropper-line line-s noresize" data-direction="s"></span>',
+                '<span class="cropper-point point-e noresize" data-direction="e"></span>',
+                '<span class="cropper-point point-n noresize" data-direction="n"></span>',
+                '<span class="cropper-point point-w noresize" data-direction="w"></span>',
+                '<span class="cropper-point point-s noresize" data-direction="s"></span>',
+                '<span class="cropper-point point-ne noresize" data-direction="ne"></span>',
+                '<span class="cropper-point point-nw noresize" data-direction="nw"></span>',
+                '<span class="cropper-point point-sw noresize" data-direction="sw"></span>',
+                '<span class="cropper-point point-se noresize" data-direction="se"></span>',
+            '</div>',
+        '</div>'
+    ].join("");
+
 
     Cropper.defaults = {
         aspectRatio: "auto",
