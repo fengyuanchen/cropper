@@ -1,10 +1,15 @@
 # Files to ignore
+
 node_modules
 release
 build
-demos
 tests
 assets
 docs
-*.bak
 CHANGELOG.md
+
+# Local
+
+src1
+src2
+*.zip
