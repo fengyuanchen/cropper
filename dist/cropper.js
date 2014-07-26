@@ -558,7 +558,9 @@
         setAspectRatio: function (aspectRatio) {
             var freeRatio = aspectRatio === "auto";
 
-            if (freeRatio || (isNumber(aspectRatio) && aspectRatio > 0)) {
+            aspectRatio = parseFloat(aspectRatio);
+
+            if (freeRatio || (!isNaN(aspectRatio) && aspectRatio > 0)) {
                 this.defaults.aspectRatio = freeRatio ? NaN : aspectRatio;
 
                 if (this.built) {
