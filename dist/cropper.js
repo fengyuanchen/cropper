@@ -307,18 +307,22 @@
                 range = {
                     x: this.endX - this.startX,
                     y: this.endY - this.startY
-                };
+                },
+                newVal;
 
             if (aspectRatio) {
                 range.X = range.y * aspectRatio;
                 range.Y = range.x / aspectRatio;
             }
-
             switch (direction) {
 
                 // dragging
                 case "e":
-                    dragger.width += range.x;
+                    newVal = dragger.width + range.x;
+                    if (this.defaults.minWidth && !Cropper.fn.checkMin(newVal, this.defaults.minWidth, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.width = newVal;
 
                     if (aspectRatio) {
                         dragger.height = dragger.width / aspectRatio;
@@ -333,7 +337,11 @@
                     break;
 
                 case "n":
-                    dragger.height -= range.y;
+                    newVal = dragger.height - range.y;
+                    if (this.defaults.minHeight && !Cropper.fn.checkMin(newVal, this.defaults.minHeight, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.height = newVal;
                     dragger.top += range.y;
 
                     if (aspectRatio) {
@@ -349,7 +357,11 @@
                     break;
 
                 case "w":
-                    dragger.width -= range.x;
+                    newVal = dragger.width - range.x;
+                    if (this.defaults.minWidth && !Cropper.fn.checkMin(newVal, this.defaults.minWidth, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.width = newVal;
                     dragger.left += range.x;
 
                     if (aspectRatio) {
@@ -365,7 +377,11 @@
                     break;
 
                 case "s":
-                    dragger.height += range.y;
+                    newVal = dragger.height + range.y;
+                    if (this.defaults.minHeight && !Cropper.fn.checkMin(newVal, this.defaults.minHeight, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.height = newVal;
 
                     if (aspectRatio) {
                         dragger.width = dragger.height * aspectRatio;
@@ -380,7 +396,11 @@
                     break;
 
                 case "ne":
-                    dragger.height -= range.y;
+                    newVal = dragger.height - range.y;
+                    if (this.defaults.minHeight && !Cropper.fn.checkMin(newVal, this.defaults.minHeight, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.height = newVal;
                     dragger.top += range.y;
 
                     if (aspectRatio) {
@@ -398,7 +418,11 @@
                     break;
 
                 case "nw":
-                    dragger.height -= range.y;
+                    newVal = dragger.height - range.y;
+                    if (this.defaults.minHeight && !Cropper.fn.checkMin(newVal, this.defaults.minHeight, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.height = newVal;
                     dragger.top += range.y;
 
                     if (aspectRatio) {
@@ -418,7 +442,11 @@
                     break;
 
                 case "sw":
-                    dragger.width -= range.x;
+                    newVal = dragger.width - range.x;
+                    if (this.defaults.minWidth && !Cropper.fn.checkMin(newVal, this.defaults.minWidth, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.width = newVal;
                     dragger.left += range.x;
 
                     if (aspectRatio) {
@@ -436,7 +464,11 @@
                     break;
 
                 case "se":
-                    dragger.width += range.x;
+                    newVal = dragger.width + range.x;
+                    if (this.defaults.minWidth && !Cropper.fn.checkMin(newVal, this.defaults.minWidth, this.image.ratio)) {
+                        break;
+                    }
+                    dragger.width = newVal;
 
                     if (aspectRatio) {
                         dragger.height = dragger.width / aspectRatio;
@@ -735,6 +767,14 @@
             return result;
         },
 
+        checkMin: function (newVal, minVal, ratio) {
+            var data = {
+                val: newVal
+            };
+            data = Cropper.fn.transformData(data, (1 / ratio));
+            return data.val >= minVal;
+        },
+
         getOriginalEvent: function (event) {
             if (event && typeof event.originalEvent !== "undefined") {
                event = event.originalEvent;
@@ -744,7 +784,7 @@
         },
 
         isDataOption: function (s) {
-            return /^(x1|y1|x2|y2|width|height)$/i.test(s);
+            return /^(x1|y1|x2|y2|width|height|val)$/i.test(s);
         },
 
         isDirection: function (s) {
@@ -778,6 +818,8 @@
 
     Cropper.defaults = {
         aspectRatio: "auto",
+        minHeight: 0,
+        minWidth: 0,
         data: {},
         done: function (/* data */) {},
         modal: true,
