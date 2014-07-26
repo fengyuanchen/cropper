@@ -14,14 +14,15 @@ A simple jQuery image cropping plugin.
 - Support events
 - Cross Browsers
 
+
 # Main
 
-```html
+```
 dist/
 ├── cropper.css     ( 5 KB)
-├── cropper.min.css ( 4 KB)
-├── cropper.js      (27 KB)
-└── cropper.min.js  (11 KB)
+├── cropper.min.css ( 3 KB)
+├── cropper.js      (29 KB)
+└── cropper.min.js  (12 KB)
 ```
 
 
@@ -70,13 +71,14 @@ $(".cropper").cropper({
 
 **Notes:**
 - The size of the cropper was based on the wrapper of the target image, so be sure to wrap the image with a block element.
-- The cropper will be re-rendered when the window was resized.
-- The result data has be transformed to the true size (based on the natural width and height of the target image).
+- The cropper will be automatic re-rendered when the window was resized.
+- The result data has transformed to real size (based on the original image).
 
 
 ## Options
 
 Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.setDefaults(options)`.
+
 
 #### aspectRatio
 
@@ -86,6 +88,7 @@ Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.s
 The aspect ratio of the cropping zone (e.g., "2", "1.3", "0.5", etc.).
 Just set it with "auto" to free ratio.
 
+
 #### data
 
 - type: object
@@ -94,34 +97,19 @@ Just set it with "auto" to free ratio.
 
 ```javascript
 {
-    x1: 100,
-    y1: 50,
+    x: 100,
+    y: 50,
     width: 480,
-    height: 270,
-    x2: 580, // optional (x2 = x1 + width)
-    y2: 370 // optional (y2 = y1 + height)
+    height: 270
 }
 ```
+
+Only support four options: "x", "y", "width", "height".
 
 If you already have a cropped zone data of the image, and you want to re-render it, just set this option.
 
 **Tips:** It's possible to save the data in cookie or other where when a page is unload(abort), and then when the page is reload, get the data and re-render it.
 
-#### minHeight
-
-- type: string / number
-- default: 0
-
-The minimum height (px of original image) of the cropping zone.
-Use this option only when you are sure that the image has this minimum height.
-
-#### minWidth
-
-- type: string / number
-- default: 0
-
-The minimum width (px of original image) of the cropping zone.
-Use this option only when you are sure that the image has this minimum width.
 
 #### done
 
@@ -132,7 +120,8 @@ Use this option only when you are sure that the image has this minimum width.
 function(data) {}
 ```
 
-The function will be passed an object data and run when the cropping zone was moving.
+The function will be passed the result object data and run when the cropping zone was changed by move, resize or crop.
+
 
 #### modal
 
@@ -149,31 +138,96 @@ Show (true) or hide (false) the black modal layer.
 A jquery selector string, add extra elements to show preview.
 
 
+### New options
+
+The follow options were support from v0.4.0.
+
+
+#### autoCrop
+
+- type: boolean
+- default: true
+
+Render the cropping zone automatically when initialize.
+
+
+#### dragCrop
+
+- type: boolean
+- default: true
+
+Enable to create a new cropping zone when drag on the image.
+
+
+#### moveable
+
+- type: boolean
+- default: true
+
+Enable to move the cropping zone.
+
+
+#### resizeable
+
+- type: boolean
+- default: true
+
+Enable to resize the cropping zone.
+
+
+#### minHeight
+
+- type: number
+- default: 0
+
+The minimum height (px of original image) of the cropping zone.
+Use this option only when you are sure that the image has this minimum height.
+
+
+#### minWidth
+
+- type: number
+- default: 0
+
+The minimum width (px of original image) of the cropping zone.
+Use this option only when you are sure that the image has this minimum width.
+
+
+#### maxHeight
+
+- type: number
+- default: Infinity
+
+The maximum height (px of original image) of the cropping zone.
+Use this option only when you are sure that the image has this maximum height.
+
+
+#### maxWidth
+
+- type: number
+- default: Infinity
+
+The maximum width (px of original image) of the cropping zone.
+Use this option only when you are sure that the image has this maximum width.
+
+
+
 ## Methods
-
-#### enable
-
-- Enable the cropper.
-- Param: an optional callback function (will be run when the dragger was rendered).
-- Use with `$("#target").cropper("enable")` or `$("#target").cropper("enable", callback)`.
-
-#### disable
-
-- Disable the cropper.
-- Use with `$("#target").cropper("disable")`.
 
 #### getData
 
 - Get the current cropped zone data.
 - Use with `$("#target").cropper("getData")`.
 
+
 #### setData
 
 - Reset the cropping zone.
-- Param: an object contains "x1", "y1", "width", "height", "x2"(optional), "y2"(optional).
+- Param: an object contains "x", "y", "width", "height".
 - Use with `$("#target").cropper("setData", {width: 480, height: 270})`.
 
 **Tips:** If you want to remove the data, just use like this: `$("#target").cropper("setData", {})` or `$("#target").cropper("setData", null)`.
+
 
 #### setAspectRatio
 
@@ -181,11 +235,13 @@ A jquery selector string, add extra elements to show preview.
 - Param: "auto" or a positive number ("auto" for free ratio).
 - Use with `$("#target").cropper("setAspectRatio", 1.618)`.
 
+
 #### setImgSrc
 
-- Change the src of the image if need.
+- Change the src of the image and restart the Cropper.
 - Param: a src string.
 - Use with `$("#target").cropper("setImgSrc", "example.jpg")`.
+
 
 #### getImgInfo
 
@@ -195,17 +251,89 @@ A jquery selector string, add extra elements to show preview.
 - Use with `$("#target").cropper("getImgInfo")`.
 
 
+### New methods
+
+The follow methods were supported from v0.4.0.
+
+
+#### reset
+
+- Reset the cropping zone to the start state.
+- Add a `true` param to reset the cropping zone to the default state.
+- Use with `$("#target").cropper("reset")` or `$("#target").cropper("reset", true)`.
+
+
+#### release
+
+- Release the cropping zone.
+- Use with `$("#target").cropper("release")`.
+
+
+#### destory
+
+- Destory the Cropper and remove the instance form the target image.
+- Use with `$("#target").cropper("destory")`.
+
+**Note:** Don't run any ather methods again when you destory the Cropper.
+
+
+### Removed methods
+
+The follow methods were removed from v0.4.0, please don't use them again.
+
+
+#### enable (removed)
+
+- Enable the cropper.
+- Param: an optional callback function (will be run when the dragger was rendered).
+- Use with `$("#target").cropper("enable")` or `$("#target").cropper("enable", callback)`.
+
+
+#### disable (removed)
+
+- Disable the cropper.
+- Use with `$("#target").cropper("disable")`.
+
+
+
 ## Events
 
-#### dragstart.cropper
+### New events
+
+The follow events were supported from v0.4.0.
+
+
+#### build.cropper
+
+This event will be triggered when the Cropper start to build.
+
+
+#### built.cropper
+
+This event will be triggered when the Cropper was built.
+
+
+#### render.cropper
+
+This event will be triggered when the cropping zone was changed by move, resize or crop.
+
+
+### Removed events
+
+The follow events were removed from v0.4.0, please don't use them again.
+
+
+#### dragstart.cropper (removed)
 
 This event will be triggered before the cropping zone start to move.
 
-#### dragmove.cropper
+
+#### dragmove.cropper (removed)
 
 This event will be triggered when the cropping zone was moving.
 
-#### dragend.cropper
+
+#### dragend.cropper (removed)
 
 This event will be triggered after the cropping zone stop to move.
 
