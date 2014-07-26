@@ -174,8 +174,6 @@
             // this.defaultDragger = null;
             // this.cropper = null;
             // this.container = null;
-
-            console.log(this);
         },
 
         update: function (data) {
@@ -225,8 +223,6 @@
                 this.defaults.data = {};
             }
 
-            console.log(this.defaults.data);
-
             this.dragger = this.cloneDragger();
             this.setData(this.defaults.data);
         },
@@ -257,7 +253,6 @@
             this.$image.removeClass(hiddenClass);
             this.$image.removeData("cropper");
             this.$image = null;
-            console.log(this);
         },
 
         preview: function () {
@@ -542,7 +537,9 @@
                 result = {};
 
             $.each(data, function (i, n) {
-                if (regexpOption.test(i) && isNumber(n) && n >= 0) {
+                n = parseFloat(n);
+
+                if (regexpOption.test(i) && !isNaN(n)) {
                     result[i] = round(reverse ? n / ratio : n * ratio);
                 }
             });
