@@ -44,7 +44,8 @@
         round = Math.round,
         min = Math.min,
         max = Math.max,
-        abs = Math.abs;
+        abs = Math.abs,
+        num = parseFloat;
 
     Cropper.prototype = {
         construstor: Cropper,
@@ -55,17 +56,17 @@
             $.each(options, function (i, n) {
                 switch (i) {
                     case "aspectRatio":
-                        options[i] = abs(n) || NaN; // 0 -> NaN
+                        options[i] = abs(num(n)) || NaN; // 0 -> NaN
                         break;
 
                     case "minWidth":
                     case "minHeight":
-                        options[i] = abs(n) || 0; // NaN -> 0
+                        options[i] = abs(num(n)) || 0; // NaN -> 0
                         break;
 
                     case "maxWidth":
                     case "maxHeight":
-                        options[i] = abs(n) || Infinity; // NaN -> Infinity
+                        options[i] = abs(num(n)) || Infinity; // NaN -> Infinity
                         break;
 
                     // No default
@@ -545,7 +546,7 @@
                 result = {};
 
             $.each(data, function (i, n) {
-                n = parseFloat(n);
+                n = num(n);
 
                 if (regexpOption.test(i) && !isNaN(n)) {
                     result[i] = round(reverse ? n / ratio : n * ratio);
@@ -558,7 +559,7 @@
         setAspectRatio: function (aspectRatio) {
             var freeRatio = aspectRatio === "auto";
 
-            aspectRatio = parseFloat(aspectRatio);
+            aspectRatio = num(aspectRatio);
 
             if (freeRatio || (!isNaN(aspectRatio) && aspectRatio > 0)) {
                 this.defaults.aspectRatio = freeRatio ? NaN : aspectRatio;
