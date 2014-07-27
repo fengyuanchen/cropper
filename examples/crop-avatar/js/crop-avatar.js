@@ -190,12 +190,10 @@
                     preview: this.$avatarPreview.selector,
                     done: function (data) {
                         var json = [
-                            '{"x1":' + data.x1,
-                            '"y1":' + data.y1,
+                            '{"x":' + data.x,
+                            '"y":' + data.y,
                             '"height":' + data.height,
-                            '"width":' + data.width,
-                            '"x2":' + data.x2,
-                            '"y2":' + data.y2 + "}"
+                            '"width":' + data.width + "}"
                         ].join();
 
                         _this.$avatarData.val(json);

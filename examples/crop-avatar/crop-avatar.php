@@ -111,7 +111,7 @@
                 }
 
                 $dst_img = imagecreatetruecolor(220, 220);
-                $result = imagecopyresampled($dst_img, $src_img, 0, 0, $data -> x1, $data -> y1, 220, 220, $data -> width, $data -> height);
+                $result = imagecopyresampled($dst_img, $src_img, 0, 0, $data -> x, $data -> y, 220, 220, $data -> width, $data -> height);
 
                 if ($result) {
                     switch ($this -> type) {
