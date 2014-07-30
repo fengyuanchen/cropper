@@ -20,7 +20,7 @@ A simple jQuery image cropping plugin.
 ```
 dist/
 ├── cropper.css     ( 5 KB)
-├── cropper.min.css ( 3 KB)
+├── cropper.min.css ( 4 KB)
 ├── cropper.js      (29 KB)
 └── cropper.min.js  (12 KB)
 ```
@@ -132,10 +132,10 @@ Show (true) or hide (false) the black modal layer.
 
 #### preview
 
-- type: string
-- default: ""
+- type: selector
+- default: undefined
 
-A jquery selector string, add extra elements to show preview.
+A jquery selector, add extra elements for preview.
 
 
 ### New options
@@ -305,17 +305,17 @@ The follow events were supported from v0.4.0.
 
 #### build.cropper
 
-This event will be triggered when the Cropper start to build.
+This event will be fired when the Cropper start to build.
 
 
 #### built.cropper
 
-This event will be triggered when the Cropper was built.
+This event will be fired when the Cropper was built.
 
 
 #### render.cropper
 
-This event will be triggered when the cropping zone was changed by move, resize or crop.
+This event will be fired when the cropping zone was changed by move, resize or crop.
 
 
 ### Removed events
@@ -325,17 +325,32 @@ The follow events were removed from v0.4.0, please don't use them again.
 
 #### dragstart.cropper (removed)
 
-This event will be triggered before the cropping zone start to move.
+This event will be fired before the cropping zone start to move.
 
 
 #### dragmove.cropper (removed)
 
-This event will be triggered when the cropping zone was moving.
+This event will be fired when the cropping zone was moving.
 
 
 #### dragend.cropper (removed)
 
-This event will be triggered after the cropping zone stop to move.
+This event will be fired after the cropping zone stop to move.
+
+
+
+## No conflict
+
+If you have to use other plugin with the same namespace, just call the `$.fn.cropper.noConflict` method to revert it.
+
+```
+<script src="other_plugin.js"></script>
+<script src="cropper.js"></script>
+<script>
+$.fn.cropper.noConflict();
+// Code that uses other plugin's "$().cropper" can follow here.
+</script>
+```
 
 
 ## Browser Support
