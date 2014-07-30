@@ -248,6 +248,10 @@
     top: 0;
     left: 0;
     z-index: -1;
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
     opacity: 0;
     filter: alpha(opacity=0);
 }

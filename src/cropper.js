@@ -74,32 +74,21 @@
                 $clone = $('<img src="' + src + '">'),
                 image = {};
 
+            this.$clone && this.$clone.remove();
+            this.$clone = $clone;
+
             $clone.one("load", function () {
-                if (this.naturalWidth) {
-                    image.naturalWidth = this.naturalWidth;
-                    image.naturalHeight = this.naturalHeight;
-                } else {
-                    $clone.css({
-                        width: "auto",
-                        height: "auto"
-                    });
-
-                    image.naturalWidth = $clone.width();
-                    image.naturalHeight = $clone.height();
-                }
-
+                image.naturalWidth = this.naturalWidth || $clone.width();
+                image.naturalHeight = this.naturalHeight || $clone.height();
                 image.aspectRatio = image.naturalWidth / image.naturalHeight;
 
                 _this.active = true;
                 _this.src = src;
                 _this.image = image;
                 _this.build();
-
-                // Remove clone
-                $clone.remove();
             });
 
-            // Hide and prepend to the document body (Don't append to).
+            // Hide and prepend the clone iamge to the document body (Don't append to).
             $clone.addClass(invisibleClass).prependTo("body");
         },
 
@@ -119,11 +108,15 @@
                 return;
             }
 
+            // Create cropper elements
+            this.$cropper = ($cropper = $(Cropper.template));
+
             // Hide the original image
             this.$image.addClass(hiddenClass);
 
-            // Create cropper elements
-            this.$cropper = ($cropper = $(Cropper.template));
+            // Show and prepend the clone iamge to the cropper
+            this.$clone.removeClass(invisibleClass).prependTo($cropper);
+
             this.$container = this.$image.parent();
             this.$container.append($cropper);
 
@@ -170,11 +163,6 @@
 
             this.$cropper.remove();
             this.$cropper = null;
-
-            // this.dragger = null;
-            // this.defaultDragger = null;
-            // this.cropper = null;
-            // this.container = null;
         },
 
         update: function (data) {
@@ -311,8 +299,7 @@
         },
 
         initPreview: function () {
-            var preview = this.defaults.preview,
-                img = '<img src="' + this.src + '">';
+            var preview = this.defaults.preview;
 
             this.$preview = this.$cropper.find(".cropper-preview");
 
@@ -320,8 +307,7 @@
                 this.$preview = this.$preview.add(preview);
             }
 
-            this.$cropper.prepend(img);
-            this.$preview.html(img);
+            this.$preview.html('<img src="' + this.src + '">');
         },
 
         initContainer: function () {
@@ -889,7 +875,7 @@
         aspectRatio: "auto",
         data: {}, // Allow options: x, y, width, height
         done: $.noop,
-        preview: "",
+        // preview: undefined,
 
         // Toggles
         autoCrop: true,
