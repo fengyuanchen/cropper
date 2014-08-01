@@ -233,7 +233,7 @@
             this.$dragger.addClass(hiddenClass);
         },
 
-        destory: function () {
+        destroy: function () {
             if (!this.active) {
                 return;
             }
