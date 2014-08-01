@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.4.1
+ * Cropper v0.4.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -392,10 +392,28 @@
                 };
             }
 
-            dragger.maxWidth = min(dragger.maxWidth, defaults.maxWidth * ratio);
-            dragger.maxHeight = min(dragger.maxHeight, defaults.maxHeight * ratio);
-            dragger.minWidth = max(0, defaults.minWidth * ratio);
-            dragger.minHeight = max(0, defaults.minHeight * ratio);
+            if (defaults.aspectRatio) {
+                if (isFinite(defaults.maxWidth)) {
+                    dragger.maxWidth = min(dragger.maxWidth, defaults.maxWidth * ratio);
+                    dragger.maxHeight = dragger.maxWidth / aspectRatio;
+                } else if (isFinite(defaults.maxHeight)) {
+                    dragger.maxHeight = min(dragger.maxHeight, defaults.maxHeight * ratio);
+                    dragger.maxWidth = dragger.maxHeight * aspectRatio;
+                }
+
+                if (defaults.minWidth > 0) {
+                    dragger.minWidth = max(0, defaults.minWidth * ratio);
+                    dragger.minHeight = dragger.minWidth / aspectRatio;
+                } else if (defaults.minHeight > 0) {
+                    dragger.minHeight = max(0, defaults.minHeight * ratio);
+                    dragger.minWidth = dragger.minHeight * aspectRatio;
+                }
+            } else {
+                dragger.maxWidth = min(dragger.maxWidth, defaults.maxWidth * ratio);
+                dragger.maxHeight = min(dragger.maxHeight, defaults.maxHeight * ratio);
+                dragger.minWidth = max(0, defaults.minWidth * ratio);
+                dragger.minHeight = max(0, defaults.minHeight * ratio);
+            }
 
             // Center the dragger by default
             dragger.height *= 0.8;
