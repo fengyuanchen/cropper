@@ -133,12 +133,10 @@
         </div>
         <div class="clearfix">
             <div class="eg-button">
-                <button id="enable" type="button" class="btn btn-default">Enable</button>
-                <button id="disable" type="button" class="btn btn-default">Disable</button>
                 <button id="reset" type="button" class="btn btn-warning">Reset</button>
                 <button id="reset-deep" type="button" class="btn  btn-warning">Reset (deep)</button>
                 <button id="release" type="button" class="btn btn-primary">Release</button>
-                <button id="destory" type="button" class="btn btn-danger">Destory</button>
+                <button id="destroy" type="button" class="btn btn-danger">Destroy</button>
                 <button id="setData" type="button" class="btn btn-primary">Set Data</button>
             </div>
             <div class="row eg-input">
@@ -252,8 +250,8 @@
                 $cropper.cropper("release");
             });
 
-            $("#destory").click(function() {
-                $cropper.cropper("destory");
+            $("#destroy").click(function() {
+                $cropper.cropper("destroy");
             });
 
             $("#setData").click(function() {

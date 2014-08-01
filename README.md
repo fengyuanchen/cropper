@@ -21,7 +21,7 @@ A simple jQuery image cropping plugin.
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (29 KB)
+├── cropper.js      (30 KB)
 └── cropper.min.js  (12 KB)
 ```
 
@@ -269,12 +269,12 @@ The follow methods were supported from v0.4.0.
 - Use with `$("#target").cropper("release")`.
 
 
-#### destory
+#### destroy
 
-- Destory the Cropper and remove the instance form the target image.
-- Use with `$("#target").cropper("destory")`.
+- Destroy the Cropper and remove the instance form the target image.
+- Use with `$("#target").cropper("destroy")`.
 
-**Note:** Don't run any ather methods again when you destory the Cropper.
+**Note:** Don't run any ather methods again when you destroy the Cropper.
 
 
 ### Removed methods
