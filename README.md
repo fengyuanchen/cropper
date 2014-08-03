@@ -21,7 +21,7 @@ A simple jQuery image cropping plugin.
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (30 KB)
+├── cropper.js      (31 KB)
 └── cropper.min.js  (12 KB)
 ```
 
@@ -64,7 +64,7 @@ Initialize with `$.fn.cropper` method.
 $(".cropper").cropper({
     aspectRatio: 16/9,
     done: function(data) {
-        console.log(data);
+        // Crop image with the data
     }
 });
 ```
@@ -136,11 +136,6 @@ Show (true) or hide (false) the black modal layer.
 - default: undefined
 
 A jquery selector, add extra elements for preview.
-
-
-### New options
-
-The follow options were support from v0.4.0.
 
 
 #### autoCrop
@@ -251,11 +246,6 @@ Use this option only when you are sure that the image has this maximum width.
 - Use with `$("#target").cropper("getImgInfo")`.
 
 
-### New methods
-
-The follow methods were supported from v0.4.0.
-
-
 #### reset
 
 - Reset the cropping zone to the start state.
@@ -277,30 +267,8 @@ The follow methods were supported from v0.4.0.
 **Note:** Don't run any ather methods again when you destroy the Cropper.
 
 
-### Removed methods
-
-The follow methods were removed from v0.4.0, please don't use them again.
-
-
-#### enable (removed)
-
-- Enable the cropper.
-- Param: an optional callback function (will be run when the dragger was rendered).
-- Use with `$("#target").cropper("enable")` or `$("#target").cropper("enable", callback)`.
-
-
-#### disable (removed)
-
-- Disable the cropper.
-- Use with `$("#target").cropper("disable")`.
-
-
 
 ## Events
-
-### New events
-
-The follow events were supported from v0.4.0.
 
 
 #### build.cropper
@@ -316,27 +284,6 @@ This event will be fired when the Cropper was built.
 #### render.cropper
 
 This event will be fired when the cropping zone was changed by move, resize or crop.
-
-
-### Removed events
-
-The follow events were removed from v0.4.0, please don't use them again.
-
-
-#### dragstart.cropper (removed)
-
-This event will be fired before the cropping zone start to move.
-
-
-#### dragmove.cropper (removed)
-
-This event will be fired when the cropping zone was moving.
-
-
-#### dragend.cropper (removed)
-
-This event will be fired after the cropping zone stop to move.
-
 
 
 ## No conflict
