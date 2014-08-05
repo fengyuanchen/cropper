@@ -545,7 +545,8 @@
                 n = num(n);
 
                 if (regexpOption.test(i) && !isNaN(n)) {
-                    result[i] = round(reverse ? n / ratio : n * ratio);
+                    // Not round when set data.
+                    result[i] = reverse ? round(n / ratio) : n * ratio;
                 }
             });
 

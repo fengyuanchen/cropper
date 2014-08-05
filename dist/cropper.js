@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.4.3
+ * Cropper v0.4.4
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -553,7 +553,8 @@
                 n = num(n);
 
                 if (regexpOption.test(i) && !isNaN(n)) {
-                    result[i] = round(reverse ? n / ratio : n * ratio);
+                    // Not round when set data.
+                    result[i] = reverse ? round(n / ratio) : n * ratio;
                 }
             });
 
