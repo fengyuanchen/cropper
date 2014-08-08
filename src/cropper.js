@@ -25,7 +25,7 @@
             return typeof n === "number";
         },
 
-        // Construstor
+        // Constructor
         Cropper = function (element, options) {
             this.$image = $(element);
             this.setDefaults(options);
@@ -40,7 +40,7 @@
         num = parseFloat;
 
     Cropper.prototype = {
-        construstor: Cropper,
+        constructor: Cropper,
 
         isDragging: false,
 
