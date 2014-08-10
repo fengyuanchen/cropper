@@ -6,4 +6,5 @@ build
 tests
 assets
 docs
+workspace
 CHANGELOG.md

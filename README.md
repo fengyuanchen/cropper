@@ -20,9 +20,9 @@ A simple jQuery image cropping plugin.
 ```
 dist/
 ├── cropper.css     ( 5 KB)
-├── cropper.min.css ( 4 KB)
-├── cropper.js      (31 KB)
-└── cropper.min.js  (12 KB)
+├── cropper.min.css ( 3 KB)
+├── cropper.js      (30 KB)
+└── cropper.min.js  (11 KB)
 ```
 
 
@@ -123,6 +123,14 @@ function(data) {}
 The function will be passed the result object data and run when the cropping zone was changed by move, resize or crop.
 
 
+#### preview
+
+- type: selector
+- default: undefined
+
+A jquery selector, add extra elements for preview.
+
+
 #### modal
 
 - type: boolean
@@ -130,12 +138,13 @@ The function will be passed the result object data and run when the cropping zon
 
 Show (true) or hide (false) the black modal layer.
 
-#### preview
 
-- type: selector
-- default: undefined
+#### multiple
 
-A jquery selector, add extra elements for preview.
+- type: boolean
+- default: false
+
+By default, this plugin only support one cropper in one page, if you need two or more croppers, you must set this option with `true` from the second cropper.
 
 
 #### autoCrop
