@@ -25,7 +25,7 @@
             return typeof n === "number";
         },
 
-        // Construstor
+        // Constructor
         Cropper = function (element, options) {
             this.$image = $(element);
             this.setDefaults(options);
@@ -40,7 +40,9 @@
         num = parseFloat;
 
     Cropper.prototype = {
-        construstor: Cropper,
+        constructor: Cropper,
+
+        isDragging: false,
 
         setDefaults: function (options) {
             options = $.extend({}, Cropper.defaults, options);
@@ -259,9 +261,12 @@
             });
 
             this.$cropper.on({
-                "mousedown touchstart": $.proxy(this.dragstart, this),
-                "mousemove touchmove": $.proxy(this.dragmove, this),
-                "mouseup mouseleave touchend touchleave": $.proxy(this.dragend, this)
+                "mousedown touchstart": $.proxy(this.dragstart, this)
+            });
+
+            $(document).on({
+              "mousemove touchmove": $.proxy(this.dragmove, this),
+              "mouseup mouseleave touchend touchleave": $.proxy(this.dragend, this)
             });
 
             $window.on("resize", $.proxy(this.resize, this));
@@ -277,9 +282,12 @@
             });
 
             this.$cropper.off({
-                "mousedown touchstart": this.dragstart,
-                "mousemove touchmove": this.dragmove,
-                "mouseup mouseleave touchend touchleave": this.dragend
+                "mousedown touchstart": this.dragstart
+            });
+
+            $(document).off({
+              "mousemove touchmove": this.dragmove,
+              "mouseup mouseleave touchend touchleave": this.dragend
             });
 
             $window.off("resize", this.resize);
@@ -585,6 +593,8 @@
                 touching,
                 direction;
 
+            this.isDragging = true;
+
             if (touches && touches.length === 1) {
                 e = touches[0];
                 this.touchId = e.identifier;
@@ -609,6 +619,10 @@
         },
 
         dragmove: function (event) {
+            if (!this.isDragging) {
+              return;
+            }
+
             var touches = (event.originalEvent || event).changedTouches,
                 e = event,
                 touching;
@@ -627,7 +641,7 @@
                 this.endY = e.pageY;
 
                 // Prevent the default effect on mobile browser
-                touching && event.preventDefault();
+                /*touching && */event.preventDefault();
                 this.dragging();
             }
         },
@@ -636,6 +650,8 @@
             var touches = (event.originalEvent || event).changedTouches,
                 e = event,
                 touching;
+
+            this.isDragging = false;
 
             if (touches && touches.length === 1) {
                 e = touches[0];
