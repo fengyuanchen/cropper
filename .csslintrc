@@ -1,13 +1,13 @@
 {
-    "adjoining-classes": false,
-    "box-model": false,
-    "box-sizing": false,
-    "compatible-vendor-prefixes": false,
-    "duplicate-background-images": false,
-    "import": false,
-    "important": false,
-    "outline-none": false,
-    "overqualified-elements": false,
-    "star-property-hack": false,
-    "text-indent": false
+  "adjoining-classes": false,
+  "box-model": false,
+  "box-sizing": false,
+  "compatible-vendor-prefixes": false,
+  "duplicate-background-images": false,
+  "import": false,
+  "important": false,
+  "outline-none": false,
+  "overqualified-elements": false,
+  "star-property-hack": false,
+  "text-indent": false
 }

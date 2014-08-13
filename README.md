@@ -12,6 +12,7 @@ A simple jQuery image cropping plugin.
 - Support setup
 - Support methods
 - Support events
+- Support canvas
 - Cross Browsers
 
 
@@ -19,10 +20,10 @@ A simple jQuery image cropping plugin.
 
 ```
 dist/
-├── cropper.css     ( 5 KB)
+├── cropper.css     ( 4 KB)
 ├── cropper.min.css ( 3 KB)
-├── cropper.js      (30 KB)
-└── cropper.min.js  (11 KB)
+├── cropper.js      (26 KB)
+└── cropper.min.js  (12 KB)
 ```
 
 
@@ -56,16 +57,16 @@ Initialize with `$.fn.cropper` method.
 ```html
 <!-- Be sure to wrap the img with a block element -->
 <div>
-    <img class="cropper" src="picture.jpg">
+  <img class="cropper" src="picture.jpg">
 </div>
 ```
 
 ```javascript
 $(".cropper").cropper({
-    aspectRatio: 16/9,
-    done: function(data) {
-        // Crop image with the data
-    }
+  aspectRatio: 16/9,
+  done: function(data) {
+    // Crop image with the data
+  }
 });
 ```
 
@@ -97,10 +98,10 @@ Just set it with "auto" to free ratio.
 
 ```javascript
 {
-    x: 100,
-    y: 50,
-    width: 480,
-    height: 270
+  x: 100,
+  y: 50,
+  width: 480,
+  height: 270
 }
 ```
 
@@ -214,8 +215,6 @@ Use this option only when you are sure that the image has this maximum height.
 The maximum width (px of original image) of the cropping zone.
 Use this option only when you are sure that the image has this maximum width.
 
-
-
 ## Methods
 
 #### getData
@@ -274,8 +273,6 @@ Use this option only when you are sure that the image has this maximum width.
 - Use with `$("#target").cropper("destroy")`.
 
 **Note:** Don't run any ather methods again when you destroy the Cropper.
-
-
 
 ## Events
 
