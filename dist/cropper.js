@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.5.1
+ * Cropper v0.5.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -61,7 +61,7 @@
     constructor: Cropper,
 
     setDefaults: function (options) {
-      options = $.extend({}, Cropper.defaults, options);
+      options = $.extend({}, Cropper.defaults, $.isPlainObject(options) ? options : {});
 
       $.each(options, function (i, n) {
         switch (i) {
@@ -907,30 +907,31 @@
     }
   };
 
-  Cropper.template = (
-    '<div class="cropper-container">' +
-      '<div class="cropper-modal"></div>' +
-      '<div class="cropper-canvas" data-direction="+"></div>' +
-      '<div class="cropper-dragger">' +
-        '<span class="cropper-viewer"></span>' +
-        '<span class="cropper-dashed dashed-h"></span>' +
-        '<span class="cropper-dashed dashed-v"></span>' +
-        '<span class="cropper-face" data-direction="*"></span>' +
-        '<span class="cropper-line line-e" data-direction="e"></span>' +
-        '<span class="cropper-line line-n" data-direction="n"></span>' +
-        '<span class="cropper-line line-w" data-direction="w"></span>' +
-        '<span class="cropper-line line-s" data-direction="s"></span>' +
-        '<span class="cropper-point point-e" data-direction="e"></span>' +
-        '<span class="cropper-point point-n" data-direction="n"></span>' +
-        '<span class="cropper-point point-w" data-direction="w"></span>' +
-        '<span class="cropper-point point-s" data-direction="s"></span>' +
-        '<span class="cropper-point point-ne" data-direction="ne"></span>' +
-        '<span class="cropper-point point-nw" data-direction="nw"></span>' +
-        '<span class="cropper-point point-sw" data-direction="sw"></span>' +
-        '<span class="cropper-point point-se" data-direction="se"></span>' +
-      '</div>' +
-    '</div>'
-  );
+  Cropper.template = (function(a,b){b=b.split(",");return a.replace(/\d+/g,function(c){return b[c];});})('<0 6="5-container"><0 6="5-modal"></0><0 6="5-canvas" 3-2="+"></0><0 6="5-dragger"><1 6="5-viewer"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face" 3-2="*"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>',"div,span,direction,data,point,cropper,class,line,dashed");
+
+  /* Cropper template:
+  <div class="cropper-container">
+    <div class="cropper-modal"></div>
+    <div class="cropper-canvas" data-direction="+"></div>
+    <div class="cropper-dragger">
+      <span class="cropper-viewer"></span>
+      <span class="cropper-dashed dashed-h"></span>
+      <span class="cropper-dashed dashed-v"></span>
+      <span class="cropper-face" data-direction="*"></span>
+      <span class="cropper-line line-e" data-direction="e"></span>
+      <span class="cropper-line line-n" data-direction="n"></span>
+      <span class="cropper-line line-w" data-direction="w"></span>
+      <span class="cropper-line line-s" data-direction="s"></span>
+      <span class="cropper-point point-e" data-direction="e"></span>
+      <span class="cropper-point point-n" data-direction="n"></span>
+      <span class="cropper-point point-w" data-direction="w"></span>
+      <span class="cropper-point point-s" data-direction="s"></span>
+      <span class="cropper-point point-ne" data-direction="ne"></span>
+      <span class="cropper-point point-nw" data-direction="nw"></span>
+      <span class="cropper-point point-sw" data-direction="sw"></span>
+      <span class="cropper-point point-se" data-direction="se"></span>
+    </div>
+  </div>*/
 
   Cropper.defaults = {
     // Basic
@@ -969,7 +970,7 @@
       var $this = $(this),
           data = $this.data("cropper");
 
-      if (!data && $.isPlainObject(options)) {
+      if (!data) {
         $this.data("cropper", (data = new Cropper(this, options)));
       }
 
