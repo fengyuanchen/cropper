@@ -907,6 +907,7 @@
     }
   };
 
+  // Use the string compressor: Strmin (https://github.com/fengyuanchen/strmin)
   Cropper.template = (function(a,b){b=b.split(",");return a.replace(/\d+/g,function(c){return b[c];});})('<0 6="5-container"><0 6="5-modal"></0><0 6="5-canvas" 3-2="+"></0><0 6="5-dragger"><1 6="5-viewer"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face" 3-2="*"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>',"div,span,direction,data,point,cropper,class,line,dashed");
 
   /* Cropper template:
@@ -938,10 +939,10 @@
     aspectRatio: "auto",
     data: {}, // Allow options: x, y, width, height
     done: $.noop,
-    multiple: false,
     // preview: undefined,
 
     // Toggles
+    multiple: false,
     autoCrop: true,
     dragCrop: true,
     modal: true,
@@ -949,10 +950,10 @@
     resizeable: true,
 
     // Dimensions
-    maxWidth: Infinity,
-    maxHeight: Infinity,
     minWidth: 0,
-    minHeight: 0
+    minHeight: 0,
+    maxWidth: Infinity,
+    maxHeight: Infinity
   };
 
   Cropper.setDefaults = function (options) {
