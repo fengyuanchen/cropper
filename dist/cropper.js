@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.5.2
+ * Cropper v0.5.3
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -32,7 +32,7 @@
       // Events
       eventDragStart = "mousedown touchstart",
       eventDragMove = "mousemove touchmove",
-      eventDragEnd = "mouseup mouseleave touchend touchleave",
+      eventDragEnd = "mouseup mouseleave touchend touchleave touchcancel",
       eventBuild = "build.cropper",
       eventBuilt = "built.cropper",
       eventRender = "render.cropper",
@@ -624,7 +624,11 @@
           e = event,
           direction;
 
-      if (touches && touches.length === 1) {
+      if (touches) {
+        if (touches.length > 1) {
+          return;
+        }
+
         e = touches[0];
         this.touchId = e.identifier;
       }
@@ -649,7 +653,11 @@
       var touches = (event.originalEvent || event).changedTouches,
           e = event;
 
-      if (touches && touches.length === 1) {
+      if (touches) {
+        if (touches.length > 1) {
+          return;
+        }
+
         e = touches[0];
 
         if (e.identifier !== this.touchId) {
@@ -670,7 +678,11 @@
       var touches = (event.originalEvent || event).changedTouches,
           e = event;
 
-      if (touches && touches.length === 1) {
+      if (touches) {
+        if (touches.length > 1) {
+          return;
+        }
+
         e = touches[0];
 
         if (e.identifier !== this.touchId) {

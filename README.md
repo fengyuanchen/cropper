@@ -23,7 +23,7 @@ dist/
 ├── cropper.css     ( 4 KB)
 ├── cropper.min.css ( 3 KB)
 ├── cropper.js      (26 KB)
-└── cropper.min.js  (12 KB)
+└── cropper.min.js  (11 KB)
 ```
 
 
@@ -71,6 +71,7 @@ $(".cropper").cropper({
 ```
 
 **Notes:**
+- Please only use the cropper on a visible image. In other words, don't try to use the cropper on a image which was wrapped by a hidden element.
 - The size of the cropper was based on the wrapper of the target image, so be sure to wrap the image with a block element.
 - The cropper will be automatic re-rendered when the window was resized.
 - The result data has transformed to real size (based on the original image).
@@ -107,7 +108,7 @@ Just set it with "auto" to free ratio.
 
 Only support four options: "x", "y", "width", "height".
 
-If you already have a cropped zone data of the image, and you want to re-render it, just set this option.
+By default, the cropped zone will appear in the center of the image. If you already have a cropped zone data of the image, and you want to re-render it, just set this option.
 
 **Tips:** It's possible to save the data in cookie or other where when a page is unload(abort), and then when the page is reload, get the data and re-render it.
 
