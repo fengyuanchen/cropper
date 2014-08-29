@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.5.3
+ * Cropper v0.5.4
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -65,6 +65,14 @@
 
       $.each(options, function (i, n) {
         switch (i) {
+          case "moveable":
+            options.movable = n;
+            break;
+
+          case "resizeable":
+            options.resizable = n;
+            break;
+
           case "aspectRatio":
             options[i] = abs(num(n)) || NaN; // 0 -> NaN
             break;
@@ -166,8 +174,8 @@
 
       this.$modal.toggleClass(classHidden, !defaults.modal);
       !defaults.dragCrop && this.$canvas.addClass(classHidden);
-      !defaults.moveable && this.$dragger.find(".cropper-face").addClass(classHidden);
-      !defaults.resizeable && this.$dragger.find(".cropper-line, .cropper-point").addClass(classHidden);
+      !defaults.movable && this.$dragger.find(".cropper-face").addClass(classHidden);
+      !defaults.resizable && this.$dragger.find(".cropper-line, .cropper-point").addClass(classHidden);
 
       this.$dragScope = defaults.multiple ? this.$cropper : $document;
 
@@ -958,8 +966,8 @@
     autoCrop: true,
     dragCrop: true,
     modal: true,
-    moveable: true,
-    resizeable: true,
+    movable: true,
+    resizable: true,
 
     // Dimensions
     minWidth: 0,

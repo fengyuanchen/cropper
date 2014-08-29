@@ -165,7 +165,7 @@ Render the cropping zone automatically when initialize.
 Enable to create a new cropping zone when drag on the image.
 
 
-#### moveable
+#### movable
 
 - type: boolean
 - default: true
@@ -173,7 +173,7 @@ Enable to create a new cropping zone when drag on the image.
 Enable to move the cropping zone.
 
 
-#### resizeable
+#### resizable
 
 - type: boolean
 - default: true
@@ -309,11 +309,11 @@ $.fn.cropper.noConflict();
 
 ## Browser Support
 
-- IE 8+
-- Chrome 33+
-- Firefox 27+
+- Chrome 34+
+- Firefox 29+
+- Internet Explorer 8+
+- Opera 21+
 - Safari 5.1+
-- Opera 19+
 
 As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jquery.com/browser-support/).
 
