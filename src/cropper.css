@@ -1,11 +1,11 @@
 .cropper-container {
   -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 .cropper-container {
@@ -30,15 +30,15 @@
 
 .cropper-modal {
   background-color: #000;
-  opacity: .5;
   filter: alpha(opacity=50);
+  opacity: .5;
 }
 
 .cropper-canvas {
-  background-color: #fff;
-  opacity: 0;
-  filter: alpha(opacity=0);
   cursor: crosshair;
+  background-color: #fff;
+  filter: alpha(opacity=0);
+  opacity: 0;
 }
 
 .cropper-dragger {
@@ -54,10 +54,10 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  outline-width: 1px;
+  outline-style: solid;
   outline-color: #69f;
   outline-color: rgba(51, 102, 255, .75);
-  outline-style: solid;
-  outline-width: 1px;
   outline-offset: -1px;
 }
 
@@ -233,8 +233,8 @@
   .cropper-point.point-se {
     width: 5px;
     height: 5px;
-    opacity: .75;
     filter: alpha(opacity=75);
+    opacity: .75;
   }
 }
 
@@ -250,9 +250,9 @@
   left: 0;
   z-index: -1;
   width: auto !important;
-  height: auto !important;
   max-width: none !important;
+  height: auto !important;
   max-height: none !important;
-  opacity: 0;
   filter: alpha(opacity=0);
+  opacity: 0;
 }

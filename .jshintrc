@@ -1,16 +1,15 @@
 {
-  "boss": true,
-  "curly": true,
-  "eqeqeq": true,
+  "asi": true,
+  "browser": true,
+  "eqeqeq": false,
   "eqnull": true,
+  "es3": true,
   "expr": true,
-  "immed": true,
-  "noarg": true,
-  "onevar": true,
-  "quotmark": "",
-  "smarttabs": true,
-  "trailing": true,
+  "jquery": true,
+  "latedef": true,
+  "laxbreak": true,
+  "nonbsp": true,
+  "strict": false,
   "undef": false,
-  "unused": true,
-  "node": true
+  "unused": true
 }
