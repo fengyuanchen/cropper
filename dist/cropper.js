@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.5.4
+ * Cropper v0.5.5
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -712,11 +712,17 @@
 
     dragging: function () {
       var direction = this.direction,
+          cropper = this.cropper,
+          maxWidth = cropper.width,
+          maxHeight = cropper.height,
           dragger = this.dragger,
           width = dragger.width,
           height = dragger.height,
           left = dragger.left,
           top = dragger.top,
+          right = left + width,
+          bottom = top + height,
+          renderable = true,
           aspectRatio = this.defaults.aspectRatio,
           range = {
             x: this.endX - this.startX,
@@ -776,6 +782,11 @@
 
         // resizing
         case "e":
+          if (range.x >= 0 && (right >= maxWidth || aspectRatio && (top <= 0 || bottom >= maxHeight))) {
+            renderable = false;
+            break;
+          }
+
           width += range.x;
 
           if (aspectRatio) {
@@ -791,6 +802,11 @@
           break;
 
         case "n":
+          if (range.y <= 0 && (top <= 0 || aspectRatio && (left <= 0 || right >= maxWidth))) {
+            renderable = false;
+            break;
+          }
+
           height -= range.y;
           top += range.y;
 
@@ -807,6 +823,11 @@
           break;
 
         case "w":
+          if (range.x <= 0 && (left <= 0 || aspectRatio && (top <= 0 || bottom >= maxHeight))) {
+            renderable = false;
+            break;
+          }
+
           width -= range.x;
           left += range.x;
 
@@ -823,6 +844,11 @@
           break;
 
         case "s":
+          if (range.y >= 0 && (bottom >= maxHeight || aspectRatio && (left <= 0 || right >= maxWidth))) {
+            renderable = false;
+            break;
+          }
+
           height += range.y;
 
           if (aspectRatio) {
@@ -838,6 +864,11 @@
           break;
 
         case "ne":
+          if (range.y <= 0 && (top <= 0 || right >= maxWidth)) {
+            renderable = false;
+            break;
+          }
+
           height -= range.y;
           top += range.y;
 
@@ -856,6 +887,11 @@
           break;
 
         case "nw":
+          if (range.y <= 0 && (top <= 0 || left <= 0)) {
+            renderable = false;
+            break;
+          }
+
           height -= range.y;
           top += range.y;
 
@@ -876,6 +912,11 @@
           break;
 
         case "sw":
+          if (range.x <= 0 && (left <= 0 || bottom >= maxHeight)) {
+            renderable = false;
+            break;
+          }
+
           width -= range.x;
           left += range.x;
 
@@ -894,6 +935,11 @@
           break;
 
         case "se":
+          if (range.x >= 0 && (right >= maxWidth || bottom >= maxHeight)) {
+            renderable = false;
+            break;
+          }
+
           width += range.x;
 
           if (aspectRatio) {
@@ -913,13 +959,15 @@
         // No default
       }
 
-      dragger.width = width;
-      dragger.height = height;
-      dragger.left = left;
-      dragger.top = top;
-      this.direction = direction;
+      if (renderable) {
+        dragger.width = width;
+        dragger.height = height;
+        dragger.left = left;
+        dragger.top = top;
+        this.direction = direction;
 
-      this.renderDragger();
+        this.renderDragger();
+      }
 
       // Override
       this.startX = this.endX;
@@ -930,7 +978,7 @@
   // Use the string compressor: Strmin (https://github.com/fengyuanchen/strmin)
   Cropper.template = (function(a,b){b=b.split(",");return a.replace(/\d+/g,function(c){return b[c];});})('<0 6="5-container"><0 6="5-modal"></0><0 6="5-canvas" 3-2="+"></0><0 6="5-dragger"><1 6="5-viewer"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face" 3-2="*"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>',"div,span,direction,data,point,cropper,class,line,dashed");
 
-  /* Cropper template:
+  /* Template source:
   <div class="cropper-container">
     <div class="cropper-modal"></div>
     <div class="cropper-canvas" data-direction="+"></div>
@@ -952,7 +1000,8 @@
       <span class="cropper-point point-sw" data-direction="sw"></span>
       <span class="cropper-point point-se" data-direction="se"></span>
     </div>
-  </div>*/
+  </div>
+  */
 
   Cropper.defaults = {
     // Basic
