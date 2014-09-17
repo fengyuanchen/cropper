@@ -8,12 +8,12 @@ A simple jQuery image cropping plugin.
 
 # Features
 
-- Support touch
-- Support setup
-- Support methods
-- Support events
-- Support canvas
-- Cross Browsers
+- Supports touch
+- Supports setup
+- Supports methods
+- Supports events
+- Supports canvas
+- Cross Browser Support
 
 
 # Main
@@ -71,15 +71,16 @@ $(".cropper").cropper({
 ```
 
 **Notes:**
-- Please only use the cropper on a visible image. In other words, don't try to use the cropper on a image which was wrapped by a hidden element.
-- The size of the cropper was based on the wrapper of the target image, so be sure to wrap the image with a block element.
-- The cropper will be automatic re-rendered when the window was resized.
-- The result data has transformed to real size (based on the original image).
+- Please use the cropper on visible images only. In other words, don't try to use the cropper on an image which is wrapped by a hidden element.
+- The size of the cropper is based on the size of the wrapper of target image, so be sure to wrap the image with a block element.
+- The cropper will be re-rendered automatically on the resize of window.
+- The result data is based on the original image.
 
 
 ## Options
 
-Setup with `$("#target").cropper(options)`, or global setup with `$.fn.cropper.setDefaults(options)`.
+You may set cropper options with `$("#target").cropper(options)`.
+If you want to change the global default options, You may use `$.fn.cropper.setDefaults(options)`.
 
 
 #### aspectRatio
@@ -106,11 +107,12 @@ Just set it with "auto" to free ratio.
 }
 ```
 
-Only support four options: "x", "y", "width", "height".
+This parameter object only supports four properties (x,y,width and height).
 
-By default, the cropped zone will appear in the center of the image. If you already have a cropped zone data of the image, and you want to re-render it, just set this option.
+By default, the crop zone will appear in the center of the image.
+If you already have values of the last crop and you want to apply them, just set them as option.
 
-**Tips:** It's possible to save the data in cookie or other where when a page is unload(abort), and then when the page is reload, get the data and re-render it.
+**Tips:** It's possible to save the data in cookie or somewhere else and then re-render the cropper after a refresh the page using the data you have.
 
 
 #### done
@@ -122,7 +124,7 @@ By default, the cropped zone will appear in the center of the image. If you alre
 function(data) {}
 ```
 
-The function will be passed the result object data and run when the cropping zone was changed by move, resize or crop.
+This function will be provided with the result object. It'll be executed when the cropping zone changes by a move, resize or crop.
 
 
 #### preview
@@ -130,7 +132,7 @@ The function will be passed the result object data and run when the cropping zon
 - type: selector
 - default: undefined
 
-A jquery selector, add extra elements for preview.
+A jquery selector, add extra elements for a preview.
 
 
 #### modal
@@ -138,7 +140,7 @@ A jquery selector, add extra elements for preview.
 - type: boolean
 - default: true
 
-Show (true) or hide (false) the black modal layer.
+Show (true) or hide (false) the black modal layer above the cropper.
 
 
 #### multiple
@@ -146,7 +148,7 @@ Show (true) or hide (false) the black modal layer.
 - type: boolean
 - default: false
 
-By default, this plugin only support one cropper in one page, if you need two or more croppers, you must set this option with `true` from the second cropper.
+By default, the plugin only supports one cropper per page. If you intend to use more than one, just initialize them with this option set to `true`.
 
 
 #### autoCrop
@@ -162,7 +164,7 @@ Render the cropping zone automatically when initialize.
 - type: boolean
 - default: true
 
-Enable to create a new cropping zone when drag on the image.
+Enable this to allow the user to remove the current cropping zone and create a new one by dragging over the image.
 
 
 #### movable
@@ -170,7 +172,7 @@ Enable to create a new cropping zone when drag on the image.
 - type: boolean
 - default: true
 
-Enable to move the cropping zone.
+Enable to allow the user to move the cropping zone.
 
 
 #### resizable
@@ -178,7 +180,7 @@ Enable to move the cropping zone.
 - type: boolean
 - default: true
 
-Enable to resize the cropping zone.
+Enable to allow the user to resize the cropping zone.
 
 
 #### minHeight
@@ -221,81 +223,81 @@ Use this option only when you are sure that the image has this maximum width.
 #### getData
 
 - Get the current cropped zone data.
-- Use with `$("#target").cropper("getData")`.
+- For Example `$("#target").cropper("getData")`.
 
 
 #### setData
 
 - Reset the cropping zone.
-- Param: an object contains "x", "y", "width", "height".
+- Param: an object containing "x", "y", "width", "height".
 - Use with `$("#target").cropper("setData", {width: 480, height: 270})`.
 
-**Tips:** If you want to remove the data, just use like this: `$("#target").cropper("setData", {})` or `$("#target").cropper("setData", null)`.
+**Tip:** If you want to remove the current data, Just pass an empty object or null for example: `$("#target").cropper("setData", {})` or `$("#target").cropper("setData", null)`.
 
 
 #### setAspectRatio
 
 - Enable to reset the aspect ratio after initialized.
 - Param: "auto" or a positive number ("auto" for free ratio).
-- Use with `$("#target").cropper("setAspectRatio", 1.618)`.
+- For Example `$("#target").cropper("setAspectRatio", 1.618)`.
 
 
 #### setImgSrc
 
 - Change the src of the image and restart the Cropper.
 - Param: a src string.
-- Use with `$("#target").cropper("setImgSrc", "example.jpg")`.
+- For Example `$("#target").cropper("setImgSrc", "example.jpg")`.
 
 
 #### getImgInfo
 
-- Get the image information, contains: "naturalWidth", "naturalHeight", "width", "height", "aspectRatio", "ratio".
+- Get an object containing image information, contains: "naturalWidth", "naturalHeight", "width", "height", "aspectRatio", "ratio".
 - The "aspectRatio" is the value of "naturalWidth / naturalHeight".
 - The "ratio" is the value of "width / naturalWidth".
-- Use with `$("#target").cropper("getImgInfo")`.
+- For Example `$("#target").cropper("getImgInfo")`.
 
 
 #### reset
 
 - Reset the cropping zone to the start state.
 - Add a `true` param to reset the cropping zone to the default state.
-- Use with `$("#target").cropper("reset")` or `$("#target").cropper("reset", true)`.
+- For Example `$("#target").cropper("reset")` or `$("#target").cropper("reset", true)`.
 
 
 #### release
 
 - Release the cropping zone.
-- Use with `$("#target").cropper("release")`.
+- For Example `$("#target").cropper("release")`.
 
 
 #### destroy
 
-- Destroy the Cropper and remove the instance form the target image.
-- Use with `$("#target").cropper("destroy")`.
+- Destroy the Cropper and remove the instance from the target image.
+- For Example `$("#target").cropper("destroy")`.
 
-**Note:** Don't run any ather methods again when you destroy the Cropper.
+**Note:** You won't be able to run any more methods after you destroy the cropper.
 
 ## Events
 
 
 #### build.cropper
 
-This event will be fired when the Cropper start to build.
+This event will be fired when the Cropper starts to build.
 
 
 #### built.cropper
 
-This event will be fired when the Cropper was built.
+This event will be fired when the Cropper has been built.
 
 
 #### render.cropper
 
-This event will be fired when the cropping zone was changed by move, resize or crop.
+This event will be fired when the cropping zone changes by a move, resize or crop.
 
 
 ## No conflict
 
-If you have to use other plugin with the same namespace, just call the `$.fn.cropper.noConflict` method to revert it.
+If you have to use other plugin with the same namespace, just call the `$.fn.cropper.noConflict` method to revert to it.
 
 ```
 <script src="other_plugin.js"></script>
