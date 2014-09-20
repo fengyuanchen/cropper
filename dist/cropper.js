@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.5.5
+ * Cropper v0.6.0
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -20,27 +20,37 @@
 
   var $window = $(window),
       $document = $(document),
+      CROPPER_NAMESPACE = ".cropper",
 
       // RegExps
-      regexpDirection = /^(\+|\*|e|n|w|s|ne|nw|sw|se)$/i,
-      regexpOption = /^(x|y|width|height)$/i,
+      REGEXP_DIRECTION = /^(\+|\*|e|n|w|s|ne|nw|sw|se)$/i,
+      REGEXP_OPTION = /^(x|y|width|height)$/i,
 
       // Classes
-      classHidden = "cropper-hidden",
-      classInvisible = "cropper-invisible",
+      CLASS_HIDDEN = "cropper-hidden",
+      CLASS_INVISIBLE = "cropper-invisible",
 
       // Events
-      eventDragStart = "mousedown touchstart",
-      eventDragMove = "mousemove touchmove",
-      eventDragEnd = "mouseup mouseleave touchend touchleave touchcancel",
-      eventBuild = "build.cropper",
-      eventBuilt = "built.cropper",
-      eventRender = "render.cropper",
-      eventResize = "resize.cropper",
+      EVENT_DRAG_START = "mousedown touchstart",
+      EVENT_DRAG_MOVE = "mousemove touchmove",
+      EVENT_DRAG_END = "mouseup mouseleave touchend touchleave touchcancel",
+      EVENT_RESIZE = "resize" + CROPPER_NAMESPACE,
+      CROPPER_EVENTS = [
+        "build" + CROPPER_NAMESPACE,
+        "built" + CROPPER_NAMESPACE,
+        "dragstart" + CROPPER_NAMESPACE,
+        "dragmove" + CROPPER_NAMESPACE,
+        "dragend" + CROPPER_NAMESPACE,
+        "render" + CROPPER_NAMESPACE
+      ],
 
       // Functions
       isNumber = function (n) {
         return typeof n === "number";
+      },
+
+      getImg = function (src) {
+        return '<img src="' + src + '">';
       },
 
       // Constructor
@@ -65,14 +75,6 @@
 
       $.each(options, function (i, n) {
         switch (i) {
-          case "moveable":
-            options.movable = n;
-            break;
-
-          case "resizeable":
-            options.resizable = n;
-            break;
-
           case "aspectRatio":
             options[i] = abs(num(n)) || NaN; // 0 -> NaN
             break;
@@ -113,7 +115,7 @@
       }
 
       this.$clone && this.$clone.remove();
-      this.$clone = $clone = $('<img src="' + src + '">');
+      this.$clone = $clone = $(getImg(src));
 
       $clone.one("load", function () {
         image.naturalWidth = this.naturalWidth || $clone.width();
@@ -127,7 +129,7 @@
       });
 
       // Hide and prepend the clone iamge to the document body (Don't append to).
-      $clone.addClass(classInvisible).prependTo("body");
+      $clone.addClass(CLASS_INVISIBLE).prependTo("body");
     },
 
     build: function () {
@@ -140,8 +142,13 @@
         this.unbuild();
       }
 
-      buildEvent = $.Event(eventBuild);
+      buildEvent = $.Event(CROPPER_EVENTS[0]);
       $element.trigger(buildEvent);
+
+      // Trigger the build event manual
+      if ($.isFunction(defaults.build)) {
+        defaults.build(buildEvent);
+      }
 
       if (buildEvent.isDefaultPrevented()) {
         return;
@@ -151,10 +158,10 @@
       this.$cropper = ($cropper = $(Cropper.template));
 
       // Hide the original image
-      $element.addClass(classHidden);
+      $element.addClass(CLASS_HIDDEN);
 
       // Show and prepend the clone iamge to the cropper
-      this.$clone.removeClass(classInvisible).prependTo($cropper);
+      this.$clone.removeClass(CLASS_INVISIBLE).prependTo($cropper);
 
       this.$container = $element.parent();
       this.$container.append($cropper);
@@ -168,14 +175,15 @@
       this.cropped = true;
 
       if (!defaults.autoCrop) {
-        this.$dragger.addClass(classHidden);
+        this.$dragger.addClass(CLASS_HIDDEN);
         this.cropped = false;
       }
 
-      this.$modal.toggleClass(classHidden, !defaults.modal);
-      !defaults.dragCrop && this.$canvas.addClass(classHidden);
-      !defaults.movable && this.$dragger.find(".cropper-face").addClass(classHidden);
-      !defaults.resizable && this.$dragger.find(".cropper-line, .cropper-point").addClass(classHidden);
+      this.$modal.toggleClass(CLASS_HIDDEN, !defaults.modal);
+      this.$canvas.toggleClass(CLASS_HIDDEN, !defaults.dragCrop);
+      !defaults.dashed && this.$dragger.find(".cropper-dashed").addClass(CLASS_HIDDEN);
+      !(defaults.movable || defaults.moveable) && this.$dragger.find(".cropper-face").addClass(CLASS_HIDDEN);
+      !(defaults.resizable || defaults.resizeable) && this.$dragger.find(".cropper-line, .cropper-point").addClass(CLASS_HIDDEN);
 
       this.$dragScope = defaults.multiple ? this.$cropper : $document;
 
@@ -184,7 +192,7 @@
 
       this.built = true;
       this.update();
-      $element.trigger(eventBuilt);
+      $element.trigger(CROPPER_EVENTS[1]);
     },
 
     unbuild: function () {
@@ -251,7 +259,7 @@
         height: 0
       });
 
-      this.$dragger.addClass(classHidden);
+      this.$dragger.addClass(CLASS_HIDDEN);
     },
 
     destroy: function () {
@@ -262,7 +270,7 @@
       }
 
       this.unbuild();
-      $element.removeClass(classHidden);
+      $element.removeClass(CLASS_HIDDEN);
       $element.removeData("cropper");
       $element = null;
     },
@@ -273,8 +281,8 @@
 
       this.$viewer.find("img").css({
         height: round(cropper.height),
-        marginLeft: - round(dragger.left),
-        marginTop: - round(dragger.top),
+        marginLeft: -round(dragger.left),
+        marginTop: -round(dragger.top),
         width: round(cropper.width)
       });
 
@@ -283,8 +291,8 @@
             ratio = $this.width() / dragger.width,
             styles = {
               height: round(cropper.height * ratio),
-              marginLeft: - round(dragger.left * ratio),
-              marginTop: - round(dragger.top * ratio),
+              marginLeft: -round(dragger.left * ratio),
+              marginTop: -round(dragger.top * ratio),
               width: round(cropper.width * ratio)
             };
 
@@ -293,31 +301,45 @@
     },
 
     addListener: function () {
-      var defaults = this.defaults;
+      var $element = this.$element,
+          defaults = this.defaults;
 
-      this.$element.on(eventBuild, defaults.build).on(eventBuilt, defaults.built).on(eventRender, defaults.render);
+      $.each(CROPPER_EVENTS, function (i, event) {
+        var eventHandler = defaults[CROPPER_EVENTS[i].replace(CROPPER_NAMESPACE, "")];
 
-      this.$cropper.on(eventDragStart, $.proxy(this.dragstart, this));
+        if ($.isFunction(eventHandler)) {
+          $element.on(event, eventHandler);
+        }
+      });
 
-      this.$dragScope.on(eventDragMove, $.proxy(this.dragmove, this)).on(eventDragEnd, $.proxy(this.dragend, this));
+      this.$cropper.on(EVENT_DRAG_START, $.proxy(this.dragstart, this));
 
-      $window.on(eventResize, $.proxy(this.resize, this));
+      this.$dragScope.on(EVENT_DRAG_MOVE, $.proxy(this.dragmove, this)).on(EVENT_DRAG_END, $.proxy(this.dragend, this));
+
+      $window.on(EVENT_RESIZE, $.proxy(this.resize, this));
     },
 
     removeListener: function () {
-      var defaults = this.defaults;
+      var $element = this.$element,
+          defaults = this.defaults;
 
-      this.$element.off(eventBuild, defaults.build).off(eventBuilt, defaults.built).off(eventRender, defaults.render);
+      $.each(CROPPER_EVENTS, function (i, event) {
+        var eventHandler = defaults[CROPPER_EVENTS[i].replace(CROPPER_NAMESPACE, "")];
 
-      this.$cropper.off(eventDragStart, this.dragstart);
+        if ($.isFunction(eventHandler)) {
+          $element.off(event, eventHandler);
+        }
+      });
 
-      this.$dragScope.off(eventDragMove, this.dragmove).on(eventDragEnd, this.dragend);
+      this.$cropper.off(EVENT_DRAG_START, this.dragstart);
 
-      $window.off(eventResize, this.resize);
+      this.$dragScope.off(EVENT_DRAG_MOVE, this.dragmove).on(EVENT_DRAG_END, this.dragend);
+
+      $window.off(EVENT_RESIZE, this.resize);
     },
 
     initPreview: function () {
-      var img = '<img src="' + this.src + '">';
+      var img = getImg(this.src);
 
       this.$preview = $(this.defaults.preview);
       this.$preview.html(img);
@@ -474,8 +496,9 @@
       dragger.left = dragger.left > maxLeft ? maxLeft : dragger.left < 0 ? 0 : dragger.left;
       dragger.top = dragger.top > maxTop ? maxTop : dragger.top < 0 ? 0 : dragger.top;
 
+      // TODO: The "render" event will be removed soon, use the "dragmove" event to instead of it.
       // Trigger the render event
-      renderEvent = $.Event(eventRender);
+      renderEvent = $.Event(CROPPER_EVENTS[5]);
       this.$element.trigger(renderEvent);
 
       if (renderEvent.isDefaultPrevented()) {
@@ -575,7 +598,7 @@
       $.each(data, function (i, n) {
         n = num(n);
 
-        if (regexpOption.test(i) && !isNaN(n)) {
+        if (REGEXP_OPTION.test(i) && !isNaN(n)) {
           // Not round when set data.
           result[i] = reverse ? round(n / ratio) : n * ratio;
         }
@@ -612,7 +635,7 @@
         } else if ($element.is("canvas") && element.getContext) {
           context = element.getContext("2d");
 
-          $('<img src="' + src + '">').one("load", function () {
+          $(getImg(src)).one("load", function () {
             element.width = this.width;
             element.height = this.height;
             context.clearRect(0, 0, element.width, element.height);
@@ -630,7 +653,8 @@
     dragstart: function (event) {
       var touches = (event.originalEvent || event).touches,
           e = event,
-          direction;
+          direction,
+          dragStartEvent;
 
       if (touches) {
         if (touches.length > 1) {
@@ -643,8 +667,15 @@
 
       direction = $(e.target).data("direction");
 
-      if (regexpDirection.test(direction)) {
+      if (REGEXP_DIRECTION.test(direction)) {
         event.preventDefault();
+
+        dragStartEvent = $.Event(CROPPER_EVENTS[2]);
+        this.$element.trigger(dragStartEvent);
+
+        if (dragStartEvent.isDefaultPrevented()) {
+          return;
+        }
 
         this.direction = direction;
         this.startX = e.pageX;
@@ -652,14 +683,15 @@
 
         if (direction === "+") {
           this.cropping = true;
-          this.$modal.removeClass(classHidden);
+          this.$modal.removeClass(CLASS_HIDDEN);
         }
       }
     },
 
     dragmove: function (event) {
       var touches = (event.originalEvent || event).changedTouches,
-          e = event;
+          e = event,
+          dragMoveEvent;
 
       if (touches) {
         if (touches.length > 1) {
@@ -675,6 +707,13 @@
 
       if (this.direction) {
         event.preventDefault();
+
+        dragMoveEvent = $.Event(CROPPER_EVENTS[3]);
+        this.$element.trigger(dragMoveEvent);
+
+        if (dragMoveEvent.isDefaultPrevented()) {
+          return;
+        }
 
         this.endX = e.pageX;
         this.endY = e.pageY;
@@ -684,7 +723,8 @@
 
     dragend: function (event) {
       var touches = (event.originalEvent || event).changedTouches,
-          e = event;
+          e = event,
+          dragEndEvent;
 
       if (touches) {
         if (touches.length > 1) {
@@ -701,9 +741,16 @@
       if (this.direction) {
         event.preventDefault();
 
+        dragEndEvent = $.Event(CROPPER_EVENTS[4]);
+        this.$element.trigger(dragEndEvent);
+
+        if (dragEndEvent.isDefaultPrevented()) {
+          return;
+        }
+
         if (this.cropping) {
           this.cropping = false;
-          this.$modal.toggleClass(classHidden, !this.defaults.modal);
+          this.$modal.toggleClass(CLASS_HIDDEN, !this.defaults.modal);
         }
 
         this.direction = "";
@@ -767,7 +814,7 @@
             // Show the dragger if is hidden
             if (!this.cropped) {
               this.cropped = true;
-              this.$dragger.removeClass(classHidden);
+              this.$dragger.removeClass(CLASS_HIDDEN);
             }
           }
 
@@ -976,7 +1023,12 @@
   };
 
   // Use the string compressor: Strmin (https://github.com/fengyuanchen/strmin)
-  Cropper.template = (function(a,b){b=b.split(",");return a.replace(/\d+/g,function(c){return b[c];});})('<0 6="5-container"><0 6="5-modal"></0><0 6="5-canvas" 3-2="+"></0><0 6="5-dragger"><1 6="5-viewer"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face" 3-2="*"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>',"div,span,direction,data,point,cropper,class,line,dashed");
+  Cropper.template = (function (source, words) {
+    words = words.split(",");
+    return source.replace(/\d+/g, function (i) {
+      return words[i];
+    });
+  })('<0 6="5-container"><0 6="5-modal"></0><0 6="5-canvas" 3-2="+"></0><0 6="5-dragger"><1 6="5-viewer"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face" 3-2="*"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>', "div,span,direction,data,point,cropper,class,line,dashed");
 
   /* Template source:
   <div class="cropper-container">
@@ -1014,6 +1066,7 @@
     multiple: false,
     autoCrop: true,
     dragCrop: true,
+    dashed: true,
     modal: true,
     movable: true,
     resizable: true,
@@ -1023,13 +1076,20 @@
     minHeight: 0,
     maxWidth: Infinity,
     maxHeight: Infinity
+
+    // Events
+    // build: $.noop,
+    // built: $.noop,
+    // dragstart: $.noop,
+    // dragmove: $.noop,
+    // dragend: $.noop
   };
 
   Cropper.setDefaults = function (options) {
     $.extend(Cropper.defaults, options);
   };
 
-  // Reference the old cropper
+  // Reference the other cropper
   Cropper.other = $.fn.cropper;
 
   // Register as jQuery plugin

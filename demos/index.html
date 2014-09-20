@@ -210,6 +210,21 @@
           $dataY.val(data.y);
           $dataH.val(data.height);
           $dataW.val(data.width);
+        },
+        build: function(e) {
+          console.log(e.type);
+        },
+        built: function(e) {
+          console.log(e.type);
+        },
+        dragstart: function(e) {
+          console.log(e.type);
+        },
+        dragmove: function(e) {
+          console.log(e.type);
+        },
+        dragend: function(e) {
+          console.log(e.type);
         }
       });
 
@@ -224,7 +239,15 @@
           console.log(e.type);
           // e.preventDefault();
         },
-        "render.cropper": function(e) {
+        "dragstart.cropper": function(e) {
+          console.log(e.type);
+          // e.preventDefault();
+        },
+        "dragmove.cropper": function(e) {
+          console.log(e.type);
+          // e.preventDefault();
+        },
+        "dragend.cropper": function(e) {
           console.log(e.type);
           // e.preventDefault();
         }
