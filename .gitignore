@@ -5,7 +5,7 @@ release
 build
 tests
 assets
+issues
 docs
 workspace
 CHANGELOG.md
-**/.*

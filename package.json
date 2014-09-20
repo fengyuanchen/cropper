@@ -45,6 +45,7 @@
     "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-csscomb": "~3.0.0",
+    "grunt-jscs": "~0.7.1",
     "load-grunt-tasks": "~0.6.0"
   }
 }

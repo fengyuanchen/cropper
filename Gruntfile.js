@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   "use strict";
 
@@ -21,7 +21,13 @@ module.exports = function(grunt) {
       options: {
         jshintrc: ".jshintrc"
       },
-      files: ["*.js", "src/*.js", "i18n/*.js"]
+      files: ["*.js", "src/*.js"]
+    },
+    jscs: {
+      options: {
+        config: ".jscsrc"
+      },
+      files: ["*.js", "src/*.js"]
     },
     uglify: {
       dist: {
@@ -128,5 +134,5 @@ module.exports = function(grunt) {
   grunt.registerTask("build", ["clean:build", "copy:build"]);
   grunt.registerTask("release", ["clean:release", "copy:release"]);
   grunt.registerTask("docs", ["clean:docs", "copy:docs"]);
-  grunt.registerTask("default", ["clean:dist", "jshint", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "usebanner", "build", "release", "docs"]);
+  grunt.registerTask("default", ["clean:dist", "jshint", "jscs", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "usebanner", "build", "release", "docs"]);
 };
