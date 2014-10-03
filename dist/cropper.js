@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.6.0
+ * Cropper v0.6.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -333,7 +333,7 @@
 
       this.$cropper.off(EVENT_DRAG_START, this.dragstart);
 
-      this.$dragScope.off(EVENT_DRAG_MOVE, this.dragmove).on(EVENT_DRAG_END, this.dragend);
+      this.$dragScope.off(EVENT_DRAG_MOVE, this.dragmove).off(EVENT_DRAG_END, this.dragend);
 
       $window.off(EVENT_RESIZE, this.resize);
     },
@@ -472,8 +472,7 @@
           left = this.draggerLeft,
           top = this.draggerTop,
           maxLeft,
-          maxTop,
-          renderEvent;
+          maxTop;
 
       if (dragger.width > dragger.maxWidth) {
         dragger.width = dragger.maxWidth;
@@ -495,15 +494,6 @@
       maxTop = cropper.height - dragger.height;
       dragger.left = dragger.left > maxLeft ? maxLeft : dragger.left < 0 ? 0 : dragger.left;
       dragger.top = dragger.top > maxTop ? maxTop : dragger.top < 0 ? 0 : dragger.top;
-
-      // TODO: The "render" event will be removed soon, use the "dragmove" event to instead of it.
-      // Trigger the render event
-      renderEvent = $.Event(CROPPER_EVENTS[5]);
-      this.$element.trigger(renderEvent);
-
-      if (renderEvent.isDefaultPrevented()) {
-        return;
-      }
 
       // Re-render the dragger
       this.dragger = dragger;
@@ -1060,7 +1050,7 @@
     aspectRatio: "auto",
     data: {}, // Allow options: x, y, width, height
     done: $.noop,
-    // preview: undefined,
+    preview: undefined,
 
     // Toggles
     multiple: false,
@@ -1075,14 +1065,14 @@
     minWidth: 0,
     minHeight: 0,
     maxWidth: Infinity,
-    maxHeight: Infinity
+    maxHeight: Infinity,
 
-    // Events
-    // build: $.noop,
-    // built: $.noop,
-    // dragstart: $.noop,
-    // dragmove: $.noop,
-    // dragend: $.noop
+    // Event handlers
+    build: undefined,
+    built: undefined,
+    dragstart: undefined,
+    dragmove: undefined,
+    dragend: undefined
   };
 
   Cropper.setDefaults = function (options) {
