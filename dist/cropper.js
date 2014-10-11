@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.6.1
+ * Cropper v0.6.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -20,17 +20,21 @@
 
   var $window = $(window),
       $document = $(document),
-      CROPPER_NAMESPACE = ".cropper",
+
+      // Constants
+      NULL = null,
+      UNDEFINED = void 0,
 
       // RegExps
-      REGEXP_DIRECTION = /^(\+|\*|e|n|w|s|ne|nw|sw|se)$/i,
-      REGEXP_OPTION = /^(x|y|width|height)$/i,
+      REGEXP_DIRECTIVES = /^(e|n|w|s|ne|nw|sw|se|\*|\+)$/i,
+      REGEXP_OPTIONS = /^(x|y|width|height)$/i,
 
       // Classes
       CLASS_HIDDEN = "cropper-hidden",
       CLASS_INVISIBLE = "cropper-invisible",
 
       // Events
+      CROPPER_NAMESPACE = ".cropper",
       EVENT_DRAG_START = "mousedown touchstart",
       EVENT_DRAG_MOVE = "mousemove touchmove",
       EVENT_DRAG_END = "mouseup mouseleave touchend touchleave touchcancel",
@@ -40,8 +44,7 @@
         "built" + CROPPER_NAMESPACE,
         "dragstart" + CROPPER_NAMESPACE,
         "dragmove" + CROPPER_NAMESPACE,
-        "dragend" + CROPPER_NAMESPACE,
-        "render" + CROPPER_NAMESPACE
+        "dragend" + CROPPER_NAMESPACE
       ],
 
       // Functions
@@ -182,8 +185,8 @@
       this.$modal.toggleClass(CLASS_HIDDEN, !defaults.modal);
       this.$canvas.toggleClass(CLASS_HIDDEN, !defaults.dragCrop);
       !defaults.dashed && this.$dragger.find(".cropper-dashed").addClass(CLASS_HIDDEN);
-      !(defaults.movable || defaults.moveable) && this.$dragger.find(".cropper-face").addClass(CLASS_HIDDEN);
-      !(defaults.resizable || defaults.resizeable) && this.$dragger.find(".cropper-line, .cropper-point").addClass(CLASS_HIDDEN);
+      !defaults.movable && this.$dragger.find(".cropper-face").addClass(CLASS_HIDDEN);
+      !defaults.resizable && this.$dragger.find(".cropper-line, .cropper-point").addClass(CLASS_HIDDEN);
 
       this.$dragScope = defaults.multiple ? this.$cropper : $document;
 
@@ -204,15 +207,15 @@
       this.removeListener();
 
       this.$preview.empty();
-      this.$preview = null;
+      this.$preview = NULL;
 
-      this.$dragger = null;
-      this.$canvas = null;
-      this.$modal = null;
-      this.$container = null;
+      this.$dragger = NULL;
+      this.$canvas = NULL;
+      this.$modal = NULL;
+      this.$container = NULL;
 
       this.$cropper.remove();
-      this.$cropper = null;
+      this.$cropper = NULL;
     },
 
     update: function (data) {
@@ -259,6 +262,7 @@
         height: 0
       });
 
+      this.$modal.addClass(CLASS_HIDDEN);
       this.$dragger.addClass(CLASS_HIDDEN);
     },
 
@@ -272,7 +276,7 @@
       this.unbuild();
       $element.removeClass(CLASS_HIDDEN);
       $element.removeData("cropper");
-      $element = null;
+      $element = NULL;
     },
 
     preview: function () {
@@ -280,20 +284,20 @@
           dragger = this.dragger;
 
       this.$viewer.find("img").css({
+        width: round(cropper.width),
         height: round(cropper.height),
         marginLeft: -round(dragger.left),
-        marginTop: -round(dragger.top),
-        width: round(cropper.width)
+        marginTop: -round(dragger.top)
       });
 
       this.$preview.each(function () {
         var $this = $(this),
             ratio = $this.width() / dragger.width,
             styles = {
+              width: round(cropper.width * ratio),
               height: round(cropper.height * ratio),
               marginLeft: -round(dragger.left * ratio),
-              marginTop: -round(dragger.top * ratio),
-              width: round(cropper.width * ratio)
+              marginTop: -round(dragger.top * ratio)
             };
 
         $this.find("img").css(styles);
@@ -383,10 +387,10 @@
       image.width = cropper.width;
 
       this.$cropper.css({
+        width: round(cropper.width),
         height: round(cropper.height),
         left: round(cropper.left),
-        top: round(cropper.top),
-        width: round(cropper.width)
+        top: round(cropper.top)
       });
 
       this.cropper = cropper;
@@ -455,11 +459,11 @@
       dragger.width *= 0.8;
       dragger.left = (cropper.width - dragger.width) / 2;
       dragger.top = (cropper.height - dragger.height) / 2;
+      dragger._left = dragger.left;
+      dragger._top = dragger.top;
 
       this.defaultDragger = dragger;
       this.dragger = this.cloneDragger();
-      this.draggerLeft = dragger.left;
-      this.draggerTop = dragger.top;
     },
 
     cloneDragger: function () {
@@ -468,44 +472,38 @@
 
     renderDragger: function () {
       var dragger = this.dragger,
-          cropper = this.cropper,
-          left = this.draggerLeft,
-          top = this.draggerTop,
-          maxLeft,
-          maxTop;
+          cropper = this.cropper;
 
       if (dragger.width > dragger.maxWidth) {
         dragger.width = dragger.maxWidth;
-        dragger.left = left;
+        dragger.left = dragger._left;
       } else if (dragger.width < dragger.minWidth) {
         dragger.width = dragger.minWidth;
-        dragger.left = left;
+        dragger.left = dragger._left;
       }
 
       if (dragger.height > dragger.maxHeight) {
         dragger.height = dragger.maxHeight;
-        dragger.top = top;
+        dragger.top = dragger._top;
       } else if (dragger.height < dragger.minHeight) {
         dragger.height = dragger.minHeight;
-        dragger.top = top;
+        dragger.top = dragger._top;
       }
 
-      maxLeft = cropper.width - dragger.width;
-      maxTop = cropper.height - dragger.height;
-      dragger.left = dragger.left > maxLeft ? maxLeft : dragger.left < 0 ? 0 : dragger.left;
-      dragger.top = dragger.top > maxTop ? maxTop : dragger.top < 0 ? 0 : dragger.top;
+      dragger.left = min(max(dragger.left, 0), cropper.width - dragger.width);
+      dragger.top = min(max(dragger.top, 0), cropper.height - dragger.height);
+      dragger._left = dragger.left;
+      dragger._top = dragger.top;
 
       // Re-render the dragger
       this.dragger = dragger;
-      this.draggerLeft = dragger.left;
-      this.draggerTop = dragger.top;
       this.defaults.done(this.getData());
 
       this.$dragger.css({
+        width: round(dragger.width),
         height: round(dragger.height),
         left: round(dragger.left),
-        top: round(dragger.top),
-        width: round(dragger.width)
+        top: round(dragger.top)
       });
 
       this.preview();
@@ -520,7 +518,7 @@
         return;
       }
 
-      if (data === null || $.isEmptyObject(data)) {
+      if (data === NULL || $.isEmptyObject(data)) {
         dragger = this.cloneDragger();
       }
 
@@ -588,7 +586,7 @@
       $.each(data, function (i, n) {
         n = num(n);
 
-        if (REGEXP_OPTION.test(i) && !isNaN(n)) {
+        if (REGEXP_OPTIONS.test(i) && !isNaN(n)) {
           // Not round when set data.
           result[i] = reverse ? round(n / ratio) : n * ratio;
         }
@@ -641,9 +639,9 @@
     },
 
     dragstart: function (event) {
-      var touches = (event.originalEvent || event).touches,
+      var touches = event.originalEvent.touches,
           e = event,
-          direction,
+          directive,
           dragStartEvent;
 
       if (touches) {
@@ -652,12 +650,11 @@
         }
 
         e = touches[0];
-        this.touchId = e.identifier;
       }
 
-      direction = $(e.target).data("direction");
+      directive = $(e.target).data("directive");
 
-      if (REGEXP_DIRECTION.test(direction)) {
+      if (REGEXP_DIRECTIVES.test(directive)) {
         event.preventDefault();
 
         dragStartEvent = $.Event(CROPPER_EVENTS[2]);
@@ -667,11 +664,11 @@
           return;
         }
 
-        this.direction = direction;
+        this.directive = directive;
         this.startX = e.pageX;
         this.startY = e.pageY;
 
-        if (direction === "+") {
+        if (directive === "+") {
           this.cropping = true;
           this.$modal.removeClass(CLASS_HIDDEN);
         }
@@ -679,7 +676,7 @@
     },
 
     dragmove: function (event) {
-      var touches = (event.originalEvent || event).changedTouches,
+      var touches = event.originalEvent.touches,
           e = event,
           dragMoveEvent;
 
@@ -689,13 +686,9 @@
         }
 
         e = touches[0];
-
-        if (e.identifier !== this.touchId) {
-          return;
-        }
       }
 
-      if (this.direction) {
+      if (this.directive) {
         event.preventDefault();
 
         dragMoveEvent = $.Event(CROPPER_EVENTS[3]);
@@ -712,23 +705,9 @@
     },
 
     dragend: function (event) {
-      var touches = (event.originalEvent || event).changedTouches,
-          e = event,
-          dragEndEvent;
+      var dragEndEvent;
 
-      if (touches) {
-        if (touches.length > 1) {
-          return;
-        }
-
-        e = touches[0];
-
-        if (e.identifier !== this.touchId) {
-          return;
-        }
-      }
-
-      if (this.direction) {
+      if (this.directive) {
         event.preventDefault();
 
         dragEndEvent = $.Event(CROPPER_EVENTS[4]);
@@ -740,15 +719,15 @@
 
         if (this.cropping) {
           this.cropping = false;
-          this.$modal.toggleClass(CLASS_HIDDEN, !this.defaults.modal);
+          this.$modal.toggleClass(CLASS_HIDDEN, !(this.cropped && this.defaults.modal));
         }
 
-        this.direction = "";
+        this.directive = "";
       }
     },
 
     dragging: function () {
-      var direction = this.direction,
+      var directive = this.directive,
           cropper = this.cropper,
           maxWidth = cropper.width,
           maxHeight = cropper.height,
@@ -772,7 +751,7 @@
         range.Y = range.x / aspectRatio;
       }
 
-      switch (direction) {
+      switch (directive) {
 
         // cropping
         case "+":
@@ -785,17 +764,17 @@
 
             if (range.x > 0) {
               if (range.y > 0) {
-                direction = "se";
+                directive = "se";
               } else {
-                direction = "ne";
+                directive = "ne";
                 top -= height;
               }
             } else {
               if (range.y > 0) {
-                direction = "sw";
+                directive = "sw";
                 left -= width;
               } else {
-                direction = "nw";
+                directive = "nw";
                 left -= width;
                 top -= height;
               }
@@ -832,7 +811,7 @@
           }
 
           if (width < 0) {
-            direction = "w";
+            directive = "w";
             width = 0;
           }
 
@@ -853,7 +832,7 @@
           }
 
           if (height < 0) {
-            direction = "s";
+            directive = "s";
             height = 0;
           }
 
@@ -874,7 +853,7 @@
           }
 
           if (width < 0) {
-            direction = "e";
+            directive = "e";
             width = 0;
           }
 
@@ -894,7 +873,7 @@
           }
 
           if (height < 0) {
-            direction = "n";
+            directive = "n";
             height = 0;
           }
 
@@ -916,7 +895,7 @@
           }
 
           if (height < 0) {
-            direction = "sw";
+            directive = "sw";
             height = 0;
             width = 0;
           }
@@ -941,7 +920,7 @@
           }
 
           if (height < 0) {
-            direction = "se";
+            directive = "se";
             height = 0;
             width = 0;
           }
@@ -964,7 +943,7 @@
           }
 
           if (width < 0) {
-            direction = "ne";
+            directive = "ne";
             height = 0;
             width = 0;
           }
@@ -986,7 +965,7 @@
           }
 
           if (width < 0) {
-            direction = "nw";
+            directive = "nw";
             height = 0;
             width = 0;
           }
@@ -1001,7 +980,7 @@
         dragger.height = height;
         dragger.left = left;
         dragger.top = top;
-        this.direction = direction;
+        this.directive = directive;
 
         this.renderDragger();
       }
@@ -1018,29 +997,29 @@
     return source.replace(/\d+/g, function (i) {
       return words[i];
     });
-  })('<0 6="5-container"><0 6="5-modal"></0><0 6="5-canvas" 3-2="+"></0><0 6="5-dragger"><1 6="5-viewer"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face" 3-2="*"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>', "div,span,direction,data,point,cropper,class,line,dashed");
+  })('<0 6="5-container"><0 6="5-modal"></0><0 6="5-canvas" 3-2="+"></0><0 6="5-dragger"><1 6="5-viewer"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face" 3-2="*"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>', "div,span,directive,data,point,cropper,class,line,dashed");
 
   /* Template source:
   <div class="cropper-container">
     <div class="cropper-modal"></div>
-    <div class="cropper-canvas" data-direction="+"></div>
+    <div class="cropper-canvas" data-directive="+"></div>
     <div class="cropper-dragger">
       <span class="cropper-viewer"></span>
       <span class="cropper-dashed dashed-h"></span>
       <span class="cropper-dashed dashed-v"></span>
-      <span class="cropper-face" data-direction="*"></span>
-      <span class="cropper-line line-e" data-direction="e"></span>
-      <span class="cropper-line line-n" data-direction="n"></span>
-      <span class="cropper-line line-w" data-direction="w"></span>
-      <span class="cropper-line line-s" data-direction="s"></span>
-      <span class="cropper-point point-e" data-direction="e"></span>
-      <span class="cropper-point point-n" data-direction="n"></span>
-      <span class="cropper-point point-w" data-direction="w"></span>
-      <span class="cropper-point point-s" data-direction="s"></span>
-      <span class="cropper-point point-ne" data-direction="ne"></span>
-      <span class="cropper-point point-nw" data-direction="nw"></span>
-      <span class="cropper-point point-sw" data-direction="sw"></span>
-      <span class="cropper-point point-se" data-direction="se"></span>
+      <span class="cropper-face" data-directive="*"></span>
+      <span class="cropper-line line-e" data-directive="e"></span>
+      <span class="cropper-line line-n" data-directive="n"></span>
+      <span class="cropper-line line-w" data-directive="w"></span>
+      <span class="cropper-line line-s" data-directive="s"></span>
+      <span class="cropper-point point-e" data-directive="e"></span>
+      <span class="cropper-point point-n" data-directive="n"></span>
+      <span class="cropper-point point-w" data-directive="w"></span>
+      <span class="cropper-point point-s" data-directive="s"></span>
+      <span class="cropper-point point-ne" data-directive="ne"></span>
+      <span class="cropper-point point-nw" data-directive="nw"></span>
+      <span class="cropper-point point-sw" data-directive="sw"></span>
+      <span class="cropper-point point-se" data-directive="se"></span>
     </div>
   </div>
   */
@@ -1048,9 +1027,9 @@
   Cropper.defaults = {
     // Basic
     aspectRatio: "auto",
-    data: {}, // Allow options: x, y, width, height
+    data: {}, // Contains properties: x, y, width, height
     done: $.noop,
-    preview: undefined,
+    preview: UNDEFINED,
 
     // Toggles
     multiple: false,
@@ -1068,11 +1047,11 @@
     maxHeight: Infinity,
 
     // Event handlers
-    build: undefined,
-    built: undefined,
-    dragstart: undefined,
-    dragmove: undefined,
-    dragend: undefined
+    build: UNDEFINED,
+    built: UNDEFINED,
+    dragstart: UNDEFINED,
+    dragmove: UNDEFINED,
+    dragend: UNDEFINED
   };
 
   Cropper.setDefaults = function (options) {
@@ -1083,19 +1062,21 @@
   Cropper.other = $.fn.cropper;
 
   // Register as jQuery plugin
-  $.fn.cropper = function (options, settings) {
-    var result = this;
+  $.fn.cropper = function (options) {
+    var args = [].slice.call(arguments, 1),
+        result;
 
     this.each(function () {
       var $this = $(this),
-          data = $this.data("cropper");
+          data = $this.data("cropper"),
+          fn;
 
       if (!data) {
         $this.data("cropper", (data = new Cropper(this, options)));
       }
 
-      if (typeof options === "string" && $.isFunction(data[options])) {
-        result = data[options](settings);
+      if (typeof options === "string" && $.isFunction((fn = data[options]))) {
+        result = fn.apply(data, args);
       }
     });
 

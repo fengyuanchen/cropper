@@ -9,9 +9,9 @@ A simple jQuery image cropping plugin.
 # Features
 
 - Supports touch
-- Supports setup
-- Supports methods
-- Supports events
+- Supports [options](#options)
+- Supports [methods](#methods)
+- Supports [events](#events)
 - Supports canvas
 - Cross-browser support
 
@@ -79,7 +79,7 @@ $(".cropper").cropper({
 
 ## Options
 
-You may set cropper options with `$("#target").cropper(options)`.
+You may set cropper options with `$().cropper(options)`.
 If you want to change the global default options, You may use `$.fn.cropper.setDefaults(options)`.
 
 
@@ -272,30 +272,30 @@ An event handler of the "dragend.cropper" event.
 #### getData
 
 - Get the current cropped zone data.
-- Usage: `$("#target").cropper("getData")`.
+- Usage: `$().cropper("getData")`.
 
 
 #### setData
 
 - Reset the cropping zone.
 - Param: an object containing "x", "y", "width" and "height".
-- Use with `$("#target").cropper("setData", {width: 480, height: 270})`.
+- Use with `$().cropper("setData", {width: 480, height: 270})`.
 
-**Tip:** If you want to remove the current data, Just pass an empty object or null. Usage: `$("#target").cropper("setData", {})` or `$("#target").cropper("setData", null)`.
+**Tip:** If you want to remove the current data, Just pass an empty object or null. Usage: `$().cropper("setData", {})` or `$().cropper("setData", null)`.
 
 
 #### setAspectRatio
 
 - Enable to reset the aspect ratio after initialized.
 - Param: "auto" or a positive number ("auto" for free ratio).
-- Usage: `$("#target").cropper("setAspectRatio", 1.618)`.
+- Usage: `$().cropper("setAspectRatio", 1.618)`.
 
 
 #### setImgSrc
 
 - Change the src of the image and restart the Cropper.
 - Param: a src string.
-- Usage: `$("#target").cropper("setImgSrc", "example.jpg")`.
+- Usage: `$().cropper("setImgSrc", "example.jpg")`.
 
 
 #### getImgInfo
@@ -303,26 +303,26 @@ An event handler of the "dragend.cropper" event.
 - Get an object containing image information, contains: "naturalWidth", "naturalHeight", "width", "height", "aspectRatio" and "ratio".
 - The "aspectRatio" is the value of "naturalWidth / naturalHeight".
 - The "ratio" is the value of "width / naturalWidth".
-- Usage: `$("#target").cropper("getImgInfo")`.
+- Usage: `$().cropper("getImgInfo")`.
 
 
 #### reset
 
 - Reset the cropping zone to the start state.
 - Add a `true` param to reset the cropping zone to the default state.
-- Usage: `$("#target").cropper("reset")` or `$("#target").cropper("reset", true)`.
+- Usage: `$().cropper("reset")` or `$().cropper("reset", true)`.
 
 
 #### release
 
 - Release the cropping zone.
-- Usage: `$("#target").cropper("release")`.
+- Usage: `$().cropper("release")`.
 
 
 #### destroy
 
 - Destroy the Cropper and remove the instance from the target image.
-- Usage: `$("#target").cropper("destroy")`.
+- Usage: `$().cropper("destroy")`.
 
 **Note:** You won't be able to run any more methods after you destroy the cropper.
 
