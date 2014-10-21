@@ -28,17 +28,16 @@
   left: 0;
 }
 
+.cropper-canvas {
+  background-color: #fff;
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+
 .cropper-modal {
   background-color: #000;
   filter: alpha(opacity=50);
   opacity: .5;
-}
-
-.cropper-canvas {
-  cursor: crosshair;
-  background-color: #fff;
-  filter: alpha(opacity=0);
-  opacity: 0;
 }
 
 .cropper-dragger {
@@ -258,4 +257,19 @@
   max-height: none !important;
   filter: alpha(opacity=0);
   opacity: 0;
+}
+
+.cropper-move {
+  cursor: move;
+}
+
+.cropper-crop {
+  cursor: crosshair;
+}
+
+.cropper-disabled .cropper-canvas,
+.cropper-disabled .cropper-face,
+.cropper-disabled .cropper-line,
+.cropper-disabled .cropper-point {
+  cursor: not-allowed;
 }

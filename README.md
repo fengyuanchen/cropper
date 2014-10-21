@@ -9,10 +9,12 @@ A simple jQuery image cropping plugin.
 # Features
 
 - Supports touch
+- Supports zoom
+- Supports rotation
+- Supports canvas
 - Supports [options](#options)
 - Supports [methods](#methods)
 - Supports [events](#events)
-- Supports canvas
 - Cross-browser support
 
 
@@ -20,10 +22,10 @@ A simple jQuery image cropping plugin.
 
 ```
 dist/
-├── cropper.css     ( 4 KB)
+├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (29 KB)
-└── cropper.min.js  (12 KB)
+├── cropper.js      (36 KB)
+└── cropper.min.js  (15 KB)
 ```
 
 
@@ -55,26 +57,24 @@ Include files:
 Initialize with `$.fn.cropper` method.
 
 ```html
-<!-- Be sure to wrap the img with a block element -->
-<div>
-  <img class="cropper" src="picture.jpg">
+<!-- Wrap the image with a block element -->
+<div class="container">
+  <img src="picture.jpg">
 </div>
 ```
 
 ```javascript
-$(".cropper").cropper({
+$(".container > img").cropper({
   aspectRatio: 16 / 9,
   done: function(data) {
-    // Crop image with the data.
+    // Crop image with the result data.
   }
 });
 ```
 
 **Notes:**
-- Please use the cropper on visible images only. In other words, don't try to use the cropper on an image which is wrapped by a hidden element.
-- The size of the cropper is based on the size of the wrapper of target image, so be sure to wrap the image with a block element.
-- The cropper will be re-rendered automatically on the resize of window.
-- The result data is based on the original image.
+- The size of the cropper inherits from the size of the image's parent element, so be sure to wrap the image with a visible block element.
+- The values of the result data was computed with the original size of the image, so you can use them to crop the image directly.
 
 
 ## Options
@@ -88,8 +88,8 @@ If you want to change the global default options, You may use `$.fn.cropper.setD
 - type: string / number
 - default: "auto"
 
-The aspect ratio of the cropping zone (e.g., "2", "1.3", "0.5", etc.).
-Just set it with "auto" to free ratio.
+The aspect ratio of the cropping zone.
+By default, the cropping zone is free ratio.
 
 
 #### data
@@ -103,13 +103,14 @@ Just set it with "auto" to free ratio.
   x: 100,
   y: 50,
   width: 480,
-  height: 270
+  height: 270,
+  rotate: 0
 }
 ```
 
-This parameter object only supports four properties: "x", "y", "width" and "height".
+Only supports five properties: "x", "y", "width", "height" and "rotate".
 
-By default, the crop zone will appear in the center of the image.
+By default, the cropping zone will appear in the center of the image.
 If you already have values of the last crop and you want to apply them, just set them as option.
 
 **Tips:** It's possible to save the data in cookie or somewhere else and then re-render the cropper after a refresh the page using the data you have.
@@ -124,13 +125,13 @@ If you already have values of the last crop and you want to apply them, just set
 function(data) {}
 ```
 
-This function will be provided with the result object. It'll be executed when the cropping zone changes by a move, resize or crop.
+This function will be executed when the cropping zone changes by a move, resize or crop.
 
 
 #### preview
 
 - type: selector
-- default: undefined
+- default: ""
 
 A jquery selector, add extra elements for a preview.
 
@@ -156,7 +157,7 @@ Show (true) or hide (false) the black modal layer above the cropper.
 - type: boolean
 - default: true
 
-Show (true) or hide (false) the dashed lines above the dragger.
+Show (true) or hide (false) the dashed lines above the cropping zone.
 
 
 #### autoCrop
@@ -172,7 +173,7 @@ Render the cropping zone automatically when initialize.
 - type: boolean
 - default: true
 
-Enable this to allow the user to remove the current cropping zone and create a new one by dragging over the image.
+Enable to remove the current cropping zone and create a new one by dragging over the image.
 
 
 #### movable
@@ -180,7 +181,7 @@ Enable this to allow the user to remove the current cropping zone and create a n
 - type: boolean
 - default: true
 
-Enable to allow the user to move the cropping zone.
+Enable to move the cropping zone.
 
 
 #### resizable
@@ -188,7 +189,23 @@ Enable to allow the user to move the cropping zone.
 - type: boolean
 - default: true
 
-Enable to allow the user to resize the cropping zone.
+Enable to resize the cropping zone.
+
+
+#### zoomable
+
+- type: boolean
+- default: true
+
+Enable to zoom the image.
+
+
+#### rotatable
+
+- type: boolean
+- default: true
+
+Enable to rotate the image.
 
 
 #### minWidth
@@ -230,7 +247,7 @@ Use this option only when you are sure that the image has this maximum height.
 #### build
 
 - type: function
-- default: undefined
+- default: null
 
 An event handler of the "build.cropper" event.
 
@@ -238,7 +255,7 @@ An event handler of the "build.cropper" event.
 #### built
 
 - type: function
-- default: undefined
+- default: null
 
 An event handler of the "built.cropper" event.
 
@@ -246,7 +263,7 @@ An event handler of the "built.cropper" event.
 #### dragstart
 
 - type: function
-- default: undefined
+- default: null
 
 An event handler of the "dragstart.cropper" event.
 
@@ -254,7 +271,7 @@ An event handler of the "dragstart.cropper" event.
 #### dragmove
 
 - type: function
-- default: undefined
+- default: null
 
 An event handler of the "dragmove.cropper" event.
 
@@ -262,48 +279,38 @@ An event handler of the "dragmove.cropper" event.
 #### dragend
 
 - type: function
-- default: undefined
+- default: null
 
 An event handler of the "dragend.cropper" event.
 
 
 ## Methods
 
-#### getData
+#### zoom
 
-- Get the current cropped zone data.
-- Usage: `$().cropper("getData")`.
-
-
-#### setData
-
-- Reset the cropping zone.
-- Param: an object containing "x", "y", "width" and "height".
-- Use with `$().cropper("setData", {width: 480, height: 270})`.
-
-**Tip:** If you want to remove the current data, Just pass an empty object or null. Usage: `$().cropper("setData", {})` or `$().cropper("setData", null)`.
+- Zoom the image.
+- Param: a number (positive number for zoom in, negative number for zoom out).
+- Usage: `$().cropper("zoom", 0.1)` or `$().cropper("zoom", -0.1)`.
 
 
-#### setAspectRatio
+#### rotate
 
-- Enable to reset the aspect ratio after initialized.
-- Param: "auto" or a positive number ("auto" for free ratio).
-- Usage: `$().cropper("setAspectRatio", 1.618)`.
-
-
-#### setImgSrc
-
-- Change the src of the image and restart the Cropper.
-- Param: a src string.
-- Usage: `$().cropper("setImgSrc", "example.jpg")`.
+- Rotate the image.
+- Param: a number (positive number for rotate right, negative number for rotate left).
+- Usage: `$().cropper("rotate", 90)` or `$().cropper("rotate", -90)`.
+- Note: Be sure the browser supports rotate (CSS3 transform) before call this method.
 
 
-#### getImgInfo
+#### enable
 
-- Get an object containing image information, contains: "naturalWidth", "naturalHeight", "width", "height", "aspectRatio" and "ratio".
-- The "aspectRatio" is the value of "naturalWidth / naturalHeight".
-- The "ratio" is the value of "width / naturalWidth".
-- Usage: `$().cropper("getImgInfo")`.
+- Enable (unfreeze) the cropper.
+- Usage: `$().cropper("enable")`.
+
+
+#### disable
+
+- Disable (freeze) the cropper.
+- Usage: `$().cropper("disable")`.
 
 
 #### reset
@@ -313,18 +320,70 @@ An event handler of the "dragend.cropper" event.
 - Usage: `$().cropper("reset")` or `$().cropper("reset", true)`.
 
 
-#### release
+#### clear
 
-- Release the cropping zone.
-- Usage: `$().cropper("release")`.
+- Clear the cropping zone.
+- Usage: `$().cropper("clear")`.
+
+
+#### replace
+
+- Replace the image.
+- Param: a url.
+- Usage: `$().cropper("replace", "example.jpg")`.
 
 
 #### destroy
 
-- Destroy the Cropper and remove the instance from the target image.
+- Destroy the cropper and remove the instance from the image.
 - Usage: `$().cropper("destroy")`.
 
-**Note:** You won't be able to run any more methods after you destroy the cropper.
+
+#### getData
+
+- Get the cropped zone data.
+- Usage: `$().cropper("getData")`.
+
+
+#### setData
+
+- Reset the cropped zone with new data.
+- Param: an object containing "x", "y", "width", "height" and "rotate".
+- Use with `$().cropper("setData", {width: 480, height: 270})`.
+
+**Tip:** If you want to remove the current data, just pass an empty object or `null`. For example: `$().cropper("setData", {})` or `$().cropper("setData", null)`.
+
+
+#### setAspectRatio
+
+- Enable to reset the aspect ratio after built.
+- Param: "auto" or a positive number ("auto" for free ratio).
+- Usage: `$().cropper("setAspectRatio", 1.618)`.
+
+
+#### getImageData
+
+- Get an object containing image data, contains: "naturalWidth", "naturalHeight", "width", "height", "aspectRatio", "ratio" and "rotate".
+- The "aspectRatio" is the value of "naturalWidth / naturalHeight".
+- The "ratio" is the value of "width / naturalWidth".
+- Usage: `$().cropper("getImageData")`.
+
+
+#### setDragMode
+
+- Change the drag mode.
+- Params: "crop", "move" and "none".
+- Usage: `$().cropper("setDragMode", "crop")`.
+
+**Tip**: You can toggle the "crop" and "move" mode by double click on the image.
+
+
+#### getDataURL
+
+- Get the data url of the cropped zone (Rotation is not supported).
+- Param: the same as `canvas.toDataURL`.
+- Usage: `$().cropper("getDataURL")` or `$().cropper("getDataURL", "image/jpeg")` or `$().cropper("getDataURL", "image/jpeg", 0.8)`.
+- Note: Be sure the browser supports canvas before call this method.
 
 
 ## Events

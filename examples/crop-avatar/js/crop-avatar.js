@@ -8,10 +8,8 @@
 
   "use strict";
 
-  var log = function (o) {
-        try {
-          console.log(o)
-        } catch (e) {}
+  var console = window.console || {
+        log: $.noop
       };
 
   function CropAvatar($element) {
@@ -33,7 +31,7 @@
     this.$avatarPreview = this.$avatarModal.find(".avatar-preview");
 
     this.init();
-    log(this);
+    console.log(this);
   }
 
   CropAvatar.prototype = {
@@ -178,7 +176,7 @@
       var _this = this;
 
       if (this.active) {
-        this.$img.cropper("setImgSrc", this.url);
+        this.$img.cropper("replace", this.url);
       } else {
         this.$img = $('<img src="' + this.url + '">');
         this.$avatarWrapper.empty().html(this.$img);
@@ -203,8 +201,8 @@
 
     stopCropper: function () {
       if (this.active) {
-        this.$img.cropper("disable");
-        this.$img.data("cropper", null).remove();
+        this.$img.cropper("destroy");
+        this.$img.remove();
         this.active = false;
       }
     },
@@ -247,7 +245,7 @@
     },
 
     submitDone: function (data) {
-      log(data);
+      console.log(data);
 
       try {
         data = $.parseJSON(data);

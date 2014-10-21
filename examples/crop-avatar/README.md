@@ -2,10 +2,8 @@
 
 ## Browser Support
 
-- IE 8+
-- Chrome 33+
-- Firefox 27+
+- Chrome 34+
+- Firefox 29+
+- Internet Explorer 8+
+- Opera 21+
 - Safari 5.1+
-- Opera 19+
-
-Just like the Cropper.
