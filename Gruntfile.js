@@ -19,13 +19,13 @@ module.exports = function (grunt) {
     },
     jshint: {
       options: {
-        jshintrc: ".jshintrc"
+        jshintrc: "resources/.jshintrc"
       },
       files: ["*.js", "src/*.js"]
     },
     jscs: {
       options: {
-        config: ".jscsrc"
+        config: "resources/.jscsrc"
       },
       files: ["*.js", "src/*.js"]
     },
@@ -58,7 +58,7 @@ module.exports = function (grunt) {
     },
     csscomb: {
       options: {
-        config: ".csscomb.json"
+        config: "resources/.csscomb.json"
       },
       core: {
         src: "dist/<%= pkg.name %>.css",
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
     },
     csslint: {
       options: {
-        csslintrc: ".csslintrc"
+        csslintrc: "resources/.csslintrc"
       },
       files: ["src/*.css"]
     },

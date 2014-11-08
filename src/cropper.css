@@ -1,4 +1,7 @@
 .cropper-container {
+  position: relative;
+  overflow: hidden;
+
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -8,15 +11,11 @@
   -webkit-touch-callout: none;
 }
 
-.cropper-container {
-  position: relative;
-  overflow: hidden;
-  background-color: #fff;
-}
-
-.cropper-container > img {
+.cropper-container img {
   width: 100%;
   height: 100%;
+  max-width: none !important;
+  max-height: none !important;
 }
 
 .cropper-modal,
@@ -57,11 +56,6 @@
   outline-style: solid;
   outline-color: #69f;
   outline-color: rgba(51, 102, 255, .75);
-}
-
-.cropper-viewer > img {
-  max-width: none !important;
-  max-height: none !important;
 }
 
 .cropper-dashed {
