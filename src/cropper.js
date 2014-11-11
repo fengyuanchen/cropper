@@ -794,7 +794,8 @@
     },
 
     getRotatedDataURL: function (degree) {
-      var canvas = $("<canvas>")[0],
+      var $image = this.$original.clone(),
+          canvas = $("<canvas>")[0],
           context = canvas.getContext("2d"),
           arc = degree * Math.PI / 180,
           deg = abs(degree) % 180,
@@ -811,13 +812,18 @@
       context.save();
       context.translate(width / 2, height / 2);
       context.rotate(arc);
+
+      // Append the image to document to avoid "NS_ERROR_NOT_AVAILABLE" error on Firefox when call the "drawImage" method.
+      $image.addClass(CLASS_INVISIBLE).prependTo(this.$cropper);
+
       context.drawImage(
-        this.$original.clone().get(0),
+        $image[0],
         -naturalWidth / 2,
         -naturalHeight / 2,
         naturalWidth,
         naturalHeight
       );
+
       context.restore();
 
       return canvas.toDataURL();

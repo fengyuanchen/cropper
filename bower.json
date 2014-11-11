@@ -1,11 +1,7 @@
 {
   "name": "cropper",
-  "version": "0.7.1",
-  "homepage": "https://github.com/fengyuanchen/cropper",
-  "authors": [
-    "Fengyuan Chen"
-  ],
   "description": "A simple jQuery image cropping plugin.",
+  "version": "0.7.2",
   "main": [
     "dist/cropper.js",
     "dist/cropper.css"
@@ -22,6 +18,10 @@
     "web",
     "development"
   ],
+  "homepage": "https://github.com/fengyuanchen/cropper",
+  "authors": [
+    "Fengyuan Chen"
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -32,7 +32,6 @@
     "build",
     "release",
     "demos",
-    "assets",
     "docs"
   ],
   "dependencies": {
