@@ -117,6 +117,10 @@ module.exports = function (grunt) {
         src: "**",
         dest: "docs/dist",
         filter: "isFile"
+      },
+      others: {
+        src: "README.md",
+        dest: "docs/",
       }
     },
     watch: {
@@ -133,6 +137,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask("build", ["clean:build", "copy:build"]);
   grunt.registerTask("release", ["clean:release", "copy:release"]);
-  grunt.registerTask("docs", ["clean:docs", "copy:docs"]);
+  grunt.registerTask("docs", ["clean:docs", "copy:docs", "copy:others"]);
   grunt.registerTask("default", ["clean:dist", "jshint", "jscs", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "usebanner", "build", "release", "docs"]);
 };
