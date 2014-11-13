@@ -145,7 +145,7 @@
         image.rotate = 0;
       }
 
-      this.$clone = ($clone = $('<img src="' + url + '">'));
+      this.$clone = ($clone = $('<img crossOrigin="Anonymous" src="' + url + '">'));
 
       $clone.one("load", function () {
         image.naturalWidth = this.naturalWidth || $clone.width();
