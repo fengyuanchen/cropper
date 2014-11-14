@@ -2,15 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A complete example of Cropper.">
   <meta name="keywords" content="HTML, CSS, JS, JavaScript, jQuery, PHP, image cropping, web development">
   <meta name="author" content="Fengyuan Chen">
   <title>Crop Avatar - Cropper</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../../dist/cropper.min.css">
-  <link rel="stylesheet" href="css/crop-avatar.css">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../dist/cropper.min.css" rel="stylesheet">
+  <link href="css/crop-avatar.css" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="crop-avatar">
@@ -21,12 +21,12 @@
     </div>
 
     <!-- Cropping modal -->
-    <div class="modal fade" id="avatar-modal" tabindex="-1" role="dialog" aria-labelledby="avatar-modal-label" aria-hidden="true">
+    <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <form class="avatar-form" method="post" action="crop-avatar.php" enctype="multipart/form-data">
+          <form class="avatar-form" action="crop-avatar.php" enctype="multipart/form-data" method="post">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <button class="close" data-dismiss="modal" type="button">&times;</button>
               <h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
             </div>
             <div class="modal-body">
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+              <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
               <button class="btn btn-primary avatar-save" type="submit">Save</button>
             </div>
           </form>
@@ -63,7 +63,7 @@
     </div><!-- /.modal -->
 
     <!-- Loading state -->
-    <div class="loading" tabindex="-1" role="img" aria-label="Loading"></div>
+    <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
   </div>
 
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>

@@ -82,6 +82,20 @@ module.exports = function (grunt) {
         dest: "dist/<%= pkg.name %>.min.css"
       }
     },
+    htmlcomb: {
+      demos: {
+        src: "demos/index.html",
+        dest: "demos/index.html"
+      },
+      docs: {
+        src: "docs/index.html",
+        dest: "docs/index.html"
+      },
+      examples: {
+        src: "examples/crop-avatar/crop-avatar.html",
+        dest: "examples/crop-avatar/crop-avatar.html"
+      }
+    },
     usebanner: {
       options: {
         position: "top",
@@ -138,5 +152,5 @@ module.exports = function (grunt) {
   grunt.registerTask("build", ["clean:build", "copy:build"]);
   grunt.registerTask("release", ["clean:release", "copy:release"]);
   grunt.registerTask("docs", ["clean:docs", "copy:docs", "copy:others"]);
-  grunt.registerTask("default", ["clean:dist", "jshint", "jscs", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "usebanner", "build", "release", "docs"]);
+  grunt.registerTask("default", ["clean:dist", "jshint", "jscs", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "htmlcomb", "usebanner", "build", "release", "docs"]);
 };
