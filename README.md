@@ -440,3 +440,8 @@ As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jqu
 ## [License](https://github.com/fengyuanchen/cropper/blob/master/LICENSE.md)
 
 Released under the [MIT](http://opensource.org/licenses/mit-license.html) license.
+
+
+## Related projects
+
+- ngCropper: https://github.com/koorgoo/ngCropper
