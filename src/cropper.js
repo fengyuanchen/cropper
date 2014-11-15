@@ -12,6 +12,7 @@
 
   var $window = $(window),
       $document = $(document),
+      location = window.location,
 
       // Constants
       TRUE = true,
@@ -26,7 +27,7 @@
       // RegExps
       REGEXP_DIRECTIVES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,
       REGEXP_OPTIONS = /^(x|y|width|height)$/,
-      REGEXP_PROPERTIES = /^(naturalWidth|naturalHeight|width|height|aspectRatio|ratio)$/,
+      REGEXP_PROPERTIES = /^(naturalWidth|naturalHeight|width|height|aspectRatio|ratio|rotate)$/,
 
       // Classes
       CLASS_MODAL = "cropper-modal",
@@ -95,6 +96,10 @@
             defaults[i] = abs(num(n)) || NAN; // 0 -> NaN
             break;
 
+          case "autoCropArea":
+            defaults[i] = abs(num(n)) || 0.8; // 0 | NaN -> 0.8
+            break;
+
           case "minWidth":
           case "minHeight":
             defaults[i] = abs(num(n)) || 0; // NaN -> 0
@@ -102,7 +107,7 @@
 
           case "maxWidth":
           case "maxHeight":
-            defaults[i] = abs(num(n)) || INFINITY; // NaN -> Infinity
+            defaults[i] = abs(num(n)) || INFINITY; // 0 | NaN -> Infinity
             break;
 
           // No default
@@ -126,7 +131,7 @@
           url;
 
       if ($this.is("img")) {
-        url = $this.attr("src");
+        url = $this.attr("src"); // Use `attr` to get relative path.
       } else if ($this.is("canvas") && this.support.canvas) {
         url = element.toDataURL();
       }
@@ -135,17 +140,13 @@
         return;
       }
 
-      if (this.$clone) {
-        this.$clone.remove();
-      }
-
       // Reset image rotate degree
       if (this.replaced) {
         this.replaced = FALSE;
         image.rotate = 0;
       }
 
-      this.$clone = ($clone = $('<img crossOrigin="Anonymous" src="' + url + '">'));
+      this.$clone = ($clone = $("<img" + (this.isCrossOriginURL($this.prop("src")) ? " crossorigin" : "") + ' src="' + url + '">'));
 
       $clone.one("load", function () {
         image.naturalWidth = this.naturalWidth || $clone.width();
@@ -159,6 +160,16 @@
 
       // Hide and prepend the clone iamge to the document body (Don't append to).
       $clone.addClass(CLASS_INVISIBLE).prependTo("body");
+    },
+
+    isCrossOriginURL: function (url) {
+      var parts = url.match(/^(https?:)\/\/([\w\.]+):?(\d*)/);
+
+      if ((parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port))) {
+        return TRUE;
+      }
+
+      return FALSE;
     },
 
     build: function () {
@@ -195,6 +206,10 @@
       // Save original image for rotation
       if (!this.rotated) {
         this.$original = this.$clone.clone();
+
+        // Append the image to document to avoid "NS_ERROR_NOT_AVAILABLE" error on Firefox when call the "drawImage" method.
+        this.$original.addClass(CLASS_INVISIBLE).prependTo(this.$cropper);
+
         this.originalImage = $.extend({}, this.image);
       }
 
@@ -209,7 +224,7 @@
       defaults.dragCrop && this.setDragMode("crop");
       defaults.modal && this.$canvas.addClass(CLASS_MODAL);
       !defaults.dashed && this.$dragger.find(".cropper-dashed").addClass(CLASS_HIDDEN);
-      !defaults.movable && this.$dragger.find(".cropper-face").addClass(CLASS_HIDDEN);
+      !defaults.movable && this.$dragger.find(".cropper-face").data(STRING_DIRECTIVE, "move");
       !defaults.resizable && this.$dragger.find(".cropper-line, .cropper-point").addClass(CLASS_HIDDEN);
 
       this.$scope = defaults.multiple ? this.$cropper : $document;
@@ -470,8 +485,8 @@
       dragger.minHeight = min(dragger.maxHeight, dragger.minHeight);
 
       // Center the dragger by default
-      dragger.height *= 0.8;
-      dragger.width *= 0.8;
+      dragger.height *= defaults.autoCropArea;
+      dragger.width *= defaults.autoCropArea;
       dragger.left = (cropper.width - dragger.width) / 2;
       dragger.top = (cropper.height - dragger.height) / 2;
       dragger.oldLeft = dragger.left;
@@ -749,10 +764,8 @@
           break;
 
         case "move":
-          if (defaults.movable) {
-            movable = TRUE;
-            $canvas.data(STRING_DIRECTIVE, mode);
-          }
+          movable = TRUE;
+          $canvas.data(STRING_DIRECTIVE, mode);
 
           break;
 
@@ -794,8 +807,7 @@
     },
 
     getRotatedDataURL: function (degree) {
-      var $image = this.$original.clone(),
-          canvas = $("<canvas>")[0],
+      var canvas = $("<canvas>")[0],
           context = canvas.getContext("2d"),
           arc = degree * Math.PI / 180,
           deg = abs(degree) % 180,
@@ -812,18 +824,7 @@
       context.save();
       context.translate(width / 2, height / 2);
       context.rotate(arc);
-
-      // Append the image to document to avoid "NS_ERROR_NOT_AVAILABLE" error on Firefox when call the "drawImage" method.
-      $image.addClass(CLASS_INVISIBLE).prependTo(this.$cropper);
-
-      context.drawImage(
-        $image[0],
-        -naturalWidth / 2,
-        -naturalHeight / 2,
-        naturalWidth,
-        naturalHeight
-      );
-
+      context.drawImage(this.$original[0], -naturalWidth / 2, -naturalHeight / 2, naturalWidth, naturalHeight);
       context.restore();
 
       return canvas.toDataURL();
@@ -1424,6 +1425,7 @@
   Cropper.DEFAULTS = {
     // Basic
     aspectRatio: "auto",
+    autoCropArea: 0.8, // 80%
     data: {
       // x: 0,
       // y: 0,

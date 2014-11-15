@@ -134,7 +134,7 @@ module.exports = function (grunt) {
       },
       others: {
         src: "README.md",
-        dest: "docs/",
+        dest: "docs/"
       }
     },
     watch: {

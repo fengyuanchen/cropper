@@ -231,6 +231,7 @@
 
       $image.cropper({
         aspectRatio: 16 / 9,
+        // autoCropArea: 1,
         data: {
           x: 420,
           y: 50,
@@ -239,12 +240,15 @@
         },
         preview: ".preview",
 
-        // autoCrop: false,
-        // dragCrop: false,
-        // modal: false,
-        // moveable: false,
-        // resizeable: false,
-        // scalable: false,
+        // multiple: FALSE,
+        // autoCrop: TRUE,
+        // dragCrop: TRUE,
+        // dashed: TRUE,
+        // modal: TRUE,
+        // movable: TRUE,
+        // resizable: TRUE,
+        // zoomable: TRUE,
+        // rotatable: TRUE,
 
         // maxWidth: 480,
         // maxHeight: 270,
@@ -257,18 +261,23 @@
           $dataHeight.val(data.height);
           $dataWidth.val(data.width);
         },
+
         build: function(e) {
           console.log(e.type);
         },
+
         built: function(e) {
           console.log(e.type);
         },
+
         dragstart: function(e) {
           console.log(e.type);
         },
+
         dragmove: function(e) {
           console.log(e.type);
         },
+
         dragend: function(e) {
           console.log(e.type);
         }
