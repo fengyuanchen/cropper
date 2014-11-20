@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.7.3
+ * Cropper v0.7.4-beta
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -139,7 +139,7 @@
           url;
 
       if ($this.is("img")) {
-        url = $this.attr("src"); // Use `attr` to get relative path.
+        url = $this.prop("src");
       } else if ($this.is("canvas") && this.support.canvas) {
         url = element.toDataURL();
       }
@@ -154,7 +154,7 @@
         image.rotate = 0;
       }
 
-      this.$clone = ($clone = $("<img" + (this.isCrossOriginURL($this.prop("src")) ? " crossorigin" : "") + ' src="' + url + '">'));
+      this.$clone = ($clone = $("<img" + ((typeof $this.attr("crossOrigin") !== STRING_UNDEFINED || this.isCrossOriginURL(url)) ? " crossOrigin" : "") + ' src="' + url + '">'));
 
       $clone.one("load", function () {
         image.naturalWidth = this.naturalWidth || $clone.width();
@@ -171,7 +171,7 @@
     },
 
     isCrossOriginURL: function (url) {
-      var parts = url.match(/^(https?:)\/\/([\w\.]+):?(\d*)/);
+      var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
 
       if ((parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port))) {
         return TRUE;
@@ -587,7 +587,7 @@
       $this.removeClass(CLASS_HIDDEN).removeData("cropper");
 
       if (this.rotated) {
-        $this.replaceWith(this.$original);
+        $this.attr("src", this.$original.attr("src"));
       }
     },
 
@@ -597,7 +597,7 @@
           element = this.element,
           context;
 
-      if (url && url !== this.url) {
+      if (url && url !== this.url && url !== $this.attr("src")) {
         if (!rotated) {
           this.rotated = FALSE;
           this.replaced = TRUE;
@@ -740,12 +740,20 @@
     getDataURL: function (type, option) {
       var canvas = $("<canvas>")[0],
           data = this.getData(),
-          dataURL = "";
+          dataURL = "",
+          context;
 
       if (this.cropped && this.support.canvas) {
         canvas.width = data.width;
         canvas.height = data.height;
-        canvas.getContext("2d").drawImage(this.$clone[0], data.x, data.y, data.width, data.height, 0, 0, data.width, data.height);
+        context = canvas.getContext("2d");
+
+        if (type === "image/jpeg") {
+          context.fillStyle = "#fff";
+          context.fillRect(0, 0, data.width, data.height);
+        }
+
+        context.drawImage(this.$clone[0], data.x, data.y, data.width, data.height, 0, 0, data.width, data.height);
         dataURL = canvas.toDataURL(type, option);
       }
 
