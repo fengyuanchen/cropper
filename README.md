@@ -24,8 +24,8 @@ A simple jQuery image cropping plugin.
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (40 KB)
-└── cropper.min.js  (16 KB)
+├── cropper.js      (41 KB)
+└── cropper.min.js  (17 KB)
 ```
 
 
@@ -67,7 +67,7 @@ Initialize with `$.fn.cropper` method.
 $(".container > img").cropper({
   aspectRatio: 16 / 9,
   done: function(data) {
-    // Crop image with the result data.
+    // Output the result data for cropping image.
   }
 });
 ```
@@ -379,12 +379,35 @@ An event handler of the "dragend.cropper" event.
 **Tip**: You can toggle the "crop" and "move" mode by double click on the image.
 
 
-#### getDataURL
+#### getDataURL([options[, type[, quality]]])
 
-- Get the data url of the cropped zone (Rotation is not supported).
-- Param: the same as `canvas.toDataURL`.
-- Usage: `$().cropper("getDataURL")` or `$().cropper("getDataURL", "image/jpeg")` or `$().cropper("getDataURL", "image/jpeg", 0.8)`.
-- Note: Be sure the browser supports canvas before call this method.
+- Get the data url (base64 image) of the cropped zone.
+- Parameters:
+  + options: A `Object` contains: "width", "height". Define the sizes of the result image.
+  + type: A `String` indicating the image format. The default type is image/png. Other types: "image/jpeg", "image/webp".
+  + quality: A `Number` between 0 and 1 indicating image quality if the requested type is image/jpeg or image/webp.
+- Usage:
+
+```js
+$().cropper("getDataURL")
+
+$().cropper("getDataURL", {
+  width: 100,
+  height: 100
+})
+
+$().cropper("getDataURL", "image/jpeg")
+
+$().cropper("getDataURL", "image/jpeg", 0.8)
+
+$().cropper("getDataURL", {
+  width: 100,
+  height: 100
+}, "image/jpeg", 0.8)
+
+```
+
+**Note:** Be sure the browser supports canvas before call this method.
 
 
 ## Events

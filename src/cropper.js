@@ -729,24 +729,35 @@
       return data;
     },
 
-    getDataURL: function (type, option) {
+    getDataURL: function (options, type, quality) {
       var canvas = $("<canvas>")[0],
           data = this.getData(),
           dataURL = "",
           context;
 
+      if (!$.isPlainObject(options)) {
+        quality = type;
+        type = options;
+        options = {};
+      }
+
+      options = $.extend({
+        width: data.width,
+        height: data.height
+      }, options);
+
       if (this.cropped && this.support.canvas) {
-        canvas.width = data.width;
-        canvas.height = data.height;
+        canvas.width = options.width;
+        canvas.height = options.height;
         context = canvas.getContext("2d");
 
         if (type === "image/jpeg") {
           context.fillStyle = "#fff";
-          context.fillRect(0, 0, data.width, data.height);
+          context.fillRect(0, 0, options.width, options.height);
         }
 
-        context.drawImage(this.$clone[0], data.x, data.y, data.width, data.height, 0, 0, data.width, data.height);
-        dataURL = canvas.toDataURL(type, option);
+        context.drawImage(this.$clone[0], data.x, data.y, data.width, data.height, 0, 0, options.width, options.height);
+        dataURL = canvas.toDataURL(type, quality);
       }
 
       return dataURL;

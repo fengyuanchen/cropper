@@ -1,7 +1,7 @@
 {
   "name": "cropper",
   "description": "A simple jQuery image cropping plugin.",
-  "version": "0.7.4-beta",
+  "version": "0.7.4",
   "main": "dist/cropper.js",
   "keywords": [
     "image",

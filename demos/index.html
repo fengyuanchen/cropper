@@ -205,6 +205,7 @@
         <div class="col-md-12">
           <button class="btn btn-primary" id="getDataURL" type="button">Get Data URL</button>
           <button class="btn btn-primary" id="getDataURL2" type="button">Get Data URL (JPG)</button>
+          <button class="btn btn-primary" id="getDataURL3" type="button">Get Data URL (160*90)</button>
         </div>
         <div class="col-md-6">
           <textarea class="form-control" id="dataURL" rows="10"></textarea>
@@ -390,6 +391,16 @@
 
       $("#getDataURL2").click(function() {
         var dataURL = $image.cropper("getDataURL", "image/jpeg");
+
+        $("#dataURL").text(dataURL);
+        $("#showDataURL").html('<img src="' + dataURL + '">');
+      });
+
+      $("#getDataURL3").click(function() {
+        var dataURL = $image.cropper("getDataURL", {
+          width: 160,
+          height: 90
+        });
 
         $("#dataURL").text(dataURL);
         $("#showDataURL").html('<img src="' + dataURL + '">');
