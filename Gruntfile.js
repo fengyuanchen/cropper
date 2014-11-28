@@ -27,7 +27,7 @@ module.exports = function (grunt) {
       options: {
         config: "resources/.jscsrc"
       },
-      files: ["*.js", "src/*.js"]
+      files: ["src/*.js"]
     },
     uglify: {
       dist: {
