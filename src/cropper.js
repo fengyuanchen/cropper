@@ -523,7 +523,10 @@
 
       // Re-render the dragger
       this.dragger = dragger;
-      this.defaults.done(this.getData());
+
+      if (!this.disabled) {
+        this.defaults.done(this.getData());
+      }
 
       this.$dragger.css({
         width: round(dragger.width),
