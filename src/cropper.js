@@ -334,8 +334,8 @@
       var img = '<img src="' + this.url + '">';
 
       this.$preview = $(this.defaults.preview);
-      this.$preview.html(img);
       this.$viewer.html(img);
+      this.$preview.html(img).find("img").css("cssText", "min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;");
     },
 
     initContainer: function () {
