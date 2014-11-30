@@ -1,4 +1,4 @@
-# [Image Cropper](http://fengyuanchen.github.io/cropper)
+# [Image Cropper](https://github.com/fengyuanchen/cropper)
 
 A simple jQuery image cropping plugin.
 
