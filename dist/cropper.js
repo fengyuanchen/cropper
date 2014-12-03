@@ -157,7 +157,13 @@
         image.rotate = 0;
       }
 
-      this.$clone = ($clone = $("<img" + ((typeof $this.attr("crossOrigin") !== STRING_UNDEFINED || this.isCrossOriginURL(url)) ? " crossOrigin" : "") + ' src="' + url + '">'));
+      this.$clone = ($clone = $("<img" + (
+        (
+           typeof $this.attr("crossOrigin") !== STRING_UNDEFINED ||
+           this.isCrossOriginURL(url)) && $this.data("disable-crossorigin") !== true ?
+              " crossOrigin" : ""
+        ) + ' src="' + url + '">')
+      );
 
       $clone.one("load", function () {
         image.naturalWidth = this.naturalWidth || $clone.width();
