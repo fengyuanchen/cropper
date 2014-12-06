@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.7.5-beta
+ * Cropper v0.7.5
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -138,6 +138,7 @@
           $this = this.$element,
           element = this.element,
           image = this.image,
+          crossOrigin = "",
           $clone,
           url;
 
@@ -153,11 +154,16 @@
 
       // Reset image rotate degree
       if (this.replaced) {
-        this.replaced = FALSE;
         image.rotate = 0;
       }
 
-      this.$clone = ($clone = $("<img" + ((typeof $this.attr("crossOrigin") !== STRING_UNDEFINED || this.isCrossOriginURL(url)) ? " crossOrigin" : "") + ' src="' + url + '">'));
+      if (this.defaults.checkImageOrigin) {
+        if ($this.prop("crossOrigin") || this.isCrossOriginURL(url)) {
+          crossOrigin = " crossOrigin";
+        }
+      }
+
+      this.$clone = ($clone = $("<img" + crossOrigin + ' src="' + url + '">'));
 
       $clone.one("load", function () {
         image.naturalWidth = this.naturalWidth || $clone.width();
@@ -406,7 +412,13 @@
       if (image._width !== cropper.width || image._height !== cropper.height) {
         $.extend(image, defaultImage);
       } else {
-        image = $.extend(defaultImage, image);
+        image = $.extend({}, defaultImage, image);
+
+        // Reset image ratio
+        if (this.replaced) {
+          this.replaced = FALSE;
+          image.ratio = defaultImage.ratio;
+        }
       }
 
       this.image = image;
@@ -1478,6 +1490,7 @@
     resizable: TRUE,
     zoomable: TRUE,
     rotatable: TRUE,
+    checkImageOrigin: TRUE,
 
     // Dimensions
     minWidth: 0,
