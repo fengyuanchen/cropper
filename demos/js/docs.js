@@ -160,6 +160,10 @@ $(function() {
     $("#showData").val(JSON.stringify($image.cropper("getData")));
   });
 
+  $("#getData2").click(function() {
+    $("#showData").val(JSON.stringify($image.cropper("getData", true)));
+  });
+
   $("#getDataURL").click(function() {
     var dataURL = $image.cropper("getDataURL");
 

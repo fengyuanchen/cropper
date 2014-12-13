@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.7.5
+ * Cropper v0.7.6-beta
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014 Fengyuan Chen
@@ -225,7 +225,7 @@
         this.$original = this.$clone.clone();
 
         // Append the image to document to avoid "NS_ERROR_NOT_AVAILABLE" error on Firefox when call the "drawImage" method.
-        this.$original.addClass(CLASS_INVISIBLE).prependTo(this.$cropper);
+        this.$original.addClass(CLASS_HIDDEN).prependTo(this.$cropper);
 
         this.originalImage = $.extend({}, this.image);
       }
@@ -691,7 +691,7 @@
       this.renderDragger();
     },
 
-    getData: function () {
+    getData: function (rounded) {
       var dragger = this.dragger,
           image = this.image,
           data = {};
@@ -704,13 +704,13 @@
           height: dragger.height
         };
 
-        data = this.transformData(data, TRUE);
+        data = this.transformData(data, TRUE, rounded);
       }
 
       return data;
     },
 
-    transformData: function (data, reverse) {
+    transformData: function (data, reversed, rounded) {
       var ratio = this.image.ratio,
           result = {};
 
@@ -719,7 +719,7 @@
 
         if (REGEXP_OPTIONS.test(i) && !isNaN(n)) {
           // Not round when set data.
-          result[i] = reverse ? round(n / ratio) : n * ratio;
+          result[i] = reversed ? (rounded ? round(n / ratio) : n / ratio) : n * ratio;
         }
       });
 

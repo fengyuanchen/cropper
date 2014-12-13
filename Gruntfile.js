@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     clean: {
       dist: ["dist/"],
       build: ["build/<%= pkg.version %>.<%= grunt.template.today('yyyymmdd') %>"],
-      release: ["release/<%= pkg.version %>"],
+      release: ["releases/<%= pkg.version %>"],
       docs: ["docs/dist"]
     },
     jshint: {
@@ -122,7 +122,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: "dist/",
         src: "**",
-        dest: "release/<%= pkg.version %>/",
+        dest: "releases/<%= pkg.version %>/",
         filter: "isFile"
       },
       docs: {

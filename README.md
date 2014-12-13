@@ -347,10 +347,14 @@ An event handler of the "dragend.cropper" event.
 - Usage: `$().cropper("destroy")`.
 
 
-#### getData
+#### getData([rounded])
 
 - Get the cropped zone data.
-- Usage: `$().cropper("getData")`.
+- `rounded`(optional):
+  - Type: `Boolean`
+  - Default: `false`
+  - Rounds the output data with `Math.round`.
+- Usage: `$().cropper("getData")` or `$().cropper("getData", true)`.
 
 
 #### setData
@@ -394,6 +398,8 @@ An event handler of the "dragend.cropper" event.
   + options: A `Object` contains: "width", "height". Define the sizes of the result image.
   + type: A `String` indicating the image format. The default type is image/png. Other types: "image/jpeg", "image/webp".
   + quality: A `Number` between 0 and 1 indicating image quality if the requested type is image/jpeg or image/webp.
+- **Note:** Be sure the browser supports canvas before call this method.
+- **Note:** Don't call this in IE9/10 (not support [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes)) when it's a [cross-origin image](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img).
 - Usage:
 
 ```js
@@ -414,10 +420,6 @@ $().cropper("getDataURL", {
 }, "image/jpeg", 0.8)
 
 ```
-
-**Note:** Be sure the browser supports canvas before call this method.
-**Note:** Don't call this in IE9/10 (not support `crossOrigin` attribute) when it's a cross-origin image.
-
 
 
 ## Events
