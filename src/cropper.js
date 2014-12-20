@@ -257,8 +257,9 @@
       this.addListeners();
       this.initPreview();
 
-      this.built = TRUE;
+      this.built = TRUE; // Set `true` before update
       this.update();
+      this.replaced = FALSE; // Reset to `false` after update
 
       $this.one(EVENT_BUILT, defaults.built); // Only trigger once
       $this.trigger(EVENT_BUILT);
@@ -440,7 +441,6 @@
 
         // Reset image ratio
         if (this.replaced) {
-          this.replaced = FALSE;
           image.ratio = defaultImage.ratio;
         }
       }

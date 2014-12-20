@@ -135,6 +135,34 @@ $(function() {
     $image.cropper("rotate", 90);
   });
 
+  var $inputImage = $("#inputImage");
+
+  if (window.FileReader) {
+    $inputImage.change(function() {
+      var fileReader = new FileReader(),
+          files = this.files,
+          file;
+
+      if (!files.length) {
+        return;
+      }
+
+      file = files[0];
+
+      if (/^image\/\w+$/.test(file.type)) {
+        fileReader.readAsDataURL(file);
+        fileReader.onload = function () {
+          $image.cropper("reset", true).cropper("replace", this.result);
+          $inputImage.val("");
+        };
+      } else {
+        showMessage("Please choose an image file.");
+      }
+    });
+  } else {
+    $inputImage.addClass("hide");
+  }
+
   $("#setAspectRatio").click(function() {
     $image.cropper("setAspectRatio", $("#aspectRatio").val());
   });
