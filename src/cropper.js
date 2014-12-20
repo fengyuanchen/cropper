@@ -58,6 +58,25 @@
         return typeof n === "number";
       },
 
+      toArray = function (obj, offset) {
+        var args = [];
+
+        if (typeof offset === "number") { // It's necessary for IE8
+          args.push(offset);
+        }
+
+        return args.slice.apply(obj, args);
+      },
+
+      // Custom proxy to avoid jQuery's guid
+      proxy = function (fn, context) {
+        var args = toArray(arguments, 2);
+
+        return function () {
+          return fn.apply(context, args.concat(toArray(arguments)));
+        };
+      },
+
       // Constructor
       Cropper = function (element, options) {
         this.element = element;
@@ -74,7 +93,6 @@
       },
 
       // Others
-      round = Math.round,
       sqrt = Math.sqrt,
       min = Math.min,
       max = Math.max,
@@ -236,8 +254,6 @@
       !defaults.movable && this.$dragger.find(".cropper-face").data(STRING_DIRECTIVE, "move");
       !defaults.resizable && this.$dragger.find(".cropper-line, .cropper-point").addClass(CLASS_HIDDEN);
 
-      this.$scope = defaults.multiple ? this.$cropper : $document;
-
       this.addListeners();
       this.initPreview();
 
@@ -295,10 +311,10 @@
           top = dragger.top - image.top;
 
       this.$viewer.find("img").css({
-        width: round(width),
-        height: round(height),
-        marginLeft: -round(left),
-        marginTop: -round(top)
+        width: width,
+        height: height,
+        marginLeft: -left,
+        marginTop: -top
       });
 
       this.$preview.each(function () {
@@ -306,10 +322,10 @@
             ratio = $this.width() / dragger.width;
 
         $this.find("img").css({
-          width: round(width * ratio),
-          height: round(height * ratio),
-          marginLeft: -round(left * ratio),
-          marginTop: -round(top * ratio)
+          width: width * ratio,
+          height: height * ratio,
+          marginLeft: -left * ratio,
+          marginTop: -top * ratio
         });
       });
     },
@@ -318,20 +334,36 @@
       var defaults = this.defaults;
 
       this.$element.on(EVENT_DRAG_START, defaults.dragstart).on(EVENT_DRAG_MOVE, defaults.dragmove).on(EVENT_DRAG_END, defaults.dragend);
-      this.$cropper.on(EVENT_MOUSE_DOWN, (this._dragstart = $.proxy(this.dragstart, this))).on(EVENT_DBLCLICK, (this._dblclick = $.proxy(this.dblclick, this)));
-      defaults.zoomable && this.$cropper.on(EVENT_WHEEL, (this._wheel = $.proxy(this.wheel, this)));
-      this.$scope.on(EVENT_MOUSE_MOVE, (this._dragmove = $.proxy(this.dragmove, this))).on(EVENT_MOUSE_UP, (this._dragend = $.proxy(this.dragend, this)));
+      this.$cropper.on(EVENT_MOUSE_DOWN, $.proxy(this.dragstart, this)).on(EVENT_DBLCLICK, $.proxy(this.dblclick, this));
 
-      $window.on(EVENT_RESIZE, (this._resize = $.proxy(this.resize, this)));
+      if (defaults.zoomable) {
+        this.$cropper.on(EVENT_WHEEL, $.proxy(this.wheel, this));
+      }
+
+      if (defaults.multiple) {
+        this.$cropper.on(EVENT_MOUSE_MOVE, $.proxy(this.dragmove, this)).on(EVENT_MOUSE_UP, $.proxy(this.dragend, this));
+      } else {
+        $document.on(EVENT_MOUSE_MOVE, (this._dragmove = proxy(this.dragmove, this))).on(EVENT_MOUSE_UP, (this._dragend = proxy(this.dragend, this)));
+      }
+
+      $window.on(EVENT_RESIZE, (this._resize = proxy(this.resize, this)));
     },
 
     removeListeners: function () {
       var defaults = this.defaults;
 
       this.$element.off(EVENT_DRAG_START, defaults.dragstart).off(EVENT_DRAG_MOVE, defaults.dragmove).off(EVENT_DRAG_END, defaults.dragend);
-      this.$cropper.off(EVENT_MOUSE_DOWN, this._dragstart).off(EVENT_DBLCLICK, this._dblclick);
-      defaults.zoomable && this.$cropper.off(EVENT_WHEEL, this._wheel);
-      this.$scope.off(EVENT_MOUSE_MOVE, this._dragmove).off(EVENT_MOUSE_UP, this._dragend);
+      this.$cropper.off(EVENT_MOUSE_DOWN, this.dragstart).off(EVENT_DBLCLICK, this.dblclick);
+
+      if (defaults.zoomable) {
+        this.$cropper.off(EVENT_WHEEL, this.wheel);
+      }
+
+      if (defaults.multiple) {
+        this.$cropper.off(EVENT_MOUSE_MOVE, this.dragmove).off(EVENT_MOUSE_UP, this.dragend);
+      } else {
+        $document.off(EVENT_MOUSE_MOVE, this._dragmove).off(EVENT_MOUSE_UP, this._dragend);
+      }
 
       $window.off(EVENT_RESIZE, this._resize);
     },
@@ -377,10 +409,10 @@
       }
 
       this.$cropper.css({
-        width: round(cropper.width),
-        height: round(cropper.height),
-        left: round(cropper.left),
-        top: round(cropper.top)
+        width: cropper.width,
+        height: cropper.height,
+        left: cropper.left,
+        top: cropper.top
       });
 
       this.cropper = cropper;
@@ -429,10 +461,10 @@
       image.top = min(max(image.top, image._height - image.height), 0);
 
       this.$clone.css({
-        width: round(image.width),
-        height: round(image.height),
-        marginLeft: round(image.left),
-        marginTop: round(image.top)
+        width: image.width,
+        height: image.height,
+        marginLeft: image.left,
+        marginTop: image.top
       });
 
       if (mode) {
@@ -544,10 +576,10 @@
       }
 
       this.$dragger.css({
-        width: round(dragger.width),
-        height: round(dragger.height),
-        left: round(dragger.left),
-        top: round(dragger.top)
+        width: dragger.width,
+        height: dragger.height,
+        left: dragger.left,
+        top: dragger.top
       });
 
       this.preview();
@@ -710,8 +742,7 @@
         n = num(n);
 
         if (REGEXP_OPTIONS.test(i) && !isNaN(n)) {
-          // Not round when set data.
-          result[i] = reversed ? (rounded ? round(n / ratio) : n / ratio) : n * ratio;
+          result[i] = reversed ? (rounded ? Math.round(n / ratio) : n / ratio) : n * ratio;
         }
       });
 
@@ -1507,7 +1538,7 @@
 
   // Register as jQuery plugin
   $.fn.cropper = function (options) {
-    var args = [].slice.call(arguments, 1),
+    var args = toArray(arguments, 1),
         result;
 
     this.each(function () {
