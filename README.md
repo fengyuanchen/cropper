@@ -294,6 +294,26 @@ An event handler of the "dragend.cropper" event.
 
 ## Methods
 
+As there is a asynchronous process while the cropper build, you must call the following methods only when the cropper built completely.
+
+For example:
+
+```js
+$("img").cropper({
+  built: function () {
+    $(this).cropper("getData");
+  }
+});
+```
+
+Or
+
+```js
+$("img").on("built.cropper", function () {
+  $(this).cropper("getDataURL");
+}).cropper();
+```
+
 #### zoom
 
 - Zoom the image.
