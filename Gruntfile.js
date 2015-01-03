@@ -8,7 +8,7 @@ module.exports = function (grunt) {
             " * Cropper v<%= pkg.version %>\n" +
             " * <%= pkg.homepage %>\n" +
             " *\n" +
-            " * Copyright <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
+            " * Copyright 2014-<%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
             " * Released under the <%= pkg.license.type %> license\n" +
             " */\n",
     clean: {
