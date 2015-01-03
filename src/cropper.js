@@ -479,6 +479,7 @@
           // If not set, use the original aspect ratio of the image.
           aspectRatio = defaults.aspectRatio || this.image.aspectRatio,
           ratio = this.image.ratio,
+          autoCropDragger = {},
           dragger;
 
       if (((cropper.height * aspectRatio) - cropper.width) >= 0) {
@@ -532,15 +533,17 @@
       dragger.minHeight = min(dragger.maxHeight, dragger.minHeight);
 
       // Center the dragger by default
-      dragger.height *= defaults.autoCropArea;
-      dragger.width *= defaults.autoCropArea;
-      dragger.left = (cropper.width - dragger.width) / 2;
-      dragger.top = (cropper.height - dragger.height) / 2;
-      dragger.oldLeft = dragger.left;
-      dragger.oldTop = dragger.top;
+      autoCropDragger.height = dragger.height * defaults.autoCropArea;
+      autoCropDragger.width = dragger.width * defaults.autoCropArea;
+      autoCropDragger.left = (cropper.width - autoCropDragger.width) / 2;
+      autoCropDragger.top = (cropper.height - autoCropDragger.height) / 2;
 
-      this.defaultDragger = dragger;
-      this.dragger = $.extend({}, dragger);
+      autoCropDragger.oldLeft = dragger.oldLeft = dragger.left;
+      autoCropDragger.oldTop = dragger.oldTop = dragger.top;
+
+      this.autoCropDragger = autoCropDragger;
+      this.defaultDragger = $.extend({}, dragger);
+      this.dragger = dragger;
     },
 
     renderDragger: function () {
@@ -673,7 +676,7 @@
       }
 
       if (data === NULL || $.isEmptyObject(data)) {
-        dragger = $.extend({}, this.defaultDragger);
+        dragger = $.extend({}, this.autoCropDragger);
       }
 
       if ($.isPlainObject(data) && !$.isEmptyObject(data)) {
