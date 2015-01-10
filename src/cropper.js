@@ -479,7 +479,7 @@
           // If not set, use the original aspect ratio of the image.
           aspectRatio = defaults.aspectRatio || this.image.aspectRatio,
           ratio = this.image.ratio,
-          autoCropDragger = {},
+          autoCropDragger,
           dragger;
 
       if (((cropper.height * aspectRatio) - cropper.width) >= 0) {
@@ -533,6 +533,7 @@
       dragger.minHeight = min(dragger.maxHeight, dragger.minHeight);
 
       // Center the dragger by default
+      autoCropDragger = $.extend({}, dragger);
       autoCropDragger.height = dragger.height * defaults.autoCropArea;
       autoCropDragger.width = dragger.width * defaults.autoCropArea;
       autoCropDragger.left = (cropper.width - autoCropDragger.width) / 2;
