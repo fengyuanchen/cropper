@@ -248,7 +248,6 @@
       this.$viewer = $cropper.find(".cropper-viewer");
 
       defaults.autoCrop ? (this.cropped = TRUE) : this.$dragger.addClass(CLASS_HIDDEN);
-      defaults.dragCrop && this.setDragMode("crop");
       defaults.modal && this.$canvas.addClass(CLASS_MODAL);
       !defaults.dashed && this.$dragger.find(".cropper-dashed").addClass(CLASS_HIDDEN);
       !defaults.movable && this.$dragger.find(".cropper-face").data(STRING_DIRECTIVE, "move");
@@ -258,6 +257,7 @@
       this.initPreview();
 
       this.built = TRUE; // Set `true` before update
+      defaults.dragCrop && this.setDragMode("crop"); // Set after built
       this.update();
       this.replaced = FALSE; // Reset to `false` after update
 
