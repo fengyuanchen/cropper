@@ -24,8 +24,8 @@ A simple jQuery image cropping plugin.
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (41 KB)
-└── cropper.min.js  (17 KB)
+├── cropper.js      (43 KB)
+└── cropper.min.js  (18 KB)
 ```
 
 
