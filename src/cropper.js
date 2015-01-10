@@ -77,6 +77,12 @@
         };
       },
 
+      addTimestamp = function (url) {
+        var timestamp = "timestamp=" + (new Date()).getTime();
+
+        return (url + (url.indexOf("?") === -1 ? "?" : "&") + timestamp);
+      },
+
       // Constructor
       Cropper = function (element, options) {
         this.element = element;
@@ -170,6 +176,7 @@
       if (this.defaults.checkImageOrigin) {
         if ($this.prop("crossOrigin") || this.isCrossOriginURL(url)) {
           crossOrigin = " crossOrigin";
+          url = addTimestamp(url); // Bust cache (#119, #148)
         }
       }
 
