@@ -73,7 +73,7 @@ $(".container > img").cropper({
 ```
 
 **Notes:**
-- The size of the cropper inherits from the size of the image's parent element, so be sure to wrap the image with a visible block element.
+- The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a visible block element (minWidth: 300px, minHeight: 150px).
 - The values of the result data was computed with the original size of the image, so you can use them to crop the image directly.
 
 
