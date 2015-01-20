@@ -388,8 +388,8 @@
       var $container = this.$container;
 
       this.container = {
-        width: max($container.width(), 300),
-        height: max($container.height(), 150)
+        width: max($container.width(), this.defaults.minContainerWidth),
+        height: max($container.height(), this.defaults.minContainerHeight)
       };
     },
 
@@ -1531,6 +1531,8 @@
     minHeight: 0,
     maxWidth: INFINITY,
     maxHeight: INFINITY,
+    minContainerWidth: 300,
+    minContainerHeight: 150,
 
     // Events
     build: NULL,
