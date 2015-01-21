@@ -252,6 +252,22 @@ The maximum height (px of original image) of the cropping zone.
 Use this option only when you are sure that the image has this maximum height.
 
 
+#### minContainerWidth
+
+- type: `Number`
+- default: 300
+
+The minimum width of the block element containing the image.
+
+
+#### minContainerHeight
+
+- type: `Number`
+- default: 150
+
+The minimum height of the block element containing the image.
+
+
 #### build
 
 - type: `Function`
