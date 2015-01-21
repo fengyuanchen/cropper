@@ -5,6 +5,7 @@ releases
 build
 tests
 docs
+utils
 workspace
 CHANGELOG.md
 TODO.md
