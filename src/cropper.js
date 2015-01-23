@@ -771,6 +771,7 @@
         if (this.built) {
           this.initDragger();
           this.renderDragger();
+          this.setData(this.defaults.data); // Reset to initial state
         }
       }
     },
