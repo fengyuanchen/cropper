@@ -61,7 +61,7 @@
       toArray = function (obj, offset) {
         var args = [];
 
-        if (typeof offset === "number") { // It's necessary for IE8
+        if (isNumber(offset)) { // It's necessary for IE8
           args.push(offset);
         }
 
@@ -385,11 +385,12 @@
     },
 
     initContainer: function () {
-      var $container = this.$container;
+      var $container = this.$container,
+          defaults = this.defaults;
 
       this.container = {
-        width: max($container.width(), this.defaults.minContainerWidth),
-        height: max($container.height(), this.defaults.minContainerHeight)
+        width: max($container.width(), defaults.minContainerWidth),
+        height: max($container.height(), defaults.minContainerHeight)
       };
     },
 
