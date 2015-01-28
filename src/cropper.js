@@ -966,11 +966,7 @@
 
     wheel: function (event) {
       var e = event.originalEvent,
-          msDeltaY = 117.25, // IE
-          mozDelatY = 5, // Firefox
-          webkitDelatY = 166.66665649414062, // Chrome, Opera
-          zoomDelta = 0.1, // 10%
-          delta;
+          delta = 1;
 
       if (this.disabled) {
         return;
@@ -979,13 +975,14 @@
       event.preventDefault();
 
       if (e.deltaY) {
-        delta = e.deltaY;
-        delta = delta % mozDelatY === 0 ? delta / mozDelatY : delta % msDeltaY === 0 ? delta / msDeltaY : delta / webkitDelatY;
-      } else {
-        delta = e.wheelDelta ? -e.wheelDelta / 120 : (e.detail ? e.detail / 3 : 0);
+        delta = e.deltaY > 0 ? 1 : -1;
+      } else if (e.wheelDelta) {
+        delta = -e.wheelDelta / 120;
+      } else if (e.detail) {
+        delta = e.detail > 0 ? 1 : -1;
       }
 
-      this.zoom(delta * zoomDelta);
+      this.zoom(delta * 0.1);
     },
 
     dragstart: function (event) {
