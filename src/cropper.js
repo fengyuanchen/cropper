@@ -1406,6 +1406,7 @@
 
           this.endX2 = this.startX2;
           this.endY2 = this.startY2;
+          renderable = FALSE;
           break;
 
         // Crop image
