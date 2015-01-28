@@ -1,7 +1,8 @@
-demos
-docs
-examples
-resources
-src
-bower.json
-Gruntfile.js
+# Files to ignore
+
+releases
+build
+tests
+utils
+workspace
+CHANGELOG.md
