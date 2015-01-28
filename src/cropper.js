@@ -1120,8 +1120,7 @@
           right = left + width,
           bottom = top + height,
           renderable = TRUE,
-          defaults = this.defaults,
-          aspectRatio = defaults.aspectRatio,
+          aspectRatio = this.defaults.aspectRatio,
           range = {
             x: this.endX - this.startX,
             y: this.endY - this.startY
@@ -1390,27 +1389,23 @@
           image.top += range.y;
           this.renderImage("move");
           renderable = FALSE;
-
           break;
 
         // Scale image
         case "zoom":
-          if (defaults.zoomable) {
-            this.zoom(function (x, y, x1, y1, x2, y2) {
-              return (sqrt(x2 * x2 + y2 * y2) - sqrt(x1 * x1 + y1 * y1)) / sqrt(x * x + y * y);
-            }(
-              image.width,
-              image.height,
-              abs(this.startX - this.startX2),
-              abs(this.startY - this.startY2),
-              abs(this.endX - this.endX2),
-              abs(this.endY - this.endY2)
-            ));
+          this.zoom(function (x, y, x1, y1, x2, y2) {
+            return (sqrt(x2 * x2 + y2 * y2) - sqrt(x1 * x1 + y1 * y1)) / sqrt(x * x + y * y);
+          }(
+            image.width,
+            image.height,
+            abs(this.startX - this.startX2),
+            abs(this.startY - this.startY2),
+            abs(this.endX - this.endX2),
+            abs(this.endY - this.endY2)
+          ));
 
-            this.endX2 = this.startX2;
-            this.endY2 = this.startY2;
-          }
-
+          this.endX2 = this.startX2;
+          this.endY2 = this.startY2;
           break;
 
         // Crop image
