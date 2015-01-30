@@ -431,11 +431,11 @@ $("img").on("built.cropper", function () {
 
 - Get the data url (base64 image) of the cropped zone.
 - Parameters:
-  + options: A `Object` contains: "width", "height". Define the sizes of the result image.
+  + options: An `Object` contains: "width", "height". Define the sizes of the result image.
   + type: A `String` indicating the image format. The default type is image/png. Other types: "image/jpeg", "image/webp".
   + quality: A `Number` between 0 and 1 indicating image quality if the requested type is image/jpeg or image/webp.
-- **Note:** Be sure the browser supports canvas before call this method.
-- **Note:** Don't call this in IE9/10 (not support [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes)) when it's a [cross-origin image](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img).
+- **Note:** Be sure the browser supports canvas before calling this method.
+- **Note:** Don't call this on IE9/10 (no support for [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes)) when it's a [cross-origin image](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img).
 - Usage:
 
 ```js
