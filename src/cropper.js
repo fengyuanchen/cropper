@@ -542,8 +542,10 @@
 
       // Center the dragger by default
       autoCropDragger = $.extend({}, dragger);
-      autoCropDragger.height = dragger.height * defaults.autoCropArea;
-      autoCropDragger.width = dragger.width * defaults.autoCropArea;
+
+      // The width of auto crop area must large than minWidth, and the height too. (#164)
+      autoCropDragger.width = max(dragger.minWidth, dragger.width * defaults.autoCropArea);
+      autoCropDragger.height = max(dragger.minHeight, dragger.height * defaults.autoCropArea);
       autoCropDragger.left = (cropper.width - autoCropDragger.width) / 2;
       autoCropDragger.top = (cropper.height - autoCropDragger.height) / 2;
 
