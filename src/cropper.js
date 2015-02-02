@@ -30,7 +30,7 @@
       // RegExps
       REGEXP_DIRECTIVES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,
       REGEXP_OPTIONS = /^(x|y|width|height)$/,
-      REGEXP_PROPERTIES = /^(naturalWidth|naturalHeight|width|height|aspectRatio|ratio|rotate)$/,
+      REGEXP_PROPERTIES = /^(left|top|naturalWidth|naturalHeight|width|height|aspectRatio|ratio|rotate)$/,
 
       // Classes
       CLASS_MODAL = "cropper-modal",
