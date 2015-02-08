@@ -1257,10 +1257,16 @@
             }
           }
 
-          if (height < 0) {
-            directive = "sw";
+          if (width < 0 && height < 0) {
+            directive = 'sw';
             height = 0;
             width = 0;
+          } else if (width < 0) {
+            directive = 'nw';
+            width = 0;
+          } else  if (height < 0) {
+            directive = 'se';
+            height = 0;
           }
 
           break;
@@ -1300,10 +1306,16 @@
             }
           }
 
-          if (height < 0) {
-            directive = "se";
+          if (width < 0 && height < 0) {
+            directive = 'se';
             height = 0;
             width = 0;
+          } else if (width < 0) {
+            directive = 'ne';
+            width = 0;
+          } else  if (height < 0) {
+            directive = 'sw';
+            height = 0;
           }
 
           break;
@@ -1340,10 +1352,16 @@
             }
           }
 
-          if (width < 0) {
-            directive = "ne";
+          if (width < 0 && height < 0) {
+            directive = 'ne';
             height = 0;
             width = 0;
+          } else if (width < 0) {
+            directive = 'se';
+            width = 0;
+          } else  if (height < 0) {
+            directive = 'nw';
+            height = 0;
           }
 
           break;
@@ -1377,10 +1395,16 @@
             }
           }
 
-          if (width < 0) {
-            directive = "nw";
+          if (width < 0 && height < 0) {
+            directive = 'nw';
             height = 0;
             width = 0;
+          } else if (width < 0) {
+            directive = 'sw';
+            width = 0;
+          } else  if (height < 0) {
+            directive = 'ne';
+            height = 0;
           }
 
           break;
