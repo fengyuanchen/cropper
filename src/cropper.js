@@ -598,7 +598,7 @@
     },
 
     reset: function (deep) {
-      if (!this.cropped) {
+      if (!this.cropped || this.disabled) {
         return;
       }
 
@@ -613,7 +613,7 @@
     },
 
     clear: function () {
-      if (!this.cropped) {
+      if (!this.cropped || this.disabled) {
         return;
       }
 
@@ -651,7 +651,7 @@
           element = this.element,
           context;
 
-      if (url && url !== this.url && url !== $this.attr("src")) {
+      if (!this.disabled && url && url !== this.url && url !== $this.attr("src")) {
         if (!rotated) {
           this.rotated = FALSE;
           this.replaced = TRUE;
@@ -680,7 +680,7 @@
           image = this.image,
           aspectRatio = this.defaults.aspectRatio;
 
-      if (!this.built || typeof data === STRING_UNDEFINED) {
+      if (!this.built || this.disabled || typeof data === STRING_UNDEFINED) {
         return;
       }
 
@@ -763,6 +763,10 @@
 
     setAspectRatio: function (aspectRatio) {
       var freeRatio = aspectRatio === "auto";
+
+      if (this.disabled) {
+        return;
+      }
 
       aspectRatio = num(aspectRatio);
 
