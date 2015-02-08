@@ -636,7 +636,7 @@
       var $this = this.$element;
 
       if (!this.ready) {
-        return;
+        this.$clone.off('load').remove();
       }
 
       this.unbuild();
