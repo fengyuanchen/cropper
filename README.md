@@ -257,7 +257,7 @@ Use this option only when you are sure that the image has this maximum height.
 - type: `Number`
 - default: 300
 
-The minimum width of the block element containing the image.
+The minimum width of the cropper container.
 
 
 #### minContainerHeight
@@ -265,7 +265,7 @@ The minimum width of the block element containing the image.
 - type: `Number`
 - default: 150
 
-The minimum height of the block element containing the image.
+The minimum height of the cropper container.
 
 
 #### build

@@ -634,7 +634,7 @@
       var $this = this.$element;
 
       if (!this.ready) {
-        this.$clone.off('load').remove();
+        this.$clone.off("load").remove();
       }
 
       this.unbuild();
@@ -1260,14 +1260,14 @@
           }
 
           if (width < 0 && height < 0) {
-            directive = 'sw';
+            directive = "sw";
             height = 0;
             width = 0;
           } else if (width < 0) {
-            directive = 'nw';
+            directive = "nw";
             width = 0;
-          } else  if (height < 0) {
-            directive = 'se';
+          } else if (height < 0) {
+            directive = "se";
             height = 0;
           }
 
@@ -1309,14 +1309,14 @@
           }
 
           if (width < 0 && height < 0) {
-            directive = 'se';
+            directive = "se";
             height = 0;
             width = 0;
           } else if (width < 0) {
-            directive = 'ne';
+            directive = "ne";
             width = 0;
-          } else  if (height < 0) {
-            directive = 'sw';
+          } else if (height < 0) {
+            directive = "sw";
             height = 0;
           }
 
@@ -1355,14 +1355,14 @@
           }
 
           if (width < 0 && height < 0) {
-            directive = 'ne';
+            directive = "ne";
             height = 0;
             width = 0;
           } else if (width < 0) {
-            directive = 'se';
+            directive = "se";
             width = 0;
-          } else  if (height < 0) {
-            directive = 'nw';
+          } else if (height < 0) {
+            directive = "nw";
             height = 0;
           }
 
@@ -1398,14 +1398,14 @@
           }
 
           if (width < 0 && height < 0) {
-            directive = 'nw';
+            directive = "nw";
             height = 0;
             width = 0;
           } else if (width < 0) {
-            directive = 'sw';
+            directive = "sw";
             width = 0;
-          } else  if (height < 0) {
-            directive = 'ne';
+          } else if (height < 0) {
+            directive = "ne";
             height = 0;
           }
 
