@@ -173,11 +173,9 @@
         image.rotate = 0;
       }
 
-      if (this.defaults.checkImageOrigin) {
-        if ($this.prop("crossOrigin") || this.isCrossOriginURL(url)) {
-          crossOrigin = " crossOrigin";
-          url = addTimestamp(url); // Bust cache (#119, #148)
-        }
+      if (this.defaults.checkImageOrigin && this.isCrossOriginURL(url)) {
+        crossOrigin = " crossOrigin";
+        url = addTimestamp(url); // Bust cache (#119, #148)
       }
 
       this.$clone = ($clone = $("<img" + crossOrigin + ' src="' + url + '">'));
