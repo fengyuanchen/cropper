@@ -1,5 +1,6 @@
 # Files to ignore
 
+_gh_pages
 releases
 build
 tests
