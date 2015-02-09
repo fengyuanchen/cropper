@@ -21,13 +21,13 @@ module.exports = function (grunt) {
       options: {
         jshintrc: "resources/.jshintrc"
       },
-      files: ["*.js", "src/*.js"]
+      files: ["*.js", "src/*.js", "docs/js/docs.js", "demos/js/docs.js"]
     },
     jscs: {
       options: {
         config: "resources/.jscsrc"
       },
-      files: ["src/*.js"]
+      files: ["src/*.js", "docs/js/docs.js", "demos/js/docs.js"]
     },
     uglify: {
       dist: {
@@ -69,7 +69,7 @@ module.exports = function (grunt) {
       options: {
         csslintrc: "resources/.csslintrc"
       },
-      files: ["src/*.css"]
+      files: ["src/*.css", "docs/css/docs.css", "demos/css/docs.css"]
     },
     cssmin: {
       options: {
