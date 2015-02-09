@@ -1,10 +1,13 @@
-$(function() {
+$(function () {
+
+  "use strict";
+
   var $image = $(".cropper"),
       $dataX = $("#dataX"),
       $dataY = $("#dataY"),
       $dataHeight = $("#dataHeight"),
       $dataWidth = $("#dataWidth"),
-      console = window.console || {log:$.noop},
+      console = window.console || { log: function () {} },
       cropper;
 
   $image.cropper({
@@ -34,30 +37,30 @@ $(function() {
     // minWidth: 160,
     // minHeight: 90,
 
-    done: function(data) {
+    done: function (data) {
       $dataX.val(data.x);
       $dataY.val(data.y);
       $dataHeight.val(data.height);
       $dataWidth.val(data.width);
     },
 
-    build: function(e) {
+    build: function (e) {
       console.log(e.type);
     },
 
-    built: function(e) {
+    built: function (e) {
       console.log(e.type);
     },
 
-    dragstart: function(e) {
+    dragstart: function (e) {
       console.log(e.type);
     },
 
-    dragmove: function(e) {
+    dragmove: function (e) {
       console.log(e.type);
     },
 
-    dragend: function(e) {
+    dragend: function (e) {
       console.log(e.type);
     }
   });
@@ -65,117 +68,115 @@ $(function() {
   cropper = $image.data("cropper");
 
   $image.on({
-    "build.cropper": function(e) {
+    "build.cropper": function (e) {
       console.log(e.type);
       // e.preventDefault();
     },
-    "built.cropper": function(e) {
+    "built.cropper": function (e) {
       console.log(e.type);
       // e.preventDefault();
     },
-    "dragstart.cropper": function(e) {
+    "dragstart.cropper": function (e) {
       console.log(e.type);
       // e.preventDefault();
     },
-    "dragmove.cropper": function(e) {
+    "dragmove.cropper": function (e) {
       console.log(e.type);
       // e.preventDefault();
     },
-    "dragend.cropper": function(e) {
+    "dragend.cropper": function (e) {
       console.log(e.type);
       // e.preventDefault();
     }
   });
 
-  $("#reset").click(function() {
+  $("#reset").click(function () {
     $image.cropper("reset");
   });
 
-  $("#reset2").click(function() {
+  $("#reset2").click(function () {
     $image.cropper("reset", true);
   });
 
-  $("#clear").click(function() {
+  $("#clear").click(function () {
     $image.cropper("clear");
   });
 
-  $("#destroy").click(function() {
+  $("#destroy").click(function () {
     $image.cropper("destroy");
   });
 
-  $("#enable").click(function() {
+  $("#enable").click(function () {
     $image.cropper("enable");
   });
 
-  $("#disable").click(function() {
+  $("#disable").click(function () {
     $image.cropper("disable");
   });
 
-  $("#zoom").click(function() {
+  $("#zoom").click(function () {
     $image.cropper("zoom", $("#zoomWith").val());
   });
 
-  $("#zoomIn").click(function() {
+  $("#zoomIn").click(function () {
     $image.cropper("zoom", 0.1);
   });
 
-  $("#zoomOut").click(function() {
+  $("#zoomOut").click(function () {
     $image.cropper("zoom", -0.1);
   });
 
-  $("#rotate").click(function() {
+  $("#rotate").click(function () {
     $image.cropper("rotate", $("#rotateWith").val());
   });
 
-  $("#rotateLeft").click(function() {
+  $("#rotateLeft").click(function () {
     $image.cropper("rotate", -90);
   });
 
-  $("#rotateRight").click(function() {
+  $("#rotateRight").click(function () {
     $image.cropper("rotate", 90);
   });
 
-  var $inputImage = $("#inputImage");
+  var $inputImage = $("#inputImage"),
+      blobURL;
 
-  if (window.FileReader) {
-    $inputImage.change(function() {
-      var fileReader = new FileReader(),
-          files = this.files,
+  if (window.URL) {
+    $inputImage.change(function () {
+      var files = this.files,
           file;
 
-      if (!files.length) {
-        return;
-      }
+      if (files && files.length) {
+        file = files[0];
 
-      file = files[0];
+        if (/^image\/\w+$/.test(file.type)) {
+          if (blobURL) {
+            URL.revokeObjectURL(blobURL); // Revoke the old one
+          }
 
-      if (/^image\/\w+$/.test(file.type)) {
-        fileReader.readAsDataURL(file);
-        fileReader.onload = function () {
-          $image.cropper("reset", true).cropper("replace", this.result);
+          blobURL = URL.createObjectURL(file);
+          $image.cropper("reset", true).cropper("replace", blobURL);
           $inputImage.val("");
-        };
-      } else {
-        showMessage("Please choose an image file.");
+        }
       }
     });
   } else {
-    $inputImage.addClass("hide");
+    $inputImage.parent().remove();
   }
 
-  $("#setAspectRatio").click(function() {
+  $("#setAspectRatio").click(function () {
     $image.cropper("setAspectRatio", $("#aspectRatio").val());
   });
 
-  $("#replace").click(function() {
+  $("#replace").click(function () {
     $image.cropper("replace", $("#replaceWith").val());
   });
 
-  $("#getImageData").click(function() {
+  $("#getImageData").click(function () {
     $("#showImageData").val(JSON.stringify($image.cropper("getImageData")));
   });
 
-  $("#setData").click(function() {
+  $("#setData").click(function () {
     $image.cropper("setData", {
       x: $dataX.val(),
       y: $dataY.val(),
@@ -184,29 +185,29 @@ $(function() {
     });
   });
 
-  $("#getData").click(function() {
+  $("#getData").click(function () {
     $("#showData").val(JSON.stringify($image.cropper("getData")));
   });
 
-  $("#getData2").click(function() {
+  $("#getData2").click(function () {
     $("#showData").val(JSON.stringify($image.cropper("getData", true)));
   });
 
-  $("#getDataURL").click(function() {
+  $("#getDataURL").click(function () {
     var dataURL = $image.cropper("getDataURL");
 
     $("#dataURL").text(dataURL);
     $("#showDataURL").html('<img src="' + dataURL + '">');
   });
 
-  $("#getDataURL2").click(function() {
+  $("#getDataURL2").click(function () {
     var dataURL = $image.cropper("getDataURL", "image/jpeg");
 
     $("#dataURL").text(dataURL);
     $("#showDataURL").html('<img src="' + dataURL + '">');
   });
 
-  $("#getDataURL3").click(function() {
+  $("#getDataURL3").click(function () {
     var dataURL = $image.cropper("getDataURL", {
       width: 160,
       height: 90
