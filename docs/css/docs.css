@@ -242,7 +242,7 @@ code {
 
 /* Google code prettify
  * -------------------------------------------------------------------------- */
-pre.prettyprint {
+.prettyprint {
   border: 1px solid #ddd !important;
   padding: 10px 15px !important;
 }
