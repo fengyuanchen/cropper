@@ -583,6 +583,11 @@
       // Re-render the dragger
       this.dragger = dragger;
 
+      // #186
+      if (this.defaults.movable) {
+        this.$dragger.find(".cropper-face").data(STRING_DIRECTIVE, (dragger.width === cropper.width && dragger.height === cropper.height) ? "move" : "all");
+      }
+
       if (!this.disabled) {
         this.defaults.done(this.getData());
       }
