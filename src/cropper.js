@@ -197,7 +197,7 @@
     isCrossOriginURL: function (url) {
       var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
 
-      if ((parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port))) {
+      if (parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port)) {
         return TRUE;
       }
 
