@@ -1,10 +1,5 @@
 # Files to ignore
 
 node_modules
-_gh_pages
-releases
-build
-tests
-utils
-workspace
-CHANGELOG.md
+bower_components
+_*
