@@ -664,6 +664,11 @@
 
         if ($this.is("img")) {
           $this.attr("src", url);
+          // Add/remove crossorigin attribute on the orignal element, based on the url
+          if (this.isCrossOriginURL(url))
+            $this.attr("crossorigin", true);
+          else
+            $this.removeAttr("crossOrigin");
           this.load();
         } else if ($this.is("canvas") && this.support.canvas) {
           context = element.getContext("2d");
