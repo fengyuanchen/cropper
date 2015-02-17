@@ -397,7 +397,15 @@
           image = this.image,
           cropper;
 
-      if (((image.naturalWidth * container.height / image.naturalHeight) - container.width) >= 0) {
+       if (this.defaults.useNaturalSize){
+        cropper = {
+          width: image.naturalWidth,
+          height: image.naturalHeight,
+          top: 0,
+        };
+
+        cropper.left = (container.width - cropper.width) / 2;
+      } else if (((image.naturalWidth * container.height / image.naturalHeight) - container.width) >= 0) {
         cropper = {
           width: container.width,
           height: container.width / image.aspectRatio,
@@ -1558,6 +1566,7 @@
     zoomable: TRUE,
     rotatable: TRUE,
     checkImageOrigin: TRUE,
+    useNaturalSize: TRUE,
 
     // Dimensions
     minWidth: 0,
