@@ -383,13 +383,21 @@
     },
 
     initContainer: function () {
-      var $container = this.$container,
+      var $this = this.$element,
+          $container = this.$container,
+          $cropper = this.$cropper,
           defaults = this.defaults;
+
+      $cropper.addClass(CLASS_HIDDEN);
+      $this.removeClass(CLASS_HIDDEN);
 
       this.container = {
         width: max($container.width(), defaults.minContainerWidth),
         height: max($container.height(), defaults.minContainerHeight)
       };
+
+      $this.addClass(CLASS_HIDDEN);
+      $cropper.removeClass(CLASS_HIDDEN);
     },
 
     initCropper: function () {
