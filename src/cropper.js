@@ -379,7 +379,7 @@
 
       this.$preview = $(this.defaults.preview);
       this.$viewer.html(img);
-      this.$preview.html(img).find("img").css("cssText", "min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;");
+      this.$preview.html(img).find("img").css("cssText", "width:100%;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;");
     },
 
     initContainer: function () {
