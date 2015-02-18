@@ -51,7 +51,6 @@
       }
 
       this.initTooltip();
-      this.initModal();
       this.addListener();
     },
 
@@ -65,11 +64,6 @@
       this.$avatarView.tooltip({
         placement: "bottom"
       });
-    },
-
-    initModal: function () {
-      this.$avatarModal.modal("hide");
-      this.initPreview();
     },
 
     initPreview: function () {
@@ -115,7 +109,8 @@
     },
 
     click: function () {
-      this.$avatarModal.modal("show");
+      this.$avatarModal.modal();
+      this.initPreview();
     },
 
     change: function () {
