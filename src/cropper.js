@@ -899,21 +899,19 @@
     getRotatedDataURL: function (degree) {
       var canvas = $("<canvas>")[0],
           context = canvas.getContext("2d"),
-          arc = degree * Math.PI / 180,
-          deg = abs(degree) % 180,
-          acuteAngle = deg > 90 ? (180 - deg) : deg,
-          acuteAngleArc = acuteAngle * Math.PI / 180,
           originalImage = this.originalImage,
           naturalWidth = originalImage.naturalWidth,
           naturalHeight = originalImage.naturalHeight,
-          width = abs(naturalWidth * cos(acuteAngleArc) + naturalHeight * sin(acuteAngleArc)),
-          height = abs(naturalWidth * sin(acuteAngleArc) + naturalHeight * cos(acuteAngleArc));
+          deg = abs(degree) % 180,
+          arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180,
+          width = naturalWidth * cos(arc) + naturalHeight * sin(arc),
+          height = naturalWidth * sin(arc) + naturalHeight * cos(arc);
 
       canvas.width = width;
       canvas.height = height;
       context.save();
       context.translate(width / 2, height / 2);
-      context.rotate(arc);
+      context.rotate(degree * Math.PI / 180);
       context.drawImage(this.$original[0], -naturalWidth / 2, -naturalHeight / 2, naturalWidth, naturalHeight);
       context.restore();
 
