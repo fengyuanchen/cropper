@@ -1,0 +1,212 @@
+// Cropper
+// =============================================================================
+
+.cropper-container {
+  position: relative;
+  overflow: hidden;
+  .user-select(none);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+
+  img {
+    display: block; // Avoid margin top issue (Occur only when margin-top <= -height)
+    .square(100%);
+    .min-square(e("0 !important"));
+    .max-square(e("none !important"));
+  }
+}
+
+.cropper-modal,
+.cropper-canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.cropper-canvas {
+  background-color: #fff;
+  .opacity(0);
+}
+
+.cropper-modal {
+  background-color: #000;
+  .opacity(.5);
+}
+
+.cropper-cropbox {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  .square(80%);
+}
+
+.cropper-viewer {
+  display: block;
+  .square(100%);
+  overflow: hidden;
+  outline: 1px solid @color-brand;
+  outline-color: fade(@color-brand, 75%);
+}
+
+.cropper-dashed {
+  position: absolute;
+  display: block;
+  border: 0 dashed #fff;
+  .opacity(.5);
+
+  &.dashed-h {
+    top: percentage(1 / 3);
+    left: 0;
+    .size(100%, percentage(1 / 3));
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  &.dashed-v {
+    top: 0;
+    left: percentage(1 / 3);
+    .size(percentage(1 / 3), 100%);
+    border-right-width: 1px;
+    border-left-width: 1px;
+  }
+}
+
+.cropper-face,
+.cropper-line,
+.cropper-point {
+  position: absolute;
+  display: block;
+  .square(100%);
+  .opacity(.1);
+}
+
+.cropper-face {
+  top: 0;
+  left: 0;
+  cursor: move;
+  background-color: #fff;
+}
+
+.cropper-line {
+  background-color: @color-brand;
+
+  &.line-e {
+    top: 0;
+    right: -3px;
+    width: 5px;
+    cursor: e-resize;
+  }
+
+  &.line-n {
+    top: -3px;
+    left: 0;
+    height: 5px;
+    cursor: n-resize;
+  }
+
+  &.line-w {
+    top: 0;
+    left: -3px;
+    width: 5px;
+    cursor: w-resize;
+  }
+
+  &.line-s {
+    bottom: -3px;
+    left: 0;
+    height: 5px;
+    cursor: s-resize;
+  }
+}
+
+.cropper-point {
+  .square(5px);
+  background-color: @color-brand;
+  .opacity(.75);
+
+  &.point-e {
+    top: 50%;
+    right: -3px;
+    margin-top: -3px;
+    cursor: e-resize;
+  }
+
+  &.point-n {
+    top: -3px;
+    left: 50%;
+    margin-left: -3px;
+    cursor: n-resize;
+  }
+
+  &.point-w {
+    top: 50%;
+    left: -3px;
+    margin-top: -3px;
+    cursor: w-resize;
+  }
+
+  &.point-s {
+    bottom: -3px;
+    left: 50%;
+    margin-left: -3px;
+    cursor: s-resize;
+  }
+
+  &.point-ne {
+    top: -3px;
+    right: -3px;
+    cursor: ne-resize;
+  }
+
+  &.point-nw {
+    top: -3px;
+    left: -3px;
+    cursor: nw-resize;
+  }
+
+  &.point-sw {
+    bottom: -3px;
+    left: -3px;
+    cursor: sw-resize;
+  }
+
+  &.point-se {
+    right: -3px;
+    bottom: -3px;
+    .square(20px);
+    cursor: se-resize;
+    .opacity(1);
+  }
+
+  &.point-se:before {
+    position: absolute;
+    right: -50%;
+    bottom: -50%;
+    display: block;
+    .square(200%);
+    content: " ";
+    background-color: @color-brand;
+    .opacity(0);
+  }
+
+  @media (min-width: @screen-sm) {
+    &.point-se {
+      .square(15px);
+    }
+  }
+
+  @media (min-width: @screen-md) {
+    &.point-se {
+      .square(10px);
+    }
+  }
+
+  @media (min-width: @screen-lg) {
+    &.point-se {
+      .square(5px);
+      .opacity(.75);
+    }
+  }
+}
