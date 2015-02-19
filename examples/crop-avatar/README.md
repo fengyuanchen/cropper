@@ -1,5 +1,13 @@
 # Crop Avatar
 
+A complete example of Cropper.
+
+
+## Server Dependencies
+
+- PHP 5.5+
+
+
 ## Browser Support
 
 - Chrome 34+

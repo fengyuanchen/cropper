@@ -100,6 +100,15 @@ body {
   }
 }
 
+.avatar-btns {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.avatar-btns .btn-group {
+  margin-right: 5px;
+}
+
 .loading {
   display: none;
   position: absolute;
