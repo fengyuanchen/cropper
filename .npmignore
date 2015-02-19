@@ -1,4 +1,4 @@
-# Files to ignore for NPM
+# Files to ignore
 
 bower_components
 _*
