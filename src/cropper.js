@@ -422,7 +422,15 @@
           image = this.image,
           cropper;
 
-      if (((image.naturalWidth * container.height / image.naturalHeight) - container.width) >= 0) {
+       if (this.defaults.useNaturalSize){
+        cropper = {
+          width: image.naturalWidth,
+          height: image.naturalHeight,
+          top: 0,
+        };
+
+        cropper.left = (container.width - cropper.width) / 2;
+      } else if (((image.naturalWidth * container.height / image.naturalHeight) - container.width) >= 0) {
         cropper = {
           width: container.width,
           height: container.width / image.aspectRatio,
@@ -689,6 +697,11 @@
 
         if ($this.is("img")) {
           $this.attr("src", url);
+          // Add/remove crossorigin attribute on the orignal element, based on the url
+          if (this.isCrossOriginURL(url))
+            $this.attr("crossorigin", true);
+          else
+            $this.removeAttr("crossOrigin");
           this.load();
         } else if ($this.is("canvas") && this.support.canvas) {
           context = element.getContext("2d");
@@ -1576,6 +1589,7 @@
     zoomable: TRUE,
     rotatable: TRUE,
     checkImageOrigin: TRUE,
+    useNaturalSize: TRUE,
 
     // Dimensions
     minWidth: 0,
