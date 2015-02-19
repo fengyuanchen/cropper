@@ -3,7 +3,6 @@
 A simple jQuery image cropping plugin.
 
 - [Documentation](http://fengyuanchen.github.io/cropper)
-- [Demo](http://fengyuanchen.github.io/cropper#overview)
 
 
 # Features
@@ -24,7 +23,7 @@ A simple jQuery image cropping plugin.
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (44 KB)
+├── cropper.js      (47 KB)
 └── cropper.min.js  (18 KB)
 ```
 
@@ -63,10 +62,10 @@ Initialize with `$.fn.cropper` method.
 </div>
 ```
 
-```javascript
-$(".container > img").cropper({
+```js
+$('.container > img').cropper({
   aspectRatio: 16 / 9,
-  done: function(data) {
+  crop: function(data) {
     // Output the result data for cropping image.
   }
 });
@@ -85,420 +84,522 @@ You may set cropper options with `$().cropper(options)`.
 If you want to change the global default options, You may use `$.fn.cropper.setDefaults(options)`.
 
 
-#### aspectRatio
+### aspectRatio
 
-- type: `String` | `Number`
-- default: `"auto"`
+- Type: `Number`
+- Default: `NaN`
 
-The aspect ratio of the cropping zone.
-By default, the cropping zone is free ratio.
-
-
-#### data
-
-- type: `Object`
-- options: "x", "y", "width", "height"
-- default: `{}`
-
-By default, the cropping zone will appear in the center of the image.
-If you already have values of the last crop and you want to apply them, just set them as option.
-
-For example:
-
-```javascript
-{
-  x: 100,
-  y: 50,
-  width: 480,
-  height: 270
-}
-```
-
-#### done
-
-- type: `Function`
-- default: `function(data) {}`
-
-This function will be executed when the cropping zone changes by a move, resize or crop.
+Set the aspect ratio of the crop box. By default, the crop box is free ratio.
 
 
-#### preview
+### crop
 
-- type: selector
-- default: `""`
+- Type: `Function`
+- Default: `null`
 
-A jquery selector, add extra elements for a preview.
-
-
-#### multiple
-
-- type: `Boolean`
-- default: `false`
-
-By default, the plugin only supports one cropper per page. If you intend to use more than one, just initialize them with this option set to `true`.
+This function will be executed when changes the crop box or image.
 
 
-#### modal
+### preview
 
-- type: `Boolean`
-- default: `true`
+- Type: `String` (**jQuery selector**)
+- Default: `''`
 
-Show (true) or hide (false) the black modal layer above the cropper.
-
-
-#### dashed
-
-- type: `Boolean`
-- default: `true`
-
-Show (true) or hide (false) the dashed lines above the cropping zone.
+Add extra elements (containers) for previewing.
 
 
-#### autoCrop
+### global
 
-- type: `Boolean`
-- default: `true`
+- Type: `Boolean`
+- Default: `true`
 
-Render the cropping zone automatically when initialize.
+This plugin supports multiple croppers, but only support one global cropper in the same page.
+If you intend to use more than one cropper, just initialize them with this option set to `false`.
 
 
-#### autoCropArea
+### background
 
-- type: `Number`
-- default: `0.8`
+- Type: `Boolean`
+- Default: `true`
+
+Show the grid background of the container.
+
+
+### modal
+
+- Type: `Boolean`
+- Default: `true`
+
+Show the black modal above the crop box.
+
+
+### guides
+
+- Type: `Boolean`
+- Default: `true`
+
+Show the dashed lines above the crop box.
+
+
+### highlight
+
+- Type: `Boolean`
+- Default: `true`
+
+Show the withe modal above the crop box (highlight the crop box).
+
+
+### autoCrop
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to crop the image automatically when initialize.
+
+
+### autoCropArea
+
+- Type: `Number`
+- Default: `0.8` (80% of the image)
 
 A number between 0 and 1. Define the automatic cropping area size (percentage).
 
 
-#### dragCrop
+### dragCrop
 
-- type: `Boolean`
-- default: `true`
+- Type: `Boolean`
+- Default: `true`
 
-Enable to remove the current cropping zone and create a new one by dragging over the image.
-
-
-#### movable
-
-- type: `Boolean`
-- default: `true`
-
-Enable to move the cropping zone.
+Enable to remove the current crop box and create a new one by dragging over the image.
 
 
-#### resizable
+### movable
 
-- type: `Boolean`
-- default: `true`
+- Type: `Boolean`
+- Default: `true`
 
-Enable to resize the cropping zone.
+Enable to move the crop box.
 
 
-#### zoomable
+### resizable
 
-- type: `Boolean`
-- default: `true`
+- Type: `Boolean`
+- Default: `true`
+
+Enable to resize the crop box.
+
+
+### zoomable
+
+- Type: `Boolean`
+- Default: `true`
 
 Enable to zoom the image.
 
 
-#### rotatable
+### mouseWheelZoom
 
-- type: `Boolean`
-- default: `true`
+- Type: `Boolean`
+- Default: `true`
+
+Enable to zoom the image by wheeling mouse.
+
+
+### touchDragZoom
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to zoom the image by dragging touch.
+
+
+### rotatable
+
+- Type: `Boolean`
+- Default: `true`
 
 Enable to rotate the image.
 
 
-#### checkImageOrigin
+### checkImageOrigin
 
-- type: `Boolean`
-- default: `true`
+- Type: `Boolean`
+- Default: `true`
 
-By default, the plugin will check the image origin, and if it is a cross-origin image, a "crossOrigin" attribute will be added to the image element to enable "rotate" and "getDataURL".
-
-
-#### minWidth
-
-- type: `Number`
-- default: `0`
-
-The minimum width (px of original image) of the cropping zone.
-Use this option only when you are sure that the image has this minimum width.
+By default, the plugin will check the image origin, and if it is a cross-origin image, a "crossOrigin" attribute will be added to the image element to enable "getDataURL".
 
 
-#### minHeight
+### responsive
 
-- type: `Number`
-- default: `0`
+- Type: `Boolean`
+- Default: `true`
 
-The minimum height (px of original image) of the cropping zone.
-Use this option only when you are sure that the image has this minimum height.
-
-
-#### maxWidth
-
-- type: `Number`
-- default: `Infinity`
-
-The maximum width (px of original image) of the cropping zone.
-Use this option only when you are sure that the image has this maximum width.
+Rebuild the cropper when resize the window.
 
 
-#### maxHeight
+### minContainerWidth
 
-- type: `Number`
-- default: `Infinity`
+- Type: `Number`
+- Default: `300`
 
-The maximum height (px of original image) of the cropping zone.
-Use this option only when you are sure that the image has this maximum height.
-
-
-#### minContainerWidth
-
-- type: `Number`
-- default: 300
-
-The minimum width of the cropper container.
+The minimum width of the container.
 
 
-#### minContainerHeight
+### minContainerHeight
 
-- type: `Number`
-- default: 150
+- Type: `Number`
+- Default: `150`
 
-The minimum height of the cropper container.
-
-
-#### build
-
-- type: `Function`
-- default: `null`
-
-An event handler of the "build.cropper" event.
+The minimum height of the container.
 
 
-#### built
+### minCropBoxWidth
 
-- type: `Function`
-- default: `null`
+- Type: `Number`
+- Default: `0`
 
-An event handler of the "built.cropper" event.
-
-
-#### dragstart
-
-- type: `Function`
-- default: `null`
-
-An event handler of the "dragstart.cropper" event.
+The minimum width of the crop box.
 
 
-#### dragmove
+### minCropBoxHeight
 
-- type: `Function`
-- default: `null`
+- Type: `Number`
+- Default: `0`
 
-An event handler of the "dragmove.cropper" event.
+The minimum height of the crop box.
 
 
-#### dragend
+### build
 
-- type: `Function`
-- default: `null`
+- Type: `Function`
+- Default: `null`
 
-An event handler of the "dragend.cropper" event.
+A shortcut of the "build.cropper" event.
+
+
+### built
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "built.cropper" event.
+
+
+### dragstart
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "dragstart.cropper" event.
+
+
+### dragmove
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "dragmove.cropper" event.
+
+
+### dragend
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "dragend.cropper" event.
 
 
 ## Methods
 
-As there is a asynchronous process while the cropper build, you must call the following methods only when the cropper built completely.
-
-For example:
+General usage:
 
 ```js
-$("img").cropper({
-  built: function () {
-    $(this).cropper("getData");
-  }
-});
+$().cropper('method', argument1, , argument2, ..., argumentN)
 ```
 
-Or
+
+### move(offsetX, offsetY)
+
+- **offsetX**:
+  - Type: `Number`
+  - Moving size (px) in the horizontal direction
+- **offsetY**:
+  - Type: `Number`
+  - Moving size (px) in the vertical direction
+
+Move the image.
 
 ```js
-$("img").on("built.cropper", function () {
-  $(this).cropper("getDataURL");
-}).cropper();
+$().cropper('move', 1, 0)
+$().cropper('move', 0, -1)
+
 ```
 
-#### zoom
 
-- Zoom the image.
-- Param: a number (positive number for zoom in, negative number for zoom out).
-- Usage: `$().cropper("zoom", 0.1)` or `$().cropper("zoom", -0.1)`.
+### zoom(ratio)
 
+- **ratio**:
+  - Type: `Number`
+  - Zoom in: requires a positive number (ratio > 0)
+  - Zoom out: requires a negative number (ratio < 0)
 
-#### rotate
+Zoom the image.
 
-- Rotate the image (Replace the original image with a new rotated image which was generated by canvas).
-- Param: a number (positive number for rotate right, negative number for rotate left).
-- Usage: `$().cropper("rotate", 90)` or `$().cropper("rotate", -90)`.
-- **Note**: Be sure the browser supports canvas before call this method.
-- **Note**: Don't call this in IE9/10 (not support `crossOrigin` attribute) when it's a cross-origin image.
-
-#### enable
-
-- Enable (unfreeze) the cropper.
-- Usage: `$().cropper("enable")`.
+```js
+$().cropper('zoom', 0.1)
+$().cropper('zoom', -0.1)
+```
 
 
-#### disable
+### rotate(degree)
 
-- Disable (freeze) the cropper.
-- Usage: `$().cropper("disable")`.
+- **degree**:
+  - Type: `Number`
+  - Rotate right: requires a positive number (degree > 0)
+  - Rotate left: requires a negative number (degree < 0)
 
+Rotate the image. Requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
 
-#### reset
-
-- Reset the cropping zone to the start state.
-- Add a `true` param to reset the cropping zone to the default state.
-- Usage: `$().cropper("reset")` or `$().cropper("reset", true)`.
-
-
-#### clear
-
-- Clear the cropping zone.
-- Usage: `$().cropper("clear")`.
+```js
+$().cropper('rotate', 90)
+$().cropper('rotate', -90)
+```
 
 
-#### replace
+### enable()
 
-- Replace the image.
-- Param: a url.
-- Usage: `$().cropper("replace", "example.jpg")`.
+Enable (unfreeze) the cropper.
 
 
-#### destroy
+### disable()
 
-- Destroy the cropper and remove the instance from the image.
-- Usage: `$().cropper("destroy")`.
+Disable (freeze) the cropper.
 
 
-#### getData([rounded])
+### reset()
 
-- Get the cropped zone data.
-- `rounded`(optional):
+Reset the image and crop box to the initial states.
+
+
+### clear()
+
+Clear the crop box.
+
+
+### replace(url)
+
+- **url**:
+  - Type: `String`
+  - A new image url.
+
+Replace the image and rebuild the cropper.
+
+
+### destroy()
+
+Destroy the cropper and remove the instance from the image.
+
+
+### getData([rounded])
+
+- **rounded** (optional):
   - Type: `Boolean`
   - Default: `false`
   - Rounds the output data with `Math.round`.
-- Usage: `$().cropper("getData")` or `$().cropper("getData", true)`.
+
+- (return):
+  - Type: `Object`
+  - Properties:
+    - `x`: the offset left of the cropped area
+    - `y`: the offset top of the cropped area
+    - `width`: the width of the cropped area
+    - `height`: the height of the cropped area
+    - `rotate`: the rotated degrees of the image
+
+Get the cropped area data in the original image for cropping image.
+
+![a schematic diagram of data's properties](assets/img/data.png)
 
 
-#### setData
+### getCropBoxData()
 
-- Reset the cropped zone with new data.
-- Param: an object containing: "x", "y", "width", "height".
-- Use with `$().cropper("setData", {width: 480, height: 270})`.
+- (return):
+  - Type: `Object`
+  - Properties:
+    - `left`: the offset left of the crop box
+    - `top`: the offset top of the crop box
+    - `width`: the width of the crop box
+    - `height`: the height of the crop box
 
-**Tip:** If you want to remove the current data, just pass an empty object or `null`. For example: `$().cropper("setData", {})` or `$().cropper("setData", null)`.
-
-
-#### setAspectRatio
-
-- Enable to reset the aspect ratio after built.
-- Param: "auto" or a positive number ("auto" for free ratio).
-- Usage: `$().cropper("setAspectRatio", 1.618)`.
+Output the crop box's position and size data.
 
 
-#### getImageData
+### setCropBoxData(data)
 
-- Get an object containing image data, contains: "naturalWidth", "naturalHeight", "width", "height", "aspectRatio", "ratio" and "rotate".
-- The "aspectRatio" is the value of "naturalWidth / naturalHeight".
-- The "ratio" is the value of "width / naturalWidth".
-- The "rotate" is the rotated degree of the current image.
-- Usage: `$().cropper("getImageData")`.
+- **data**:
+  - Type: `Object`
+  - Properties:
+    - `left`: the new offset left of the crop box
+    - `top`: the new offset top of the crop box
+    - `width`: the new width of the crop box
+    - `height`: the new height of the crop box
 
-
-#### setDragMode
-
-- Change the drag mode.
-- Params: "crop", "move" and "none".
-- Usage: `$().cropper("setDragMode", "crop")`.
-
-**Tip**: You can toggle the "crop" and "move" mode by double click on the image.
+Change the crop box's position and size.
 
 
-#### getDataURL([options[, type[, quality]]])
+### getImageData([all])
 
-- Get the data url (base64 image) of the cropped zone.
-- Parameters:
-  + options: An `Object` contains: "width", "height". Define the sizes of the result image.
-  + type: A `String` indicating the image format. The default type is image/png. Other types: "image/jpeg", "image/webp".
-  + quality: A `Number` between 0 and 1 indicating image quality if the requested type is image/jpeg or image/webp.
-- **Note:** Be sure the browser supports canvas before calling this method.
-- **Note:** Don't call this on IE9/10 (no support for [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes)) when it's a [cross-origin image](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img).
-- Usage:
+- **all**:
+  - Type: `Boolean`
+  - Default: `false`
+  - Get all image data.
+
+- (return):
+  - Type: `Object`
+  - Properties:
+    - `left`: the offset left of the image
+    - `top`: the offset top of the image
+    - `width`: the width of the image
+    - `height`: the height of the image
+  - More properties:
+    - `naturalWidth`: the natural width of the image
+    - `naturalHeight`: the natural height of the image
+    - `aspectRatio`: the natural aspect ratio of the image
+    - `rotate`: the rotated degrees of the image
+    - `rotatedLeft`: the computed offset left of the rotated image
+    - `rotatedTop`: the computed offset top of the rotated image
+    - `rotatedWidth`: the computed width of the rotated image
+    - `rotatedHeight`: the computed height of the rotated image
+
+Output the image's position and size data.
+
+
+### setImageData(data)
+
+- **data**:
+  - Type: `Object`
+  - Properties:
+    - `left`: the new offset left of the image
+    - `top`: the new offset top of the image
+    - `width`: the new width of the image
+    - `height`: the new height of the image
+
+Change the image's position and size.
+
+
+### getDataURL([options[, type[, quality]]])
+
+- **options** (optional):
+  - Type: `Object`
+  - properties
+    - `width`: the destination width of the output image
+    - `height`: the destination height of the output image
+
+- **type** (optional):
+  - Type: `String`
+  - Default: `'image/png'`
+  - Options:  `'image/jpeg'`, `'image/webp'`.
+  - Indicate image format.
+
+- **quality** (optional):
+  - Type: `Number`
+  - Default: `1`
+  - Requires a number between 0 and 1
+  - indicate image quality if the requested type is "image/jpeg" or "image/webp".
+
+- (return):
+  - Type: `String`
+  - A data url of the cropped area.
+
+- Browser support:
+  - Basic image: requires [Canvas](http://caniuse.com/canvas) support (IE 9+).
+  - Rotated image: requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+  - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
+
+- Known issues
+ - Canvas: `canvas.drawImage` in Some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.toDataURL` will be incorrect.
+
+Get the data url (base64 image) of the cropped area by Canvas.
 
 ```js
-$().cropper("getDataURL")
+$().cropper('getDataURL')
 
-$().cropper("getDataURL", {
-  width: 100,
-  height: 100
+$().cropper('getDataURL', {
+  width: 160,
+  height: 90
 })
 
-$().cropper("getDataURL", "image/jpeg")
+$().cropper('getDataURL', 'image/jpeg')
 
-$().cropper("getDataURL", "image/jpeg", 0.8)
+$().cropper('getDataURL', 'image/jpeg', 0.8)
 
-$().cropper("getDataURL", {
-  width: 100,
-  height: 100
-}, "image/jpeg", 0.8)
+$().cropper('getDataURL', {
+  width: 320,
+  height: 180
+}, 'image/jpeg', 0.8)
 
 ```
+
+### setAspectRatio(aspectRatio)
+
+- **aspectRatio**:
+  - Type: `Number`
+  - Requires a positive number.
+
+Change the aspect ratio of the crop box.
+
+
+### setDragMode([mode])
+
+- **mode** (optional):
+  - Type: `String`
+  - Default: `''`
+  - Options: `'crop'`, `'move'`
+
+Change the drag mode.
+
+**Tips:** You can toggle the "crop" and "move" mode by double click on the cropper.
+
 
 
 ## Events
 
+### build.cropper
 
-#### build.cropper
-
-This event will be fired when the Cropper starts to build.
-
-
-#### built.cropper
-
-This event will be fired when the Cropper has been built.
+This event fires when a cropper instance starts to load a image.
 
 
-#### dragstart.cropper
+### built.cropper
 
-This event will be fired before the cropping zone start to move.
-
-Related events: "mousedown", "touchstart".
+This event fires when a cropper instance has built completely.
 
 
-#### dragmove.cropper
+### dragstart.cropper
 
-This event will be fired when the cropping zone was moving.
+This event fires when the crop box starts to change.
 
-Related events: "mousemove", "touchmove".
+Related original events: "mousedown", "touchstart".
 
 
-#### dragend.cropper
+### dragmove.cropper
 
-This event will be fired after the cropping zone stop to move.
+This event fires when the crop box is changing.
 
-Related events: "mouseup", "mouseleave", "touchend", "touchleave", "touchcancel".
+Related original events: "mousemove", "touchmove".
+
+
+### dragend.cropper
+
+This event fires when the crop box stops to change.
+
+Related original events: "mouseup", "mouseleave", "touchend", "touchleave", "touchcancel".
 
 
 ## No conflict
 
 If you have to use other plugin with the same namespace, just call the `$.fn.cropper.noConflict` method to revert to it.
 
-```
+```html
 <script src="other-plugin.js"></script>
 <script src="cropper.js"></script>
 <script>
@@ -510,10 +611,10 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 
 ## Browser Support
 
-- Chrome 36+
-- Firefox 31+
+- Chrome 38+
+- Firefox 33+
 - Internet Explorer 8+
-- Opera 21+
+- Opera 25+
 - Safari 5.1+
 
 As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jquery.com/browser-support/).
@@ -526,4 +627,4 @@ Released under the [MIT](http://opensource.org/licenses/mit-license.html) licens
 
 ## Related projects
 
-- [ngCropper](https://github.com/koorgoo/ngCropper) - AngularJS wrapper for Cropper.
+- [ngCropper](https://github.com/koorgoo/ngCropper)
