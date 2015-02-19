@@ -1,5 +1,5 @@
 /*!
- * Cropper v0.7.8
+ * Cropper v0.7.9
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright 2014-2015 Fengyuan Chen
@@ -205,7 +205,7 @@
     isCrossOriginURL: function (url) {
       var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
 
-      if ((parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port))) {
+      if (parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port)) {
         return TRUE;
       }
 
@@ -333,9 +333,18 @@
 
       this.$preview.each(function () {
         var $this = $(this),
-            ratio = $this.width() / dragger.width;
+            data = $this.data(),
+            ratio = data.width / dragger.width,
+            newWidth = data.width,
+            newHeight = dragger.height * ratio;
 
-        $this.find("img").css({
+        if (newHeight > data.height) {
+          ratio = data.height / dragger.height,
+          newWidth = dragger.width * ratio;
+          newHeight = data.height;
+        }
+
+        $this.width(newWidth).height(newHeight).find("img").css({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,
@@ -383,21 +392,37 @@
     },
 
     initPreview: function () {
-      var img = '<img src="' + this.url + '">';
+      var url = this.url;
 
       this.$preview = $(this.defaults.preview);
-      this.$viewer.html(img);
-      this.$preview.html(img).find("img").css("cssText", "min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;");
+      this.$viewer.html('<img src="' + url + '">');
+
+      this.$preview.each(function () {
+        var $this = $(this);
+
+        $this.data({
+          width: $this.width(),
+          height: $this.height()
+        }).html('<img src="' + url + '" style="display:block;width:100%;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;">');
+      });
     },
 
     initContainer: function () {
-      var $container = this.$container,
+      var $this = this.$element,
+          $container = this.$container,
+          $cropper = this.$cropper,
           defaults = this.defaults;
+
+      $cropper.addClass(CLASS_HIDDEN);
+      $this.removeClass(CLASS_HIDDEN);
 
       this.container = {
         width: max($container.width(), defaults.minContainerWidth),
         height: max($container.height(), defaults.minContainerHeight)
       };
+
+      $this.addClass(CLASS_HIDDEN);
+      $cropper.removeClass(CLASS_HIDDEN);
     },
 
     initCropper: function () {
@@ -590,6 +615,11 @@
 
       // Re-render the dragger
       this.dragger = dragger;
+
+      // #186
+      if (this.defaults.movable) {
+        this.$dragger.find(".cropper-face").data(STRING_DIRECTIVE, (dragger.width === cropper.width && dragger.height === cropper.height) ? "move" : "all");
+      }
 
       if (!this.disabled) {
         this.defaults.done(this.getData());
@@ -902,21 +932,19 @@
     getRotatedDataURL: function (degree) {
       var canvas = $("<canvas>")[0],
           context = canvas.getContext("2d"),
-          arc = degree * Math.PI / 180,
-          deg = abs(degree) % 180,
-          acuteAngle = deg > 90 ? (180 - deg) : deg,
-          acuteAngleArc = acuteAngle * Math.PI / 180,
           originalImage = this.originalImage,
           naturalWidth = originalImage.naturalWidth,
           naturalHeight = originalImage.naturalHeight,
-          width = abs(naturalWidth * cos(acuteAngleArc) + naturalHeight * sin(acuteAngleArc)),
-          height = abs(naturalWidth * sin(acuteAngleArc) + naturalHeight * cos(acuteAngleArc));
+          deg = abs(degree) % 180,
+          arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180,
+          width = naturalWidth * cos(arc) + naturalHeight * sin(arc),
+          height = naturalWidth * sin(arc) + naturalHeight * cos(arc);
 
       canvas.width = width;
       canvas.height = height;
       context.save();
       context.translate(width / 2, height / 2);
-      context.rotate(arc);
+      context.rotate(degree * Math.PI / 180);
       context.drawImage(this.$original[0], -naturalWidth / 2, -naturalHeight / 2, naturalWidth, naturalHeight);
       context.restore();
 

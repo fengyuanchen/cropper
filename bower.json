@@ -1,7 +1,7 @@
 {
   "name": "cropper",
   "description": "A simple jQuery image cropping plugin.",
-  "version": "0.7.8",
+  "version": "0.7.9",
   "main": [
     "dist/cropper.js",
     "dist/cropper.css"

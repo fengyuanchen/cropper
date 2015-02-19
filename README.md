@@ -24,7 +24,7 @@ A simple jQuery image cropping plugin.
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (43 KB)
+├── cropper.js      (44 KB)
 └── cropper.min.js  (18 KB)
 ```
 
@@ -73,7 +73,9 @@ $(".container > img").cropper({
 ```
 
 **Notes:**
-- The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a visible block element (minWidth: 300px, minHeight: 150px).
+
+- The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a visible block element.
+
 - The values of the result data was computed with the original size of the image, so you can use them to crop the image directly.
 
 
@@ -500,8 +502,8 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 <script src="other-plugin.js"></script>
 <script src="cropper.js"></script>
 <script>
-$.fn.cropper.noConflict();
-// Code that uses other plugin's "$().cropper" can follow here.
+  $.fn.cropper.noConflict();
+  // Code that uses other plugin's "$().cropper" can follow here.
 </script>
 ```
 
@@ -517,11 +519,11 @@ $.fn.cropper.noConflict();
 As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jquery.com/browser-support/).
 
 
-## [License](https://github.com/fengyuanchen/cropper/blob/master/LICENSE.md)
+## [License](LICENSE.md)
 
 Released under the [MIT](http://opensource.org/licenses/mit-license.html) license.
 
 
 ## Related projects
 
-- ngCropper: https://github.com/koorgoo/ngCropper
+- [ngCropper](https://github.com/koorgoo/ngCropper) - AngularJS wrapper for Cropper.

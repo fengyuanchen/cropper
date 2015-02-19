@@ -336,7 +336,7 @@
           newHeight = data.height;
         }
 
-        $this.width(newWidth).height(newHeight).find('img').css({
+        $this.width(newWidth).height(newHeight).find("img").css({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,
