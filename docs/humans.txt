@@ -1,0 +1,15 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Cropper
+
+# THANKS
+
+    Bootstrap, jQuery, Github Pages, Google Analytics
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    jQuery, Bootstrap, Normalize.css
