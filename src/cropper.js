@@ -325,9 +325,18 @@
 
       this.$preview.each(function () {
         var $this = $(this),
-            ratio = $this.width() / dragger.width;
+            data = $this.data(),
+            ratio = data.width / dragger.width,
+            newWidth = data.width,
+            newHeight = dragger.height * ratio;
 
-        $this.find("img").css({
+        if (newHeight > data.height) {
+          ratio = data.height / dragger.height,
+          newWidth = dragger.width * ratio;
+          newHeight = data.height;
+        }
+
+        $this.width(newWidth).height(newHeight).find('img').css({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,
@@ -375,11 +384,19 @@
     },
 
     initPreview: function () {
-      var img = '<img src="' + this.url + '">';
+      var url = this.url;
 
       this.$preview = $(this.defaults.preview);
-      this.$viewer.html(img);
-      this.$preview.html(img).find("img").css("cssText", "width:100%;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;");
+      this.$viewer.html('<img src="' + url + '">');
+
+      this.$preview.each(function () {
+        var $this = $(this);
+
+        $this.data({
+          width: $this.width(),
+          height: $this.height()
+        }).html('<img src="' + url + '" style="display:block;width:100%;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;">');
+      });
     },
 
     initContainer: function () {
