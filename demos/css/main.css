@@ -1,0 +1,280 @@
+/* Main
+ * ========================================================================== */
+
+
+/* Icons
+ * -------------------------------------------------------------------------- */
+
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url("../../assets/img/icons.png");
+  vertical-align: middle;
+}
+
+.icon-move {
+  background-position: 0 0;
+}
+
+.icon-crop {
+  background-position: -30px 0;
+}
+
+.icon-zoom-in {
+  background-position: -60px 0;
+}
+
+.icon-zoom-out {
+  background-position: -90px 0;
+}
+
+.icon-rotate-left {
+  background-position: -120px 0;
+}
+
+.icon-rotate-right {
+  background-position: -150px 0;
+}
+
+.icon-lock {
+  background-position: -180px 0;
+}
+
+.icon-unlock {
+  background-position: -210px 0;
+}
+
+.icon-remove {
+  background-position: -240px 0;
+}
+
+.icon-refresh {
+  background-position: -270px 0;
+}
+
+.icon-upload {
+  background-position: -300px 0;
+}
+
+.icon-off {
+  background-position: -330px 0;
+}
+
+.icon-info {
+  background-position: -360px 0;
+}
+
+
+/* Alerts
+ * -------------------------------------------------------------------------- */
+
+.docs-alert {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 0;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.docs-alert .message {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 2px;
+  background-color: #aaa;
+  color: #fff;
+}
+
+.docs-alert .primary {
+  background-color: #0074d9;
+}
+
+.docs-alert .success {
+  background-color: #2ecc40;
+}
+
+.docs-alert .info {
+  background-color: #39cccc;
+}
+
+.docs-alert .warning {
+  background-color: #ff851b;
+}
+
+.docs-alert .danger {
+  background-color: #ff4136;
+}
+
+/* Button
+ * -------------------------------------------------------------------------- */
+
+.btn-primary {
+  border-color: #003973; /* hsb(210, 100%, 45%) */
+  background-color: #00468c; /* hsb(210, 100%, 55%) */
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary.active:focus,
+.btn-primary.active:hover {
+  border-color: #00264d; /* hsb(208, 100%, 10%) */
+  background-color: #003366; /* hsb(208, 100%, 40%) */
+}
+
+
+/* Basic style
+ * -------------------------------------------------------------------------- */
+
+body {
+  overflow-x: hidden;
+}
+
+
+/* Header */
+
+.docs-header {
+  border-color: #003973;
+  background-color: #00468c;
+  color: #fff;
+}
+
+.docs-header .navbar-brand {
+  color: #eee;
+}
+
+.docs-header .navbar-text {
+  color: #ddd;
+}
+
+.docs-header .navbar-nav > li > a {
+  color: #eee;
+}
+
+
+/* Content */
+
+.img-container,
+.img-preview {
+  background-color: #f7f7f7;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+}
+
+.img-container {
+  height: 466px;
+  margin-bottom: 20px;
+}
+
+.img-container > img {
+  max-width: 100%;
+}
+
+.docs-preview {
+  margin-right: -15px;
+  margin-bottom: 10px;
+}
+
+.img-preview {
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.img-preview > img {
+  max-width: 100%;
+}
+
+.preview-lg {
+  width: 263px;
+  height: 148px;
+}
+
+.preview-md {
+  width: 139px;
+  height: 78px;
+}
+
+.preview-sm {
+  width: 69px;
+  height: 39px;
+}
+
+.preview-xs {
+  width: 35px;
+  height: 20px;
+  margin-right: 0;
+}
+
+.docs-data > .input-group {
+  margin-bottom: 10px;
+}
+
+.docs-data > .input-group > label {
+  min-width: 80px;
+}
+
+.docs-data > .input-group > span {
+  min-width: 50px;
+}
+
+.docs-buttons > .btn,
+.docs-buttons > .btn-group,
+.docs-buttons > .form-control {
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.docs-toggles > .btn,
+.docs-toggles > .btn-group,
+.docs-toggles > .dropdown {
+  margin-bottom: 10px;
+}
+
+.docs-tooltip {
+  display: block;
+  margin: -6px -12px;
+  padding: 6px 12px;
+}
+
+.docs-tooltip > .icon {
+  margin: 0 -3px;
+  vertical-align: top;
+}
+
+.tooltip-inner {
+  white-space: normal;
+}
+
+.btn-upload .tooltip-inner {
+  white-space: nowrap;
+}
+
+.docs-options .dropdown-menu {
+  width: 100%;
+}
+
+.docs-options .dropdown-menu > li {
+  padding: 3px 20px;
+}
+
+.docs-options .dropdown-menu > li:hover {
+  background-color: #f7f7f7;
+}
+
+.docs-options .dropdown-menu > li > label {
+  display: block;
+}
+
+.docs-cropped .modal-body {
+  text-align: center;
+}
+
+.docs-cropped .modal-body > img {
+  max-width: 100%;
+}
