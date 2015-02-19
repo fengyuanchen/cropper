@@ -627,4 +627,4 @@ Released under the [MIT](http://opensource.org/licenses/mit-license.html) licens
 
 ## Related projects
 
-- [ngCropper](https://github.com/koorgoo/ngCropper)
+- [ngCropper](https://github.com/koorgoo/ngCropper) - AngularJS wrapper for Cropper.
