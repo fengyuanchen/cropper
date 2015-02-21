@@ -147,6 +147,21 @@ body {
   color: #eee;
 }
 
+.docs-header .navbar-toggle {
+  border-color: transparent;
+  background-color: #0074d9;
+}
+
+.docs-header .navbar-toggle:hover,
+.docs-header .navbar-toggle:focus {
+  border-color: transparent;
+  background-color: #0066bf;
+}
+
+.docs-header .navbar-collapse {
+  border-color: #0066bf;
+}
+
 .docs-header .navbar-text {
   color: #ddd;
 }
@@ -167,7 +182,8 @@ body {
 }
 
 .img-container {
-  height: 466px;
+  min-height: 200px;
+  max-height: 466px;
   margin-bottom: 20px;
 }
 
@@ -256,6 +272,24 @@ body {
   white-space: nowrap;
 }
 
+@media (max-width: 400px) {
+  .btn-group-crop {
+    margin-right: -15px!important;
+  }
+
+  .btn-group-crop > .btn {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .btn-group-crop .docs-tooltip {
+    margin-left: -5px;
+    margin-right: -5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
 .docs-options .dropdown-menu {
   width: 100%;
 }
@@ -307,6 +341,12 @@ body {
 
 .docs-footer a + a {
   margin-left: 10px;
+}
+
+@media (min-width: 768px) {
+  .back-to-top {
+    float: right;
+  }
 }
 
 
