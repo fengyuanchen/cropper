@@ -308,11 +308,12 @@
 
       // Scale image
       case 'zoom':
-        this.zoom(function (x, y, x1, y1, x2, y2) {
-          return (sqrt(x2 * x2 + y2 * y2) - sqrt(x1 * x1 + y1 * y1)) / sqrt(x * x + y * y);
+        this.zoom(function (x1, y1, x2, y2) {
+          var z1 = sqrt(x1 * x1 + y1 * y1),
+              z2 = sqrt(x1 * x1 + y1 * y1);
+
+          return (z2 - z1) / z1;
         }(
-          image.width,
-          image.height,
           abs(this.startX - this.startX2),
           abs(this.startY - this.startY2),
           abs(this.endX - this.endX2),
