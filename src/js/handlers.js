@@ -1,21 +1,28 @@
   $.extend(prototype, {
     resize: function () {
       var $container = this.$container,
-          container = this.container;
+          container = this.container,
+          ratio;
 
       if (this.disabled) {
         return;
       }
 
-      if ($container.width() !== container.width || $container.height() !== container.height) {
+      ratio = $container.width() / container.width;
+
+      if (ratio !== 1 || $container.height() !== container.height) {
         clearTimeout(this.resizing);
         this.resizing = setTimeout($.proxy(function () {
           var imageData = this.getImageData(),
               cropBoxData = this.getCropBoxData();
 
           this.render();
-          this.setImageData(imageData);
-          this.setCropBoxData(cropBoxData);
+          this.setImageData($.each(imageData, function (i, n) {
+            imageData[i] = n * ratio
+          }));
+          this.setCropBoxData($.each(cropBoxData, function (i, n) {
+            cropBoxData[i] = n * ratio
+          }));
         }, this), 200);
       }
     },
