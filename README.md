@@ -420,7 +420,6 @@ Get the cropped area data in the original image for cropping image.
 
 ![a schematic diagram of data's properties](assets/img/data.png)
 
-
 ### getCropBoxData()
 
 - (return):
@@ -540,6 +539,16 @@ $().cropper('getDataURL', {
 
 ```
 
+### getBlob(dataURL)
+
+- **dataURL**:
+  - Type: `String`
+  - A data url of the cropped area.
+
+- (return):
+  - Type: `Object`
+  - A Blob of the cropped area.
+  
 ### setAspectRatio(aspectRatio)
 
 - **aspectRatio**:

@@ -364,6 +364,17 @@
       return dataURL || '';
     },
 
+    getBlob: function(dataURL){
+      var uriComponents = dataURL.split(',');
+      var byteString = atob(uriComponents[1]);
+      var mimeString = uriComponents[0].split(':')[1].split(';')[0];
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++)
+        ia[i] = byteString.charCodeAt(i);
+      return new Blob([ab], { type: mimeString });
+    },
+
     setAspectRatio: function (aspectRatio) {
       var options = this.options;
 
