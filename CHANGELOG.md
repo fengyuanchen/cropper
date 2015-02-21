@@ -11,10 +11,9 @@
 #### Options:
 
 - Change the default value of "aspectRatio"
-- Change "data" (add "rotate" property)
 - Rename "done" to "crop"
 - Rename "dashed" to "guides"
-- Replace "multiple" to "global"
+- Rename "multiple" to "global"
 - Add "background"
 - Add "highlight"
 - Add "responsive"
@@ -24,6 +23,7 @@
 - Add "minCropBoxHeight"
 - Add "minContainerWidth"
 - Add "minContainerHeight"
+- Remove "data"
 - Remove "minWidth"
 - Remove "minHeight"
 - Remove "maxWidth"
