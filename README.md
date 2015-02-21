@@ -2,7 +2,7 @@
 
 A simple jQuery image cropping plugin.
 
-- [Documentation](http://fengyuanchen.github.io/cropper)
+- [Demo](http://fengyuanchen.github.io/cropper)
 
 
 # Features
@@ -517,7 +517,7 @@ Change the image's position and size.
   - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
 
 - Known issues
- - Canvas: `canvas.drawImage` in Some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.toDataURL` will be incorrect.
+ - Canvas: `canvas.drawImage` in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.toDataURL` will be incorrect.
 
 Get the data url (base64 image) of the cropped area by Canvas.
 
