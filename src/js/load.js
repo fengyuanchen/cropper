@@ -24,9 +24,10 @@
       return;
     }
 
-    if (options.checkImageOrigin) {
-      if (isCrossOriginURL(url)) {
-        crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+    if (options.checkImageOrigin && isCrossOriginURL(url)) {
+      crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+
+      if (!$this.prop('crossOrigin')) { // Only when there was not a "crossOrigin" property
         url = addTimestamp(url); // Bust cache (#148)
       }
     }
