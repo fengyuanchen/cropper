@@ -5,7 +5,7 @@
  * Copyright 2014-2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-02-19T06:49:29.144Z
+ * Date: 2015-02-22T21:44:41.006Z
  */
 
 (function (factory) {
@@ -205,9 +205,10 @@
       return;
     }
 
-    if (options.checkImageOrigin) {
-      if (isCrossOriginURL(url)) {
-        crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+    if (options.checkImageOrigin && isCrossOriginURL(url)) {
+      crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+
+      if (!$this.prop('crossOrigin')) { // Only when there was not a "crossOrigin" property
         url = addTimestamp(url); // Bust cache (#148)
       }
     }
@@ -607,21 +608,28 @@
   $.extend(prototype, {
     resize: function () {
       var $container = this.$container,
-          container = this.container;
+          container = this.container,
+          ratio;
 
       if (this.disabled) {
         return;
       }
 
-      if ($container.width() !== container.width || $container.height() !== container.height) {
+      ratio = $container.width() / container.width;
+
+      if (ratio !== 1 || $container.height() !== container.height) {
         clearTimeout(this.resizing);
         this.resizing = setTimeout($.proxy(function () {
           var imageData = this.getImageData(),
               cropBoxData = this.getCropBoxData();
 
           this.render();
-          this.setImageData(imageData);
-          this.setCropBoxData(cropBoxData);
+          this.setImageData($.each(imageData, function (i, n) {
+            imageData[i] = n * ratio
+          }));
+          this.setCropBoxData($.each(cropBoxData, function (i, n) {
+            cropBoxData[i] = n * ratio
+          }));
         }, this), 200);
       }
     },
@@ -1507,11 +1515,12 @@
 
       // Scale image
       case 'zoom':
-        this.zoom(function (x, y, x1, y1, x2, y2) {
-          return (sqrt(x2 * x2 + y2 * y2) - sqrt(x1 * x1 + y1 * y1)) / sqrt(x * x + y * y);
+        this.zoom(function (x1, y1/*, x2, y2*/) {
+          var z1 = sqrt(x1 * x1 + y1 * y1),
+              z2 = sqrt(x1 * x1 + y1 * y1);
+
+          return (z2 - z1) / z1;
         }(
-          image.width,
-          image.height,
           abs(this.startX - this.startX2),
           abs(this.startY - this.startY2),
           abs(this.endX - this.endX2),
