@@ -249,7 +249,7 @@
       }
     },
 
-    getDataURL: function (options, type, quality) {
+    getResizedCanvas: function (options, type, quality) {
       var originalWidth,
           originalHeight,
           canvasWidth,
@@ -259,8 +259,7 @@
           scaled,
           canvas,
           context,
-          data,
-          dataURL;
+          data;
 
       if (this.cropped && support.canvas) {
         data = this.getData();
@@ -345,6 +344,23 @@
 
           return args;
         }).call(this));
+      }
+
+      return canvas;
+    },
+
+    getDataURL: function (options, type, quality) {
+      var canvas = this.getResizedCanvas(options, type, quality),
+          scaled,
+          dataURL;
+
+      if (canvas) {
+        scaled = $.isPlainObject(options);
+
+        if (!scaled) {
+          quality = type;
+          type = options;
+        }
 
         dataURL = canvas.toDataURL.apply(canvas, (function () {
           var args = [];
@@ -362,6 +378,47 @@
       }
 
       return dataURL || '';
+    },
+
+    getBlob: function (options, type, quality) {
+      var canvas = this.getResizedCanvas(options, type, quality),
+          scaled,
+          deferredBlob = $.Deferred();
+
+      if (canvas && canvas.toBlob) {
+        scaled = $.isPlainObject(options);
+
+        if (!scaled) {
+          quality = type;
+          type = options;
+        }
+
+        canvas.toBlob.apply(canvas, (function () {
+          var args = [];
+
+          args.push(function (result) {
+            if (result) {
+              deferredBlob.resolve(result);
+            } else {
+              deferredBlob.reject();
+            }
+          });
+
+          if (isString(type)) {
+            args.push(type);
+          }
+
+          if (isNumber(quality)) {
+            args.push(quality);
+          }
+
+          return args;
+        }).call(this));
+      } else {
+        deferredBlob.reject();
+      }
+
+      return deferredBlob.promise();
     },
 
     setAspectRatio: function (aspectRatio) {
