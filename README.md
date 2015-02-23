@@ -487,6 +487,44 @@ Output the image's position and size data.
 Change the image's position and size.
 
 
+### getCroppedCanvas([options])
+
+- **options** (optional):
+  - Type: `Object`
+  - properties
+    - `width`: the destination width of the output image
+    - `height`: the destination height of the output image
+    - `fillColor`: a color to fill the canvas with before drawing the image
+
+- (return):
+  - Type: `HTMLCanvasElement`
+  - A fresh `<canvas>` element with the the cropped area drawn on it.
+
+- Browser support:
+  - Basic image: requires [Canvas](http://caniuse.com/canvas) support (IE 9+).
+  - Rotated image: requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+  - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
+
+- Known issues
+ - Canvas: `canvas.drawImage` in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.getCroppedCanvas` will be incorrect.
+
+Get a fresh Canvas with the cropped area drawn to it.
+
+```js
+$().cropper('getCroppedCanvas')
+
+$().cropper('getCroppedCanvas', {
+  width: 160,
+  height: 90
+})
+
+$().cropper('getCroppedCanvas', {
+  fillColor: '#000'
+})
+
+```
+
+
 ### getDataURL([options[, type[, quality]]])
 
 - **options** (optional):
@@ -494,6 +532,7 @@ Change the image's position and size.
   - properties
     - `width`: the destination width of the output image
     - `height`: the destination height of the output image
+    - `fillColor`: a color to fill any alpha values in the image with
 
 - **type** (optional):
   - Type: `String`
@@ -548,6 +587,7 @@ $().cropper('getDataURL', {
   - properties
     - `width`: the destination width of the output image
     - `height`: the destination height of the output image
+    - `fillColor`: a color to fill any alpha values in the image with
 
 - **type** (optional):
   - Type: `String`

@@ -249,14 +249,11 @@
       }
     },
 
-    getResizedCanvas: function (options, type, quality) {
+    getCroppedCanvas: function (options) {
       var originalWidth,
           originalHeight,
           canvasWidth,
           canvasHeight,
-          scaledWidth,
-          scaledHeight,
-          scaled,
           canvas,
           context,
           data;
@@ -265,26 +262,21 @@
         data = this.getData();
         originalWidth = data.width;
         originalHeight = data.height;
-        scaled = $.isPlainObject(options);
 
-        if (scaled) {
-          scaledWidth = options.width || originalWidth;
-          scaledHeight = options.height || originalHeight;
-        } else {
-          quality = type;
-          type = options;
+        if (!$.isPlainObject(options)) {
+          options = {};
         }
 
-        canvasWidth = scaled ? scaledWidth : originalWidth;
-        canvasHeight = scaled ? scaledHeight : originalHeight;
+        canvasWidth = options.width || originalWidth;
+        canvasHeight = options.height || originalHeight;
 
         canvas = $('<canvas>')[0]; // document.createElement('canvas');
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         context = canvas.getContext('2d');
 
-        if (type === 'image/jpeg') {
-          context.fillStyle = '#fff';
+        if (options.fillColor) {
+          context.fillStyle = options.fillColor;
           context.fillRect(0, 0, canvasWidth, canvasHeight);
         }
 
@@ -329,8 +321,8 @@
           args.push(srcX, srcY, srcWidth, srcHeight);
 
           // Scale dstination sizes
-          if (scaled) {
-            scaledRatio = originalWidth / scaledWidth;
+          if (originalWidth !== canvasWidth || originalHeight !== canvasHeight) {
+            scaledRatio = originalWidth / canvasWidth;
             dstX /= scaledRatio;
             dstY /= scaledRatio;
             dstWidth /= scaledRatio;
@@ -350,16 +342,18 @@
     },
 
     getDataURL: function (options, type, quality) {
-      var canvas = this.getResizedCanvas(options, type, quality),
-          scaled,
+      var canvas = this.getCroppedCanvas(options, type, quality),
           dataURL;
 
       if (canvas) {
-        scaled = $.isPlainObject(options);
-
-        if (!scaled) {
+        if (!$.isPlainObject(options)) {
           quality = type;
           type = options;
+          options = {};
+        }
+
+        if (type === 'image/jpeg' && !options.fillColor) {
+          options.fillColor = '#fff';
         }
 
         dataURL = canvas.toDataURL.apply(canvas, (function () {
@@ -381,16 +375,18 @@
     },
 
     getBlob: function (options, type, quality) {
-      var canvas = this.getResizedCanvas(options, type, quality),
-          scaled,
+      var canvas = this.getCroppedCanvas(options, type, quality),
           deferredBlob = $.Deferred();
 
       if (canvas && canvas.toBlob) {
-        scaled = $.isPlainObject(options);
-
-        if (!scaled) {
+        if (!$.isPlainObject(options)) {
           quality = type;
           type = options;
+          options = {};
+        }
+
+        if (type === 'image/jpeg' && !options.fillColor) {
+          options.fillColor = '#fff';
         }
 
         canvas.toBlob.apply(canvas, (function () {
