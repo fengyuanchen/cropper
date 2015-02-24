@@ -116,9 +116,10 @@ $(function () {
 
     // Import image
     var $inputImage = $('#inputImage'),
+        URL = window.URL || window.webkitURL,
         blobURL;
 
-    if (window.URL) {
+    if (URL) {
       $inputImage.change(function () {
         var files = this.files,
             file;
@@ -127,12 +128,10 @@ $(function () {
           file = files[0];
 
           if (/^image\/\w+$/.test(file.type)) {
-            if (blobURL) {
-              URL.revokeObjectURL(blobURL); // Revoke the old one
-            }
-
             blobURL = URL.createObjectURL(file);
-            $image.cropper('reset', true).cropper('replace', blobURL);
+            $image.one('built.cropper', function () {
+              URL.revokeObjectURL(blobURL); // Revoke when load complete
+            }).cropper('reset', true).cropper('replace', blobURL);
             $inputImage.val('');
           } else {
             showMessage('Please choose an image file.');
