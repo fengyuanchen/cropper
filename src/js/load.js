@@ -51,5 +51,5 @@
     });
 
     // Hide and insert into the document
-    $clone.addClass(CLASS_HIDE).prependTo('body');
+    $clone.addClass(CLASS_HIDE).insertAfter($this);
   };
