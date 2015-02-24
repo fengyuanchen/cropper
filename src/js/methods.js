@@ -254,167 +254,130 @@
           originalHeight,
           canvasWidth,
           canvasHeight,
+          scaledWidth,
+          scaledHeight,
+          scaledRatio,
+          aspectRatio,
           canvas,
           context,
           data;
 
-      if (this.cropped && support.canvas) {
-        data = this.getData();
-        originalWidth = data.width;
-        originalHeight = data.height;
-
-        if (!$.isPlainObject(options)) {
-          options = {};
-        }
-
-        canvasWidth = options.width || originalWidth;
-        canvasHeight = options.height || originalHeight;
-
-        canvas = $('<canvas>')[0]; // document.createElement('canvas');
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
-        context = canvas.getContext('2d');
-
-        if (options.fillColor) {
-          context.fillStyle = options.fillColor;
-          context.fillRect(0, 0, canvasWidth, canvasHeight);
-        }
-
-        // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
-        context.drawImage.apply(context, (function () {
-          var source = getSourceCanvas(this.$clone[0], this.image),
-              sourceWidth = source.width,
-              sourceHeight = source.height,
-              args = [source],
-              srcX = data.x, // source canvas
-              srcY = data.y,
-              srcWidth,
-              srcHeight,
-              dstX, // destination canvas
-              dstY,
-              dstWidth,
-              dstHeight,
-              scaledRatio;
-
-          if (srcX <= -originalWidth || srcX > sourceWidth) {
-            srcX = srcWidth = dstX = dstWidth = 0;
-          } else if (srcX <= 0) {
-            dstX = -srcX;
-            srcX = 0;
-            srcWidth = dstWidth = min(sourceWidth, originalWidth + srcX);
-          } else if (srcX <= sourceWidth) {
-            dstX = 0;
-            srcWidth = dstWidth = min(originalWidth, sourceWidth - srcX);
-          }
-
-          if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
-            srcY = srcHeight = dstY = dstHeight = 0;
-          } else if (srcY <= 0) {
-            dstY = -srcY;
-            srcY = 0;
-            srcHeight = dstHeight = min(sourceHeight, originalHeight + srcY);
-          } else if (srcY <= sourceHeight) {
-            dstY = 0;
-            srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
-          }
-
-          args.push(srcX, srcY, srcWidth, srcHeight);
-
-          // Scale dstination sizes
-          if (originalWidth !== canvasWidth || originalHeight !== canvasHeight) {
-            scaledRatio = originalWidth / canvasWidth;
-            dstX /= scaledRatio;
-            dstY /= scaledRatio;
-            dstWidth /= scaledRatio;
-            dstHeight /= scaledRatio;
-          }
-
-          // Avoid "IndexSizeError" in IE and Firefox
-          if (dstWidth > 0 && dstHeight > 0) {
-            args.push(dstX, dstY, dstWidth, dstHeight);
-          }
-
-          return args;
-        }).call(this));
+      if (!this.cropped || !support.canvas) {
+        return;
       }
+
+      if (!$.isPlainObject(options)) {
+        options = {};
+      }
+
+      data = this.getData();
+      originalWidth = data.width;
+      originalHeight = data.height;
+      aspectRatio = originalWidth / originalHeight;
+
+      if ($.isPlainObject(options)) {
+        scaledWidth = options.width;
+        scaledHeight = options.height;
+
+        if (scaledWidth) {
+          scaledHeight = scaledWidth / aspectRatio;
+          scaledRatio = scaledWidth / originalWidth;
+        } else if (scaledHeight) {
+          scaledWidth = scaledHeight * aspectRatio;
+          scaledRatio = scaledHeight / originalHeight;
+        }
+      }
+
+      canvasWidth = scaledWidth || originalWidth;
+      canvasHeight = scaledHeight || originalHeight;
+
+      canvas = $('<canvas>')[0];
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      context = canvas.getContext('2d');
+
+      // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
+      context.drawImage.apply(context, (function () {
+        var source = getSourceCanvas(this.$clone[0], this.image),
+            sourceWidth = source.width,
+            sourceHeight = source.height,
+            args = [source],
+            srcX = data.x, // source canvas
+            srcY = data.y,
+            srcWidth,
+            srcHeight,
+            dstX, // destination canvas
+            dstY,
+            dstWidth,
+            dstHeight;
+
+        if (srcX <= -originalWidth || srcX > sourceWidth) {
+          srcX = srcWidth = dstX = dstWidth = 0;
+        } else if (srcX <= 0) {
+          dstX = -srcX;
+          srcX = 0;
+          srcWidth = dstWidth = min(sourceWidth, originalWidth + srcX);
+        } else if (srcX <= sourceWidth) {
+          dstX = 0;
+          srcWidth = dstWidth = min(originalWidth, sourceWidth - srcX);
+        }
+
+        if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
+          srcY = srcHeight = dstY = dstHeight = 0;
+        } else if (srcY <= 0) {
+          dstY = -srcY;
+          srcY = 0;
+          srcHeight = dstHeight = min(sourceHeight, originalHeight + srcY);
+        } else if (srcY <= sourceHeight) {
+          dstY = 0;
+          srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
+        }
+
+        args.push(srcX, srcY, srcWidth, srcHeight);
+
+        // Scale destination sizes
+        if (scaledRatio) {
+          dstX *= scaledRatio;
+          dstY *= scaledRatio;
+          dstWidth *= scaledRatio;
+          dstHeight *= scaledRatio;
+        }
+
+        // Avoid "IndexSizeError" in IE and Firefox
+        if (dstWidth > 0 && dstHeight > 0) {
+          args.push(dstX, dstY, dstWidth, dstHeight);
+        }
+
+        return args;
+      }).call(this));
 
       return canvas;
     },
 
     getDataURL: function (options, type, quality) {
-      var canvas = this.getCroppedCanvas(options, type, quality),
+      var canvas = this.getCroppedCanvas(options),
+          args = [],
           dataURL;
 
-      if (canvas) {
+      if (canvas && canvas.toDataURL) {
         if (!$.isPlainObject(options)) {
           quality = type;
           type = options;
           options = {};
         }
 
-        if (type === 'image/jpeg' && !options.fillColor) {
-          options.fillColor = '#fff';
+        if (options.fillColor) {
+          canvas.fillStyle = options.fillColor;
+        } else if (['image/jpeg', 'image/webp'].indexOf(type) > -1) {
+          canvas.fillStyle = '#fff';
         }
 
-        dataURL = canvas.toDataURL.apply(canvas, (function () {
-          var args = [];
-
-          if (isString(type)) {
-            args.push(type);
-          }
-
-          if (isNumber(quality)) {
-            args.push(quality);
-          }
-
-          return args;
-        }).call(this));
+        isString(type) && args.push(type);
+        isNumber(quality) && args.push(quality);
+        dataURL = canvas.toDataURL.apply(canvas, args);
       }
 
       return dataURL || '';
-    },
-
-    getBlob: function (options, type, quality) {
-      var canvas = this.getCroppedCanvas(options, type, quality),
-          deferredBlob = $.Deferred();
-
-      if (canvas && canvas.toBlob) {
-        if (!$.isPlainObject(options)) {
-          quality = type;
-          type = options;
-          options = {};
-        }
-
-        if (type === 'image/jpeg' && !options.fillColor) {
-          options.fillColor = '#fff';
-        }
-
-        canvas.toBlob.apply(canvas, (function () {
-          var args = [];
-
-          args.push(function (result) {
-            if (result) {
-              deferredBlob.resolve(result);
-            } else {
-              deferredBlob.reject();
-            }
-          });
-
-          if (isString(type)) {
-            args.push(type);
-          }
-
-          if (isNumber(quality)) {
-            args.push(quality);
-          }
-
-          return args;
-        }).call(this));
-      } else {
-        deferredBlob.reject();
-      }
-
-      return deferredBlob.promise();
     },
 
     setAspectRatio: function (aspectRatio) {
