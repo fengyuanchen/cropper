@@ -109,8 +109,8 @@ Add extra elements (containers) for previewing.
 
 **Notes:**
 
-- The maximum width is preview container initial width.
-- The maximum height is preview container initial height.
+- The maximum width is the initial width of preview container.
+- The maximum height is the initial height of preview container.
 - If you set an `aspectRatio` option, be sure to set the preview container with the same aspect ratio.
 
 
