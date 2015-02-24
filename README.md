@@ -226,8 +226,11 @@ Enable to rotate the image.
 - Type: `Boolean`
 - Default: `true`
 
-By default, the plugin will check the image origin, and if it is a cross-origin image, a "crossOrigin" attribute will be added to the image element to enable "getDataURL".
+By default, the plugin will check the image origin, and if it is a cross-origin image, a "crossOrigin" attribute will be added to the image element and "timestamp" will be added to image url to enable "getDataURL".
 
+Added timestamp will reload image to enable "getDataURL" on cross-origin image.
+
+Adding "crossOrigin" attribute to image will stop adding timestamp to image url, and stop reload of image.
 
 ### responsive
 
