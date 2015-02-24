@@ -310,7 +310,7 @@
       case 'zoom':
         this.zoom(function (x1, y1, x2, y2) {
           var z1 = sqrt(x1 * x1 + y1 * y1),
-              z2 = sqrt(x1 * x1 + y1 * y1);
+              z2 = sqrt(x2 * x2 + y2 * y2);
 
           return (z2 - z1) / z1;
         }(
