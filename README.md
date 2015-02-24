@@ -107,6 +107,12 @@ This function will be executed when changes the crop box or image.
 
 Add extra elements (containers) for previewing.
 
+**Notes:**
+
+- The maximum width is preview container initial width.
+- The maximum height is preview container initial height.
+- If you set an `aspectRatio` option, be sure to set the preview container with the same aspect ratio.
+
 
 ### global
 
