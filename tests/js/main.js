@@ -12,6 +12,16 @@
     return image;
   }
 
+  window.createTransparentCropperImage = function (url) {
+    var image = new Image();
+
+    image.src = url || '../assets/img/icons.png';
+
+    $('<div>').addClass('container').append(image).appendTo(document.body);
+
+    return image;
+  }
+
   $.fn.cropper.setDefaults({
     global: false
   });

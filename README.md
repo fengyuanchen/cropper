@@ -487,6 +487,44 @@ Output the image's position and size data.
 Change the image's position and size.
 
 
+### getCroppedCanvas([options])
+
+- **options** (optional):
+  - Type: `Object`
+  - properties
+    - `width`: the destination width of the output image
+    - `height`: the destination height of the output image
+    - `fillColor`: a color to fill the canvas with before drawing the image
+
+- (return):
+  - Type: `HTMLCanvasElement`
+  - A fresh `<canvas>` element with the the cropped area drawn on it.
+
+- Browser support:
+  - Basic image: requires [Canvas](http://caniuse.com/canvas) support (IE 9+).
+  - Rotated image: requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+  - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
+
+- Known issues
+ - Canvas: `canvas.drawImage` in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.getCroppedCanvas` will be incorrect.
+
+Get a fresh Canvas with the cropped area drawn to it.
+
+```js
+$().cropper('getCroppedCanvas')
+
+$().cropper('getCroppedCanvas', {
+  width: 160,
+  height: 90
+})
+
+$().cropper('getCroppedCanvas', {
+  fillColor: '#000'
+})
+
+```
+
+
 ### getDataURL([options[, type[, quality]]])
 
 - **options** (optional):
@@ -494,6 +532,7 @@ Change the image's position and size.
   - properties
     - `width`: the destination width of the output image
     - `height`: the destination height of the output image
+    - `fillColor`: a color to fill any alpha values in the image with
 
 - **type** (optional):
   - Type: `String`
@@ -539,6 +578,62 @@ $().cropper('getDataURL', {
 }, 'image/jpeg', 0.8)
 
 ```
+
+
+### getBlob([options[, type[, quality]]])
+
+- **options** (optional):
+  - Type: `Object`
+  - properties
+    - `width`: the destination width of the output image
+    - `height`: the destination height of the output image
+    - `fillColor`: a color to fill any alpha values in the image with
+
+- **type** (optional):
+  - Type: `String`
+  - Default: `'image/png'`
+  - Options:  `'image/jpeg'`, `'image/webp'`.
+  - Indicate image format.
+
+- **quality** (optional):
+  - Type: `Number`
+  - Default: `1`
+  - Requires a number between 0 and 1
+  - indicate image quality if the requested type is "image/jpeg" or "image/webp".
+
+- (return):
+  - Type: `jQuery.Deferred`
+  - A jQuery.Deferred that will resolve to a Blob of the cropped area.
+
+- Browser support:
+  - Basic image: requires [Canvas](http://caniuse.com/canvas) support, [FileAPI](http://caniuse.com/fileapi) support, and either `canvas.toBlob` support (currently Firefox 19+ only) or a canvas.toBlob pollyfill ([eligrey](https://github.com/eligrey/canvas-toBlob.js/) or [remixz](https://github.com/remixz/canvas-to-blob)) (IE 10+ with pollyfill).
+  - Rotated image: requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+  - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
+
+- Known issues
+ - Canvas: `canvas.drawImage` in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.toBlob` will be incorrect.
+
+Get the Blob (the image as a [window.Blob](http://www.w3.org/TR/FileAPI/#dfn-Blob)) of the cropped area by Canvas.
+
+```js
+$().cropper('getBlob')
+
+$().cropper('getBlob', {
+  width: 160,
+  height: 90
+})
+
+$().cropper('getBlob', 'image/jpeg')
+
+$().cropper('getBlob', 'image/jpeg', 0.8)
+
+$().cropper('getBlob', {
+  width: 320,
+  height: 180
+}, 'image/jpeg', 0.8)
+
+```
+
 
 ### setAspectRatio(aspectRatio)
 
