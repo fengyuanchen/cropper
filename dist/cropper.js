@@ -5,7 +5,7 @@
  * Copyright 2014-2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-02-19T06:49:29.144Z
+ * Date: 2015-02-22T23:57:16.708Z
  */
 
 (function (factory) {
@@ -205,9 +205,10 @@
       return;
     }
 
-    if (options.checkImageOrigin) {
-      if (isCrossOriginURL(url)) {
-        crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+    if (options.checkImageOrigin && isCrossOriginURL(url)) {
+      crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+
+      if (!$this.prop('crossOrigin')) { // Only when there was not a "crossOrigin" property
         url = addTimestamp(url); // Bust cache (#148)
       }
     }
@@ -607,21 +608,28 @@
   $.extend(prototype, {
     resize: function () {
       var $container = this.$container,
-          container = this.container;
+          container = this.container,
+          ratio;
 
       if (this.disabled) {
         return;
       }
 
-      if ($container.width() !== container.width || $container.height() !== container.height) {
+      ratio = $container.width() / container.width;
+
+      if (ratio !== 1 || $container.height() !== container.height) {
         clearTimeout(this.resizing);
         this.resizing = setTimeout($.proxy(function () {
           var imageData = this.getImageData(),
               cropBoxData = this.getCropBoxData();
 
           this.render();
-          this.setImageData(imageData);
-          this.setCropBoxData(cropBoxData);
+          this.setImageData($.each(imageData, function (i, n) {
+            imageData[i] = n * ratio
+          }));
+          this.setCropBoxData($.each(cropBoxData, function (i, n) {
+            cropBoxData[i] = n * ratio
+          }));
         }, this), 200);
       }
     },
@@ -1036,43 +1044,34 @@
       }
     },
 
-    getDataURL: function (options, type, quality) {
+    getCroppedCanvas: function (options) {
       var originalWidth,
           originalHeight,
           canvasWidth,
           canvasHeight,
-          scaledWidth,
-          scaledHeight,
-          scaled,
           canvas,
           context,
-          data,
-          dataURL;
+          data;
 
       if (this.cropped && support.canvas) {
         data = this.getData();
         originalWidth = data.width;
         originalHeight = data.height;
-        scaled = $.isPlainObject(options);
 
-        if (scaled) {
-          scaledWidth = options.width || originalWidth;
-          scaledHeight = options.height || originalHeight;
-        } else {
-          quality = type;
-          type = options;
+        if (!$.isPlainObject(options)) {
+          options = {};
         }
 
-        canvasWidth = scaled ? scaledWidth : originalWidth;
-        canvasHeight = scaled ? scaledHeight : originalHeight;
+        canvasWidth = options.width || originalWidth;
+        canvasHeight = options.height || originalHeight;
 
         canvas = $('<canvas>')[0]; // document.createElement('canvas');
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         context = canvas.getContext('2d');
 
-        if (type === 'image/jpeg') {
-          context.fillStyle = '#fff';
+        if (options.fillColor) {
+          context.fillStyle = options.fillColor;
           context.fillRect(0, 0, canvasWidth, canvasHeight);
         }
 
@@ -1117,8 +1116,8 @@
           args.push(srcX, srcY, srcWidth, srcHeight);
 
           // Scale dstination sizes
-          if (scaled) {
-            scaledRatio = originalWidth / scaledWidth;
+          if (originalWidth !== canvasWidth || originalHeight !== canvasHeight) {
+            scaledRatio = originalWidth / canvasWidth;
             dstX /= scaledRatio;
             dstY /= scaledRatio;
             dstWidth /= scaledRatio;
@@ -1132,6 +1131,25 @@
 
           return args;
         }).call(this));
+      }
+
+      return canvas;
+    },
+
+    getDataURL: function (options, type, quality) {
+      var canvas = this.getCroppedCanvas(options, type, quality),
+          dataURL;
+
+      if (canvas) {
+        if (!$.isPlainObject(options)) {
+          quality = type;
+          type = options;
+          options = {};
+        }
+
+        if (type === 'image/jpeg' && !options.fillColor) {
+          options.fillColor = '#fff';
+        }
 
         dataURL = canvas.toDataURL.apply(canvas, (function () {
           var args = [];
@@ -1149,6 +1167,49 @@
       }
 
       return dataURL || '';
+    },
+
+    getBlob: function (options, type, quality) {
+      var canvas = this.getCroppedCanvas(options, type, quality),
+          deferredBlob = $.Deferred();
+
+      if (canvas && canvas.toBlob) {
+        if (!$.isPlainObject(options)) {
+          quality = type;
+          type = options;
+          options = {};
+        }
+
+        if (type === 'image/jpeg' && !options.fillColor) {
+          options.fillColor = '#fff';
+        }
+
+        canvas.toBlob.apply(canvas, (function () {
+          var args = [];
+
+          args.push(function (result) {
+            if (result) {
+              deferredBlob.resolve(result);
+            } else {
+              deferredBlob.reject();
+            }
+          });
+
+          if (isString(type)) {
+            args.push(type);
+          }
+
+          if (isNumber(quality)) {
+            args.push(quality);
+          }
+
+          return args;
+        }).call(this));
+      } else {
+        deferredBlob.reject();
+      }
+
+      return deferredBlob.promise();
     },
 
     setAspectRatio: function (aspectRatio) {
@@ -1507,11 +1568,12 @@
 
       // Scale image
       case 'zoom':
-        this.zoom(function (x, y, x1, y1, x2, y2) {
-          return (sqrt(x2 * x2 + y2 * y2) - sqrt(x1 * x1 + y1 * y1)) / sqrt(x * x + y * y);
+        this.zoom(function (x1, y1/*, x2, y2*/) {
+          var z1 = sqrt(x1 * x1 + y1 * y1),
+              z2 = sqrt(x1 * x1 + y1 * y1);
+
+          return (z2 - z1) / z1;
         }(
-          image.width,
-          image.height,
           abs(this.startX - this.startX2),
           abs(this.startY - this.startY2),
           abs(this.endX - this.endX2),

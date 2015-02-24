@@ -249,43 +249,34 @@
       }
     },
 
-    getDataURL: function (options, type, quality) {
+    getCroppedCanvas: function (options) {
       var originalWidth,
           originalHeight,
           canvasWidth,
           canvasHeight,
-          scaledWidth,
-          scaledHeight,
-          scaled,
           canvas,
           context,
-          data,
-          dataURL;
+          data;
 
       if (this.cropped && support.canvas) {
         data = this.getData();
         originalWidth = data.width;
         originalHeight = data.height;
-        scaled = $.isPlainObject(options);
 
-        if (scaled) {
-          scaledWidth = options.width || originalWidth;
-          scaledHeight = options.height || originalHeight;
-        } else {
-          quality = type;
-          type = options;
+        if (!$.isPlainObject(options)) {
+          options = {};
         }
 
-        canvasWidth = scaled ? scaledWidth : originalWidth;
-        canvasHeight = scaled ? scaledHeight : originalHeight;
+        canvasWidth = options.width || originalWidth;
+        canvasHeight = options.height || originalHeight;
 
         canvas = $('<canvas>')[0]; // document.createElement('canvas');
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         context = canvas.getContext('2d');
 
-        if (type === 'image/jpeg') {
-          context.fillStyle = '#fff';
+        if (options.fillColor) {
+          context.fillStyle = options.fillColor;
           context.fillRect(0, 0, canvasWidth, canvasHeight);
         }
 
@@ -330,8 +321,8 @@
           args.push(srcX, srcY, srcWidth, srcHeight);
 
           // Scale dstination sizes
-          if (scaled) {
-            scaledRatio = originalWidth / scaledWidth;
+          if (originalWidth !== canvasWidth || originalHeight !== canvasHeight) {
+            scaledRatio = originalWidth / canvasWidth;
             dstX /= scaledRatio;
             dstY /= scaledRatio;
             dstWidth /= scaledRatio;
@@ -345,6 +336,25 @@
 
           return args;
         }).call(this));
+      }
+
+      return canvas;
+    },
+
+    getDataURL: function (options, type, quality) {
+      var canvas = this.getCroppedCanvas(options, type, quality),
+          dataURL;
+
+      if (canvas) {
+        if (!$.isPlainObject(options)) {
+          quality = type;
+          type = options;
+          options = {};
+        }
+
+        if (type === 'image/jpeg' && !options.fillColor) {
+          options.fillColor = '#fff';
+        }
 
         dataURL = canvas.toDataURL.apply(canvas, (function () {
           var args = [];
@@ -362,6 +372,49 @@
       }
 
       return dataURL || '';
+    },
+
+    getBlob: function (options, type, quality) {
+      var canvas = this.getCroppedCanvas(options, type, quality),
+          deferredBlob = $.Deferred();
+
+      if (canvas && canvas.toBlob) {
+        if (!$.isPlainObject(options)) {
+          quality = type;
+          type = options;
+          options = {};
+        }
+
+        if (type === 'image/jpeg' && !options.fillColor) {
+          options.fillColor = '#fff';
+        }
+
+        canvas.toBlob.apply(canvas, (function () {
+          var args = [];
+
+          args.push(function (result) {
+            if (result) {
+              deferredBlob.resolve(result);
+            } else {
+              deferredBlob.reject();
+            }
+          });
+
+          if (isString(type)) {
+            args.push(type);
+          }
+
+          if (isNumber(quality)) {
+            args.push(quality);
+          }
+
+          return args;
+        }).call(this));
+      } else {
+        deferredBlob.reject();
+      }
+
+      return deferredBlob.promise();
     },
 
     setAspectRatio: function (aspectRatio) {
