@@ -1,14 +1,16 @@
   $.extend(prototype, {
     reset: function () {
-      if (!this.cropped || this.disabled) {
+      if (this.disabled) {
         return;
       }
 
       this.image = $.extend({}, this.defaultImage);
       this.renderImage();
 
-      this.cropBox = $.extend({}, this.defaultCropBox);
-      this.renderCropBox();
+      if (this.cropped) {
+        this.cropBox = $.extend({}, this.defaultCropBox);
+        this.renderCropBox();
+      }
     },
 
     clear: function () {
