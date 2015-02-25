@@ -12,19 +12,19 @@
     },
 
     clear: function () {
-      var cropBox = this.cropBox;
-
       if (!this.cropped || this.disabled) {
         return;
       }
 
-      this.cropped = false;
-      cropBox.left = 0;
-      cropBox.top = 0;
-      cropBox.width = 0;
-      cropBox.height = 0;
-      this.renderCropBox();
+      $.extend(this.cropBox, {
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0
+      });
 
+      this.renderCropBox();
+      this.cropped = false;
       this.$canvas.removeClass(CLASS_MODAL);
       this.$cropBox.addClass(CLASS_HIDDEN);
     },
