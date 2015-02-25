@@ -298,6 +298,11 @@
       canvas.height = canvasHeight;
       context = canvas.getContext('2d');
 
+      if (options.fillColor) {
+        context.fillStyle = options.fillColor;
+        context.fillRect(0, 0, canvasWidth, canvasHeight);
+      }
+
       // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
       context.drawImage.apply(context, (function () {
         var source = getSourceCanvas(this.$clone[0], this.image),
@@ -357,23 +362,23 @@
     },
 
     getDataURL: function (options, type, quality) {
-      var canvas = this.getCroppedCanvas(options),
-          args = [],
+      var args = [],
+          canvas,
           dataURL;
 
+      if (!$.isPlainObject(options)) {
+        quality = type;
+        type = options;
+        options = {};
+      }
+
+      if (!options.fillColor && ['image/jpeg', 'image/webp'].indexOf(type) > -1) {
+        options.fillColor = '#fff';
+      }
+
+      canvas = this.getCroppedCanvas(options);
+
       if (canvas && canvas.toDataURL) {
-        if (!$.isPlainObject(options)) {
-          quality = type;
-          type = options;
-          options = {};
-        }
-
-        if (options.fillColor) {
-          canvas.fillStyle = options.fillColor;
-        } else if (['image/jpeg', 'image/webp'].indexOf(type) > -1) {
-          canvas.fillStyle = '#fff';
-        }
-
         isString(type) && args.push(type);
         isNumber(quality) && args.push(quality);
         dataURL = canvas.toDataURL.apply(canvas, args);
