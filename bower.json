@@ -27,11 +27,12 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "tests",
+    "test",
     "examples",
     "assets",
     "demos",
     "docs",
-    "test",
     "_*"
   ],
   "dependencies": {
