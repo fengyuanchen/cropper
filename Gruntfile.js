@@ -56,10 +56,10 @@ module.exports = function (grunt) {
         'Gruntfile.js',
         'dist/<%= pkg.name %>.js',
         'examples/*/js/main.js',
-        'demos/js/main.js',
+        'demo/js/main.js',
         'docs/js/main.js'
       ],
-      test: ['tests/**/*.js']
+      test: ['test/**/*.js']
     },
 
     jscs: {
@@ -70,10 +70,10 @@ module.exports = function (grunt) {
         'Gruntfile.js',
         'dist/<%= pkg.name %>.js',
         'examples/*/js/main.js',
-        'demos/js/main.js',
+        'demo/js/main.js',
         'docs/js/main.js'
       ],
-      test: ['tests/**/*.js']
+      test: ['test/**/*.js']
     },
 
     uglify: {
@@ -113,9 +113,9 @@ module.exports = function (grunt) {
       },
       main: [
         'dist/<%= pkg.name %>.css',
-        'demos/css/main.css',
+        'demo/css/main.css',
         'docs/css/main.css',
-        'tests/css/main.css'
+        'test/css/main.css'
       ]
     },
 
@@ -203,11 +203,11 @@ module.exports = function (grunt) {
     },
 
     validation: {
-      all: ['docs/*.html', 'demos/*.html', 'examples/**/*.html']
+      all: ['docs/*.html', 'demo/*.html', 'examples/**/*.html']
     },
 
     qunit: {
-      test: ['tests/**/*.html']
+      test: ['test/*.html']
     },
 
     copy: {
