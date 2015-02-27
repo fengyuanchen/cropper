@@ -94,14 +94,31 @@
     zoom: function (delta) {
       var image = this.image,
           width,
-          height;
+          height,
+          maxDeltaWidth,
+          maxDeltaHeight;
 
       delta = num(delta);
 
       if (delta && this.built && !this.disabled && this.options.zoomable) {
         delta = delta <= -1 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
+
+        // If we're zooming out, make sure the image doesn't get smaller than the specified minimum size
+        if (delta < 1) {
+          var calcMaxDelta = function (dimension, minimum) {
+            minimum = abs(num(minimum)) || 0;
+            return minimum / dimension || delta;
+          }
+
+          maxDeltaWidth = calcMaxDelta(image.width, this.options.minImageWidth);
+          maxDeltaHeight = calcMaxDelta(image.height, this.options.minImageHeight);
+
+          delta = max(delta, max(maxDeltaWidth, maxDeltaHeight));
+        }
+
         width = image.width * delta;
         height = image.height * delta;
+
         image.left -= (width - image.width) / 2;
         image.top -= (height - image.height) / 2;
         image.width = width;
