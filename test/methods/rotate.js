@@ -2,7 +2,7 @@ $(function () {
 
   'use strict';
 
-  var $image = $(window.createCropperImage())
+  var $image = $(window.createCropperImage());
 
   $image.cropper({
     built: function () {

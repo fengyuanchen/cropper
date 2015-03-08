@@ -36,16 +36,34 @@
 
     if (options.autoCrop) {
       this.cropped = true;
-      options.modal && this.$dragBox.addClass(CLASS_MODAL);
+
+      if (options.modal) {
+        this.$dragBox.addClass(CLASS_MODAL);
+      }
     } else {
       $cropBox.addClass(CLASS_HIDDEN);
     }
 
-    options.background && $cropper.addClass(CLASS_BG);
-    !options.highlight && $cropBox.find('.cropper-face').addClass(CLASS_INVISIBLE);
-    !options.guides && $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
-    !options.movable && $cropBox.find('.cropper-face').data('drag', 'move');
-    !options.resizable && $cropBox.find('.cropper-line, .cropper-point').addClass(CLASS_HIDDEN);
+    if (options.background) {
+      $cropper.addClass(CLASS_BG);
+    }
+
+    if (!options.highlight) {
+      $cropBox.find('.cropper-face').addClass(CLASS_INVISIBLE);
+    }
+
+    if (!options.guides) {
+      $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
+    }
+
+    if (!options.movable) {
+      $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
+    }
+
+    if (!options.resizable) {
+      $cropBox.find('.cropper-line, .cropper-point').addClass(CLASS_HIDDEN);
+    }
+
     this.setDragMode(options.dragCrop ? 'crop' : 'move');
 
     this.built = true;

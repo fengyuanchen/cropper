@@ -18,10 +18,10 @@
 
           this.render();
           this.setImageData($.each(imageData, function (i, n) {
-            imageData[i] = n * ratio
+            imageData[i] = n * ratio;
           }));
           this.setCropBoxData($.each(cropBoxData, function (i, n) {
-            cropBoxData[i] = n * ratio
+            cropBoxData[i] = n * ratio;
           }));
         }, this), 200);
       }

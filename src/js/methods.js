@@ -85,7 +85,7 @@
       var canvas = this.canvas;
 
       if (!this.disabled && isNumber(offsetX) && isNumber(offsetY)) {
-        canvas.left += offsetX
+        canvas.left += offsetX;
         canvas.top += offsetY;
         this.renderCanvas(true);
       }
@@ -162,7 +162,7 @@
           width: 0,
           height: 0,
           rotate: rotate
-        }
+        };
       }
 
       return data;

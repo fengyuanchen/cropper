@@ -46,7 +46,7 @@
           newHeight = cropBox.height * ratio;
 
       if (newHeight > data.height) {
-        ratio = data.height / cropBox.height,
+        ratio = data.height / cropBox.height;
         newWidth = cropBox.width * ratio;
         newHeight = data.height;
       }

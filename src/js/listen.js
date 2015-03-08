@@ -14,7 +14,9 @@
       this.$cropper.on(EVENT_MOUSE_MOVE, $.proxy(this.dragmove, this)).on(EVENT_MOUSE_UP, $.proxy(this.dragend, this));
     }
 
-    options.responsive && $window.on(EVENT_RESIZE, (this._resize = proxy(this.resize, this)));
+    if (options.responsive) {
+      $window.on(EVENT_RESIZE, (this._resize = proxy(this.resize, this)));
+    }
   };
 
   prototype.removeListeners = function () {
@@ -33,5 +35,7 @@
       this.$cropper.off(EVENT_MOUSE_MOVE, this.dragmove).off(EVENT_MOUSE_UP, this.dragend);
     }
 
-    options.responsive && $window.off(EVENT_RESIZE, this._resize);
+    if (options.responsive) {
+      $window.off(EVENT_RESIZE, this._resize);
+    }
   };

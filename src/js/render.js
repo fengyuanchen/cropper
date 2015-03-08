@@ -194,7 +194,10 @@
 
       if (changed) {
         this.preview();
-        options.crop && options.crop.call(this.$element, this.getData());
+
+        if (options.crop) {
+          options.crop.call(this.$element, this.getData());
+        }
       }
     },
 
@@ -285,7 +288,10 @@
 
       if (!this.disabled) {
         this.preview();
-        $.isFunction(options.crop) && options.crop.call(this.$element, this.getData());
+
+        if (options.crop) {
+          options.crop.call(this.$element, this.getData());
+        }
       }
     }
   });
