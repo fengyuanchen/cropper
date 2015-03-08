@@ -208,20 +208,45 @@
           image.width = image.height * image.aspectRatio;
         }
 
+        this.renderImage(true);
+      }
+    },
+
+    setCanvasData: function (data) {
+      var canvas = this.canvas,
+          aspectRatio = canvas.aspectRatio;
+
+      if (this.built && !this.disabled && $.isPlainObject(data)) {
+        if (isNumber(data.left)) {
+          canvas.left = data.left;
+        }
+
+        if (isNumber(data.top)) {
+          canvas.top = data.top;
+        }
+
+        if (isNumber(data.width)) {
+          canvas.width = data.width;
+          canvas.height = data.width / aspectRatio;
+        } else if (isNumber(data.height)) {
+          canvas.height = data.height;
+          canvas.width = data.height * aspectRatio;
+        }
+
         this.renderCanvas(true);
       }
     },
 
     getCanvasData: function (all) {
-      var image = this.image,
+      var canvas = this.canvas,
           data = {};
 
       if (this.built) {
-        $.extend(data, all ? image : {
-          left: image.left,
-          top: image.top,
-          width: image.width,
-          height: image.height
+        $.extend(data, all ? canvas : {
+          left: canvas.left,
+          top: canvas.top,
+          width: canvas.width,
+          height: canvas.height
         });
       }
 
@@ -229,23 +254,24 @@
     },
 
     setCanvasData: function (data) {
-      var image = this.image;
+      var canvas = this.canvas,
+          aspectRatio = canvas.aspectRatio;
 
       if (this.built && !this.disabled && $.isPlainObject(data)) {
         if (isNumber(data.left)) {
-          image.left = data.left;
+          canvas.left = data.left;
         }
 
         if (isNumber(data.top)) {
-          image.top = data.top;
+          canvas.top = data.top;
         }
 
         if (isNumber(data.width)) {
-          image.width = data.width;
-          image.height = image.width / image.aspectRatio;
+          canvas.width = data.width;
+          canvas.height = data.width / aspectRatio;
         } else if (isNumber(data.height)) {
-          image.height = data.height;
-          image.width = image.height * image.aspectRatio;
+          canvas.height = data.height;
+          canvas.width = data.height * aspectRatio;
         }
 
         this.renderCanvas(true);
