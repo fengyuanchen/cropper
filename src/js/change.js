@@ -1,5 +1,5 @@
   prototype.change = function () {
-    var directive = this.directive,
+    var dragType = this.dragType,
         canvas = this.canvas,
         container = this.container,
         maxWidth = container.width,
@@ -24,7 +24,7 @@
       range.Y = range.x / aspectRatio;
     }
 
-    switch (directive) {
+    switch (dragType) {
       // Move cropBox
       case 'all':
         left += range.x;
@@ -46,7 +46,7 @@
         }
 
         if (width < 0) {
-          directive = 'w';
+          dragType = 'w';
           width = 0;
         }
 
@@ -67,7 +67,7 @@
         }
 
         if (height < 0) {
-          directive = 's';
+          dragType = 's';
           height = 0;
         }
 
@@ -88,7 +88,7 @@
         }
 
         if (width < 0) {
-          directive = 'e';
+          dragType = 'e';
           width = 0;
         }
 
@@ -108,7 +108,7 @@
         }
 
         if (height < 0) {
-          directive = 'n';
+          dragType = 'n';
           height = 0;
         }
 
@@ -147,14 +147,14 @@
         }
 
         if (width < 0 && height < 0) {
-          directive = 'sw';
+          dragType = 'sw';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          directive = 'nw';
+          dragType = 'nw';
           width = 0;
         } else if (height < 0) {
-          directive = 'se';
+          dragType = 'se';
           height = 0;
         }
 
@@ -196,14 +196,14 @@
         }
 
         if (width < 0 && height < 0) {
-          directive = 'se';
+          dragType = 'se';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          directive = 'ne';
+          dragType = 'ne';
           width = 0;
         } else if (height < 0) {
-          directive = 'sw';
+          dragType = 'sw';
           height = 0;
         }
 
@@ -242,14 +242,14 @@
         }
 
         if (width < 0 && height < 0) {
-          directive = 'ne';
+          dragType = 'ne';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          directive = 'se';
+          dragType = 'se';
           width = 0;
         } else if (height < 0) {
-          directive = 'nw';
+          dragType = 'nw';
           height = 0;
         }
 
@@ -285,14 +285,14 @@
         }
 
         if (width < 0 && height < 0) {
-          directive = 'nw';
+          dragType = 'nw';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          directive = 'sw';
+          dragType = 'sw';
           width = 0;
         } else if (height < 0) {
-          directive = 'ne';
+          dragType = 'ne';
           height = 0;
         }
 
@@ -336,17 +336,17 @@
 
           if (range.x > 0) {
             if (range.y > 0) {
-              directive = 'se';
+              dragType = 'se';
             } else {
-              directive = 'ne';
+              dragType = 'ne';
               top -= height;
             }
           } else {
             if (range.y > 0) {
-              directive = 'sw';
+              dragType = 'sw';
               left -= width;
             } else {
-              directive = 'nw';
+              dragType = 'nw';
               left -= width;
               top -= height;
             }
@@ -369,7 +369,7 @@
       cropBox.height = height;
       cropBox.left = left;
       cropBox.top = top;
-      this.directive = directive;
+      this.dragType = dragType;
 
       this.renderCropBox();
     }

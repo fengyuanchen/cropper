@@ -44,7 +44,7 @@
     options.background && $cropper.addClass(CLASS_BG);
     !options.highlight && $cropBox.find('.cropper-face').addClass(CLASS_INVISIBLE);
     !options.guides && $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
-    !options.movable && $cropBox.find('.cropper-face').data(STRING_DIRECTIVE, 'move');
+    !options.movable && $cropBox.find('.cropper-face').data('drag', 'move');
     !options.resizable && $cropBox.find('.cropper-line, .cropper-point').addClass(CLASS_HIDDEN);
     this.setDragMode(options.dragCrop ? 'crop' : 'move');
 

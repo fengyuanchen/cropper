@@ -3,11 +3,10 @@
       location = window.location,
 
       // Constants
-      STRING_DIRECTIVE = 'directive',
       CROPPER_NAMESPACE = '.cropper',
 
       // RegExps
-      REGEXP_DIRECTIVES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,
+      REGEXP_DRAG_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,
       // REGEXP_OPTIONS = /^(x|y|width|height|rotate)$/,
       // REGEXP_PROPERTIES = /^(naturalWidth|naturalHeight|width|height|aspectRatio|ratio|rotate)$/,
 
