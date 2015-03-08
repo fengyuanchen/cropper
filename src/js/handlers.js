@@ -32,7 +32,7 @@
         return;
       }
 
-      if (this.$canvas.hasClass(CLASS_CROP)) {
+      if (this.$dragBox.hasClass(CLASS_CROP)) {
         this.setDragMode('move');
       } else {
         this.setDragMode('crop');
@@ -109,7 +109,7 @@
 
         if (directive === 'crop') {
           this.cropping = true;
-          this.$canvas.addClass(CLASS_MODAL);
+          this.$dragBox.addClass(CLASS_MODAL);
         }
       }
     },
@@ -178,7 +178,7 @@
 
         if (this.cropping) {
           this.cropping = false;
-          this.$canvas.toggleClass(CLASS_MODAL, this.cropped && this.options.modal);
+          this.$dragBox.toggleClass(CLASS_MODAL, this.cropped && this.options.modal);
         }
 
         this.directive = '';

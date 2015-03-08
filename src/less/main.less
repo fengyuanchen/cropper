@@ -16,8 +16,10 @@
   }
 }
 
-.cropper-modal,
-.cropper-canvas {
+.cropper-canvas,
+.cropper-drag-box,
+.cropper-crop-box,
+.cropper-modal {
   position: absolute;
   top: 0;
   right: 0;
@@ -25,7 +27,7 @@
   left: 0;
 }
 
-.cropper-canvas {
+.cropper-drag-box {
   background-color: #fff;
   .opacity(0);
 }
@@ -35,14 +37,7 @@
   .opacity(.5);
 }
 
-.cropper-cropbox {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  .square(80%);
-}
-
-.cropper-viewer {
+.cropper-view-box {
   display: block;
   .square(100%);
   overflow: hidden;

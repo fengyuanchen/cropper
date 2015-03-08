@@ -1,5 +1,6 @@
   prototype.build = function () {
     var $this = this.$element,
+        $clone = this.$clone,
         options = this.options,
         $cropper,
         $cropBox;
@@ -18,15 +19,14 @@
     // Hide the original image
     $this.addClass(CLASS_HIDDEN);
 
-    // Show and prepend the clone iamge to the cropper
-    this.$clone.removeClass(CLASS_HIDE).prependTo($cropper);
+    // Show the clone iamge
+    $clone.removeClass(CLASS_HIDE);
 
-    this.$container = $this.parent();
-    this.$container.append($cropper);
-
-    this.$canvas = $cropper.find('.cropper-canvas');
-    this.$cropBox = $cropBox = $cropper.find('.cropper-cropbox');
-    this.$viewer = $cropper.find('.cropper-viewer');
+    this.$container = $this.parent().append($cropper);
+    this.$canvas = $cropper.find('.cropper-canvas').append($clone);
+    this.$dragBox = $cropper.find('.cropper-drag-box');
+    this.$cropBox = $cropBox = $cropper.find('.cropper-crop-box');
+    this.$viewBox = $cropper.find('.cropper-view-box');
 
     this.addListeners();
     this.initPreview();
@@ -36,7 +36,7 @@
 
     if (options.autoCrop) {
       this.cropped = true;
-      options.modal && this.$canvas.addClass(CLASS_MODAL);
+      options.modal && this.$dragBox.addClass(CLASS_MODAL);
     } else {
       $cropBox.addClass(CLASS_HIDDEN);
     }
@@ -64,7 +64,9 @@
     this.$preview.empty();
     this.$preview = null;
 
+    this.$viewBox = null;
     this.$cropBox = null;
+    this.$dragBox = null;
     this.$canvas = null;
     this.$container = null;
 

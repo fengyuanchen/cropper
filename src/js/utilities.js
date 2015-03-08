@@ -49,13 +49,28 @@
     return degree ? 'rotate(' + degree + 'deg)' : 'none';
   }
 
-  function getRotatedSizes(data) {
+  function getRotatedSizes(data, reverse) {
     var deg = abs(data.degree) % 180,
-        arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
+        arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180,
+        sinArc = sin(arc),
+        cosArc = cos(arc),
+        width = data.width,
+        height = data.height,
+        aspectRatio = data.aspectRatio,
+        newWidth,
+        newHeight;
+
+    if (!reverse) {
+      newWidth = width * cosArc + height * sinArc;
+      newHeight = width * sinArc + height * cosArc;
+    } else {
+      newWidth = width / (cosArc + sinArc / aspectRatio);
+      newHeight = newWidth / aspectRatio;
+    }
 
     return {
-      width: data.width * cos(arc) + data.height * sin(arc),
-      height: data.width * sin(arc) + data.height * cos(arc)
+      width: newWidth,
+      height: newHeight
     };
   }
 

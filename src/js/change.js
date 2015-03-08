@@ -1,6 +1,6 @@
   prototype.change = function () {
     var directive = this.directive,
-        image = this.image,
+        canvas = this.canvas,
         container = this.container,
         maxWidth = container.width,
         maxHeight = container.height,
@@ -300,9 +300,9 @@
 
       // Move image
       case 'move':
-        image.left += range.x;
-        image.top += range.y;
-        this.renderImage(true);
+        canvas.left += range.x;
+        canvas.top += range.y;
+        this.renderCanvas(true);
         renderable = false;
         break;
 

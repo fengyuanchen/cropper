@@ -2,7 +2,7 @@
     var url = this.url;
 
     this.$preview = $(this.options.preview);
-    this.$viewer.html('<img src="' + url + '">');
+    this.$viewBox.html('<img src="' + url + '">');
 
     // Override img element styles
     // Add `display:block` to avoid margin top issue (Occur only when margin-top <= -height)
@@ -18,18 +18,19 @@
 
   prototype.preview = function () {
     var image = this.image,
+        canvas = this.canvas,
         cropBox = this.cropBox,
         width = image.width,
         height = image.height,
-        left = cropBox.left - image.left,
-        top = cropBox.top - image.top,
+        left = cropBox.left - canvas.left - image.left,
+        top = cropBox.top - canvas.top - image.top,
         rotate = image.rotate;
 
     if (!this.cropped || this.disabled) {
       return;
     }
 
-    this.$viewer.find('img').css({
+    this.$viewBox.find('img').css({
       width: width,
       height: height,
       marginLeft: -left,
