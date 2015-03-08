@@ -172,33 +172,8 @@
       return this.built ? this.container : {};
     },
 
-    getImageData: function (all) {
+    getImageData: function () {
       return this.built ? this.image : {};
-    },
-
-    setCanvasData: function (data) {
-      var canvas = this.canvas,
-          aspectRatio = canvas.aspectRatio;
-
-      if (this.built && !this.disabled && $.isPlainObject(data)) {
-        if (isNumber(data.left)) {
-          canvas.left = data.left;
-        }
-
-        if (isNumber(data.top)) {
-          canvas.top = data.top;
-        }
-
-        if (isNumber(data.width)) {
-          canvas.width = data.width;
-          canvas.height = data.width / aspectRatio;
-        } else if (isNumber(data.height)) {
-          canvas.height = data.height;
-          canvas.width = data.height * aspectRatio;
-        }
-
-        this.renderCanvas(true);
-      }
     },
 
     getCanvasData: function (all) {
