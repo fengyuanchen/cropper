@@ -48,7 +48,7 @@
           canvas,
           context;
 
-      if (!this.disabled && url && url !== this.url && url !== $this.attr('src')) {
+      if (!this.disabled && url) {
         if ($this.is('img')) {
           $this.attr('src', url);
           this.load();
