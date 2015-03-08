@@ -9,7 +9,7 @@
 
     if ($this.is('img')) {
       url = $this.prop('src');
-    } else if ($this.is('canvas') && support.canvas) {
+    } else if ($this.is('canvas') && SUPPORT_CANVAS) {
       url = $this[0].toDataURL();
     }
 

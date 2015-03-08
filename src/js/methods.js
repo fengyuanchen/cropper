@@ -52,7 +52,7 @@
         if ($this.is('img')) {
           $this.attr('src', url);
           this.load();
-        } else if ($this.is('canvas') && support.canvas) {
+        } else if ($this.is('canvas') && SUPPORT_CANVAS) {
           canvas = $this[0];
           context = canvas.getContext('2d');
 
@@ -310,7 +310,7 @@
           context,
           data;
 
-      if (!this.cropped || !support.canvas) {
+      if (!this.cropped || !SUPPORT_CANVAS) {
         return;
       }
 

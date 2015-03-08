@@ -35,9 +35,7 @@
       EVENT_DRAG_END = 'dragend' + CROPPER_NAMESPACE,
 
       // Supports
-      support = {
-        canvas: $.isFunction($('<canvas>')[0].getContext)
-      },
+      SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext),
 
       // Others
       round = Math.round,
