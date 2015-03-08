@@ -15,7 +15,7 @@
       $this.removeClass(CLASS_HIDDEN);
 
       $cropper.css((this.container = {
-        width: max($container.width(), num(options.minContainerWidth) || 350),
+        width: max($container.width(), num(options.minContainerWidth) || 300),
         height: max($container.height(), num(options.minContainerHeight) || 150)
       }));
 
