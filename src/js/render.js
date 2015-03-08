@@ -205,9 +205,9 @@
           aspectRatio = options.aspectRatio,
           containerWidth = container.width,
           containerHeight = container.height,
-          minCropBoxWidth = abs(num(options.minCropBoxWidth)) || 0,
-          minCropBoxHeight = abs(num(options.minCropBoxHeight)) || 0,
-          autoCropArea = abs(num(options.autoCropArea)) || 0.8,
+          minCropBoxWidth = num(options.minCropBoxWidth) || 0,
+          minCropBoxHeight = num(options.minCropBoxHeight) || 0,
+          autoCropArea = num(options.autoCropArea) || 0.8,
           cropBox = {
             width: canvas.width,
             height: canvas.height,

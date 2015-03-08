@@ -437,7 +437,7 @@
       var options = this.options;
 
       if (!this.disabled && !isUndefined(aspectRatio)) {
-        options.aspectRatio = abs(num(aspectRatio)) || NaN; // 0 -> NaN
+        options.aspectRatio = num(aspectRatio) || NaN; // 0 -> NaN
 
         if (this.built) {
           this.initCropBox();
