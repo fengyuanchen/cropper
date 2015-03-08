@@ -188,30 +188,6 @@
       return data;
     },
 
-    setImageData: function (data) {
-      var image = this.image;
-
-      if (this.built && !this.disabled && $.isPlainObject(data)) {
-        if (isNumber(data.left)) {
-          image.left = data.left;
-        }
-
-        if (isNumber(data.top)) {
-          image.top = data.top;
-        }
-
-        if (isNumber(data.width)) {
-          image.width = data.width;
-          image.height = image.width / image.aspectRatio;
-        } else if (isNumber(data.height)) {
-          image.height = data.height;
-          image.width = image.height * image.aspectRatio;
-        }
-
-        this.renderImage(true);
-      }
-    },
-
     setCanvasData: function (data) {
       var canvas = this.canvas,
           aspectRatio = canvas.aspectRatio;
