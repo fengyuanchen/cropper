@@ -254,30 +254,26 @@
     renderCropBox: function () {
       var options = this.options,
           container = this.container,
+          containerWidth = container.width,
+          containerHeight = container.height,
           $cropBox = this.$cropBox,
           cropBox = this.cropBox;
 
-      if (cropBox.width > cropBox.maxWidth) {
-        cropBox.width = cropBox.maxWidth;
-        cropBox.left = cropBox.oldLeft;
-      } else if (cropBox.width < cropBox.minWidth) {
-        cropBox.width = cropBox.minWidth;
+      if (cropBox.width > cropBox.maxWidth || cropBox.width < cropBox.minWidth) {
         cropBox.left = cropBox.oldLeft;
       }
 
-      if (cropBox.height > cropBox.maxHeight) {
-        cropBox.height = cropBox.maxHeight;
-        cropBox.top = cropBox.oldTop;
-      } else if (cropBox.height < cropBox.minHeight) {
-        cropBox.height = cropBox.minHeight;
+      if (cropBox.height > cropBox.maxHeight || cropBox.height < cropBox.minHeight) {
         cropBox.top = cropBox.oldTop;
       }
 
-      cropBox.oldLeft = cropBox.left = min(max(cropBox.left, 0), container.width - cropBox.width);
-      cropBox.oldTop = cropBox.top = min(max(cropBox.top, 0), container.height - cropBox.height);
+      cropBox.width = min(max(cropBox.width, cropBox.minWidth), cropBox.maxWidth);
+      cropBox.height = min(max(cropBox.height, cropBox.minHeight), cropBox.maxHeight);
+      cropBox.oldLeft = cropBox.left = min(max(cropBox.left, 0), containerWidth - cropBox.width);
+      cropBox.oldTop = cropBox.top = min(max(cropBox.top, 0), containerHeight - cropBox.height);
 
       if (options.movable) {
-        $cropBox.find('.cropper-face').data('drag', (cropBox.width === container.width && cropBox.height === container.height) ? 'move' : 'all');
+        $cropBox.find('.cropper-face').data('drag', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? 'move' : 'all');
       }
 
       $cropBox.css({
