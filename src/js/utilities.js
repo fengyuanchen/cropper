@@ -2,10 +2,6 @@
     return typeof n === 'number';
   }
 
-  function isString(n) {
-    return typeof n === 'string';
-  }
-
   function isUndefined(n) {
     return typeof n === 'undefined';
   }
@@ -32,11 +28,7 @@
   function isCrossOriginURL(url) {
     var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
 
-    if (parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port)) {
-      return true;
-    }
-
-    return false;
+    return parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port);
   }
 
   function addTimestamp(url) {
