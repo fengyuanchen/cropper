@@ -2,7 +2,7 @@
     var _this = this,
         options = this.options,
         $this = this.$element,
-        crossOrigin = '',
+        crossOrigin,
         buildEvent,
         $clone,
         url;
@@ -32,7 +32,7 @@
       }
     }
 
-    this.$clone = ($clone = $('<img' + crossOrigin + ' src="' + url + '">'));
+    this.$clone = $clone = $('<img>');
 
     $clone.one('load', function () {
       var naturalWidth = this.naturalWidth || $clone.width(),
@@ -48,6 +48,9 @@
       _this.url = url;
       _this.ready = true;
       _this.build();
+    }).attr({
+      src: url,
+      crossOrigin: crossOrigin
     });
 
     // Hide and insert into the document
