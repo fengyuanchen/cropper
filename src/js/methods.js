@@ -405,32 +405,6 @@
       return canvas;
     },
 
-    getDataURL: function (options, type, quality) {
-      var args = [],
-          canvas,
-          dataURL;
-
-      if (!$.isPlainObject(options)) {
-        quality = type;
-        type = options;
-        options = {};
-      }
-
-      if (!options.fillColor && ['image/jpeg', 'image/webp'].indexOf(type) > -1) {
-        options.fillColor = '#fff';
-      }
-
-      canvas = this.getCroppedCanvas(options);
-
-      if (canvas && canvas.toDataURL) {
-        isString(type) && args.push(type);
-        isNumber(quality) && args.push(quality);
-        dataURL = canvas.toDataURL.apply(canvas, args);
-      }
-
-      return dataURL || '';
-    },
-
     setAspectRatio: function (aspectRatio) {
       var options = this.options;
 
