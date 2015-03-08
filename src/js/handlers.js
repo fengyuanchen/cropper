@@ -95,7 +95,10 @@
       if (REGEXP_DRAG_TYPES.test(dragType)) {
         event.preventDefault();
 
-        dragStartEvent = $.Event(EVENT_DRAG_START);
+        dragStartEvent = $.Event(EVENT_DRAG_START, {
+          dragType: dragType
+        });
+
         this.$element.trigger(dragStartEvent);
 
         if (dragStartEvent.isDefaultPrevented()) {
@@ -119,6 +122,7 @@
           originalEvent = event.originalEvent,
           touches = originalEvent && originalEvent.touches,
           e = event,
+          dragType = this.dragType,
           dragMoveEvent,
           touchesLength;
 
@@ -142,10 +146,13 @@
         e = touches[0];
       }
 
-      if (this.dragType) {
+      if (dragType) {
         event.preventDefault();
 
-        dragMoveEvent = $.Event(EVENT_DRAG_MOVE);
+        dragMoveEvent = $.Event(EVENT_DRAG_MOVE, {
+          dragType: dragType
+        });
+
         this.$element.trigger(dragMoveEvent);
 
         if (dragMoveEvent.isDefaultPrevented()) {
@@ -160,16 +167,20 @@
     },
 
     dragend: function (event) {
-      var dragEndEvent;
+      var dragType = this.dragType,
+          dragEndEvent;
 
       if (this.disabled) {
         return;
       }
 
-      if (this.dragType) {
+      if (dragType) {
         event.preventDefault();
 
-        dragEndEvent = $.Event(EVENT_DRAG_END);
+        dragEndEvent = $.Event(EVENT_DRAG_END, {
+          dragType: dragType
+        });
+
         this.$element.trigger(dragEndEvent);
 
         if (dragEndEvent.isDefaultPrevented()) {
