@@ -93,12 +93,20 @@
 
     zoom: function (delta) {
       var canvas = this.canvas,
+          zoomEvent,
           width,
           height;
 
       delta = num(delta);
 
       if (delta && this.built && !this.disabled && this.options.zoomable) {
+        zoomEvent = delta > 0 ? $.Event(EVENT_ZOOM_IN) : $.Event(EVENT_ZOOM_OUT);
+        this.$element.trigger(zoomEvent);
+
+        if (zoomEvent.isDefaultPrevented()) {
+          return;
+        }
+
         delta = delta <= -1 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
         width = canvas.width * delta;
         height = canvas.height * delta;
