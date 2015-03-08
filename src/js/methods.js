@@ -173,19 +173,7 @@
     },
 
     getImageData: function (all) {
-      var image = this.image,
-          data = {};
-
-      if (this.built) {
-        $.extend(data, all ? image : {
-          left: image.left,
-          top: image.top,
-          width: image.width,
-          height: image.height
-        });
-      }
-
-      return data;
+      return this.built ? this.image : {};
     },
 
     setCanvasData: function (data) {
