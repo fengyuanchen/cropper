@@ -131,7 +131,7 @@
       }
     },
 
-    getData: function (rounded) {
+    getData: function () {
       var cropBox = this.cropBox,
           canvas = this.canvas,
           image = this.image,
@@ -151,19 +151,19 @@
 
         $.each(data, function (i, n) {
           n = n / ratio;
-          data[i] = rounded ? round(n) : n;
+          data[i] = n;
         });
 
-        data.rotate = rotate;
       } else {
         data = {
           x: 0,
           y: 0,
           width: 0,
-          height: 0,
-          rotate: rotate
+          height: 0
         };
       }
+
+      data.rotate = rotate;
 
       return data;
     },
@@ -176,20 +176,20 @@
       return this.built ? this.image : {};
     },
 
-    getCanvasData: function (all) {
+    getCanvasData: function () {
       var canvas = this.canvas,
-          data = {};
+          data;
 
       if (this.built) {
-        $.extend(data, all ? canvas : {
+        data = {
           left: canvas.left,
           top: canvas.top,
           width: canvas.width,
           height: canvas.height
-        });
+        };
       }
 
-      return data;
+      return data || {};
     },
 
     setCanvasData: function (data) {
@@ -218,11 +218,10 @@
     },
 
     getCropBoxData: function () {
-      var data = {},
-          cropBox;
+      var cropBox = this.cropBox,
+          data;
 
       if (this.cropped) {
-        cropBox = this.cropBox;
         data = {
           left: cropBox.left,
           top: cropBox.top,
@@ -231,7 +230,7 @@
         };
       }
 
-      return data;
+      return data || {};
     },
 
     setCropBoxData: function (data) {
