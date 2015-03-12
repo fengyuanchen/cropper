@@ -75,7 +75,9 @@ $('.container > img').cropper({
 
 - The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a visible block element.
 
-- The values of the result data was computed with the original size of the image, so you can use them to crop the image directly.
+- The outputing cropped data bases on the original image size, so you can use them to crop the image directly.
+
+- If you try to start cropper on a cross-origin image, please make sure that your browser supports HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes), and your image server supports the `Access-Control-Allow-Origin` option.
 
 
 ## Options
