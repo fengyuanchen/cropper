@@ -7,8 +7,6 @@
 
       // RegExps
       REGEXP_DRAG_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,
-      // REGEXP_OPTIONS = /^(x|y|width|height|rotate)$/,
-      // REGEXP_PROPERTIES = /^(naturalWidth|naturalHeight|width|height|aspectRatio|ratio|rotate)$/,
 
       // Classes
       CLASS_MODAL = 'cropper-modal',
@@ -29,11 +27,11 @@
       EVENT_RESIZE = 'resize' + CROPPER_NAMESPACE, // Bind to window with namespace
       EVENT_BUILD = 'build' + CROPPER_NAMESPACE,
       EVENT_BUILT = 'built' + CROPPER_NAMESPACE,
-      EVENT_ZOOM_IN = 'zoomin' + CROPPER_NAMESPACE,
-      EVENT_ZOOM_OUT = 'zoomout' + CROPPER_NAMESPACE,
       EVENT_DRAG_START = 'dragstart' + CROPPER_NAMESPACE,
       EVENT_DRAG_MOVE = 'dragmove' + CROPPER_NAMESPACE,
       EVENT_DRAG_END = 'dragend' + CROPPER_NAMESPACE,
+      EVENT_ZOOM_IN = 'zoomin' + CROPPER_NAMESPACE,
+      EVENT_ZOOM_OUT = 'zoomout' + CROPPER_NAMESPACE,
 
       // Supports
       SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext),
