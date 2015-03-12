@@ -57,7 +57,7 @@
     }
 
     if (!options.movable) {
-      $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
+      $cropBox.find('.cropper-face').data('drag', 'move');
     }
 
     if (!options.resizable) {
