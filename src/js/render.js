@@ -61,8 +61,8 @@
         }
       }
 
-      image.initialWidth = canvas.width;
-      image.initialHeight = canvas.height;
+      canvas.oldLeft = canvas.left = (containerWidth - canvas.width) / 2;
+      canvas.oldTop = canvas.top = (containerHeight - canvas.height) / 2;
 
       this.initialCanvas = $.extend({}, canvas);
       this.canvas = canvas;
@@ -95,14 +95,12 @@
       }
 
       if (options.strict) {
-        canvas.left = (containerWidth - minWidth) / 2;
-        canvas.top = (containerHeight - minHeight) / 2;
         canvas.minWidth = minWidth;
         canvas.minHeight = minHeight;
         canvas.maxLeft = 0;
         canvas.maxTop = 0;
-        canvas.minLeft = canvas.left * 2;
-        canvas.minTop = canvas.top * 2;
+        canvas.minLeft =containerWidth - minWidth;
+        canvas.minTop = containerHeight - minHeight;
       } else {
         canvas.minLeft = -minWidth;
         canvas.minTop = -minHeight;
@@ -123,8 +121,8 @@
 
         // Computes rotatation sizes with initial image sizes
         rotated = getRotatedSizes({
-          width: image.initialWidth,
-          height: image.initialHeight,
+          width: image.width,
+          height: image.height,
           degree: image.rotate
         });
 
@@ -140,6 +138,14 @@
         }
       }
 
+      if (canvas.width > canvas.maxWidth || canvas.width < canvas.minWidth) {
+        canvas.left = canvas.oldLeft;
+      }
+
+      if (canvas.height > canvas.maxHeight || canvas.height < canvas.minHeight) {
+        canvas.top = canvas.oldTop;
+      }
+
       canvas.width = min(max(canvas.width, canvas.minWidth), canvas.maxWidth);
       canvas.height = min(max(canvas.height, canvas.minHeight), canvas.maxHeight);
 
@@ -151,8 +157,8 @@
         canvas.minTop = -canvas.height;
       }
 
-      canvas.left = min(max(canvas.left, canvas.minLeft), canvas.maxLeft);
-      canvas.top = min(max(canvas.top, canvas.minTop), canvas.maxTop);
+      canvas.oldLeft = canvas.left = min(max(canvas.left, canvas.minLeft), canvas.maxLeft);
+      canvas.oldTop = canvas.top = min(max(canvas.top, canvas.minTop), canvas.maxTop);
 
       this.$canvas.css({
         width: canvas.width,
