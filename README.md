@@ -1,11 +1,12 @@
 # [Image Cropper](https://github.com/fengyuanchen/cropper)
 
-A simple jQuery image cropping plugin.
+> A simple jQuery image cropping plugin.
 
 - [Demo](http://fengyuanchen.github.io/cropper)
 
 
-# Features
+
+## Features
 
 - Supports touch
 - Supports zoom
@@ -17,7 +18,8 @@ A simple jQuery image cropping plugin.
 - Cross-browser support
 
 
-# Main
+
+## Main
 
 ```
 dist/
@@ -28,9 +30,10 @@ dist/
 ```
 
 
-# Getting started
 
-## Quick start
+## Getting started
+
+### Quick start
 
 Four quick start options are available:
 
@@ -40,7 +43,8 @@ Four quick start options are available:
 - Install with [Bower](http://bower.io): `bower install cropper`.
 
 
-## Installation
+
+### Installation
 
 Include files:
 
@@ -51,7 +55,8 @@ Include files:
 ```
 
 
-## Usage
+
+### Usage
 
 Initialize with `$.fn.cropper` method.
 
@@ -123,6 +128,34 @@ Add extra elements (containers) for previewing.
 
 This plugin supports multiple croppers, but only support one global cropper in the same page.
 If you intend to use more than one cropper, just initialize them with this option set to `false`.
+
+
+### strict
+
+- Type: `Boolean`
+- Default: `true`
+
+In strict mode, the canvas cannot be smaller than the container, and the crop box cannot be outside of the canvas.
+
+
+### responsive
+
+- Type: `Boolean`
+- Default: `true`
+
+Rebuild the cropper when resize the window.
+
+
+### checkImageOrigin
+
+- Type: `Boolean`
+- Default: `true`
+
+By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to image url to enable "getCroppedCanvas".
+
+Added timestamp will reload image to enable "getCroppedCanvas" on cross-origin image.
+
+Adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
 
 
 ### background
@@ -229,25 +262,6 @@ Enable to zoom the image by dragging touch.
 Enable to rotate the image.
 
 
-### checkImageOrigin
-
-- Type: `Boolean`
-- Default: `true`
-
-By default, the plugin will check the image origin, and if it is a cross-origin image, a "crossOrigin" attribute will be added to the image element and "timestamp" will be added to image url to enable "getDataURL".
-
-Added timestamp will reload image to enable "getDataURL" on cross-origin image.
-
-Adding "crossOrigin" attribute to image will stop adding timestamp to image url, and stop reload of image.
-
-### responsive
-
-- Type: `Boolean`
-- Default: `true`
-
-Rebuild the cropper when resize the window.
-
-
 ### minContainerWidth
 
 - Type: `Number`
@@ -318,6 +332,23 @@ A shortcut of the "dragmove.cropper" event.
 - Default: `null`
 
 A shortcut of the "dragend.cropper" event.
+
+
+### zoomin
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "zoomin.cropper" event.
+
+
+### zoomout
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "zoomout.cropper" event.
+
 
 
 ## Methods
@@ -411,14 +442,9 @@ Replace the image and rebuild the cropper.
 Destroy the cropper and remove the instance from the image.
 
 
-### getData([rounded])
+### getData()
 
-- **rounded** (optional):
-  - Type: `Boolean`
-  - Default: `false`
-  - Rounds the output data with `Math.round`.
-
-- (return):
+- (return value):
   - Type: `Object`
   - Properties:
     - `x`: the offset left of the cropped area
@@ -432,9 +458,59 @@ Get the cropped area data in the original image for cropping image.
 ![a schematic diagram of data's properties](assets/img/data.png)
 
 
+### getContainerData()
+
+- (return  value):
+  - Type: `Object`
+  - Properties:
+    - `width`: the current width of the container
+    - `height`: the current height of the container
+
+Output the container size data.
+
+
+### getImageData()
+
+- (return  value):
+  - Type: `Object`
+  - Properties:
+    - `left`: the offset left of the image
+    - `top`: the offset top of the image
+    - `width`: the width of the image
+    - `height`: the height of the image
+
+Output the image position and size data.
+
+
+### getCanvasData()
+
+- (return  value):
+  - Type: `Object`
+  - Properties:
+    - `left`: the offset left of the canvas
+    - `top`: the offset top of the canvas
+    - `width`: the width of the canvas
+    - `height`: the height of the canvas
+
+Output the canvas position and size data.
+
+
+### setCanvasData(data)
+
+- **data**:
+  - Type: `Object`
+  - Properties:
+    - `left`: the new offset left of the canvas
+    - `top`: the new offset top of the canvas
+    - `width`: the new width of the canvas
+    - `height`: the new height of the canvas
+
+Change the canvas position and size.
+
+
 ### getCropBoxData()
 
-- (return):
+- (return  value):
   - Type: `Object`
   - Properties:
     - `left`: the offset left of the crop box
@@ -442,7 +518,7 @@ Get the cropped area data in the original image for cropping image.
     - `width`: the width of the crop box
     - `height`: the height of the crop box
 
-Output the crop box's position and size data.
+Output the crop box position and size data.
 
 
 ### setCropBoxData(data)
@@ -455,73 +531,21 @@ Output the crop box's position and size data.
     - `width`: the new width of the crop box
     - `height`: the new height of the crop box
 
-Change the crop box's position and size.
+Change the crop box position and size.
 
 
-### getImageData([all])
-
-- **all**:
-  - Type: `Boolean`
-  - Default: `false`
-  - Get all image data.
-
-- (return):
-  - Type: `Object`
-  - Properties:
-    - `left`: the offset left of the image
-    - `top`: the offset top of the image
-    - `width`: the width of the image
-    - `height`: the height of the image
-  - More properties:
-    - `naturalWidth`: the natural width of the image
-    - `naturalHeight`: the natural height of the image
-    - `aspectRatio`: the natural aspect ratio of the image
-    - `rotate`: the rotated degrees of the image
-    - `rotatedLeft`: the computed offset left of the rotated image
-    - `rotatedTop`: the computed offset top of the rotated image
-    - `rotatedWidth`: the computed width of the rotated image
-    - `rotatedHeight`: the computed height of the rotated image
-
-Output the image's position and size data.
-
-
-### setImageData(data)
-
-- **data**:
-  - Type: `Object`
-  - Properties:
-    - `left`: the new offset left of the image
-    - `top`: the new offset top of the image
-    - `width`: the new width of the image
-    - `height`: the new height of the image
-
-Change the image's position and size.
-
-
-### getDataURL([options[, type[, quality]]])
+### getCroppedCanvas([options[, type[, quality]]])
 
 - **options** (optional):
   - Type: `Object`
   - properties
-    - `width`: the destination width of the output image
-    - `height`: the destination height of the output image
-    - `fillColor`: a color to fill any alpha values in the output image
+    - `width`: the destination width of the output canvas
+    - `height`: the destination height of the output canvas
+    - `fillColor`: a color to fill any alpha values in the output canvas
 
-- **type** (optional):
-  - Type: `String`
-  - Default: `'image/png'`
-  - Options:  `'image/jpeg'`, `'image/webp'`.
-  - Indicate image format.
-
-- **quality** (optional):
-  - Type: `Number`
-  - Default: `1`
-  - Requires a number between 0 and 1
-  - indicate image quality if the requested type is "image/jpeg" or "image/webp".
-
-- (return):
-  - Type: `String`
-  - A data url of the cropped area.
+- (return  value):
+  - Type: `HTMLCanvasElement`
+  - A canvas drawn the cropped image.
 
 - Browser support:
   - Basic image: requires [Canvas](http://caniuse.com/canvas) support (IE 9+).
@@ -531,25 +555,17 @@ Change the image's position and size.
 - Known issues
  - Canvas: `canvas.drawImage` in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.toDataURL` will be incorrect. To fix this, you may upload the data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar).
 
-Get the data url (base64 image) of the cropped area by Canvas.
+Get a canvas drawn the cropped image.
+
+After then, you can display the canvas as an image directly, or use [canvas.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en/XMLHttpRequest/FormData) if the browser supports these APIs.
 
 ```js
-$().cropper('getDataURL')
+$().cropper('getCroppedCanvas')
 
-$().cropper('getDataURL', {
+$().cropper('getCroppedCanvas', {
   width: 160,
   height: 90
-})
-
-$().cropper('getDataURL', 'image/jpeg')
-
-$().cropper('getDataURL', 'image/jpeg', 0.8)
-
-$().cropper('getDataURL', {
-  width: 320,
-  height: 180
-}, 'image/jpeg', 0.8)
-
+});
 ```
 
 ### setAspectRatio(aspectRatio)
@@ -588,12 +604,39 @@ This event fires when a cropper instance has built completely.
 
 ### dragstart.cropper
 
+- **event.dragType**:
+  - Type: `String`
+  - Options:
+    - "crop": create a new crop box
+    - "move": move the canvas
+    - "zoom": zoom in / out the canvas
+    - "e": resize the east side of the crop box
+    - "w": resize the west side of the crop box
+    - "s": resize the south side of the crop box
+    - "n": resize the north side of the crop box
+    - "se": resize the southeast side of the crop box
+    - "sw": resize the southwest side of the crop box
+    - "ne": resize the northeast side of the crop box
+    - "nw": resize the northwest side of the crop box
+    - "all": move the crop box
+
 This event fires when the crop box starts to change.
 
 Related original events: "mousedown", "touchstart".
 
+```
+$('img').on('dragstart.cropper', function (e) {
+  console.log(e.type); // dragstart
+  console.log(e.namespace); // cropper
+  console.log(e.dragType); // ...
+});
+```
 
 ### dragmove.cropper
+
+- **event.dragType**:
+  - Type: `String`
+  - Options: The same as "dragstart.cropper".
 
 This event fires when the crop box is changing.
 
@@ -602,9 +645,24 @@ Related original events: "mousemove", "touchmove".
 
 ### dragend.cropper
 
+- **event.dragType**:
+  - Type: `String`
+  - Options: The same as "dragstart.cropper", but without "crop".
+
 This event fires when the crop box stops to change.
 
 Related original events: "mouseup", "mouseleave", "touchend", "touchleave", "touchcancel".
+
+
+### zoomin.cropper
+
+This event fires when a cropper instance starts to zoom in its canvas.
+
+
+### zoomout.cropper
+
+This event fires when a cropper instance starts to zoom out its canvas.
+
 
 
 ## No conflict
@@ -621,6 +679,7 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 ```
 
 
+
 ## Browser Support
 
 - Chrome 38+
@@ -629,12 +688,14 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 - Opera 25+
 - Safari 5.1+
 
-As a jQuery plugin, you can reference to the [jQuery Browser Support](http://jquery.com/browser-support/).
+As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jquery.com/browser-support/).
+
 
 
 ## [License](LICENSE.md)
 
 Released under the [MIT](http://opensource.org/licenses/mit-license.html) license.
+
 
 
 ## Related projects
