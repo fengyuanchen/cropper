@@ -2,6 +2,8 @@
     resize: function () {
       var $container = this.$container,
           container = this.container,
+          canvasData,
+          cropBoxData,
           ratio;
 
       if (this.disabled) {
@@ -11,19 +13,16 @@
       ratio = $container.width() / container.width;
 
       if (ratio !== 1 || $container.height() !== container.height) {
-        clearTimeout(this.resizing);
-        this.resizing = setTimeout($.proxy(function () {
-          var imageData = this.getImageData(),
-              cropBoxData = this.getCropBoxData();
+        canvasData = this.getCanvasData(),
+        cropBoxData = this.getCropBoxData();
 
-          this.render();
-          this.setImageData($.each(imageData, function (i, n) {
-            imageData[i] = n * ratio;
-          }));
-          this.setCropBoxData($.each(cropBoxData, function (i, n) {
-            cropBoxData[i] = n * ratio;
-          }));
-        }, this), 200);
+        this.render();
+        this.setCanvasData($.each(canvasData, function (i, n) {
+          canvasData[i] = n * ratio;
+        }));
+        this.setCropBoxData($.each(cropBoxData, function (i, n) {
+          cropBoxData[i] = n * ratio;
+        }));
       }
     },
 
