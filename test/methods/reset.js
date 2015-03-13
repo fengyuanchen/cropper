@@ -5,17 +5,19 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
+    strict: false,
+
     built: function () {
-      var imageData = $image.cropper('getImageData'),
+      var canvasData = $image.cropper('getCanvasData'),
           cropBoxData = $image.cropper('getCropBoxData');
 
       QUnit.test('methods.reset', function (assert) {
-        $image.cropper('setImageData', {
-          top: imageData.top + 10,
-          width: imageData.width - 10
+        $image.cropper('setCanvasData', {
+          top: canvasData.top + 10,
+          width: canvasData.width - 10
         });
 
-        assert.notDeepEqual($image.cropper('getImageData'), imageData);
+        assert.notDeepEqual($image.cropper('getCanvasData'), canvasData);
 
         $image.cropper('setCropBoxData', {
           left: cropBoxData.left + 10,
@@ -25,7 +27,7 @@ $(function () {
         assert.notDeepEqual($image.cropper('getCropBoxData'), cropBoxData);
 
         $image.cropper('reset');
-        assert.deepEqual($image.cropper('getImageData'), imageData);
+        assert.deepEqual($image.cropper('getCanvasData'), canvasData);
         assert.deepEqual($image.cropper('getCropBoxData'), cropBoxData);
       });
 

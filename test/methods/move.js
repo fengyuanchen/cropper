@@ -10,12 +10,14 @@ $(function () {
       };
 
   $image.cropper({
+    strict: false,
+
     built: function () {
       var cropper = $(this).data('cropper'),
-          image = cropper.image,
+          canvas = cropper.canvas,
           offsets = (function () {
             var data = [],
-                max = 100,
+                max = 10,
                 i = 10;
 
             while (i--) {
@@ -30,13 +32,13 @@ $(function () {
 
       QUnit.test('methods.move', function (assert) {
         $.each(offsets, function (i, offset) {
-          var left = image.left + offset.x,
-              top = image.top + offset.y;
+          var left = canvas.left + offset.x,
+              top = canvas.top + offset.y;
 
           $image.cropper('move', offset.x, offset.y);
 
-          assert.ok(image.left === left);
-          assert.ok(image.top === top);
+          assert.ok(canvas.left === left);
+          assert.ok(canvas.top === top);
         });
       });
 
