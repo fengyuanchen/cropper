@@ -64,9 +64,10 @@
       canvas.oldLeft = canvas.left = (containerWidth - canvas.width) / 2;
       canvas.oldTop = canvas.top = (containerHeight - canvas.height) / 2;
 
-      this.initialCanvas = $.extend({}, canvas);
       this.canvas = canvas;
       this.limitCanvas();
+
+      this.initialCanvas = $.extend({}, this.canvas);
       this.renderCanvas();
     },
 
@@ -99,7 +100,7 @@
         canvas.minHeight = minHeight;
         canvas.maxLeft = 0;
         canvas.maxTop = 0;
-        canvas.minLeft =containerWidth - minWidth;
+        canvas.minLeft = containerWidth - minWidth;
         canvas.minTop = containerHeight - minHeight;
       } else {
         canvas.minLeft = -minWidth;

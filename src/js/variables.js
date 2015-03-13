@@ -37,7 +37,6 @@
       SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext),
 
       // Others
-      round = Math.round,
       sqrt = Math.sqrt,
       min = Math.min,
       max = Math.max,
