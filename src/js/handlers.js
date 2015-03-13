@@ -96,6 +96,7 @@
         event.preventDefault();
 
         dragStartEvent = $.Event(EVENT_DRAG_START, {
+          originalEvent: originalEvent,
           dragType: dragType
         });
 
@@ -150,6 +151,7 @@
         event.preventDefault();
 
         dragMoveEvent = $.Event(EVENT_DRAG_MOVE, {
+          originalEvent: originalEvent,
           dragType: dragType
         });
 
@@ -178,6 +180,7 @@
         event.preventDefault();
 
         dragEndEvent = $.Event(EVENT_DRAG_END, {
+          originalEvent: event.originalEvent,
           dragType: dragType
         });
 
