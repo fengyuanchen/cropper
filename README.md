@@ -25,8 +25,8 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (47 KB)
-└── cropper.min.js  (18 KB)
+├── cropper.js      (49 KB)
+└── cropper.min.js  (19 KB)
 ```
 
 
@@ -76,13 +76,19 @@ $('.container > img').cropper({
 });
 ```
 
-**Notes:**
+#### Notes
 
 - The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a visible block element.
 
 - The outputing cropped data bases on the original image size, so you can use them to crop the image directly.
 
 - If you try to start cropper on a cross-origin image, please make sure that your browser supports HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes), and your image server supports the `Access-Control-Allow-Origin` option.
+
+
+#### Known issues
+
+- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation in server first before to use cropper.
+
 
 
 ## Options
@@ -479,7 +485,7 @@ Output the container size data.
     - `width`: the width of the image
     - `height`: the height of the image
 
-Output the image position and size data.
+Output the image position and size.
 
 
 ### getCanvasData()
@@ -492,7 +498,7 @@ Output the image position and size data.
     - `width`: the width of the canvas
     - `height`: the height of the canvas
 
-Output the canvas position and size data.
+Output the canvas (image wrapper) position and size.
 
 
 ### setCanvasData(data)
@@ -505,7 +511,7 @@ Output the canvas position and size data.
     - `width`: the new width of the canvas
     - `height`: the new height of the canvas
 
-Change the canvas position and size.
+Change the canvas (image wrapper) position and size.
 
 
 ### getCropBoxData()
@@ -518,7 +524,7 @@ Change the canvas position and size.
     - `width`: the width of the crop box
     - `height`: the height of the crop box
 
-Output the crop box position and size data.
+Output the crop box position and size.
 
 
 ### setCropBoxData(data)
@@ -552,12 +558,9 @@ Change the crop box position and size.
   - Rotated image: requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
   - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
 
-- Known issues
- - Canvas: `canvas.drawImage` in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output image get by `canvas.toDataURL` will be incorrect. To fix this, you may upload the data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar).
-
 Get a canvas drawn the cropped image.
 
-After then, you can display the canvas as an image directly, or use [canvas.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en/XMLHttpRequest/FormData) if the browser supports these APIs.
+> After then, you can display the canvas as an image directly, or use [canvas.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en/XMLHttpRequest/FormData) if the browser supports these APIs.
 
 ```js
 $().cropper('getCroppedCanvas')
@@ -605,24 +608,22 @@ This event fires when a cropper instance has built completely.
 ### dragstart.cropper
 
 - **event.dragType**:
-  - Type: `String`
-  - Options:
-    - "crop": create a new crop box
-    - "move": move the canvas
-    - "zoom": zoom in / out the canvas
-    - "e": resize the east side of the crop box
-    - "w": resize the west side of the crop box
-    - "s": resize the south side of the crop box
-    - "n": resize the north side of the crop box
-    - "se": resize the southeast side of the crop box
-    - "sw": resize the southwest side of the crop box
-    - "ne": resize the northeast side of the crop box
-    - "nw": resize the northwest side of the crop box
-    - "all": move the crop box
+  - "crop": create a new crop box
+  - "move": move the canvas
+  - "zoom": zoom in / out the canvas by dragging touch.
+  - "e": resize the east side of the crop box
+  - "w": resize the west side of the crop box
+  - "s": resize the south side of the crop box
+  - "n": resize the north side of the crop box
+  - "se": resize the southeast side of the crop box
+  - "sw": resize the southwest side of the crop box
+  - "ne": resize the northeast side of the crop box
+  - "nw": resize the northwest side of the crop box
+  - "all": move the crop box
 
 This event fires when the crop box starts to change.
 
-Related original events: "mousedown", "touchstart".
+> Related original events: "mousedown", "touchstart".
 
 ```
 $('img').on('dragstart.cropper', function (e) {
@@ -634,24 +635,20 @@ $('img').on('dragstart.cropper', function (e) {
 
 ### dragmove.cropper
 
-- **event.dragType**:
-  - Type: `String`
-  - Options: The same as "dragstart.cropper".
+- **event.dragType**: The same as "dragstart.cropper".
 
 This event fires when the crop box is changing.
 
-Related original events: "mousemove", "touchmove".
+> Related original events: "mousemove", "touchmove".
 
 
 ### dragend.cropper
 
-- **event.dragType**:
-  - Type: `String`
-  - Options: The same as "dragstart.cropper", but without "crop".
+- **event.dragType**: The same as "dragstart.cropper".
 
 This event fires when the crop box stops to change.
 
-Related original events: "mouseup", "mouseleave", "touchend", "touchleave", "touchcancel".
+> Related original events: "mouseup", "mouseleave", "touchend", "touchleave", "touchcancel".
 
 
 ### zoomin.cropper
