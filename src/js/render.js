@@ -219,20 +219,31 @@
           minCropBoxHeight = num(options.minCropBoxHeight) || 0,
           autoCropArea = num(options.autoCropArea) || 0.8,
           cropBox = {
-            width: canvas.width,
-            height: canvas.height,
             minWidth: minCropBoxWidth,
             minHeight: minCropBoxHeight,
             maxWidth: containerWidth,
             maxHeight: containerHeight
           };
 
+      if (options.strict) {
+        cropBox.width = containerWidth;
+        cropBox.height = containerHeight;
+      } else {
+        if(cropBox.height * canvas.aspectRatio > cropBox.width) {
+          cropBox.height = canvas.height;
+          cropBox.width = cropBox.height * aspectRatio;
+        } else {
+          cropBox.width = canvas.width;
+          cropBox.height = cropBox.width / aspectRatio;
+        }
+      }
+
       if (aspectRatio) {
         if (containerHeight * aspectRatio > containerWidth) {
-          cropBox.height = canvas.width / aspectRatio;
+          cropBox.height = cropBox.width / aspectRatio;
           cropBox.maxHeight = containerWidth / aspectRatio;
         } else {
-          cropBox.width = canvas.height * aspectRatio;
+          cropBox.width = cropBox.height * aspectRatio;
           cropBox.maxWidth = containerHeight * aspectRatio;
         }
 
