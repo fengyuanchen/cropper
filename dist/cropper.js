@@ -5,7 +5,7 @@
  * Copyright 2014-2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-02-19T06:49:29.144Z
+ * Date: 2015-03-14T19:10:18.699Z
  */
 
 (function (factory) {
@@ -205,9 +205,10 @@
       return;
     }
 
-    if (options.checkImageOrigin) {
-      if (isCrossOriginURL(url)) {
-        crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+    if (options.checkImageOrigin && isCrossOriginURL(url)) {
+      crossOrigin = ' crossOrigin'; // crossOrigin="anonymous"
+
+      if (!$this.prop('crossOrigin')) { // Only when there was not a "crossOrigin" property
         url = addTimestamp(url); // Bust cache (#148)
       }
     }
@@ -231,7 +232,7 @@
     });
 
     // Hide and insert into the document
-    $clone.addClass(CLASS_HIDE).prependTo('body');
+    $clone.addClass(CLASS_HIDE).insertAfter($this);
   };
 
   prototype.build = function () {
@@ -607,21 +608,28 @@
   $.extend(prototype, {
     resize: function () {
       var $container = this.$container,
-          container = this.container;
+          container = this.container,
+          ratio;
 
       if (this.disabled) {
         return;
       }
 
-      if ($container.width() !== container.width || $container.height() !== container.height) {
+      ratio = $container.width() / container.width;
+
+      if (ratio !== 1 || $container.height() !== container.height) {
         clearTimeout(this.resizing);
         this.resizing = setTimeout($.proxy(function () {
           var imageData = this.getImageData(),
               cropBoxData = this.getCropBoxData();
 
           this.render();
-          this.setImageData(imageData);
-          this.setCropBoxData(cropBoxData);
+          this.setImageData($.each(imageData, function (i, n) {
+            imageData[i] = n * ratio
+          }));
+          this.setCropBoxData($.each(cropBoxData, function (i, n) {
+            cropBoxData[i] = n * ratio
+          }));
         }, this), 200);
       }
     },
@@ -787,31 +795,33 @@
 
   $.extend(prototype, {
     reset: function () {
-      if (!this.cropped || this.disabled) {
+      if (this.disabled) {
         return;
       }
 
       this.image = $.extend({}, this.defaultImage);
       this.renderImage();
 
-      this.cropBox = $.extend({}, this.defaultCropBox);
-      this.renderCropBox();
+      if (this.cropped) {
+        this.cropBox = $.extend({}, this.defaultCropBox);
+        this.renderCropBox();
+      }
     },
 
     clear: function () {
-      var cropBox = this.cropBox;
-
       if (!this.cropped || this.disabled) {
         return;
       }
 
-      this.cropped = false;
-      cropBox.left = 0;
-      cropBox.top = 0;
-      cropBox.width = 0;
-      cropBox.height = 0;
-      this.renderCropBox();
+      $.extend(this.cropBox, {
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0
+      });
 
+      this.renderCropBox();
+      this.cropped = false;
       this.$canvas.removeClass(CLASS_MODAL);
       this.$cropBox.addClass(CLASS_HIDDEN);
     },
@@ -885,14 +895,18 @@
 
       if (delta && this.built && !this.disabled && this.options.zoomable) {
         delta = delta <= -1 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
-        width = image.width * delta;
-        height = image.height * delta;
-        image.left -= (width - image.width) / 2;
-        image.top -= (height - image.height) / 2;
-        image.width = width;
-        image.height = height;
-        this.renderImage(true);
-        this.setDragMode('move');
+        // Fix to stop infinite zoom in (only allow zoom out up to the level of the 'maxZoomLevel' option)
+        if (image.width * delta > this.options.maxZoomLevel*image.naturalWidth ||
+            image.height * delta > this.options.maxZoomLevel*image.naturalHeight) {
+          width = image.width * delta;
+          height = image.height * delta;
+          image.left -= (width - image.width) / 2;
+          image.top -= (height - image.height) / 2;
+          image.width = width;
+          image.height = height;
+          this.renderImage(true);
+          this.setDragMode('move');
+        }
       }
     },
 
@@ -1036,116 +1050,137 @@
       }
     },
 
-    getDataURL: function (options, type, quality) {
+    getCroppedCanvas: function (options) {
       var originalWidth,
           originalHeight,
           canvasWidth,
           canvasHeight,
           scaledWidth,
           scaledHeight,
-          scaled,
+          scaledRatio,
+          aspectRatio,
           canvas,
           context,
-          data,
+          data;
+
+      if (!this.cropped || !support.canvas) {
+        return;
+      }
+
+      if (!$.isPlainObject(options)) {
+        options = {};
+      }
+
+      data = this.getData();
+      originalWidth = data.width;
+      originalHeight = data.height;
+      aspectRatio = originalWidth / originalHeight;
+
+      if ($.isPlainObject(options)) {
+        scaledWidth = options.width;
+        scaledHeight = options.height;
+
+        if (scaledWidth) {
+          scaledHeight = scaledWidth / aspectRatio;
+          scaledRatio = scaledWidth / originalWidth;
+        } else if (scaledHeight) {
+          scaledWidth = scaledHeight * aspectRatio;
+          scaledRatio = scaledHeight / originalHeight;
+        }
+      }
+
+      canvasWidth = scaledWidth || originalWidth;
+      canvasHeight = scaledHeight || originalHeight;
+
+      canvas = $('<canvas>')[0];
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      context = canvas.getContext('2d');
+
+      if (options.fillColor) {
+        context.fillStyle = options.fillColor;
+        context.fillRect(0, 0, canvasWidth, canvasHeight);
+      }
+
+      // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
+      context.drawImage.apply(context, (function () {
+        var source = getSourceCanvas(this.$clone[0], this.image),
+            sourceWidth = source.width,
+            sourceHeight = source.height,
+            args = [source],
+            srcX = data.x, // source canvas
+            srcY = data.y,
+            srcWidth,
+            srcHeight,
+            dstX, // destination canvas
+            dstY,
+            dstWidth,
+            dstHeight;
+
+        if (srcX <= -originalWidth || srcX > sourceWidth) {
+          srcX = srcWidth = dstX = dstWidth = 0;
+        } else if (srcX <= 0) {
+          dstX = -srcX;
+          srcX = 0;
+          srcWidth = dstWidth = min(sourceWidth, originalWidth + srcX);
+        } else if (srcX <= sourceWidth) {
+          dstX = 0;
+          srcWidth = dstWidth = min(originalWidth, sourceWidth - srcX);
+        }
+
+        if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
+          srcY = srcHeight = dstY = dstHeight = 0;
+        } else if (srcY <= 0) {
+          dstY = -srcY;
+          srcY = 0;
+          srcHeight = dstHeight = min(sourceHeight, originalHeight + srcY);
+        } else if (srcY <= sourceHeight) {
+          dstY = 0;
+          srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
+        }
+
+        args.push(srcX, srcY, srcWidth, srcHeight);
+
+        // Scale destination sizes
+        if (scaledRatio) {
+          dstX *= scaledRatio;
+          dstY *= scaledRatio;
+          dstWidth *= scaledRatio;
+          dstHeight *= scaledRatio;
+        }
+
+        // Avoid "IndexSizeError" in IE and Firefox
+        if (dstWidth > 0 && dstHeight > 0) {
+          args.push(dstX, dstY, dstWidth, dstHeight);
+        }
+
+        return args;
+      }).call(this));
+
+      return canvas;
+    },
+
+    getDataURL: function (options, type, quality) {
+      var args = [],
+          canvas,
           dataURL;
 
-      if (this.cropped && support.canvas) {
-        data = this.getData();
-        originalWidth = data.width;
-        originalHeight = data.height;
-        scaled = $.isPlainObject(options);
+      if (!$.isPlainObject(options)) {
+        quality = type;
+        type = options;
+        options = {};
+      }
 
-        if (scaled) {
-          scaledWidth = options.width || originalWidth;
-          scaledHeight = options.height || originalHeight;
-        } else {
-          quality = type;
-          type = options;
-        }
+      if (!options.fillColor && ['image/jpeg', 'image/webp'].indexOf(type) > -1) {
+        options.fillColor = '#fff';
+      }
 
-        canvasWidth = scaled ? scaledWidth : originalWidth;
-        canvasHeight = scaled ? scaledHeight : originalHeight;
+      canvas = this.getCroppedCanvas(options);
 
-        canvas = $('<canvas>')[0]; // document.createElement('canvas');
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
-        context = canvas.getContext('2d');
-
-        if (type === 'image/jpeg') {
-          context.fillStyle = '#fff';
-          context.fillRect(0, 0, canvasWidth, canvasHeight);
-        }
-
-        // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
-        context.drawImage.apply(context, (function () {
-          var source = getSourceCanvas(this.$clone[0], this.image),
-              sourceWidth = source.width,
-              sourceHeight = source.height,
-              args = [source],
-              srcX = data.x, // source canvas
-              srcY = data.y,
-              srcWidth,
-              srcHeight,
-              dstX, // destination canvas
-              dstY,
-              dstWidth,
-              dstHeight,
-              scaledRatio;
-
-          if (srcX <= -originalWidth || srcX > sourceWidth) {
-            srcX = srcWidth = dstX = dstWidth = 0;
-          } else if (srcX <= 0) {
-            dstX = -srcX;
-            srcX = 0;
-            srcWidth = dstWidth = min(sourceWidth, originalWidth + srcX);
-          } else if (srcX <= sourceWidth) {
-            dstX = 0;
-            srcWidth = dstWidth = min(originalWidth, sourceWidth - srcX);
-          }
-
-          if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
-            srcY = srcHeight = dstY = dstHeight = 0;
-          } else if (srcY <= 0) {
-            dstY = -srcY;
-            srcY = 0;
-            srcHeight = dstHeight = min(sourceHeight, originalHeight + srcY);
-          } else if (srcY <= sourceHeight) {
-            dstY = 0;
-            srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
-          }
-
-          args.push(srcX, srcY, srcWidth, srcHeight);
-
-          // Scale dstination sizes
-          if (scaled) {
-            scaledRatio = originalWidth / scaledWidth;
-            dstX /= scaledRatio;
-            dstY /= scaledRatio;
-            dstWidth /= scaledRatio;
-            dstHeight /= scaledRatio;
-          }
-
-          // Avoid "IndexSizeError" in IE and Firefox
-          if (dstWidth > 0 && dstHeight > 0) {
-            args.push(dstX, dstY, dstWidth, dstHeight);
-          }
-
-          return args;
-        }).call(this));
-
-        dataURL = canvas.toDataURL.apply(canvas, (function () {
-          var args = [];
-
-          if (isString(type)) {
-            args.push(type);
-          }
-
-          if (isNumber(quality)) {
-            args.push(quality);
-          }
-
-          return args;
-        }).call(this));
+      if (canvas && canvas.toDataURL) {
+        isString(type) && args.push(type);
+        isNumber(quality) && args.push(quality);
+        dataURL = canvas.toDataURL.apply(canvas, args);
       }
 
       return dataURL || '';
@@ -1507,11 +1542,12 @@
 
       // Scale image
       case 'zoom':
-        this.zoom(function (x, y, x1, y1, x2, y2) {
-          return (sqrt(x2 * x2 + y2 * y2) - sqrt(x1 * x1 + y1 * y1)) / sqrt(x * x + y * y);
+        this.zoom(function (x1, y1, x2, y2) {
+          var z1 = sqrt(x1 * x1 + y1 * y1),
+              z2 = sqrt(x2 * x2 + y2 * y2);
+
+          return (z2 - z1) / z1;
         }(
-          image.width,
-          image.height,
           abs(this.startX - this.startX2),
           abs(this.startY - this.startY2),
           abs(this.endX - this.endX2),
@@ -1621,12 +1657,15 @@
     minContainerWidth: 300,
     minContainerHeight: 150,
 
+    // Added options
+    maxZoomLevel: 1,
+
     // Events
     build: null, // Function
     built: null, // Function
     dragstart: null, // Function
     dragmove: null, // Function
-    dragend: null // Function
+    dragend: null // Function 
   };
 
   Cropper.setDefaults = function (options) {

@@ -5,7 +5,7 @@
  * Copyright 2014-2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-02-19T06:49:29.144Z
+ * Date: 2015-03-14T19:10:18.699Z
  */
 .cropper-container {
   position: relative;
@@ -225,10 +225,12 @@
   top: 0;
   left: 0;
   z-index: -1;
-  width: auto !important;
-  max-width: none !important;
-  height: auto !important;
-  max-height: none !important;
+  width: auto!important;
+  min-width: 0!important;
+  max-width: none!important;
+  height: auto!important;
+  min-height: 0!important;
+  max-height: none!important;
   filter: alpha(opacity=0);
   opacity: 0;
 }
