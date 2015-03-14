@@ -212,33 +212,33 @@
       var options = this.options,
           container = this.container,
           canvas = this.canvas,
+          strict = options.strict,
           aspectRatio = options.aspectRatio,
-          containerWidth = container.width,
-          containerHeight = container.height,
           minCropBoxWidth = num(options.minCropBoxWidth) || 0,
           minCropBoxHeight = num(options.minCropBoxHeight) || 0,
           autoCropArea = num(options.autoCropArea) || 0.8,
+          containerWidth = container.width,
+          containerHeight = container.height,
           cropBox = {
+            width: strict ? containerWidth : canvas.width,
+            height: strict ? containerHeight : canvas.height,
             minWidth: minCropBoxWidth,
             minHeight: minCropBoxHeight,
             maxWidth: containerWidth,
             maxHeight: containerHeight
           };
 
-      if (options.strict) {
-        cropBox.width = containerWidth;
-        cropBox.height = containerHeight;
-      } else {
-        if(cropBox.height * canvas.aspectRatio > cropBox.width) {
-          cropBox.height = canvas.height;
-          cropBox.width = cropBox.height * aspectRatio;
-        } else {
-          cropBox.width = canvas.width;
-          cropBox.height = cropBox.width / aspectRatio;
-        }
-      }
-
       if (aspectRatio) {
+        if (!strict) {
+          if (cropBox.height * canvas.aspectRatio > cropBox.width) {
+            cropBox.height = canvas.height;
+            cropBox.width = cropBox.height * aspectRatio;
+          } else {
+            cropBox.width = canvas.width;
+            cropBox.height = cropBox.width / aspectRatio;
+          }
+        }
+
         if (containerHeight * aspectRatio > containerWidth) {
           cropBox.height = cropBox.width / aspectRatio;
           cropBox.maxHeight = containerWidth / aspectRatio;
