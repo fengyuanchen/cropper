@@ -13,7 +13,7 @@
       ratio = $container.width() / container.width;
 
       if (ratio !== 1 || $container.height() !== container.height) {
-        canvasData = this.getCanvasData(),
+        canvasData = this.getCanvasData();
         cropBoxData = this.getCropBoxData();
 
         this.render();
