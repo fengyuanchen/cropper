@@ -16,7 +16,6 @@
     preview: '',
 
     // Toggles
-    global: true, // Bind the main events to the document (Only allow one global cropper per page)
     strict: true, // strict mode, the image cannot zoom out less than the container
     responsive: true, // Rebuild when resize the window
     checkImageOrigin: true, // Check if the target image is cross origin

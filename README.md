@@ -127,15 +127,6 @@ Add extra elements (containers) for previewing.
 - If you set an `aspectRatio` option, be sure to set the preview container with the same aspect ratio.
 
 
-### global
-
-- Type: `Boolean`
-- Default: `true`
-
-This plugin supports multiple croppers, but only support one global cropper in the same page.
-If you intend to use more than one cropper, just initialize them with this option set to `false`.
-
-
 ### strict
 
 - Type: `Boolean`
