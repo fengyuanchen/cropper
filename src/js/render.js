@@ -229,6 +229,16 @@
           };
 
       if (aspectRatio) {
+        // compare crop box size with container first
+        if (containerHeight * aspectRatio > containerWidth) {
+          cropBox.height = cropBox.width / aspectRatio;
+          cropBox.maxHeight = containerWidth / aspectRatio;
+        } else {
+          cropBox.width = cropBox.height * aspectRatio;
+          cropBox.maxWidth = containerHeight * aspectRatio;
+        }
+
+        // compare crop box size with canvas when it is not strict
         if (!strict) {
           if (cropBox.height * canvas.aspectRatio > cropBox.width) {
             cropBox.height = canvas.height;
@@ -237,14 +247,6 @@
             cropBox.width = canvas.width;
             cropBox.height = cropBox.width / aspectRatio;
           }
-        }
-
-        if (containerHeight * aspectRatio > containerWidth) {
-          cropBox.height = cropBox.width / aspectRatio;
-          cropBox.maxHeight = containerWidth / aspectRatio;
-        } else {
-          cropBox.width = cropBox.height * aspectRatio;
-          cropBox.maxWidth = containerHeight * aspectRatio;
         }
 
         if (minCropBoxWidth) {
