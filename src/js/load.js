@@ -1,16 +1,16 @@
-  prototype.load = function () {
-    var _this = this,
-        options = this.options,
+  prototype.load = function (url) {
+    var options = this.options,
         $this = this.$element,
         crossOrigin,
         buildEvent,
-        $clone,
-        url;
+        $clone;
 
-    if ($this.is('img')) {
-      url = $this.prop('src');
-    } else if ($this.is('canvas') && SUPPORT_CANVAS) {
-      url = $this[0].toDataURL();
+    if (!url) {
+      if ($this.is('img')) {
+        url = $this.prop('src');
+      } else if ($this.is('canvas') && SUPPORT_CANVAS) {
+        url = $this[0].toDataURL();
+      }
     }
 
     if (!url) {
@@ -34,21 +34,21 @@
 
     this.$clone = $clone = $('<img>');
 
-    $clone.one('load', function () {
-      var naturalWidth = this.naturalWidth || $clone.width(),
-          naturalHeight = this.naturalHeight || $clone.height();
+    $clone.one('load', $.proxy(function () {
+      var naturalWidth = $clone.prop('naturalWidth') || $clone.width(),
+          naturalHeight = $clone.prop('naturalHeight') || $clone.height();
 
-      _this.image = {
+      this.image = {
         naturalWidth: naturalWidth,
         naturalHeight: naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
         rotate: 0
       };
 
-      _this.url = url;
-      _this.ready = true;
-      _this.build();
-    }).attr({
+      this.url = url;
+      this.ready = true;
+      this.build();
+    }, this)).attr({
       src: url,
       crossOrigin: crossOrigin
     });
