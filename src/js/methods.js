@@ -4,7 +4,7 @@
         return;
       }
 
-      this.image = $.extend({}, this.defaultImage);
+      this.image = $.extend(true, {}, this.defaultImage);
       this.renderImage();
 
       if (this.cropped) {
@@ -85,7 +85,7 @@
       var image = this.image;
 
       if (!this.disabled && isNumber(offsetX) && isNumber(offsetY)) {
-        image.left += offsetX
+        image.left += offsetX;
         image.top += offsetY;
         this.renderImage(true);
       }
@@ -122,10 +122,23 @@
       }
     },
 
+    flip: function (side) {
+      var image = this.image;
+
+      side = (side === 'vertical' || side === 'horizontal') ? side : undefined;
+
+      if (side !== undefined && this.built && !this.disabled && this.options.flippable) {
+        image.flip = image.flip || {};
+        image.flip[side] = !(image.flip.hasOwnProperty(side) && image.flip[side] === true);
+        this.renderImage(true);
+      }
+    },
+
     getData: function (rounded) {
       var cropBox = this.cropBox,
           image = this.image,
           rotate = image.rotate,
+          flip = image.flip,
           ratio,
           data;
 
@@ -145,13 +158,15 @@
         });
 
         data.rotate = rotate;
+        data.flip = flip;
       } else {
         data = {
           x: 0,
           y: 0,
           width: 0,
           height: 0,
-          rotate: rotate
+          rotate: rotate,
+          flip: flip
         }
       }
 

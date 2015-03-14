@@ -51,7 +51,7 @@
         top: top
       });
 
-      this.defaultImage = $.extend({}, image);
+      this.defaultImage = $.extend(true, {}, image);
       this.renderImage();
     },
 
@@ -61,6 +61,7 @@
           width = image.width,
           height = image.height,
           rotate = image.rotate,
+          flip = image.flip,
           rotated;
 
       if (rotate) {
@@ -83,7 +84,7 @@
         height: height,
         marginLeft: image.left,
         marginTop: image.top,
-        transform: getRotateValue(rotate)
+        transform: getTransformValue(rotate, flip)
       });
 
       if (changed) {
