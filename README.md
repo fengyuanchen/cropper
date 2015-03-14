@@ -10,6 +10,7 @@ A simple jQuery image cropping plugin.
 - Supports touch
 - Supports zoom
 - Supports rotation
+- Supports flips
 - Supports canvas
 - Supports [options](#options)
 - Supports [methods](#methods)
@@ -385,7 +386,7 @@ $().cropper('rotate', -90)
 
 ### flip(side)
 
-- **degree**:
+- **side**:
   - Type: `String`
   - Flip horizontal: requires a string 'horizontal'
   - Flip vertical: requires a string 'vertical'
@@ -447,11 +448,11 @@ Destroy the cropper and remove the instance from the image.
     - `width`: the width of the cropped area
     - `height`: the height of the cropped area
     - `rotate`: the rotated degrees of the image
-    - `flip`: the info about image flips:
+    - `flip`: the flip information:
       - Type: `Object`
       - Properties:
-        - `horizontal`: `true` if flipped by horizontal side of original image, `false` instead
-        - `vertical`: `true` if flipped by vertical side of original image, `false` instead
+        - `horizontal`: `true` if flipped by horizontal side of original image, otherwise `false`
+        - `vertical`: `true` if flipped by vertical side of original image, otherwise `false`
 
 Get the cropped area data in the original image for cropping image.
 
