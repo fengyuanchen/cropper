@@ -43,27 +43,8 @@
     },
 
     replace: function (url) {
-      var _this = this,
-          $this = this.$element,
-          canvas,
-          context;
-
-      if (!this.disabled && url) {
-        if ($this.is('img')) {
-          $this.attr('src', url);
-          this.load();
-        } else if ($this.is('canvas') && SUPPORT_CANVAS) {
-          canvas = $this[0];
-          context = canvas.getContext('2d');
-
-          $('<img src="' + url + '"">').one('load', function () {
-            canvas.width = this.width;
-            canvas.height = this.height;
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(this, 0, 0);
-            _this.load();
-          });
-        }
+      if (this.ready && !this.disabled && url) {
+        this.load(url);
       }
     },
 
@@ -84,7 +65,7 @@
     move: function (offsetX, offsetY) {
       var canvas = this.canvas;
 
-      if (!this.disabled && isNumber(offsetX) && isNumber(offsetY)) {
+      if (this.built && !this.disabled && isNumber(offsetX) && isNumber(offsetY)) {
         canvas.left += offsetX;
         canvas.top += offsetY;
         this.renderCanvas(true);
@@ -173,7 +154,7 @@
     },
 
     getImageData: function () {
-      return this.built ? this.image : {};
+      return this.ready ? this.image : {};
     },
 
     getCanvasData: function () {
@@ -221,7 +202,7 @@
       var cropBox = this.cropBox,
           data;
 
-      if (this.cropped) {
+      if (this.built && this.cropped) {
         data = {
           left: cropBox.left,
           top: cropBox.top,
@@ -237,7 +218,7 @@
       var cropBox = this.cropBox,
           aspectRatio = this.options.aspectRatio;
 
-      if (this.cropped && !this.disabled && $.isPlainObject(data)) {
+      if (this.built && this.cropped && !this.disabled && $.isPlainObject(data)) {
 
         if (isNumber(data.left)) {
           cropBox.left = data.left;
@@ -282,7 +263,7 @@
           context,
           data;
 
-      if (!this.cropped || !SUPPORT_CANVAS) {
+      if (!this.built || !this.cropped || !SUPPORT_CANVAS) {
         return;
       }
 
