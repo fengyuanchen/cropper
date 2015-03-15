@@ -40,15 +40,12 @@
     minContainerWidth: 300,
     minContainerHeight: 150,
 
-    // Added options
-    maxZoomLevel: 0.6,
-
     // Events
     build: null, // Function
     built: null, // Function
     dragstart: null, // Function
     dragmove: null, // Function
-    dragend: null // Function 
+    dragend: null // Function
   };
 
   Cropper.setDefaults = function (options) {

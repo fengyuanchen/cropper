@@ -100,18 +100,14 @@
 
       if (delta && this.built && !this.disabled && this.options.zoomable) {
         delta = delta <= -1 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
-        // Fix to stop infinite zoom in (only allow zoom out up to the level of the 'maxZoomLevel' option)
-        if (image.width * delta > this.options.maxZoomLevel*image.naturalWidth ||
-            image.height * delta > this.options.maxZoomLevel*image.naturalHeight) {
-          width = image.width * delta;
-          height = image.height * delta;
-          image.left -= (width - image.width) / 2;
-          image.top -= (height - image.height) / 2;
-          image.width = width;
-          image.height = height;
-          this.renderImage(true);
-          this.setDragMode('move');
-        }
+        width = image.width * delta;
+        height = image.height * delta;
+        image.left -= (width - image.width) / 2;
+        image.top -= (height - image.height) / 2;
+        image.width = width;
+        image.height = height;
+        this.renderImage(true);
+        this.setDragMode('move');
       }
     },
 
