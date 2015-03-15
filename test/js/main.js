@@ -12,8 +12,4 @@
     return image;
   };
 
-  $.fn.cropper.setDefaults({
-    global: false
-  });
-
 })();
