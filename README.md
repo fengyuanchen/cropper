@@ -15,6 +15,7 @@
 - Supports [options](#options)
 - Supports [methods](#methods)
 - Supports [events](#events)
+- Supports multiple croppers
 - Cross-browser support
 
 
@@ -25,7 +26,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (49 KB)
+├── cropper.js      (50 KB)
 └── cropper.min.js  (19 KB)
 ```
 
