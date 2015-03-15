@@ -1,5 +1,46 @@
 # Changelog
 
+
+### 0.9.0 (Mar 15, 2015)
+
+- Wraps image with a virtual canvas (for zooming and rotating).
+- Limits image position and size in strict mode.
+- Supports multiple global croppers by default.
+- Outputs cropped canvas for display or get Data URL or get Blob
+- Identifies drag events with "event.dragType" property
+- Added zoom events for controling the canvas (image) size.
+- Improved responsiveness for window resizing.
+
+
+#### Options:
+
+- Change "minContainerWidth" (default value: 300 -> 200)
+- Change "minContainerHeight" (default value: 150 -> 100)
+- Add "strict"
+- Add "zoomin"
+- Add "zoomout"
+- remove "global"
+
+
+#### Methods:
+
+- Change "replace" (not to change the original image any more)
+- Change "getImageData" (move rotation-related properties to canvas data)
+- Add "getContainerData"
+- Add "getCanvasData"
+- Add "setCanvasData"
+- Add "getCroppedCanvas"
+- Remove "setImageData" (replace with "getCanvasData")
+- Remove "getDataURL" (replace with "getCroppedCanvas")
+
+
+#### Events:
+
+- Add "event.dragType" property to drag events
+- Add "zoomin.cropper"
+- Add "zoomout.cropper"
+
+
 ### 0.8.0 (Feb 19, 2015)
 
 - Refactored source code.
@@ -31,6 +72,7 @@
 
 
 #### Methods:
+
 - Change "reset"
 - Add "setImageData"
 - Add "getCropBoxData"

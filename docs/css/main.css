@@ -187,6 +187,12 @@ body {
   margin-bottom: 20px;
 }
 
+@media (min-width: 768px) {
+  .img-container {
+    min-height: 466px;
+  }
+}
+
 .img-container > img {
   max-width: 100%;
 }
@@ -268,8 +274,17 @@ body {
 }
 
 .btn-upload .tooltip-inner,
-.btn-info .tooltip-inner {
+.btn-toggle .tooltip-inner {
   white-space: nowrap;
+}
+
+.btn-toggle {
+  padding: 6px;
+}
+
+.btn-toggle > .docs-tooltip {
+  margin: -6px;
+  padding: 6px;
 }
 
 @media (max-width: 400px) {
@@ -310,7 +325,8 @@ body {
   text-align: center;
 }
 
-.docs-cropped .modal-body > img {
+.docs-cropped .modal-body > img,
+.docs-cropped .modal-body > canvas {
   max-width: 100%;
 }
 
@@ -354,11 +370,17 @@ body {
  * -------------------------------------------------------------------------- */
 
 .cropper-example-1 {
-  max-height: 295px;
+  max-height: 331px;
+}
+
+@media (min-width: 768px) {
+  .cropper-example-1 {
+    min-height: 305px;
+  }
 }
 
 .cropper-example-1 > img {
-  width: 100%;
+  max-width: 100%;
 }
 
 

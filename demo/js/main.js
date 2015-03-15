@@ -47,6 +47,21 @@ $(function () {
       },
       'built.cropper': function (e) {
         console.log(e.type);
+      },
+      'dragstart.cropper': function (e) {
+        console.log(e.type, e.dragType);
+      },
+      'dragmove.cropper': function (e) {
+        console.log(e.type, e.dragType);
+      },
+      'dragend.cropper': function (e) {
+        console.log(e.type, e.dragType);
+      },
+      'zoomin.cropper': function (e) {
+        console.log(e.type);
+      },
+      'zoomout.cropper': function (e) {
+        console.log(e.type);
       }
     }).cropper(options);
 
@@ -74,8 +89,8 @@ $(function () {
 
         result = $image.cropper(data.method, data.option);
 
-        if (data.method === 'getDataURL') {
-          $('#getDataURLModal').modal().find('.modal-body').html('<img src="' + result + '">');
+        if (data.method === 'getCroppedCanvas') {
+          $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
         }
 
         if ($.isPlainObject(result) && $target) {

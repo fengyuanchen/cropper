@@ -167,28 +167,18 @@
         </div>
 
         <div class="btn-group btn-group-crop">
-          <button class="btn btn-primary" data-method="getDataURL" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;)">
-              Get Data URL
+          <button class="btn btn-primary" data-method="getCroppedCanvas" type="button">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;)">
+              Get Cropped Canvas
             </span>
           </button>
-          <button class="btn btn-primary" data-method="getDataURL" data-option="image/jpeg" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, &quot;image/jpeg&quot;)">
-              JPG
-            </span>
-          </button>
-          <!-- <button class="btn btn-primary" data-method="getDataURL" data-option="image/webp" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, &quot;image/webp&quot;)">
-              WEBP
-            </span>
-          </button> -->
-          <button class="btn btn-primary" data-method="getDataURL" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, { &quot;width&quot;: 160, &quot;height&quot;: 90 })">
+          <button class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }" type="button">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;, { &quot;width&quot;: 160, &quot;height&quot;: 90 })">
               160 &times; 90
             </span>
           </button>
-          <button class="btn btn-primary" data-method="getDataURL" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, { &quot;width&quot;: 320, &quot;height&quot;: 180 })">
+          <button class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }" type="button">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;, { &quot;width&quot;: 320, &quot;height&quot;: 180 })">
               320 &times; 180
             </span>
           </button>
@@ -216,32 +206,25 @@
               Get Data
             </span>
           </button>
-          <button class="btn btn-primary" data-method="getData" data-option="true" data-target="#putData" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getData&quot;, true)">
-              Rounded
-            </span>
-          </button>
-          <button class="btn btn-primary btn-info" data-toggle="modal" data-target="#diagram" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="View diagram of the data properties">
+          <button class="btn btn-primary btn-toggle" data-toggle="modal" data-target="#diagram" type="button">
+            <span class="docs-tooltip" data-toggle="tooltip" title="View diagram of data properties">
               <span class="icon icon-info"></span>
             </span>
           </button>
         </div>
-        <div class="btn-group">
-          <button class="btn btn-primary" data-method="getImageData" data-option="" data-target="#putData" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getImageData&quot;)">
-              Get Image Data
-            </span>
-          </button>
-          <button class="btn btn-primary" data-method="getImageData" data-option="true" data-target="#putData" type="button">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getImageData&quot;, true)">
-              All
-            </span>
-          </button>
-        </div>
-        <button class="btn btn-primary" data-method="setImageData" data-target="#putData" type="button">
-          <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setImageData&quot;, data)">
-            Set Image Data
+        <button class="btn btn-primary" data-method="getImageData" data-option="" data-target="#putData" type="button">
+          <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getImageData&quot;)">
+            Get Image Data
+          </span>
+        </button>
+        <button class="btn btn-primary" data-method="getCanvasData" data-option="" data-target="#putData" type="button">
+          <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCanvasData&quot;)">
+            Get Canvas Data
+          </span>
+        </button>
+        <button class="btn btn-primary" data-method="setCanvasData" data-target="#putData" type="button">
+          <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setCanvasData&quot;, data)">
+            Set Canvas Data
           </span>
         </button>
         <button class="btn btn-primary" data-method="getCropBoxData" data-option="" data-target="#putData" type="button">
@@ -319,8 +302,8 @@
           <ul class="dropdown-menu" role="menu" aria-labelledby="toggleOptions">
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="global" checked>
-                global
+                <input type="checkbox" name="option" value="strict" checked>
+                strict
               </label>
             </li>
             <li role="presentation">
@@ -474,8 +457,9 @@
 &lt;/div&gt;</pre>
         <h5>JavaScript:</h5>
         <pre class="prettyprint">$('.cropper-example-1 &gt; img').cropper({
-  aspectRatio: 16 / 9,
-  autoCropArea: 0.5,
+  aspectRatio: 3 / 2,
+  autoCropArea: 0.65,
+  strict: false,
   guides: false,
   highlight: false,
   dragCrop: false,
@@ -530,19 +514,19 @@
       <div class="col-sm-6">
         <p>JavaScript:</p>
         <pre class="prettyprint">var $image = $('#cropper-example-2 &gt; img'),
-    imageData,
+    canvasData,
     cropBoxData;
 
 $('#cropper-example-2-modal').on('shown.bs.modal', function () {
   $image.cropper({
-    global: false,
+    autoCropArea: 0.5,
     built: function () {
-      $image.cropper('setImageData', imageData);
+      $image.cropper('setCanvasData', canvasData);
       $image.cropper('setCropBoxData', cropBoxData);
     }
   });
 }).on('hidden.bs.modal', function () {
-  imageData = $image.cropper('getImageData');
+  canvasData = $image.cropper('getCanvasData');
   cropBoxData = $image.cropper('getCropBoxData');
   $image.cropper('destroy');
 });</pre>
@@ -566,6 +550,7 @@ $('#cropper-example-2-modal').on('shown.bs.modal', function () {
       <a href="//github.com/fengyuanchen/cropper/issues">Issues</a>
       <a href="//github.com/fengyuanchen/cropper/releases">Releases</a>
       <a href="//github.com/fengyuanchen/cropper/blob/master/LICENSE.md">License</a>
+      <a href="//github.com/fengyuanchen/cropper/tree/v0.8.0">v0.8.0 docs</a>
       <a href="//fengyuanchen.github.io/cropper/0.7.9">v0.7.9 docs</a>
       <a class="back-to-top" href="#top" title="Back to top">Back to top</a>
     </div>
