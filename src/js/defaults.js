@@ -37,8 +37,8 @@
     // Dimensions
     minCropBoxWidth: 0,
     minCropBoxHeight: 0,
-    minContainerWidth: 300,
-    minContainerHeight: 150,
+    minContainerWidth: 200,
+    minContainerHeight: 100,
 
     // Events
     build: null, // Function
