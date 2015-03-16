@@ -125,7 +125,7 @@
     flip: function (side) {
       var image = this.image;
 
-      side = (side === 'vertical' || side === 'horizontal') ? side : undefined;
+      side = (side === 'vertically' || side === 'horizontally') ? side : undefined;
 
       if (side !== undefined && this.built && !this.disabled && this.options.flippable) {
         image.flip = image.flip || {};
@@ -167,7 +167,7 @@
           height: 0,
           rotate: rotate,
           flip: flip
-        }
+        };
       }
 
       return data;

@@ -388,14 +388,14 @@ $().cropper('rotate', -90)
 
 - **side**:
   - Type: `String`
-  - Flip horizontal: requires a string 'horizontal'
-  - Flip vertical: requires a string 'vertical'
+  - Flip horizontal: requires a string 'horizontally'
+  - Flip vertical: requires a string 'vertically'
 
 Flip the image. Requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
 
 ```js
-$().cropper('flip', 'horizontal')
-$().cropper('flip', 'vertical')
+$().cropper('flip', 'horizontally')
+$().cropper('flip', 'vertically')
 ```
 
 
@@ -451,8 +451,8 @@ Destroy the cropper and remove the instance from the image.
     - `flip`: the flip information:
       - Type: `Object`
       - Properties:
-        - `horizontal`: `true` if flipped by horizontal side of original image, otherwise `false`
-        - `vertical`: `true` if flipped by vertical side of original image, otherwise `false`
+        - `horizontally`: `true` if flipped horizontally, otherwise `false`
+        - `vertically`: `true` if flipped vertically, otherwise `false`
 
 Get the cropped area data in the original image for cropping image.
 

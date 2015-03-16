@@ -47,11 +47,11 @@ $(function () {
             $dataRotate.val(Math.round(data.rotate));
 
             var flip = [];
-            if (data.flip.vertical) {
-              flip.push('vertical');
+            if (data.flip.vertically) {
+              flip.push('vertically');
             }
-            if (data.flip.horizontal) {
-              flip.push('horizontal');
+            if (data.flip.horizontally) {
+              flip.push('horizontally');
             }
             $dataFlip.val(flip.join(', '));
           }

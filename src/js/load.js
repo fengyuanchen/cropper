@@ -43,7 +43,7 @@
         naturalHeight: naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
         rotate: 0,
-        flip: { horizontal: false, vertical: false }
+        flip: { horizontally: false, vertically: false }
       };
 
       _this.url = url;
