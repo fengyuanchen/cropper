@@ -183,7 +183,7 @@ $(function () {
   // Example 1
   (function () {
     $('.cropper-example-1 > img').cropper({
-      aspectRatio: 3 / 2,
+      aspectRatio: 16 / 9,
       autoCropArea: 0.65,
       strict: false,
       guides: false,
