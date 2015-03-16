@@ -532,7 +532,7 @@ Output the crop box position and size.
 Change the crop box position and size.
 
 
-### getCroppedCanvas([options[, type[, quality]]])
+### getCroppedCanvas([options])
 
 - **options** (optional):
   - Type: `Object`
