@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.8.0
+ * Cropper v0.9.0
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright 2014-2015 Fengyuan Chen
+ * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-02-19T06:49:29.144Z
+ * Date: 2015-03-15T06:29:30.388Z
  */
 .cropper-container {
   position: relative;
@@ -26,16 +26,20 @@
   height: 100%;
   min-height: 0 !important;
   max-height: none !important;
+
+  image-orientation: 0deg !important;
 }
-.cropper-modal,
-.cropper-canvas {
+.cropper-canvas,
+.cropper-drag-box,
+.cropper-crop-box,
+.cropper-modal {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
 }
-.cropper-canvas {
+.cropper-drag-box {
   background-color: #fff;
   filter: alpha(opacity=0);
   opacity: 0;
@@ -45,14 +49,7 @@
   filter: alpha(opacity=50);
   opacity: .5;
 }
-.cropper-cropbox {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-}
-.cropper-viewer {
+.cropper-view-box {
   display: block;
   width: 100%;
   height: 100%;
@@ -225,10 +222,12 @@
   top: 0;
   left: 0;
   z-index: -1;
-  width: auto !important;
-  max-width: none !important;
-  height: auto !important;
-  max-height: none !important;
+  width: auto!important;
+  min-width: 0!important;
+  max-width: none!important;
+  height: auto!important;
+  min-height: 0!important;
+  max-height: none!important;
   filter: alpha(opacity=0);
   opacity: 0;
 }

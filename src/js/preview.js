@@ -2,7 +2,7 @@
     var url = this.url;
 
     this.$preview = $(this.options.preview);
-    this.$viewer.html('<img src="' + url + '">');
+    this.$viewBox.html('<img src="' + url + '">');
 
     // Override img element styles
     // Add `display:block` to avoid margin top issue (Occur only when margin-top <= -height)
@@ -12,17 +12,18 @@
       $this.data({
         width: $this.width(),
         height: $this.height()
-      }).html('<img src="' + url + '" style="display:block;width:100%;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;">');
+      }).html('<img src="' + url + '" style="display:block;width:100%;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;image-orientation: 0deg!important">');
     });
   };
 
   prototype.preview = function () {
     var image = this.image,
+        canvas = this.canvas,
         cropBox = this.cropBox,
         width = image.width,
         height = image.height,
-        left = cropBox.left - image.left,
-        top = cropBox.top - image.top,
+        left = cropBox.left - canvas.left - image.left,
+        top = cropBox.top - canvas.top - image.top,
         rotate = image.rotate,
         flip = image.flip;
 
@@ -30,7 +31,7 @@
       return;
     }
 
-    this.$viewer.find('img').css({
+    this.$viewBox.find('img').css({
       width: width,
       height: height,
       marginLeft: -left,
@@ -46,7 +47,7 @@
           newHeight = cropBox.height * ratio;
 
       if (newHeight > data.height) {
-        ratio = data.height / cropBox.height,
+        ratio = data.height / cropBox.height;
         newWidth = cropBox.width * ratio;
         newHeight = data.height;
       }

@@ -4,6 +4,7 @@
 
     this.ready = false;
     this.built = false;
+    this.rotated = false;
     this.cropped = false;
     this.disabled = false;
 

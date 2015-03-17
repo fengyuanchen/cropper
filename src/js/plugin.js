@@ -20,7 +20,7 @@
       }
     });
 
-    return !isUndefined(result) ? result : this;
+    return isUndefined(result) ? this : result;
   };
 
   $.fn.cropper.Constructor = Cropper;

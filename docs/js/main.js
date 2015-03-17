@@ -20,11 +20,6 @@ $(function () {
         }, 3000);
       };
 
-  $.fn.cropper.setDefaults({
-    minContainerWidth: 160,
-    minContainerHeight: 90
-  });
-
   // Demo
   // -------------------------------------------------------------------------
 
@@ -63,6 +58,21 @@ $(function () {
       },
       'built.cropper': function (e) {
         console.log(e.type);
+      },
+      'dragstart.cropper': function (e) {
+        console.log(e.type, e.dragType);
+      },
+      'dragmove.cropper': function (e) {
+        console.log(e.type, e.dragType);
+      },
+      'dragend.cropper': function (e) {
+        console.log(e.type, e.dragType);
+      },
+      'zoomin.cropper': function (e) {
+        console.log(e.type);
+      },
+      'zoomout.cropper': function (e) {
+        console.log(e.type);
       }
     }).cropper(options);
 
@@ -90,8 +100,8 @@ $(function () {
 
         result = $image.cropper(data.method, data.option);
 
-        if (data.method === 'getDataURL') {
-          $('#getDataURLModal').modal().find('.modal-body').html('<img src="' + result + '">');
+        if (data.method === 'getCroppedCanvas') {
+          $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
         }
 
         if ($.isPlainObject(result) && $target) {
@@ -185,7 +195,8 @@ $(function () {
   (function () {
     $('.cropper-example-1 > img').cropper({
       aspectRatio: 16 / 9,
-      autoCropArea: 0.5,
+      autoCropArea: 0.65,
+      strict: false,
       guides: false,
       highlight: false,
       dragCrop: false,
@@ -198,19 +209,19 @@ $(function () {
   // Example 2
   (function () {
     var $image = $('#cropper-example-2 > img'),
-        imageData,
+        canvasData,
         cropBoxData;
 
     $('#cropper-example-2-modal').on('shown.bs.modal', function () {
       $image.cropper({
-        global: false,
+        autoCropArea: 0.5,
         built: function () {
-          $image.cropper('setImageData', imageData);
+          $image.cropper('setCanvasData', canvasData);
           $image.cropper('setCropBoxData', cropBoxData);
         }
       });
     }).on('hidden.bs.modal', function () {
-      imageData = $image.cropper('getImageData');
+      canvasData = $image.cropper('getCanvasData');
       cropBoxData = $image.cropper('getCropBoxData');
       $image.cropper('destroy');
     });

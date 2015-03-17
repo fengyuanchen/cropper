@@ -16,7 +16,7 @@
     preview: '',
 
     // Toggles
-    global: true, // Bind the main events to the document (Only allow one global cropper per page)
+    strict: true, // strict mode, the image cannot zoom out less than the container
     responsive: true, // Rebuild when resize the window
     checkImageOrigin: true, // Check if the target image is cross origin
 
@@ -38,15 +38,17 @@
     // Dimensions
     minCropBoxWidth: 0,
     minCropBoxHeight: 0,
-    minContainerWidth: 300,
-    minContainerHeight: 150,
+    minContainerWidth: 200,
+    minContainerHeight: 100,
 
     // Events
     build: null, // Function
     built: null, // Function
     dragstart: null, // Function
     dragmove: null, // Function
-    dragend: null // Function
+    dragend: null, // Function
+    zoomin: null, // Function
+    zoomout: null // Function
   };
 
   Cropper.setDefaults = function (options) {

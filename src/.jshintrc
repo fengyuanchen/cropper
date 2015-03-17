@@ -1,22 +1,25 @@
 {
-  "asi": true,
-  "browser": true,
+  "bitwise": true,
+  "curly": true,
   "eqeqeq": true,
-  "eqnull": true,
-  "es3": true,
-  "expr": true,
-  "jquery": true,
+  "forin": true,
+  "freeze": true,
+  "funcscope": true,
+  "iterator": true,
   "latedef": true,
-  "laxbreak": true,
+  "noarg": true,
+  "nocomma": false,
+  "noempty": true,
   "nonbsp": true,
-  "strict": false,
+  "nonew": true,
   "undef": true,
   "unused": true,
+  "strict": false,
+  "node": true,
+  "browser": true,
+  "jquery": true,
+  "qunit": true,
   "globals": {
-    "module": true,
-    "define": true,
-    "require": true,
-    "jQuery": true,
-    "QUnit": true
+    "define": true
   }
 }

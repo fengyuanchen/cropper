@@ -10,10 +10,6 @@
     $('<div>').addClass('container').append(image).appendTo(document.body);
 
     return image;
-  }
-
-  $.fn.cropper.setDefaults({
-    global: false
-  });
+  };
 
 })();

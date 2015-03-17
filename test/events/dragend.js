@@ -7,22 +7,23 @@ $(function () {
   $image.on('dragend.cropper', function (e) {
 
     QUnit.test('methods.dragend', function (assert) {
-      assert.ok(e.type === 'dragend' && e.namespace === 'cropper');
+      assert.equal(e.type, 'dragend');
+      assert.equal(e.namespace, 'cropper');
     });
 
   }).cropper({
     built: function () {
-      var $canvas = $image.parent().find('.cropper-canvas');
+      var $dragBox = $image.data('cropper').$dragBox;
 
        // Triggers events manually when built
-      $canvas.trigger('mousedown').trigger('mouseup');
-      $canvas.trigger('touchstart').trigger('touchend');
+      $dragBox.trigger('mousedown').trigger('mouseup');
     },
 
     dragend: function (e) {
 
       QUnit.test('options.dragend', function (assert) {
-        assert.ok(e.type === 'dragend' && e.namespace === 'cropper');
+        assert.equal(e.type, 'dragend');
+        assert.equal(e.namespace, 'cropper');
       });
 
     }
