@@ -1,3 +1,4 @@
+/* global JSON */
 $(function () {
 
   'use strict';
@@ -29,6 +30,7 @@ $(function () {
         $dataHeight = $('#dataHeight'),
         $dataWidth = $('#dataWidth'),
         $dataRotate = $('#dataRotate'),
+        $dataFlip = $('#dataFlip'),
         options = {
           aspectRatio: 16 / 9,
           preview: '.img-preview',
@@ -38,6 +40,15 @@ $(function () {
             $dataHeight.val(Math.round(data.height));
             $dataWidth.val(Math.round(data.width));
             $dataRotate.val(Math.round(data.rotate));
+
+            var flip = [];
+            if (data.flip.vertically) {
+              flip.push('vertically');
+            }
+            if (data.flip.horizontally) {
+              flip.push('horizontally');
+            }
+            $dataFlip.val(flip.join(', '));
           }
         };
 

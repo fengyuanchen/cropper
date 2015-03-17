@@ -11,6 +11,7 @@
 - Supports touch
 - Supports zoom
 - Supports rotation
+- Supports flips
 - Supports canvas
 - Supports [options](#options)
 - Supports [methods](#methods)
@@ -260,6 +261,14 @@ Enable to zoom the image by dragging touch.
 Enable to rotate the image.
 
 
+### flippable
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to flip the image.
+
+
 ### minContainerWidth
 
 - Type: `Number`
@@ -406,6 +415,21 @@ $().cropper('rotate', -90)
 ```
 
 
+### flip(side)
+
+- **side**:
+  - Type: `String`
+  - Flip horizontal: requires a string 'horizontally'
+  - Flip vertical: requires a string 'vertically'
+
+Flip the image. Requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+
+```js
+$().cropper('flip', 'horizontally')
+$().cropper('flip', 'vertically')
+```
+
+
 ### enable()
 
 Enable (unfreeze) the cropper.
@@ -450,6 +474,11 @@ Destroy the cropper and remove the instance from the image.
     - `width`: the width of the cropped area
     - `height`: the height of the cropped area
     - `rotate`: the rotated degrees of the image
+    - `flip`: the flip information:
+      - Type: `Object`
+      - Properties:
+        - `horizontally`: `true` if flipped horizontally, otherwise `false`
+        - `vertically`: `true` if flipped vertically, otherwise `false`
 
 Get the cropped area data in the original image for cropping image.
 

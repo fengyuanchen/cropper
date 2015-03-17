@@ -112,11 +112,24 @@
       }
     },
 
+    flip: function (side) {
+      var image = this.image;
+
+      side = (side === 'vertically' || side === 'horizontally') ? side : undefined;
+
+      if (side !== undefined && this.built && !this.disabled && this.options.flippable) {
+        image.flip = image.flip || {};
+        image.flip[side] = !(image.flip.hasOwnProperty(side) && image.flip[side] === true);
+        this.renderCanvas(true);
+      }
+    },
+
     getData: function () {
       var cropBox = this.cropBox,
           canvas = this.canvas,
           image = this.image,
           rotate = image.rotate,
+          flip = image.flip,
           ratio,
           data;
 
@@ -134,7 +147,6 @@
           n = n / ratio;
           data[i] = n;
         });
-
       } else {
         data = {
           x: 0,
@@ -145,6 +157,7 @@
       }
 
       data.rotate = rotate;
+      data.flip = flip;
 
       return data;
     },

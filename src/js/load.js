@@ -42,7 +42,8 @@
         naturalWidth: naturalWidth,
         naturalHeight: naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
-        rotate: 0
+        rotate: 0,
+        flip: { horizontally: false, vertically: false }
       };
 
       this.url = url;

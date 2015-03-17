@@ -37,8 +37,23 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
-  function getRotateValue(degree) {
-    return degree ? 'rotate(' + degree + 'deg)' : 'none';
+  function getTransformValue(degree, flip) {
+    var transform = [];
+    if (degree) {
+      transform.push('rotate(' + degree + 'deg)');
+    }
+    if (flip && flip.vertically === true) {
+      transform.push('scaleY(-1)');
+    }
+    if (flip && flip.horizontally === true) {
+      transform.push('scaleX(-1)');
+    }
+
+    if (!transform.length) {
+      return 'none';
+    } else {
+      return transform.join(' ');
+    }
   }
 
   function getRotatedSizes(data, reverse) {
@@ -72,18 +87,20 @@
         width = data.naturalWidth,
         height = data.naturalHeight,
         rotate = data.rotate,
+        flip = data.flip,
         rotated = getRotatedSizes({
           width: width,
           height: height,
           degree: rotate
         });
 
-    if (rotate) {
+    if (rotate || flip.horizontally || flip.vertically) {
       canvas.width = rotated.width;
       canvas.height = rotated.height;
       context.save();
       context.translate(rotated.width / 2, rotated.height / 2);
       context.rotate(rotate * Math.PI / 180);
+      context.scale(flip.horizontally ? -1 : 1, flip.vertically ? -1 : 1);
       context.drawImage(image, -width / 2, -height / 2, width, height);
       context.restore();
     } else {

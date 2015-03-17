@@ -87,6 +87,11 @@
             <input class="form-control" id="dataRotate" type="text" placeholder="rotate">
             <span class="input-group-addon">deg</span>
           </div>
+          <div class="input-group">
+            <label class="input-group-addon" for="dataFlip">Flip</label>
+            <input class="form-control" id="dataFlip" type="text" placeholder="flip">
+            <span class="input-group-addon">sds</span>
+          </div>
         </div>
       </div>
     </div>
@@ -122,6 +127,16 @@
           <button class="btn btn-primary" data-method="rotate" data-option="45" type="button" title="Rotate Right">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, 45)">
               <span class="icon icon-rotate-right"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="flip" data-option="vertically" type="button" title="Flip Vertically">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;flip&quot;, 'vertically')">
+              <span>V</span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="flip" data-option="horizontally" type="button" title="Flip Horizontally">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;flip&quot;, 'horizontally')">
+              <span>H</span>
             </span>
           </button>
         </div>

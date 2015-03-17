@@ -196,7 +196,7 @@
         height: image.height,
         marginLeft: image.left,
         marginTop: image.top,
-        transform: getRotateValue(image.rotate)
+        transform: getTransformValue(image.rotate, image.flip)
       });
 
       if (changed) {
