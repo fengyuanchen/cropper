@@ -3,7 +3,7 @@ $(function () {
   'use strict';
 
   var $image = $(window.createCropperImage()),
-      minContainerWidth = 400;
+      minContainerWidth = 641;
 
   $image.cropper({
     minContainerWidth: minContainerWidth,

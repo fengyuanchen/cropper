@@ -3,7 +3,7 @@ $(function () {
   'use strict';
 
   var $image = $(window.createCropperImage()),
-      minContainerHeight = 200;
+      minContainerHeight = 361;
 
   $image.cropper({
     minContainerHeight: minContainerHeight,
