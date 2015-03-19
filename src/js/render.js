@@ -67,6 +67,7 @@
       this.canvas = canvas;
       this.limitCanvas();
 
+      this.initialImage = $.extend({}, image);
       this.initialCanvas = $.extend({}, this.canvas);
       this.renderCanvas();
     },

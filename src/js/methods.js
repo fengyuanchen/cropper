@@ -4,6 +4,7 @@
         return;
       }
 
+      this.image = $.extend({}, this.initialImage);
       this.canvas = $.extend({}, this.initialCanvas);
       this.renderCanvas();
 
