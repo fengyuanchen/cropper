@@ -320,8 +320,8 @@
           abs(this.endY - this.endY2)
         ));
 
-        this.endX2 = this.startX2;
-        this.endY2 = this.startY2;
+        this.startX2 = this.endX2;
+        this.startY2 = this.endY2;
         renderable = false;
         break;
 
