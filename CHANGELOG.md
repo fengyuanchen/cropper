@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.1 (Mar 20, 2015)
+
+- Fix the touch zoom issue (#206)
+- Fix the reset issue (#246)
+
 
 ## 0.9.0 (Mar 15, 2015)
 

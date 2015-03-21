@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.9.0
+ * Cropper v0.9.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-03-15T06:29:30.388Z
+ * Date: 2015-03-21T04:58:27.265Z
  */
 
 (function (factory) {
@@ -405,6 +405,7 @@
       this.canvas = canvas;
       this.limitCanvas();
 
+      this.initialImage = $.extend({}, image);
       this.initialCanvas = $.extend({}, this.canvas);
       this.renderCanvas();
     },
@@ -958,6 +959,7 @@
         return;
       }
 
+      this.image = $.extend({}, this.initialImage);
       this.canvas = $.extend({}, this.initialCanvas);
       this.renderCanvas();
 
@@ -1682,8 +1684,8 @@
           abs(this.endY - this.endY2)
         ));
 
-        this.endX2 = this.startX2;
-        this.endY2 = this.startY2;
+        this.startX2 = this.endX2;
+        this.startY2 = this.endY2;
         renderable = false;
         break;
 
