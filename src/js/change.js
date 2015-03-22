@@ -1,9 +1,8 @@
   prototype.change = function () {
     var dragType = this.dragType,
+        options = this.options,
         canvas = this.canvas,
         container = this.container,
-        maxWidth = container.width,
-        maxHeight = container.height,
         cropBox = this.cropBox,
         width = cropBox.width,
         height = cropBox.height,
@@ -11,13 +10,24 @@
         top = cropBox.top,
         right = left + width,
         bottom = top + height,
+        minLeft = 0,
+        minTop = 0,
+        maxWidth = container.width,
+        maxHeight = container.height,
         renderable = true,
-        aspectRatio = this.options.aspectRatio,
+        aspectRatio = options.aspectRatio,
         range = {
           x: this.endX - this.startX,
           y: this.endY - this.startY
         },
         offset;
+
+    if (options.strict) {
+      minLeft = cropBox.minLeft;
+      minTop = cropBox.minTop;
+      maxWidth = minLeft + min(container.width, canvas.width);
+      maxHeight = minTop + min(container.height, canvas.height);
+    }
 
     if (aspectRatio) {
       range.X = range.y * aspectRatio;
@@ -33,7 +43,7 @@
 
       // Resize cropBox
       case 'e':
-        if (range.x >= 0 && (right >= maxWidth || aspectRatio && (top <= 0 || bottom >= maxHeight))) {
+        if (range.x >= 0 && (right >= maxWidth || aspectRatio && (top <= minTop || bottom >= maxHeight))) {
           renderable = false;
           break;
         }
@@ -53,7 +63,7 @@
         break;
 
       case 'n':
-        if (range.y <= 0 && (top <= 0 || aspectRatio && (left <= 0 || right >= maxWidth))) {
+        if (range.y <= 0 && (top <= minTop || aspectRatio && (left <= minLeft || right >= maxWidth))) {
           renderable = false;
           break;
         }
@@ -74,7 +84,7 @@
         break;
 
       case 'w':
-        if (range.x <= 0 && (left <= 0 || aspectRatio && (top <= 0 || bottom >= maxHeight))) {
+        if (range.x <= 0 && (left <= minLeft || aspectRatio && (top <= minTop || bottom >= maxHeight))) {
           renderable = false;
           break;
         }
@@ -95,7 +105,7 @@
         break;
 
       case 's':
-        if (range.y >= 0 && (bottom >= maxHeight || aspectRatio && (left <= 0 || right >= maxWidth))) {
+        if (range.y >= 0 && (bottom >= maxHeight || aspectRatio && (left <= minLeft || right >= maxWidth))) {
           renderable = false;
           break;
         }
@@ -116,7 +126,7 @@
 
       case 'ne':
         if (aspectRatio) {
-          if (range.y <= 0 && (top <= 0 || right >= maxWidth)) {
+          if (range.y <= 0 && (top <= minTop || right >= maxWidth)) {
             renderable = false;
             break;
           }
@@ -128,7 +138,7 @@
           if (range.x >= 0) {
             if (right < maxWidth) {
               width += range.x;
-            } else if (range.y <= 0 && top <= 0) {
+            } else if (range.y <= 0 && top <= minTop) {
               renderable = false;
             }
           } else {
@@ -162,7 +172,7 @@
 
       case 'nw':
         if (aspectRatio) {
-          if (range.y <= 0 && (top <= 0 || left <= 0)) {
+          if (range.y <= 0 && (top <= minTop || left <= minLeft)) {
             renderable = false;
             break;
           }
@@ -176,7 +186,7 @@
             if (left > 0) {
               width -= range.x;
               left += range.x;
-            } else if (range.y <= 0 && top <= 0) {
+            } else if (range.y <= 0 && top <= minTop) {
               renderable = false;
             }
           } else {
@@ -211,7 +221,7 @@
 
       case 'sw':
         if (aspectRatio) {
-          if (range.x <= 0 && (left <= 0 || bottom >= maxHeight)) {
+          if (range.x <= 0 && (left <= minLeft || bottom >= maxHeight)) {
             renderable = false;
             break;
           }
