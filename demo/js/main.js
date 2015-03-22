@@ -30,6 +30,40 @@ $(function () {
         $dataWidth = $('#dataWidth'),
         $dataRotate = $('#dataRotate'),
         options = {
+          // strict: false,
+          // responsive: false,
+          // checkImageOrigin: false
+
+          // modal: false,
+          guides: false,
+          highlight: false,
+          // background: false,
+
+          // autoCrop: false,
+          // autoCropArea: 0.5,
+          // dragCrop: false,
+          movable: false,
+          resizable: false,
+          // rotatable: false,
+          // zoomable: false,
+          // touchDragZoom: false,
+          // mouseWheelZoom: false,
+
+          minCanvasWidth: 320,
+          minCanvasHeight: 180,
+          // minCropBoxWidth: 160,
+          // minCropBoxHeight: 90,
+          // minContainerWidth: 320,
+          // minContainerHeight: 180,
+
+          // build: null,
+          // built: null,
+          // dragstart: null,
+          // dragmove: null,
+          // dragend: null,
+          // zoomin: null,
+          // zoomout: null,
+
           aspectRatio: 16 / 9,
           preview: '.img-preview',
           crop: function (data) {
