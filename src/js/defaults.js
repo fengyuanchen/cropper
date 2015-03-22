@@ -35,6 +35,8 @@
     mouseWheelZoom: true, // Enable to zoom the image by dragging touch
 
     // Dimensions
+    minCanvasWidth: 0,
+    minCanvasHeight: 0,
     minCropBoxWidth: 0,
     minCropBoxHeight: 0,
     minContainerWidth: 200,
