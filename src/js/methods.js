@@ -369,6 +369,10 @@
 
         if (this.built) {
           this.initCropBox();
+
+          if (this.cropped) {
+            this.renderCropBox();
+          }
         }
       }
     },
