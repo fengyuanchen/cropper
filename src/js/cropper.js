@@ -7,6 +7,8 @@
     this.rotated = false;
     this.cropped = false;
     this.disabled = false;
+    this.canvas = null;
+    this.cropBox = null;
 
     this.load();
   }
