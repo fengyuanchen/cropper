@@ -690,3 +690,4 @@ Released under the [MIT](http://opensource.org/licenses/mit-license.html) licens
 ## Related projects
 
 - [ngCropper](https://github.com/koorgoo/ngCropper) - AngularJS wrapper for Cropper.
+- [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) - Ember cli addon for Cropper.
