@@ -37,6 +37,10 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
+  function inRange(source, target) {
+    return target.left <= 0 && source.width <= (target.left + target.width) && target.top <= 0 && source.height <= (target.top + target.height);
+  }
+
   function getRotateValue(degree) {
     return degree ? 'rotate(' + degree + 'deg)' : 'none';
   }

@@ -26,8 +26,12 @@
         height: 0
       });
 
-      this.renderCropBox();
       this.cropped = false;
+      this.renderCropBox();
+
+      this.limitCanvas();
+      this.renderCanvas(); // Render canvas after render crop box
+
       this.$dragBox.removeClass(CLASS_MODAL);
       this.$cropBox.addClass(CLASS_HIDDEN);
     },
