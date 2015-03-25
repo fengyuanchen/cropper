@@ -9,10 +9,19 @@
     this.$preview.each(function () {
       var $this = $(this);
 
-      $this.data({
+      $this.data(CROPPER_PREVIEW, {
         width: $this.width(),
-        height: $this.height()
+        height: $this.height(),
+        original: $this.html()
       }).html('<img src="' + url + '" style="display:block;width:100%;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;image-orientation: 0deg!important">');
+    });
+  };
+
+  prototype.resetPreview = function () {
+    this.$preview.each(function () {
+      var $this = $(this);
+
+      $this.html($this.data(CROPPER_PREVIEW).original).removeData(CROPPER_PREVIEW);
     });
   };
 
@@ -40,7 +49,7 @@
 
     this.$preview.each(function () {
       var $this = $(this),
-          data = $this.data(),
+          data = $this.data(CROPPER_PREVIEW),
           ratio = data.width / cropBox.width,
           newWidth = data.width,
           newHeight = cropBox.height * ratio;

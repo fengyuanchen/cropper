@@ -4,6 +4,7 @@
 
       // Constants
       CROPPER_NAMESPACE = '.cropper',
+      CROPPER_PREVIEW = 'preview' + CROPPER_NAMESPACE,
 
       // RegExps
       REGEXP_DRAG_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,

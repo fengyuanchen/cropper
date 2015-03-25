@@ -79,7 +79,7 @@
     this.built = false;
     this.removeListeners();
 
-    this.$preview.empty();
+    this.resetPreview();
     this.$preview = null;
 
     this.$viewBox = null;
