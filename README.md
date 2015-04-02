@@ -263,7 +263,7 @@ Enable to rotate the image.
 ### minContainerWidth
 
 - Type: `Number`
-- Default: `300`
+- Default: `200`
 
 The minimum width of the container.
 
@@ -271,7 +271,7 @@ The minimum width of the container.
 ### minContainerHeight
 
 - Type: `Number`
-- Default: `150`
+- Default: `100`
 
 The minimum height of the container.
 
