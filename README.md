@@ -55,6 +55,9 @@ Include files:
 <script src="/path/to/cropper.js"></script>
 ```
 
+#### CDN
+
+The [cdnjs.com](https://cdnjs.com/) provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
 
 
 ### Usage
@@ -263,7 +266,7 @@ Enable to rotate the image.
 ### minContainerWidth
 
 - Type: `Number`
-- Default: `300`
+- Default: `200`
 
 The minimum width of the container.
 
@@ -271,7 +274,7 @@ The minimum width of the container.
 ### minContainerHeight
 
 - Type: `Number`
-- Default: `150`
+- Default: `100`
 
 The minimum height of the container.
 
