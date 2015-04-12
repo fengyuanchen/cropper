@@ -6,8 +6,6 @@
     private $dst;
     private $type;
     private $extension;
-    private $srcDir = 'img/upload';
-    private $dstDir = 'img/avatar';
     private $msg;
 
     function __construct($src, $data, $file) {
@@ -43,14 +41,8 @@
         $type = exif_imagetype($file['tmp_name']);
 
         if ($type) {
-          $dir = $this -> srcDir;
-
-          if (!file_exists($dir)) {
-            mkdir($dir, 0777);
-          }
-
           $extension = image_type_to_extension($type);
-          $src = $dir . '/' . date('YmdHis') . $extension;
+          $src = 'img/' . date('YmdHis') . '.original' . $extension;
 
           if ($type == IMAGETYPE_GIF || $type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
 
@@ -80,13 +72,7 @@
     }
 
     private function setDst() {
-      $dir = $this -> dstDir;
-
-      if (!file_exists($dir)) {
-        mkdir($dir, 0777);
-      }
-
-      $this -> dst = $dir . '/' . date('YmdHis') . '.png';
+      $this -> dst = 'img/' . date('YmdHis') . '.png';
     }
 
     private function crop($src, $dst, $data) {
