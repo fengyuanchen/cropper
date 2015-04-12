@@ -121,7 +121,6 @@
       var cropBox = this.cropBox,
           canvas = this.canvas,
           image = this.image,
-          rotate = image.rotate,
           ratio,
           data;
 
@@ -149,7 +148,7 @@
         };
       }
 
-      data.rotate = rotate;
+      data.rotate = image.rotate;
 
       return data;
     },
