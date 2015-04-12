@@ -59,11 +59,14 @@
 
     limitCanvas: function (type) {
       var options = this.options,
+          strict = options.strict,
           container = this.container,
           containerWidth = container.width,
           containerHeight = container.height,
           canvas = this.canvas,
+          aspectRatio = canvas.aspectRatio,
           cropBox = this.cropBox,
+          cropped = this.cropped && cropBox,
           minCanvasWidth,
           minCanvasHeight;
 
@@ -72,36 +75,36 @@
         minCanvasHeight = num(options.minCanvasHeight) || 0;
 
         if (minCanvasWidth) {
-          if (options.strict) {
-            minCanvasWidth = max(this.cropped && cropBox ? cropBox.width : containerWidth, minCanvasWidth);
+          if (strict) {
+            minCanvasWidth = max(cropped ? cropBox.width : containerWidth, minCanvasWidth);
           }
 
-          minCanvasHeight = minCanvasWidth / canvas.aspectRatio;
+          minCanvasHeight = minCanvasWidth / aspectRatio;
         } else if (minCanvasHeight) {
 
-          if (options.strict) {
-            minCanvasHeight = max(this.cropped && cropBox ? cropBox.height : containerHeight, minCanvasHeight);
+          if (strict) {
+            minCanvasHeight = max(cropped ? cropBox.height : containerHeight, minCanvasHeight);
           }
 
-          minCanvasWidth = minCanvasHeight * canvas.aspectRatio;
-        } else if (options.strict) {
-          if (this.cropped && cropBox) {
+          minCanvasWidth = minCanvasHeight * aspectRatio;
+        } else if (strict) {
+          if (cropped) {
             minCanvasWidth = cropBox.width;
             minCanvasHeight = cropBox.height;
 
-            if (minCanvasHeight * canvas.aspectRatio > minCanvasWidth) {
-              minCanvasWidth = minCanvasHeight * canvas.aspectRatio;
+            if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+              minCanvasWidth = minCanvasHeight * aspectRatio;
             } else {
-              minCanvasHeight = minCanvasWidth / canvas.aspectRatio;
+              minCanvasHeight = minCanvasWidth / aspectRatio;
             }
           } else {
             minCanvasWidth = containerWidth;
             minCanvasHeight = containerHeight;
 
-            if (minCanvasHeight * canvas.aspectRatio > minCanvasWidth) {
-              minCanvasHeight = minCanvasWidth / canvas.aspectRatio;
+            if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+              minCanvasHeight = minCanvasWidth / aspectRatio;
             } else {
-              minCanvasWidth = minCanvasHeight * canvas.aspectRatio;
+              minCanvasWidth = minCanvasHeight * aspectRatio;
             }
           }
         }
@@ -115,8 +118,8 @@
       }
 
       if (type !== 'size') {
-        if (options.strict) {
-          if (this.cropped && cropBox) {
+        if (strict) {
+          if (cropped) {
             canvas.minLeft = min(cropBox.left, (cropBox.left + cropBox.width) - canvas.width);
             canvas.minTop = min(cropBox.top, (cropBox.top + cropBox.height) - canvas.height);
             canvas.maxLeft = cropBox.left;
