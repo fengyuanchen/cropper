@@ -35,22 +35,22 @@ $(function () {
           // checkImageOrigin: false
 
           // modal: false,
-          guides: false,
-          highlight: false,
+          // guides: false,
+          // highlight: false,
           // background: false,
 
           // autoCrop: false,
           // autoCropArea: 0.5,
           // dragCrop: false,
-          movable: false,
-          resizable: false,
+          // movable: false,
+          // resizable: false,
           // rotatable: false,
           // zoomable: false,
           // touchDragZoom: false,
           // mouseWheelZoom: false,
 
-          minCanvasWidth: 320,
-          minCanvasHeight: 180,
+          // minCanvasWidth: 320,
+          // minCanvasHeight: 180,
           // minCropBoxWidth: 160,
           // minCropBoxHeight: 90,
           // minContainerWidth: 320,
