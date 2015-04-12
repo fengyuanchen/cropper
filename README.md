@@ -279,6 +279,22 @@ The minimum width of the container.
 The minimum height of the container.
 
 
+### minCanvasWidth
+
+- Type: `Number`
+- Default: `0`
+
+The minimum width of the canvas (image wrapper).
+
+
+### minCanvasHeight
+
+- Type: `Number`
+- Default: `0`
+
+The minimum height of the canvas (image wrapper).
+
+
 ### minCropBoxWidth
 
 - Type: `Number`
