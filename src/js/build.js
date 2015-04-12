@@ -77,6 +77,9 @@
     }
 
     this.built = false;
+    this.container = null;
+    this.canvas = null;
+    this.cropBox = null; // This is necessary when replace
     this.removeListeners();
 
     this.resetPreview();
