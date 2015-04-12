@@ -52,12 +52,12 @@
       canvas.oldTop = canvas.top = (containerHeight - canvas.height) / 2;
 
       this.canvas = canvas;
-      this.limitCanvas();
+      this.limitCanvas(true, true);
       this.initialImage = $.extend({}, image);
       this.initialCanvas = $.extend({}, canvas);
     },
 
-    limitCanvas: function (type) {
+    limitCanvas: function (size, position) {
       var options = this.options,
           strict = options.strict,
           container = this.container,
@@ -70,7 +70,7 @@
           minCanvasWidth,
           minCanvasHeight;
 
-      if (type !== 'position') {
+      if (size) {
         minCanvasWidth = num(options.minCanvasWidth) || 0;
         minCanvasHeight = num(options.minCanvasHeight) || 0;
 
@@ -117,7 +117,7 @@
         });
       }
 
-      if (type !== 'size') {
+      if (position) {
         if (strict) {
           if (cropped) {
             canvas.minLeft = min(cropBox.left, (cropBox.left + cropBox.width) - canvas.width);
@@ -164,7 +164,7 @@
           canvas.width = rotated.width;
           canvas.height = rotated.height;
           canvas.aspectRatio = aspectRatio;
-          this.limitCanvas('size');
+          this.limitCanvas(true, false);
         }
       }
 
@@ -179,7 +179,7 @@
       canvas.width = min(max(canvas.width, canvas.minWidth), canvas.maxWidth);
       canvas.height = min(max(canvas.height, canvas.minHeight), canvas.maxHeight);
 
-      this.limitCanvas('position');
+      this.limitCanvas(false, true);
 
       canvas.oldLeft = canvas.left = min(max(canvas.left, canvas.minLeft), canvas.maxLeft);
       canvas.oldTop = canvas.top = min(max(canvas.top, canvas.minTop), canvas.maxTop);
@@ -194,7 +194,7 @@
       this.renderImage();
 
       if (this.cropped && options.strict && !inRange(this.container, canvas)) {
-        this.limitCropBox();
+        this.limitCropBox(true, true);
       }
 
       if (changed) {
@@ -256,7 +256,7 @@
       }
 
       this.cropBox = cropBox;
-      this.limitCropBox();
+      this.limitCropBox(true, true);
 
       // Initialize auto crop area
       cropBox.width = min(max(cropBox.width, cropBox.minWidth), cropBox.maxWidth);
@@ -271,7 +271,7 @@
       this.initialCropBox = $.extend({}, cropBox);
     },
 
-    limitCropBox: function (type) {
+    limitCropBox: function (size, position) {
       var options = this.options,
           strict = options.strict,
           container = this.container,
@@ -283,7 +283,7 @@
           minCropBoxWidth,
           minCropBoxHeight;
 
-      if (type !== 'position') {
+      if (size) {
         minCropBoxWidth = num(options.minCropBoxWidth) || 0;
         minCropBoxHeight = num(options.minCropBoxHeight) || 0;
 
@@ -309,7 +309,7 @@
         cropBox.minHeight = min(cropBox.maxHeight, cropBox.minHeight);
       }
 
-      if (type !== 'size') {
+      if (position) {
         if (strict) {
           cropBox.minLeft = max(0, canvas.left);
           cropBox.minTop = max(0, canvas.top);
@@ -343,7 +343,7 @@
       cropBox.width = min(max(cropBox.width, cropBox.minWidth), cropBox.maxWidth);
       cropBox.height = min(max(cropBox.height, cropBox.minHeight), cropBox.maxHeight);
 
-      this.limitCropBox('position');
+      this.limitCropBox(false, true);
 
       cropBox.oldLeft = cropBox.left = min(max(cropBox.left, cropBox.minLeft), cropBox.maxLeft);
       cropBox.oldTop = cropBox.top = min(max(cropBox.top, cropBox.minTop), cropBox.maxTop);
@@ -360,7 +360,7 @@
       });
 
       if (this.cropped && options.strict && !inRange(container, this.canvas)) {
-        this.limitCanvas();
+        this.limitCanvas(true, true);
       }
 
       if (!this.disabled) {
