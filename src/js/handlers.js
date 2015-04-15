@@ -56,7 +56,7 @@
         delta = e.detail > 0 ? 1 : -1;
       }
 
-      this.zoom(delta * 0.1);
+      this.zoom(-delta * 0.1);
     },
 
     dragstart: function (event) {
