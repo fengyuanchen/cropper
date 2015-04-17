@@ -1,6 +1,6 @@
   $.extend(prototype, {
     reset: function () {
-      if (this.disabled) {
+      if (!this.built || this.disabled) {
         return;
       }
 
