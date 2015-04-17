@@ -39,12 +39,14 @@
     destroy: function () {
       var $this = this.$element;
 
-      if (!this.ready) {
+      if (this.ready) {
+        this.unbuild();
+        $this.removeClass(CLASS_HIDDEN);
+      } else {
         this.$clone.off('load').remove();
       }
 
-      this.unbuild();
-      $this.removeClass(CLASS_HIDDEN).removeData('cropper');
+      $this.removeData('cropper');
     },
 
     replace: function (url) {
