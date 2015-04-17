@@ -48,7 +48,7 @@
     },
 
     replace: function (url) {
-      if (this.ready && !this.disabled && url) {
+      if (!this.disabled && url) {
         this.load(url);
       }
     },
