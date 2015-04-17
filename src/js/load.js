@@ -7,6 +7,10 @@
 
     if (!url) {
       if ($this.is('img')) {
+        if (!$this.attr('src')) {
+          return;
+        }
+
         url = $this.prop('src');
       } else if ($this.is('canvas') && SUPPORT_CANVAS) {
         url = $this[0].toDataURL();
