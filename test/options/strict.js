@@ -6,11 +6,17 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      var canvasData = $image.cropper('getCanvasData');
+      var canvasData,
+          cropBoxData;
 
       QUnit.test('options.strict: true', function (assert) {
         $image.cropper('zoom', -0.5); // Zoom out
-        assert.deepEqual($image.cropper('getCanvasData'), canvasData);
+        canvasData = $image.cropper('getCanvasData');
+        cropBoxData = $image.cropper('getCropBoxData');
+        assert.equal(Math.round(canvasData.width), Math.round(cropBoxData.width));
+        assert.equal(Math.round(canvasData.height), Math.round(cropBoxData.height));
+        assert.equal(Math.round(canvasData.left), Math.round(cropBoxData.left));
+        assert.equal(Math.round(canvasData.top), Math.round(cropBoxData.top));
       });
 
     }
