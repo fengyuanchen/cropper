@@ -10,8 +10,8 @@ A complete example of Cropper.
 
 ## Browser Support
 
-- Chrome 34+
-- Firefox 29+
+- Chrome 38+
+- Firefox 33+
 - Internet Explorer 8+
-- Opera 21+
+- Opera 25+
 - Safari 5.1+
