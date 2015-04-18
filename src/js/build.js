@@ -32,7 +32,7 @@
     this.initPreview();
 
     // Format aspect ratio
-    options.aspectRatio = num(options.aspectRatio) || NaN; // 0 -> NaN, 'auto' -> NaN
+    options.aspectRatio = num(options.aspectRatio) || NaN; // 0 -> NaN
 
     if (options.autoCrop) {
       this.cropped = true;
