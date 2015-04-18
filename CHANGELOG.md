@@ -1,5 +1,14 @@
 # Changelog
 
+
+## 0.9.2 (Apr 18, 2015)
+
+- Improve strict mode to show full image
+- Add two new options: "minCanvasWidth" and "minCanvasHeight"
+- Reverse mouse wheeling zoom
+- Fix incorrect cursor in disabled state
+
+
 ## 0.9.1 (Mar 21, 2015)
 
 - Fix the touch zoom issue (#206)

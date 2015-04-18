@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.9.1
+ * Cropper v0.9.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-03-21T04:58:27.265Z
+ * Date: 2015-04-18T04:35:01.500Z
  */
 .cropper-container {
   position: relative;
@@ -240,7 +240,7 @@
 .cropper-crop {
   cursor: crosshair;
 }
-.cropper-disabled .cropper-canvas,
+.cropper-disabled .cropper-drag-box,
 .cropper-disabled .cropper-face,
 .cropper-disabled .cropper-line,
 .cropper-disabled .cropper-point {
