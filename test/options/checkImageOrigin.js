@@ -2,16 +2,34 @@ $(function () {
 
   'use strict';
 
-  var $image = $(window.createCropperImage('https://avatars1.githubusercontent.com/u/3456749?v=3&s=460'));
+  var crossOriginImage = 'http://fengyuanchen.github.io/cropper/img/picture.jpg',
+      $image = $(window.createCropperImage({
+        src: crossOriginImage
+      })),
+      $image2 = $(window.createCropperImage({
+        src: crossOriginImage,
+        crossOrigin: 'anonymous'
+      }));
 
   $image.cropper({
-    checkImageOrigin: false,
-
     built: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options.checkImageOrigin', function (assert) {
-        assert.ok(typeof cropper.$clone.attr('crossOrigin') === 'undefined');
+        assert.ok(cropper.$clone.attr('crossOrigin') === 'anonymous');
+        assert.ok(cropper.$clone.attr('src').indexOf('timestamp') !== -1);
+      });
+
+    }
+  });
+
+  $image2.cropper({
+    built: function () {
+      var cropper = $image2.data('cropper');
+
+      QUnit.test('options.checkImageOrigin: exists crossOrigin attribute', function (assert) {
+        assert.ok(cropper.$clone.attr('crossOrigin') === 'anonymous');
+        assert.ok(cropper.$clone.attr('src').indexOf('timestamp') === -1);
       });
 
     }

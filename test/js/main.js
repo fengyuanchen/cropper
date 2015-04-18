@@ -2,12 +2,18 @@
 
   'use strict';
 
-  window.createCropperImage = function (url) {
+  window.createCropperImage = function (attr) {
     var image = new Image();
 
-    image.src = url || '../assets/img/picture.jpg';
+    if (!$.isPlainObject(attr)) {
+      attr = {};
+    }
 
-    $('<div>').addClass('container').append(image).appendTo(document.body);
+    if (!attr.src) {
+      attr.src = '../assets/img/picture.jpg';
+    }
+
+    $('<div>').addClass('container').append($(image).attr(attr)).appendTo(document.body);
 
     return image;
   };
