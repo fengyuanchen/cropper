@@ -303,5 +303,5 @@ module.exports = function (grunt) {
   grunt.registerTask('cache', ['clean:cache', 'copy:cache']);
   grunt.registerTask('release', ['clean:release', 'copy:release']);
   grunt.registerTask('docs', ['clean:docs', 'copy:docs', 'copy:sync', 'htmlmin', 'uglify:docs', 'cssmin:docs']);
-  grunt.registerTask('default', ['clean:dist', 'js', 'css', 'test', 'replace', 'cache', 'release', 'docs']);
+  grunt.registerTask('default', ['clean:dist', 'js', 'css', 'replace', 'test', 'cache', 'release', 'docs']);
 };
