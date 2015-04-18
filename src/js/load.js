@@ -52,7 +52,9 @@
       this.url = url;
       this.ready = true;
       this.build();
-    }, this)).attr({
+    }, this)).one('error', function () {
+      $clone.remove();
+    }).attr({
       src: url,
       crossOrigin: crossOrigin
     });
