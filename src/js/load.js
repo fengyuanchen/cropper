@@ -2,6 +2,7 @@
     var options = this.options,
         $this = this.$element,
         crossOrigin,
+        bustCacheUrl,
         buildEvent,
         $clone;
 
@@ -32,7 +33,7 @@
       crossOrigin = 'anonymous';
 
       if (!$this.prop('crossOrigin')) { // Only when there was not a "crossOrigin" property
-        url = addTimestamp(url); // Bust cache (#148)
+        bustCacheUrl = addTimestamp(url); // Bust cache (#148)
       }
     }
 
@@ -55,7 +56,7 @@
     }, this)).one('error', function () {
       $clone.remove();
     }).attr({
-      src: url,
+      src: bustCacheUrl || url,
       crossOrigin: crossOrigin
     });
 
