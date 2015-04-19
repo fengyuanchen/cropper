@@ -43,7 +43,7 @@
         this.unbuild();
         $this.removeClass(CLASS_HIDDEN);
       } else {
-        this.$clone.off('load').remove();
+        this.$clone.remove();
       }
 
       $this.removeData('cropper');
