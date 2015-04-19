@@ -370,7 +370,7 @@ A shortcut of the "zoomout.cropper" event.
 
 ## Methods
 
-As there is a asynchronous process when load the iamge, you should call most of the methods after built, except "replace" and "destroy".
+As there is a asynchronous process when load the iamge, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
 
 ```js
 $().cropper({
