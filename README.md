@@ -370,12 +370,15 @@ A shortcut of the "zoomout.cropper" event.
 
 ## Methods
 
-General usage:
+As there is a asynchronous process when load the iamge, you should call most of the methods after built, except "replace" and "destroy".
 
 ```js
-$().cropper('method', argument1, , argument2, ..., argumentN)
+$().cropper({
+  built: function () {
+    $().cropper('method', argument1, , argument2, ..., argumentN)
+  }
+}
 ```
-
 
 ### move(offsetX, offsetY)
 
