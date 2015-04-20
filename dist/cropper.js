@@ -248,8 +248,9 @@
     }, this)).one('error', function () {
       $clone.remove();
     }).attr({
-      src: bustCacheUrl || url,
-      crossOrigin: crossOrigin
+      /* #134: Seems like the order is important for Chrome. */
+      crossOrigin: crossOrigin,
+      src: bustCacheUrl || url
     });
 
     // Hide and insert into the document
