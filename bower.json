@@ -31,7 +31,7 @@
     "test",
     "examples",
     "assets",
-    "demos",
+    "demo",
     "docs",
     "_*"
   ],

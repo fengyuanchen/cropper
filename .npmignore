@@ -1,4 +1,5 @@
 # Files to ignore
 
 bower_components
+*.map
 _*
