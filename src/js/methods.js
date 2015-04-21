@@ -42,7 +42,7 @@
       if (this.ready) {
         this.unbuild();
         $this.removeClass(CLASS_HIDDEN);
-      } else {
+      } else if (this.$clone) {
         this.$clone.remove();
       }
 
