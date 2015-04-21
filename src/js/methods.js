@@ -150,7 +150,7 @@
         };
       }
 
-      data.rotate = image.rotate;
+      data.rotate = this.ready ? image.rotate : 0;
 
       return data;
     },
