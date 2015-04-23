@@ -55,7 +55,10 @@
       this.build();
     }, this)).one('error', function () {
       $clone.remove();
-    }).attr('crossOrigin', crossOrigin).attr('src', bustCacheUrl || url); // Add "crossOrigin" before "src" (#271)
+    }).attr({
+      crossOrigin: crossOrigin, // "crossOrigin" must before "src" (#271)
+      src: bustCacheUrl || url
+    });
 
     // Hide and insert into the document
     $clone.addClass(CLASS_HIDE).insertAfter($this);
