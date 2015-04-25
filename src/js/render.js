@@ -193,7 +193,7 @@
 
       this.renderImage();
 
-      if (this.cropped && options.strict && !inRange(this.container, canvas)) {
+      if (this.cropped && options.strict) {
         this.limitCropBox(true, true);
       }
 
@@ -359,7 +359,7 @@
         top: cropBox.top
       });
 
-      if (this.cropped && options.strict && !inRange(container, this.canvas)) {
+      if (this.cropped && options.strict) {
         this.limitCanvas(true, true);
       }
 
