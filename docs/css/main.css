@@ -225,7 +225,7 @@ body {
 @media (min-width: 992px) {
   .docs-carbonads {
     position: absolute;
-    right: 15px;
+    right: 0;
     bottom: 5px;
   }
 }
