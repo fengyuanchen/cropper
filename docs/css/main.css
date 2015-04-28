@@ -183,7 +183,7 @@ body {
 }
 
 .docs-carbonads {
-  max-width: 320px;
+  max-width: 350px;
   padding: 15px;
   border: 1px solid #0074d9;
   border-radius: 4px;
@@ -226,7 +226,7 @@ body {
   .docs-carbonads {
     position: absolute;
     right: 15px;
-    bottom: 15px;
+    bottom: 5px;
   }
 }
 
