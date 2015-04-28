@@ -375,9 +375,9 @@ As there is a asynchronous process when load the iamge, you should call most of 
 ```js
 $().cropper({
   built: function () {
-    $().cropper('method', argument1, , argument2, ..., argumentN)
+    $().cropper('method', argument1, , argument2, ..., argumentN);
   }
-}
+});
 ```
 
 ### move(offsetX, offsetY)
