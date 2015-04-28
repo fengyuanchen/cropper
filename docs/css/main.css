@@ -184,7 +184,10 @@ body {
 
 .docs-carbonads {
   max-width: 320px;
-  max-height: 100px;
+  padding: 15px;
+  border: 1px solid #0074d9;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .carbon-wrap {
