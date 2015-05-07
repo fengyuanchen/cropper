@@ -155,6 +155,51 @@
       return data;
     },
 
+    setData: function (data) {
+      var cropBox = this.cropBox,
+          canvas = this.canvas,
+          image = this.image,
+          aspectRatio = this.options.aspectRatio,
+          ratio = image.width / image.naturalWidth;
+
+      if (this.built && !this.disabled && $.isPlainObject(data)) {
+        if (isNumber(data.x)) {
+          cropBox.left = data.x * ratio + canvas.left;
+        }
+
+        if (isNumber(data.y)) {
+          cropBox.top = data.y * ratio + canvas.top;
+        }
+
+        if (aspectRatio) {
+          if (isNumber(data.width)) {
+            cropBox.width = data.width * ratio;
+            cropBox.height = cropBox.width / aspectRatio;
+          } else if (isNumber(data.height)) {
+            cropBox.height = data.height * ratio;
+            cropBox.width = cropBox.height / aspectRatio;
+          }
+        }
+        else {
+          if (isNumber(data.width)) {
+            cropBox.width = data.width * ratio;
+          }
+
+          if (isNumber(data.height)) {
+            cropBox.height = data.height * ratio;
+          }
+        }
+
+        if (this.ready && isNumber(data.rotate) && this.built && !this.disabled && this.options.rotatable) {
+          this.rotated = true;
+          image.rotate = data.rotate;
+          this.renderCanvas(true);
+        }
+
+        this.renderCropBox();
+      }
+    },
+
     getContainerData: function () {
       return this.built ? this.container : {};
     },
