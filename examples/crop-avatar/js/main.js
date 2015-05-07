@@ -305,7 +305,7 @@
 
     alert: function (msg) {
       var $alert = [
-            '<div class="alert alert-danger avater-alert">',
+            '<div class="alert alert-danger avatar-alert alert-dismissable">',
               '<button type="button" class="close" data-dismiss="alert">&times;</button>',
               msg,
             '</div>'
