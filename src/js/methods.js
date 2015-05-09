@@ -181,7 +181,7 @@
           ratio;
 
       if (this.built && !this.disabled && $.isPlainObject(data)) {
-        if (isNumber(data.rotate) && this.options.rotatable) {
+        if (isNumber(data.rotate) && data.rotate !== image.rotate && this.options.rotatable) {
           image.rotate = data.rotate;
           this.rotated = true;
           this.renderCanvas(true);
