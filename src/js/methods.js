@@ -269,21 +269,19 @@
           cropBox.top = data.top;
         }
 
+        if (isNumber(data.width)) {
+          cropBox.width = data.width;
+        }
+
+        if (isNumber(data.height)) {
+          cropBox.height = data.height;
+        }
+
         if (aspectRatio) {
           if (isNumber(data.width)) {
-            cropBox.width = data.width;
             cropBox.height = cropBox.width / aspectRatio;
           } else if (isNumber(data.height)) {
-            cropBox.height = data.height;
             cropBox.width = cropBox.height * aspectRatio;
-          }
-        } else {
-          if (isNumber(data.width)) {
-            cropBox.width = data.width;
-          }
-
-          if (isNumber(data.height)) {
-            cropBox.height = data.height;
           }
         }
 
