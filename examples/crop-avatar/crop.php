@@ -96,9 +96,51 @@
           return;
         }
 
-        $size = getimagesize($src);
-        $size_w = $size[0]; // natural width
-        $size_h = $size[1]; // natural height
+        $exif = read_exif_data($src, 'IFD0');
+
+        if( !empty($exif) && is_array($exif))
+        $exif = array_change_key_case($exif, CASE_LOWER);
+
+        if( array_key_exists('orientation', $exif) ) {
+          switch($exif['orientation']) {
+            case 1: // Normal orientation, so we don't need to do anything
+              break;
+
+            case 2: // Correct orientation, but flipped on the horizontal axis (might do it at some point in the future)
+                imageflip($src_img, IMG_FLIP_HORIZONTAL);
+              break;
+
+            case 3: // Upside-Down
+                imageflip($src_img, IMG_FLIP_VERTICAL);
+              break;
+
+            case 4: // Upside-Down & Flipped along horizontal axis
+                imageflip($src_img, IMG_FLIP_BOTH);
+              break;
+
+            case 5: // Turned 90 deg to the left and flipped
+                imageflip($src_img, IMG_FLIP_HORIZONTAL);
+                $src_img = imagerotate($src_img, -90, 0);
+              break;
+
+            case 6: // Turned 90 deg to the left
+                $src_img = imagerotate($src_img, -90, 0);
+              break;
+
+            case 7: // Turned 90 deg to the right and flipped
+                imageflip($src_img,IMG_FLIP_HORIZONTAL);
+                $src_img = imagerotate($src_img, 90, 0);
+              break;
+
+            case 8: // Turned 90 deg to the right
+                $src_img = imagerotate($src_img, 90, 0);
+              break;
+
+          }
+        }
+        
+        $size_w = imagesx($src_img);
+        $size_h = imagesy($src_img);
 
         $src_img_w = $size_w;
         $src_img_h = $size_h;
