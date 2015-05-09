@@ -78,6 +78,9 @@
     }
 
     this.built = false;
+    this.initialImage = null;
+    this.initialCanvas = null; // This is necessary when replace
+    this.initialCropBox = null;
     this.container = null;
     this.canvas = null;
     this.cropBox = null; // This is necessary when replace
