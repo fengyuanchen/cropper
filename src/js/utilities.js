@@ -1,5 +1,5 @@
   function isNumber(n) {
-    return typeof n === 'number';
+    return typeof n === 'number' && !isNaN(n);
   }
 
   function isUndefined(n) {
