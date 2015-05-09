@@ -11,6 +11,10 @@
     // Type: Function
     crop: null,
 
+    // Previous/latest crop data
+    // Type: Object
+    data: null,
+
     // Add extra containers for previewing
     // Type: String (jQuery selector)
     preview: '',
