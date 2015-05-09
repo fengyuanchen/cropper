@@ -67,6 +67,9 @@
           aspectRatio = canvas.aspectRatio,
           cropBox = this.cropBox,
           cropped = this.cropped && cropBox,
+          initialCanvas = this.initialCanvas || canvas,
+          initialCanvasWidth = initialCanvas.width,
+          initialCanvasHeight = initialCanvas.height,
           minCanvasWidth,
           minCanvasHeight;
 
@@ -76,14 +79,13 @@
 
         if (minCanvasWidth) {
           if (strict) {
-            minCanvasWidth = max(cropped ? cropBox.width : containerWidth, minCanvasWidth);
+            minCanvasWidth = max(cropped ? cropBox.width : initialCanvasWidth, minCanvasWidth);
           }
 
           minCanvasHeight = minCanvasWidth / aspectRatio;
         } else if (minCanvasHeight) {
-
           if (strict) {
-            minCanvasHeight = max(cropped ? cropBox.height : containerHeight, minCanvasHeight);
+            minCanvasHeight = max(cropped ? cropBox.height : initialCanvasHeight, minCanvasHeight);
           }
 
           minCanvasWidth = minCanvasHeight * aspectRatio;
@@ -98,14 +100,8 @@
               minCanvasHeight = minCanvasWidth / aspectRatio;
             }
           } else {
-            minCanvasWidth = containerWidth;
-            minCanvasHeight = containerHeight;
-
-            if (minCanvasHeight * aspectRatio > minCanvasWidth) {
-              minCanvasHeight = minCanvasWidth / aspectRatio;
-            } else {
-              minCanvasWidth = minCanvasHeight * aspectRatio;
-            }
+            minCanvasWidth = initialCanvasWidth;
+            minCanvasHeight = initialCanvasHeight;
           }
         }
 
