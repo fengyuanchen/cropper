@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.9.2
+ * Cropper v0.9.3
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-04-18T04:35:01.500Z
+ * Date: 2015-05-10T07:25:08.257Z
  */
 
 (function (factory) {
@@ -75,7 +75,7 @@
       prototype = {};
 
   function isNumber(n) {
-    return typeof n === 'number';
+    return typeof n === 'number' && !isNaN(n);
   }
 
   function isUndefined(n) {
@@ -111,10 +111,6 @@
     var timestamp = 'timestamp=' + (new Date()).getTime();
 
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
-  }
-
-  function inRange(source, target) {
-    return target.left < 0 && source.width < (target.left + target.width) && target.top < 0 && source.height < (target.top + target.height);
   }
 
   function getRotateValue(degree) {
@@ -248,8 +244,7 @@
     }, this)).one('error', function () {
       $clone.remove();
     }).attr({
-      /* #134: Seems like the order is important for Chrome. */
-      crossOrigin: crossOrigin,
+      crossOrigin: crossOrigin, // "crossOrigin" must before "src" (#271)
       src: bustCacheUrl || url
     });
 
@@ -327,6 +322,7 @@
 
     this.built = true;
     this.render();
+    this.setData(options.data);
     $this.one(EVENT_BUILT, options.built).trigger(EVENT_BUILT); // Only trigger once
   };
 
@@ -336,6 +332,9 @@
     }
 
     this.built = false;
+    this.initialImage = null;
+    this.initialCanvas = null; // This is necessary when replace
+    this.initialCropBox = null;
     this.container = null;
     this.canvas = null;
     this.cropBox = null; // This is necessary when replace
@@ -423,6 +422,9 @@
           aspectRatio = canvas.aspectRatio,
           cropBox = this.cropBox,
           cropped = this.cropped && cropBox,
+          initialCanvas = this.initialCanvas || canvas,
+          initialCanvasWidth = initialCanvas.width,
+          initialCanvasHeight = initialCanvas.height,
           minCanvasWidth,
           minCanvasHeight;
 
@@ -432,14 +434,13 @@
 
         if (minCanvasWidth) {
           if (strict) {
-            minCanvasWidth = max(cropped ? cropBox.width : containerWidth, minCanvasWidth);
+            minCanvasWidth = max(cropped ? cropBox.width : initialCanvasWidth, minCanvasWidth);
           }
 
           minCanvasHeight = minCanvasWidth / aspectRatio;
         } else if (minCanvasHeight) {
-
           if (strict) {
-            minCanvasHeight = max(cropped ? cropBox.height : containerHeight, minCanvasHeight);
+            minCanvasHeight = max(cropped ? cropBox.height : initialCanvasHeight, minCanvasHeight);
           }
 
           minCanvasWidth = minCanvasHeight * aspectRatio;
@@ -454,14 +455,8 @@
               minCanvasHeight = minCanvasWidth / aspectRatio;
             }
           } else {
-            minCanvasWidth = containerWidth;
-            minCanvasHeight = containerHeight;
-
-            if (minCanvasHeight * aspectRatio > minCanvasWidth) {
-              minCanvasHeight = minCanvasWidth / aspectRatio;
-            } else {
-              minCanvasWidth = minCanvasHeight * aspectRatio;
-            }
+            minCanvasWidth = initialCanvasWidth;
+            minCanvasHeight = initialCanvasHeight;
           }
         }
 
@@ -549,7 +544,7 @@
 
       this.renderImage();
 
-      if (this.cropped && options.strict && !inRange(this.container, canvas)) {
+      if (this.cropped && options.strict) {
         this.limitCropBox(true, true);
       }
 
@@ -715,7 +710,7 @@
         top: cropBox.top
       });
 
-      if (this.cropped && options.strict && !inRange(container, this.canvas)) {
+      if (this.cropped && options.strict) {
         this.limitCanvas(true, true);
       }
 
@@ -1043,6 +1038,25 @@
   });
 
   $.extend(prototype, {
+    crop: function () {
+      if (!this.built || this.disabled) {
+        return;
+      }
+
+      if (!this.cropped) {
+        this.cropped = true;
+        this.limitCropBox(true, true);
+
+        if (this.options.modal) {
+          this.$dragBox.addClass(CLASS_MODAL);
+        }
+
+        this.$cropBox.removeClass(CLASS_HIDDEN);
+      }
+
+      this.setCropBoxData(this.initialCropBox);
+    },
+
     reset: function () {
       if (!this.built || this.disabled) {
         return;
@@ -1050,10 +1064,11 @@
 
       this.image = $.extend({}, this.initialImage);
       this.canvas = $.extend({}, this.initialCanvas);
+      this.cropBox = $.extend({}, this.initialCropBox); // required for strict mode
+
       this.renderCanvas();
 
       if (this.cropped) {
-        this.cropBox = $.extend({}, this.initialCropBox);
         this.renderCropBox();
       }
     },
@@ -1086,8 +1101,8 @@
       if (this.ready) {
         this.unbuild();
         $this.removeClass(CLASS_HIDDEN);
-      } else {
-        this.$clone.off('load').remove();
+      } else if (this.$clone) {
+        this.$clone.remove();
       }
 
       $this.removeData('cropper');
@@ -1194,9 +1209,44 @@
         };
       }
 
-      data.rotate = image.rotate;
+      data.rotate = this.ready ? image.rotate : 0;
 
       return data;
+    },
+
+    setData: function (data) {
+      var image = this.image,
+          canvas = this.canvas,
+          cropBoxData = {},
+          ratio;
+
+      if (this.built && !this.disabled && $.isPlainObject(data)) {
+        if (isNumber(data.rotate) && data.rotate !== image.rotate && this.options.rotatable) {
+          image.rotate = data.rotate;
+          this.rotated = true;
+          this.renderCanvas(true);
+        }
+
+        ratio = image.width / image.naturalWidth;
+
+        if (isNumber(data.x)) {
+          cropBoxData.left = data.x * ratio + canvas.left;
+        }
+
+        if (isNumber(data.y)) {
+          cropBoxData.top = data.y * ratio + canvas.top;
+        }
+
+        if (isNumber(data.width)) {
+          cropBoxData.width = data.width * ratio;
+        }
+
+        if (isNumber(data.height)) {
+          cropBoxData.height = data.height * ratio;
+        }
+
+        this.setCropBoxData(cropBoxData);
+      }
     },
 
     getContainerData: function () {
@@ -1278,21 +1328,19 @@
           cropBox.top = data.top;
         }
 
+        if (isNumber(data.width)) {
+          cropBox.width = data.width;
+        }
+
+        if (isNumber(data.height)) {
+          cropBox.height = data.height;
+        }
+
         if (aspectRatio) {
           if (isNumber(data.width)) {
-            cropBox.width = data.width;
             cropBox.height = cropBox.width / aspectRatio;
           } else if (isNumber(data.height)) {
-            cropBox.height = data.height;
             cropBox.width = cropBox.height * aspectRatio;
-          }
-        } else {
-          if (isNumber(data.width)) {
-            cropBox.width = data.width;
-          }
-
-          if (isNumber(data.height)) {
-            cropBox.height = data.height;
           }
         }
 
@@ -1608,7 +1656,7 @@
           }
 
           if (range.y <= 0) {
-            if (top > 0) {
+            if (top > minTop) {
               height -= range.y;
               top += range.y;
             }
@@ -1645,7 +1693,7 @@
           left += range.X;
         } else {
           if (range.x <= 0) {
-            if (left > 0) {
+            if (left > minLeft) {
               width -= range.x;
               left += range.x;
             } else if (range.y <= 0 && top <= minTop) {
@@ -1657,7 +1705,7 @@
           }
 
           if (range.y <= 0) {
-            if (top > 0) {
+            if (top > minTop) {
               height -= range.y;
               top += range.y;
             }
@@ -1693,7 +1741,7 @@
           height = width / aspectRatio;
         } else {
           if (range.x <= 0) {
-            if (left > 0) {
+            if (left > minLeft) {
               width -= range.x;
               left += range.x;
             } else if (range.y >= 0 && bottom >= maxHeight) {
@@ -1865,6 +1913,10 @@
     // Outputs the cropping results.
     // Type: Function
     crop: null,
+
+    // Previous/latest crop data
+    // Type: Object
+    data: null,
 
     // Add extra containers for previewing
     // Type: String (jQuery selector)

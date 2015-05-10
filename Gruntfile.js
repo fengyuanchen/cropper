@@ -153,7 +153,7 @@ module.exports = function (grunt) {
       options: {
         compatibility: 'ie8',
         keepSpecialComments: '*',
-        noAdvanced: true
+        advanced: false
       },
       dist: {
         src: 'dist/<%= pkg.name %>.css',
