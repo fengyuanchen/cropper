@@ -198,20 +198,21 @@ $(function () {
   // Example 2
   (function () {
     var $image = $('#cropper-example-2 > img'),
-        canvasData,
-        cropBoxData;
+        cropBoxData,
+        canvasData;
 
     $('#cropper-example-2-modal').on('shown.bs.modal', function () {
       $image.cropper({
         autoCropArea: 0.5,
         built: function () {
-          $image.cropper('setCanvasData', canvasData);
+          // Strict mode: set crop box data first
           $image.cropper('setCropBoxData', cropBoxData);
+          $image.cropper('setCanvasData', canvasData);
         }
       });
     }).on('hidden.bs.modal', function () {
-      canvasData = $image.cropper('getCanvasData');
       cropBoxData = $image.cropper('getCropBoxData');
+      canvasData = $image.cropper('getCanvasData');
       $image.cropper('destroy');
     });
 
