@@ -182,6 +182,11 @@ body {
   background-color: #fcfcfc;
 }
 
+.docs-jumbotron .version {
+  font-size: 14px;
+  color: #ccc;
+}
+
 .docs-carbonads-container {
   position: relative;
 }
