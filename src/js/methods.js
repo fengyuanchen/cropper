@@ -25,10 +25,11 @@
 
       this.image = $.extend({}, this.initialImage);
       this.canvas = $.extend({}, this.initialCanvas);
+      this.cropBox = $.extend({}, this.initialCropBox); // required for strict mode
+
       this.renderCanvas();
 
       if (this.cropped) {
-        this.cropBox = $.extend({}, this.initialCropBox);
         this.renderCropBox();
       }
     },
