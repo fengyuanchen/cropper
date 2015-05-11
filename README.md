@@ -733,5 +733,7 @@ Released under the [MIT](http://opensource.org/licenses/mit-license.html) licens
 
 ## Related projects
 
+- [react-cropper](https://github.com/roadmanfong/react-cropper) - Cropper as React components.
 - [ngCropper](https://github.com/koorgoo/ngCropper) - AngularJS wrapper for Cropper.
 - [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) - Ember cli addon for Cropper.
+- [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) - Ember-cli addon for cropping/resizing images based on the jQuery Cropper plugin.
