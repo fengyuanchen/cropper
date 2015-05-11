@@ -71,6 +71,7 @@
 
     replace: function (url) {
       if (!this.disabled && url) {
+        this.options.data = null; // Remove previous data
         this.load(url);
       }
     },
