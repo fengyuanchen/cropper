@@ -4,7 +4,7 @@
 ## 0.9.3 (May 10, 2015)
 
 - Add one new option: "data"
-- Add two new method: "setData" (#290, #296), "crop" (#275)
+- Add two new methods: "setData" (#290, #296), "crop" (#275)
 - Fix incorrect minWidth/Height size of canvas (#295)
 - Fix the strict mode bug (#280)
 - Fix the crop box resizing bug (#277)
