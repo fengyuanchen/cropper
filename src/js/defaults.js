@@ -34,6 +34,7 @@
     movable: true, // Enable to move the crop box
     resizable: true, // Enable to resize the crop box
     rotatable: true, // Enable to rotate the image
+    imgMovable: true, // Enable to move the image
     zoomable: true, // Enable to zoom the image
     touchDragZoom: true, // Enable to zoom the image by wheeling mouse
     mouseWheelZoom: true, // Enable to zoom the image by dragging touch
