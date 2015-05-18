@@ -341,10 +341,10 @@
         scaledHeight = options.height;
 
         if (scaledWidth) {
-          scaledHeight = scaledWidth / aspectRatio;
+          scaledHeight = Math.round(scaledWidth / aspectRatio);
           scaledRatio = scaledWidth / originalWidth;
         } else if (scaledHeight) {
-          scaledWidth = scaledHeight * aspectRatio;
+          scaledWidth = Math.round(scaledHeight * aspectRatio);
           scaledRatio = scaledHeight / originalHeight;
         }
       }
