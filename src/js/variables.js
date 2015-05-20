@@ -9,6 +9,10 @@
       // RegExps
       REGEXP_DRAG_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,
 
+      // RTL Support
+      IS_RTL = $(document.documentElement).css('direction') === 'rtl',
+      BIDI_DRAG_TYPES_MAP = { e: 'w', w: 'e', ne: 'nw', nw: 'ne', sw: 'se', se: 'sw' },
+
       // Classes
       CLASS_MODAL = 'cropper-modal',
       CLASS_HIDE = 'cropper-hide',
