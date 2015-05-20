@@ -139,6 +139,13 @@ module.exports = function (grunt) {
       }
     },
 
+    rtlcss:{
+      dist: {
+        src: 'dist/<%= pkg.name %>.css',
+        dest: 'dist/<%= pkg.name %>.rtl.css'
+      }
+    },
+
     csscomb: {
       options: {
         config: 'src/.csscomb.json'
@@ -158,6 +165,10 @@ module.exports = function (grunt) {
       dist: {
         src: 'dist/<%= pkg.name %>.css',
         dest: 'dist/<%= pkg.name %>.min.css'
+      },
+      rtl: {
+        src: 'dist/<%= pkg.name %>.rtl.css',
+        dest: 'dist/<%= pkg.name %>.rtl.min.css'
       },
       docs: {
         src: 'docs/css/main.css',
@@ -298,10 +309,11 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt); // Loading dependencies
 
   grunt.registerTask('css', ['less:dist', 'csslint', 'autoprefixer', 'csscomb', 'cssmin:dist']);
+  grunt.registerTask('css-rtl', ['rtlcss', 'cssmin:rtl']);
   grunt.registerTask('js', ['concat:dist', 'jshint', 'jscs', 'uglify:dist']);
   grunt.registerTask('test', ['qunit']);
   grunt.registerTask('cache', ['clean:cache', 'copy:cache']);
   grunt.registerTask('release', ['clean:release', 'copy:release']);
   grunt.registerTask('docs', ['clean:docs', 'copy:docs', 'copy:sync', 'htmlmin', 'uglify:docs', 'cssmin:docs']);
-  grunt.registerTask('default', ['clean:dist', 'js', 'css', 'replace', 'test', 'cache', 'release', 'docs']);
+  grunt.registerTask('default', ['clean:dist', 'js', 'css', 'css-rtl', 'replace', 'test', 'cache', 'release', 'docs']);
 };
