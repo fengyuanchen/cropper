@@ -388,6 +388,25 @@ $().cropper({
 });
 ```
 
+
+### crop()
+
+Show the crop box manually.
+
+```js
+$().cropper({
+  autoCrop: false,
+  built: function () {
+    // Do something here
+    // ...
+
+    // And then
+    $(this).cropper('crop');
+  }
+});
+```
+
+
 ### move(offsetX, offsetY)
 
 - **offsetX**:
