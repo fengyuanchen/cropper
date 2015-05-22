@@ -84,7 +84,7 @@ $('.container > img').cropper({
 
 - The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a visible block element.
 
-- The outputing cropped data bases on the original image size, so you can use them to crop the image directly.
+- The outputed cropped data bases on the original image size, so you can use them to crop the image directly.
 
 - If you try to start cropper on a cross-origin image, please make sure that your browser supports HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes), and your image server supports the `Access-Control-Allow-Origin` option.
 
@@ -378,7 +378,7 @@ A shortcut of the "zoomout.cropper" event.
 
 ## Methods
 
-As there is a asynchronous process when load the iamge, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
+As there is a asynchronous process when load the image, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
 
 ```js
 $().cropper({
