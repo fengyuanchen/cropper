@@ -438,36 +438,13 @@
 
     setDragMode: function (mode) {
       var options = this.options,
-          $dragBox = this.$dragBox,
-          cropable = false,
-          movable = false;
+          croppable,
+          movable;
 
-      if (!this.ready || this.disabled) {
-        return;
+      if (this.ready && !this.disabled) {
+        croppable = options.dragCrop && mode === 'crop';
+        movable = options.movable && mode === 'move';
+        this.$dragBox.data('drag', (croppable || movable) ? mode : 'none').toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
       }
-
-      switch (mode) {
-        case 'crop':
-          if (options.dragCrop) {
-            cropable = true;
-            $dragBox.data('drag', mode);
-          }
-
-          break;
-
-        case 'move':
-          if (options.movable) {
-            movable = true;
-            $dragBox.data('drag', mode);
-          }
-
-          break;
-
-        // case 'none':
-        default:
-          $dragBox.removeData('drag');
-      }
-
-      $dragBox.toggleClass(CLASS_CROP, cropable).toggleClass(CLASS_MOVE, movable);
     }
   });
