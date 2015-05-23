@@ -60,7 +60,7 @@
       $cropBox.find('.cropper-face').data('drag', 'move');
     }
 
-    if (!options.resizable) {
+    if (!options.cropBoxResizable) {
       $cropBox.find('.cropper-line, .cropper-point').addClass(CLASS_HIDDEN);
     }
 
