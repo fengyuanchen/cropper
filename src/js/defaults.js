@@ -38,6 +38,7 @@
     mouseWheelZoom: true, // Enable to zoom the image by dragging touch
     cropBoxMovable: true, // Enable to move the crop box
     cropBoxResizable: true, // Enable to resize the crop box
+    doubleClickToggle: true, // Toggle drag modes between "crop" and "move" when double click over the cropper
 
     // Dimensions
     minCanvasWidth: 0,
