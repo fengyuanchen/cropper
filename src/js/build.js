@@ -57,7 +57,7 @@
     }
 
     if (options.cropBoxMovable) {
-      $cropBox.find('.cropper-face').addClass(CLASS_MOVE).data('drag', 'move');
+      $cropBox.find('.cropper-face').addClass(CLASS_MOVE).data('drag', 'all');
     }
 
     if (!options.cropBoxResizable) {
