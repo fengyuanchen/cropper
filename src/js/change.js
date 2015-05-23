@@ -1,4 +1,4 @@
-  prototype.change = function () {
+  prototype.change = function (shiftKey) {
     var dragType = this.dragType,
         options = this.options,
         canvas = this.canvas,
@@ -21,6 +21,11 @@
           y: this.endY - this.startY
         },
         offset;
+
+    // Locking aspect ratio in "free mode" by holding shift key (#259)
+    if (!aspectRatio && shiftKey) {
+      aspectRatio = width && height ? width / height : 1;
+    }
 
     if (options.strict) {
       minLeft = cropBox.minLeft;

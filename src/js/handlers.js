@@ -163,7 +163,7 @@
         this.endX = e.pageX;
         this.endY = e.pageY;
 
-        this.change();
+        this.change(e.shiftKey);
       }
     },
 
