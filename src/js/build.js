@@ -56,7 +56,7 @@
       $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
     }
 
-    if (!options.movable) {
+    if (!options.cropBoxMovable) {
       $cropBox.find('.cropper-face').data('drag', 'move');
     }
 
