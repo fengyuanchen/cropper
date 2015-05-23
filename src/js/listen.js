@@ -2,7 +2,7 @@
     var options = this.options,
         $cropper = this.$cropper;
 
-    this.$element.on(EVENT_DRAG_START, options.dragstart).on(EVENT_DRAG_MOVE, options.dragmove).on(EVENT_DRAG_END, options.dragend).on(EVENT_ZOOM_IN, options.zoomin).on(EVENT_ZOOM_OUT, options.zoomout);
+    this.$element.on(EVENT_CHANGE, options.change).on(EVENT_DRAG_START, options.dragstart).on(EVENT_DRAG_MOVE, options.dragmove).on(EVENT_DRAG_END, options.dragend).on(EVENT_ZOOM_IN, options.zoomin).on(EVENT_ZOOM_OUT, options.zoomout);
 
     $cropper.on(EVENT_MOUSE_DOWN, $.proxy(this.dragstart, this));
 
@@ -25,7 +25,7 @@
     var options = this.options,
         $cropper = this.$cropper;
 
-    this.$element.off(EVENT_DRAG_START, options.dragstart).off(EVENT_DRAG_MOVE, options.dragmove).off(EVENT_DRAG_END, options.dragend).off(EVENT_ZOOM_IN, options.zoomin).off(EVENT_ZOOM_OUT, options.zoomout);
+    this.$element.off(EVENT_CHANGE, options.change).off(EVENT_DRAG_START, options.dragstart).off(EVENT_DRAG_MOVE, options.dragmove).off(EVENT_DRAG_END, options.dragend).off(EVENT_ZOOM_IN, options.zoomin).off(EVENT_ZOOM_OUT, options.zoomout);
 
     $cropper.off(EVENT_MOUSE_DOWN, this.dragstart);
 

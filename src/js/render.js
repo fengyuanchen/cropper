@@ -365,12 +365,15 @@
     },
 
     output: function () {
-      var options = this.options;
+      var options = this.options,
+          $this = this.$element;
 
       this.preview();
 
       if (options.crop) {
-        options.crop.call(this.$element, this.getData());
+        options.crop.call($this, this.getData());
       }
+
+      $this.trigger(EVENT_CHANGE);
     }
   });

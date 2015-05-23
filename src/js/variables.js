@@ -33,6 +33,7 @@
       EVENT_DRAG_END = 'dragend' + CROPPER_NAMESPACE,
       EVENT_ZOOM_IN = 'zoomin' + CROPPER_NAMESPACE,
       EVENT_ZOOM_OUT = 'zoomout' + CROPPER_NAMESPACE,
+      EVENT_CHANGE = 'change' + CROPPER_NAMESPACE,
 
       // Supports
       SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext),
