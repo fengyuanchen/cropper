@@ -140,7 +140,7 @@
       }
     },
 
-    getData: function () {
+    getData: function (rounded) {
       var cropBox = this.cropBox,
           canvas = this.canvas,
           image = this.image,
@@ -159,7 +159,7 @@
 
         $.each(data, function (i, n) {
           n = n / ratio;
-          data[i] = n;
+          data[i] = rounded ? Math.round(n) : n;
         });
 
       } else {
