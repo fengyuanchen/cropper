@@ -325,7 +325,6 @@
           container = this.container,
           containerWidth = container.width,
           containerHeight = container.height,
-          $cropBox = this.$cropBox,
           cropBox = this.cropBox;
 
       if (cropBox.width > cropBox.maxWidth || cropBox.width < cropBox.minWidth) {
@@ -344,11 +343,12 @@
       cropBox.oldLeft = cropBox.left = min(max(cropBox.left, cropBox.minLeft), cropBox.maxLeft);
       cropBox.oldTop = cropBox.top = min(max(cropBox.top, cropBox.minTop), cropBox.maxTop);
 
-      if (options.cropBoxMovable) {
-        $cropBox.find('.cropper-face').data('drag', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? 'move' : 'all');
+      if (options.movable && options.cropBoxMovable) {
+        // Turn to move the canvas when the crop box is equal to the container
+        this.$face.data('drag', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? 'move' : 'all');
       }
 
-      $cropBox.css({
+      this.$cropBox.css({
         width: cropBox.width,
         height: cropBox.height,
         left: cropBox.left,

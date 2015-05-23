@@ -449,8 +449,8 @@
         this.$dragBox.data('drag', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
 
         if (!options.cropBoxMovable) {
-          // Sync drag mode to crop box (#300)
-          this.$cropBox.find('.cropper-face').data('drag', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
+          // Sync drag mode to crop box when it is not movable(#300)
+          this.$face.data('drag', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
         }
       }
     }

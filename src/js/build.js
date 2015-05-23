@@ -3,7 +3,8 @@
         $clone = this.$clone,
         options = this.options,
         $cropper,
-        $cropBox;
+        $cropBox,
+        $face;
 
     if (!this.ready) {
       return;
@@ -27,6 +28,7 @@
     this.$dragBox = $cropper.find('.cropper-drag-box');
     this.$cropBox = $cropBox = $cropper.find('.cropper-crop-box');
     this.$viewBox = $cropper.find('.cropper-view-box');
+    this.$face = $face = $cropBox.find('.cropper-face');
 
     this.addListeners();
     this.initPreview();
@@ -49,7 +51,7 @@
     }
 
     if (!options.highlight) {
-      $cropBox.find('.cropper-face').addClass(CLASS_INVISIBLE);
+      $face.addClass(CLASS_INVISIBLE);
     }
 
     if (!options.guides) {
@@ -57,7 +59,7 @@
     }
 
     if (options.cropBoxMovable) {
-      $cropBox.find('.cropper-face').addClass(CLASS_MOVE).data('drag', 'all');
+      $face.addClass(CLASS_MOVE).data('drag', 'all');
     }
 
     if (!options.cropBoxResizable) {
