@@ -444,7 +444,14 @@
       if (this.ready && !this.disabled) {
         croppable = options.dragCrop && mode === 'crop';
         movable = options.movable && mode === 'move';
-        this.$dragBox.data('drag', (croppable || movable) ? mode : 'none').toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
+        mode = (croppable || movable) ? mode : 'none';
+
+        this.$dragBox.data('drag', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
+
+        if (!options.cropBoxMovable) {
+          // Sync drag mode to crop box (#300)
+          this.$cropBox.find('.cropper-face').data('drag', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
+        }
       }
     }
   });
