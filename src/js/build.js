@@ -64,7 +64,7 @@
       $cropBox.find('.cropper-line, .cropper-point').addClass(CLASS_HIDDEN);
     }
 
-    this.setDragMode(options.dragCrop ? 'crop' : 'move');
+    this.setDragMode(options.dragCrop ? 'crop' : options.movable ? 'move' : 'none');
 
     this.built = true;
     this.render();

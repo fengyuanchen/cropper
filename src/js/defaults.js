@@ -31,6 +31,7 @@
 
     autoCrop: true, // Enable to crop the image automatically when initialize
     dragCrop: true, // Enable to create new crop box by dragging over the image
+    movable: true, // Enable to move the image
     rotatable: true, // Enable to rotate the image
     zoomable: true, // Enable to zoom the image
     touchDragZoom: true, // Enable to zoom the image by wheeling mouse

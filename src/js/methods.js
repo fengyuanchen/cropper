@@ -93,7 +93,7 @@
     move: function (offsetX, offsetY) {
       var canvas = this.canvas;
 
-      if (this.built && !this.disabled && isNumber(offsetX) && isNumber(offsetY)) {
+      if (this.built && !this.disabled && this.options.movable && isNumber(offsetX) && isNumber(offsetY)) {
         canvas.left += offsetX;
         canvas.top += offsetY;
         this.renderCanvas(true);
@@ -437,7 +437,8 @@
     },
 
     setDragMode: function (mode) {
-      var $dragBox = this.$dragBox,
+      var options = this.options,
+          $dragBox = this.$dragBox,
           cropable = false,
           movable = false;
 
@@ -447,21 +448,22 @@
 
       switch (mode) {
         case 'crop':
-          if (this.options.dragCrop) {
+          if (options.dragCrop) {
             cropable = true;
             $dragBox.data('drag', mode);
-          } else {
-            movable = true;
           }
 
           break;
 
         case 'move':
-          movable = true;
-          $dragBox.data('drag', mode);
+          if (options.movable) {
+            movable = true;
+            $dragBox.data('drag', mode);
+          }
 
           break;
 
+        // case 'none':
         default:
           $dragBox.removeData('drag');
       }
