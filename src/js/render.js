@@ -366,14 +366,15 @@
 
     output: function () {
       var options = this.options,
-          $this = this.$element;
+          $this = this.$element,
+          data = this.getData();
 
       this.preview();
 
-      if (options.crop) {
-        options.crop.call($this, this.getData());
-      }
+      $this.trigger(EVENT_CHANGE, data);
 
-      $this.trigger(EVENT_CHANGE);
+      if (options.crop) {
+        options.crop.call($this, data);
+      }
     }
   });
