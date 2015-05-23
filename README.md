@@ -639,8 +639,8 @@ Change the aspect ratio of the crop box.
 
 - **mode** (optional):
   - Type: `String`
-  - Default: `''`
-  - Options: `'crop'`, `'move'`
+  - Default: `'none'`
+  - Options: `'none'`, `'crop'`, `'move'`
 
 Change the drag mode.
 
