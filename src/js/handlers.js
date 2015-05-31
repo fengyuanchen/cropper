@@ -6,7 +6,7 @@
           cropBoxData,
           ratio;
 
-      if (this.disabled) {
+      if (this.disabled || !container) { // Check "container" for IE8
         return;
       }
 

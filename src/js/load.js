@@ -30,14 +30,15 @@
     }
 
     if (options.checkImageOrigin && isCrossOriginURL(url)) {
-      crossOrigin = 'anonymous';
+      crossOrigin = ' crossOrigin="anonymous"';
 
       if (!$this.prop('crossOrigin')) { // Only when there was not a "crossOrigin" property
         bustCacheUrl = addTimestamp(url); // Bust cache (#148)
       }
     }
 
-    this.$clone = $clone = $('<img>');
+    // IE8 compatibility: Don't use "$().attr()" to set "src"
+    this.$clone = $clone = $('<img' + (crossOrigin || '') + ' src="' + (bustCacheUrl || url) + '">');
 
     $clone.one('load', $.proxy(function () {
       var image = $clone[0],
@@ -56,9 +57,6 @@
       this.build();
     }, this)).one('error', function () {
       $clone.remove();
-    }).attr({
-      crossOrigin: crossOrigin, // "crossOrigin" must before "src" (#271)
-      src: bustCacheUrl || url
     });
 
     // Hide and insert into the document
