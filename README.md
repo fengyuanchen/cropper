@@ -239,6 +239,14 @@ Enable to move the crop box.
 Enable to resize the crop box.
 
 
+### imgMovable
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to move the image.
+
+
 ### zoomable
 
 - Type: `Boolean`
