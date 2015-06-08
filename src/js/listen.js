@@ -4,7 +4,7 @@
         $cropper = this.$cropper;
 
     if ($.isFunction(options.dragstart)) {
-      $this.on(EVENT_DRAG_START, options.dragstart)
+      $this.on(EVENT_DRAG_START, options.dragstart);
     }
 
     if ($.isFunction(options.dragmove)) {
@@ -50,7 +50,7 @@
         $cropper = this.$cropper;
 
     if ($.isFunction(options.dragstart)) {
-      $this.off(EVENT_DRAG_START, options.dragstart)
+      $this.off(EVENT_DRAG_START, options.dragstart);
     }
 
     if ($.isFunction(options.dragmove)) {
