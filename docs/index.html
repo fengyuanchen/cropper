@@ -50,7 +50,7 @@
   <!-- Jumbotron -->
   <div class="jumbotron docs-jumbotron">
     <div class="container">
-      <h1>Cropper <small class="version">v0.9.3</small></h1>
+      <h1>Cropper <small class="version">v0.10.0</small></h1>
       <p class="lead">A simple jQuery image cropping plugin.</p>
       <div class="docs-carbonads-container">
         <div class="docs-carbonads">
@@ -391,12 +391,6 @@
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="resizable" checked>
-                resizable
-              </label>
-            </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
                 <input type="checkbox" name="option" value="rotatable" checked>
                 rotatable
               </label>
@@ -417,6 +411,24 @@
               <label class="checkbox-inline">
                 <input type="checkbox" name="option" value="mouseWheelZoom" checked>
                 mouseWheelZoom
+              </label>
+            </li>
+            <li role="presentation">
+              <label class="checkbox-inline">
+                <input type="checkbox" name="option" value="cropBoxMovable" checked>
+                cropBoxMovable
+              </label>
+            </li>
+            <li role="presentation">
+              <label class="checkbox-inline">
+                <input type="checkbox" name="option" value="cropBoxResizable" checked>
+                cropBoxResizable
+              </label>
+            </li>
+            <li role="presentation">
+              <label class="checkbox-inline">
+                <input type="checkbox" name="option" value="doubleClickToggle" checked>
+                doubleClickToggle
               </label>
             </li>
           </ul>
@@ -490,8 +502,8 @@
   guides: false,
   highlight: false,
   dragCrop: false,
-  movable: false,
-  resizable: false
+  cropBoxMovable: false,
+  cropBoxResizable: false
 });</pre>
       </div>
     </div>
@@ -588,7 +600,7 @@ $('#cropper-example-2-modal').on('shown.bs.modal', function () {
   <div class="docs-alert"><span class="warning message"></span></div>
 
   <!-- Scripts -->
-  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
   <script src="//fengyuanchen.github.io/assets/js/main.js"></script>

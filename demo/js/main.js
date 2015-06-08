@@ -49,11 +49,13 @@ $(function () {
           // autoCropArea: 0.5,
           // dragCrop: false,
           // movable: false,
-          // resizable: false,
           // rotatable: false,
           // zoomable: false,
           // touchDragZoom: false,
           // mouseWheelZoom: false,
+          // cropBoxMovable: false,
+          // cropBoxResizable: false,
+          // doubleClickToggle: false,
 
           // minCanvasWidth: 320,
           // minCanvasHeight: 180,
@@ -102,6 +104,9 @@ $(function () {
       },
       'zoomout.cropper': function (e) {
         console.log(e.type);
+      },
+      'change.cropper': function (e) {
+        console.log(e.type);
       }
     }).cropper(options);
 
@@ -111,6 +116,10 @@ $(function () {
       var data = $(this).data(),
           $target,
           result;
+
+      if (!$image.data('cropper')) {
+        return;
+      }
 
       if (data.method) {
         data = $.extend({}, data); // Clone a new one
@@ -143,6 +152,10 @@ $(function () {
 
       }
     }).on('keydown', function (e) {
+
+      if (!$image.data('cropper')) {
+        return;
+      }
 
       switch (e.which) {
         case 37:
@@ -179,6 +192,10 @@ $(function () {
         var files = this.files,
             file;
 
+        if (!$image.data('cropper')) {
+          return;
+        }
+
         if (files && files.length) {
           file = files[0];
 
@@ -201,6 +218,10 @@ $(function () {
     // Options
     $('.docs-options :checkbox').on('change', function () {
       var $this = $(this);
+
+      if (!$image.data('cropper')) {
+        return;
+      }
 
       options[$this.val()] = $this.prop('checked');
       $image.cropper('destroy').cropper(options);

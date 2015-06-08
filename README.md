@@ -27,7 +27,7 @@ dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
 ├── cropper.js      (56 KB)
-└── cropper.min.js  (21 KB)
+└── cropper.min.js  (22 KB)
 ```
 
 
@@ -228,15 +228,15 @@ Enable to remove the current crop box and create a new one by dragging over the 
 - Type: `Boolean`
 - Default: `true`
 
-Enable to move the crop box.
+Enable to move the image.
 
 
-### resizable
+### rotatable
 
 - Type: `Boolean`
 - Default: `true`
 
-Enable to resize the crop box.
+Enable to rotate the image.
 
 
 ### zoomable
@@ -263,12 +263,28 @@ Enable to zoom the image by wheeling mouse.
 Enable to zoom the image by dragging touch.
 
 
-### rotatable
+### cropBoxMovable
 
 - Type: `Boolean`
 - Default: `true`
 
-Enable to rotate the image.
+Enable to move the crop box.
+
+
+### cropBoxResizable
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to resize the crop box.
+
+
+### doubleClickToggle
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to toggle drag mode between "crop" and "move" when double click on the cropper.
 
 
 ### minContainerWidth
@@ -374,6 +390,13 @@ A shortcut of the "zoomin.cropper" event.
 
 A shortcut of the "zoomout.cropper" event.
 
+
+### change
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "change.cropper" event.
 
 
 ## Methods
@@ -489,7 +512,12 @@ Replace the image and rebuild the cropper.
 Destroy the cropper and remove the instance from the image.
 
 
-### getData()
+### getData([rounded])
+
+- **rounded** (optional):
+  - Type: `Boolean`
+  - Default: `false`
+  - Set `true` to get rounded values.
 
 - (return value):
   - Type: `Object`
@@ -509,14 +537,11 @@ Get the cropped area data (base on the original image).
 
 - **data**:
   - Type: `Object`
-  - Properties:
-    - `x`: the offset left of the cropped area
-    - `y`: the offset top of the cropped area
-    - `width`: the width of the cropped area
-    - `height`: the height of the cropped area
-    - `rotate`: the rotated degrees of the image
+  - Properties: See the [`getData`](#getData) method.
 
 Set the cropped area data (base on the original image).
+
+**Note:** Only available in strict mode.
 
 
 ### getContainerData()
@@ -681,7 +706,7 @@ This event fires when the crop box starts to change.
 > Related original events: "mousedown", "touchstart".
 
 ```
-$('img').on('dragstart.cropper', function (e) {
+$().on('dragstart.cropper', function (e) {
   console.log(e.type); // dragstart
   console.log(e.namespace); // cropper
   console.log(e.dragType); // ...
@@ -715,6 +740,10 @@ This event fires when a cropper instance starts to zoom in its canvas.
 
 This event fires when a cropper instance starts to zoom out its canvas.
 
+
+### change.cropper
+
+This event fires when the image or the crop box changed.
 
 
 ## No conflict

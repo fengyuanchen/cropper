@@ -1,6 +1,16 @@
 # Changelog
 
 
+## 0.10.0 (Jun 8, 2015)
+
+- Add three new options: "change", "cropBoxMovable", "doubleClickToggle"
+- Change "movable" option (only for image)
+- Rename "resizable" to "cropBoxResizable"
+- Add one new event: "change.cropper"
+- Locking aspect ratio in "free mode" by holding shift key (#259)
+- Sync drag mode to crop box when it is not movable (#300)
+
+
 ## 0.9.3 (May 10, 2015)
 
 - Add one new option: "data"
