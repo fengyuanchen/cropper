@@ -84,7 +84,7 @@ $('.container > img').cropper({
 
 - The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a visible block element.
 
-- The outputed cropped data bases on the original image size, so you can use them to crop the image directly.
+- The outputted cropped data bases on the original image size, so you can use them to crop the image directly.
 
 - If you try to start cropper on a cross-origin image, please make sure that your browser supports HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes), and your image server supports the `Access-Control-Allow-Origin` option.
 
@@ -196,7 +196,7 @@ Show the dashed lines above the crop box.
 - Type: `Boolean`
 - Default: `true`
 
-Show the withe modal above the crop box (highlight the crop box).
+Show the white modal above the crop box (highlight the crop box).
 
 
 ### autoCrop
@@ -624,7 +624,7 @@ Change the crop box position and size.
 
 - **options** (optional):
   - Type: `Object`
-  - properties
+  - Properties:
     - `width`: the destination width of the output canvas
     - `height`: the destination height of the output canvas
     - `fillColor`: a color to fill any alpha values in the output canvas
@@ -705,13 +705,14 @@ This event fires when the crop box starts to change.
 
 > Related original events: "mousedown", "touchstart".
 
-```
+```js
 $().on('dragstart.cropper', function (e) {
   console.log(e.type); // dragstart
   console.log(e.namespace); // cropper
   console.log(e.dragType); // ...
 });
 ```
+
 
 ### dragmove.cropper
 
@@ -761,7 +762,7 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 
 
 
-## Browser Support
+## Browser support
 
 - Chrome 38+
 - Firefox 33+
