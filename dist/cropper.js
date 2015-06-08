@@ -738,7 +738,7 @@
   prototype.initPreview = function () {
     var url = this.url;
 
-    this.$preview = $(this.options.preview);
+    this.$preview = typeof this.options.preview=='string'?$(this.options.preview):this.options.preview;
     this.$viewBox.html('<img src="' + url + '">');
 
     // Override img element styles
