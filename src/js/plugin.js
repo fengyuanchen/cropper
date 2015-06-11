@@ -12,6 +12,10 @@
           fn;
 
       if (!data) {
+        if (/destroy/.test(options)) {
+          return;
+        }
+
         $this.data('cropper', (data = new Cropper(this, options)));
       }
 
