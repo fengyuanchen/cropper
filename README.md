@@ -764,11 +764,11 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 
 ## Browser support
 
-- Chrome 38+
-- Firefox 33+
+- Chrome (latest 2)
+- Firefox (latest 2)
 - Internet Explorer 8+
-- Opera 25+
-- Safari 5.1+
+- Opera (latest 2)
+- Safari (latest 2)
 
 As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jquery.com/browser-support/).
 
