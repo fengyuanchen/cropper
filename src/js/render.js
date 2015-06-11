@@ -224,13 +224,23 @@
         top: 0
       });
 
-      this.$clone.css({
-        width: image.width,
-        height: image.height,
-        marginLeft: image.left,
-        marginTop: image.top,
-        transform: getRotateValue(image.rotate)
-      });
+      if(this.is_safari){
+	      this.$clone.css({
+	        width: image.width,
+	        height: image.height,
+	        marginLeft: image.left,
+	        marginTop: image.top,
+	        '-webkit-transform': getRotateValue(image.rotate)
+	      });
+      }else{
+    	  this.$clone.css({
+	        width: image.width,
+	        height: image.height,
+	        marginLeft: image.left,
+	        marginTop: image.top,
+	        transform: getRotateValue(image.rotate)
+	      });
+      }
     },
 
     initCropBox: function () {
