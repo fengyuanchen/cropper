@@ -1,3 +1,10 @@
+  function mapDragType(dragType) {
+    if (IS_RTL) {
+      return BIDI_DRAG_TYPES_MAP[dragType] || dragType;
+    }
+    return dragType;
+  }
+
   function isNumber(n) {
     return typeof n === 'number' && !isNaN(n);
   }

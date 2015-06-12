@@ -134,6 +134,11 @@
       degree = num(degree);
 
       if (degree && this.built && !this.disabled && this.options.rotatable) {
+
+        if (IS_RTL) {
+          degree *= -1;
+        }
+
         image.rotate = (image.rotate + degree) % 360;
         this.rotated = true;
         this.renderCanvas(true);

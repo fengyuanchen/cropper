@@ -53,6 +53,7 @@
     "grunt-jscs": "~1.8.0",
     "grunt-newer": "~1.1.0",
     "grunt-replace": "~0.9.2",
+    "grunt-rtlcss": "~1.6.0",
     "load-grunt-tasks": "~3.1.0"
   }
 }

@@ -39,7 +39,7 @@
       range.Y = range.x / aspectRatio;
     }
 
-    switch (dragType) {
+    switch (mapDragType(dragType)) {
       // Move cropBox
       case 'all':
         left += range.x;
@@ -61,7 +61,7 @@
         }
 
         if (width < 0) {
-          dragType = 'w';
+          dragType = mapDragType('w');
           width = 0;
         }
 
@@ -103,7 +103,7 @@
         }
 
         if (width < 0) {
-          dragType = 'e';
+          dragType = mapDragType('e');
           width = 0;
         }
 
@@ -162,14 +162,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'sw';
+          dragType = mapDragType('sw');
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'nw';
+          dragType = mapDragType('nw');
           width = 0;
         } else if (height < 0) {
-          dragType = 'se';
+          dragType = mapDragType('se');
           height = 0;
         }
 
@@ -211,14 +211,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'se';
+          dragType = mapDragType('se');
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'ne';
+          dragType = mapDragType('ne');
           width = 0;
         } else if (height < 0) {
-          dragType = 'sw';
+          dragType = mapDragType('sw');
           height = 0;
         }
 
@@ -257,14 +257,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'ne';
+          dragType = mapDragType('ne');
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'se';
+          dragType = mapDragType('se');
           width = 0;
         } else if (height < 0) {
-          dragType = 'nw';
+          dragType = mapDragType('nw');
           height = 0;
         }
 
@@ -300,14 +300,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'nw';
+          dragType = mapDragType('nw');
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'sw';
+          dragType = mapDragType('sw');
           width = 0;
         } else if (height < 0) {
-          dragType = 'ne';
+          dragType = mapDragType('ne');
           height = 0;
         }
 
@@ -351,17 +351,17 @@
 
           if (range.x > 0) {
             if (range.y > 0) {
-              dragType = 'se';
+              dragType = mapDragType('se');
             } else {
-              dragType = 'ne';
+              dragType = mapDragType('ne');
               top -= height;
             }
           } else {
             if (range.y > 0) {
-              dragType = 'sw';
+              dragType = mapDragType('sw');
               left -= width;
             } else {
-              dragType = 'nw';
+              dragType = mapDragType('nw');
               left -= width;
               top -= height;
             }
