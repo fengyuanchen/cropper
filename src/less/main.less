@@ -5,10 +5,10 @@
   position: relative;
   overflow: hidden;
   .user-select(none);
+  direction: ltr !important; // Ignore global rtl
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
-  direction: ltr !important;
-  
+
   img {
     display: block; // Avoid margin top issue (Occur only when margin-top <= -height)
     image-orientation: 0deg !important; // https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation
