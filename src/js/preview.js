@@ -39,13 +39,23 @@
       return;
     }
 
-    this.$viewBox.find('img').css({
-      width: width,
-      height: height,
-      marginLeft: -left,
-      marginTop: -top,
-      transform: getRotateValue(rotate)
-    });
+    if(this.is_safari){
+	    this.$viewBox.find('img').css({
+	      width: width,
+	      height: height,
+	      marginLeft: -left,
+	      marginTop: -top,
+	      '-webkit-transform': getRotateValue(rotate)
+	    });
+    }else{
+	    this.$viewBox.find('img').css({
+	      width: width,
+	      height: height,
+	      marginLeft: -left,
+	      marginTop: -top,
+	      transform: getRotateValue(rotate)
+	    });
+    }
 
     this.$preview.each(function () {
       var $this = $(this),
@@ -60,12 +70,22 @@
         newHeight = data.height;
       }
 
-      $this.width(newWidth).height(newHeight).find('img').css({
-        width: width * ratio,
-        height: height * ratio,
-        marginLeft: -left * ratio,
-        marginTop: -top * ratio,
-        transform: getRotateValue(rotate)
-      });
+      if(this.is_safari){
+	      $this.width(newWidth).height(newHeight).find('img').css({
+	        width: width * ratio,
+	        height: height * ratio,
+	        marginLeft: -left * ratio,
+	        marginTop: -top * ratio,
+	        '-webkit-transform': getRotateValue(rotate)
+	      });
+      }else{
+	      $this.width(newWidth).height(newHeight).find('img').css({
+	        width: width * ratio,
+	        height: height * ratio,
+	        marginLeft: -left * ratio,
+	        marginTop: -top * ratio,
+	        transform: getRotateValue(rotate)
+	      });
+      }
     });
   };

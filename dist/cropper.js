@@ -173,6 +173,14 @@
   }
 
   function Cropper(element, options) {
+	this.is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
+	this.is_explorer = navigator.userAgent.indexOf('MSIE') > -1;
+	this.is_firefox = navigator.userAgent.indexOf('Firefox') > -1;
+	this.is_safari = navigator.userAgent.indexOf("Safari") > -1;
+	this.is_opera = navigator.userAgent.toLowerCase().indexOf("op") > -1;
+	  if ((this.is_chrome)&&(this.is_safari)) {this.is_safari=false;}
+	  if ((this.is_chrome)&&(this.is_opera)) {this.is_chrome=false;}
+	  
     this.$element = $(element);
     this.options = $.extend({}, Cropper.DEFAULTS, $.isPlainObject(options) && options);
 
@@ -581,13 +589,23 @@
         top: 0
       });
 
-      this.$clone.css({
-        width: image.width,
-        height: image.height,
-        marginLeft: image.left,
-        marginTop: image.top,
-        transform: getRotateValue(image.rotate)
-      });
+      if(this.is_safari){
+	      this.$clone.css({
+	        width: image.width,
+	        height: image.height,
+	        marginLeft: image.left,
+	        marginTop: image.top,
+	        '-webkit-transform': getRotateValue(image.rotate)
+	      });
+      }else{
+    	  this.$clone.css({
+	        width: image.width,
+	        height: image.height,
+	        marginLeft: image.left,
+	        marginTop: image.top,
+	        transform: getRotateValue(image.rotate)
+	      });
+      }
     },
 
     initCropBox: function () {
@@ -775,14 +793,24 @@
     if (!this.cropped || this.disabled) {
       return;
     }
-
-    this.$viewBox.find('img').css({
-      width: width,
-      height: height,
-      marginLeft: -left,
-      marginTop: -top,
-      transform: getRotateValue(rotate)
-    });
+    
+    if(this.is_safari){
+	    this.$viewBox.find('img').css({
+	      width: width,
+	      height: height,
+	      marginLeft: -left,
+	      marginTop: -top,
+	      '-webkit-transform': getRotateValue(rotate)
+	    });
+    }else{
+	    this.$viewBox.find('img').css({
+	      width: width,
+	      height: height,
+	      marginLeft: -left,
+	      marginTop: -top,
+	      transform: getRotateValue(rotate)
+	    });
+    }
 
     this.$preview.each(function () {
       var $this = $(this),
@@ -797,13 +825,23 @@
         newHeight = data.height;
       }
 
-      $this.width(newWidth).height(newHeight).find('img').css({
-        width: width * ratio,
-        height: height * ratio,
-        marginLeft: -left * ratio,
-        marginTop: -top * ratio,
-        transform: getRotateValue(rotate)
-      });
+      if(this.is_safari){
+	      $this.width(newWidth).height(newHeight).find('img').css({
+	        width: width * ratio,
+	        height: height * ratio,
+	        marginLeft: -left * ratio,
+	        marginTop: -top * ratio,
+	        '-webkit-transform': getRotateValue(rotate)
+	      });
+      }else{
+	      $this.width(newWidth).height(newHeight).find('img').css({
+	        width: width * ratio,
+	        height: height * ratio,
+	        marginLeft: -left * ratio,
+	        marginTop: -top * ratio,
+	        transform: getRotateValue(rotate)
+	      });
+      }
     });
   };
 
