@@ -102,6 +102,7 @@
 
     zoom: function (delta) {
       var canvas = this.canvas,
+          imageData = this.image,
           zoomEvent,
           width,
           height;
@@ -117,8 +118,8 @@
         }
 
         delta = delta <= -1 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
-        width = canvas.width * delta;
-        height = canvas.height * delta;
+        width = Math.min(imageData.naturalWidth, canvas.width * delta);
+        height = Math.min(imageData.naturalHeight, canvas.height * delta);
         canvas.left -= (width - canvas.width) / 2;
         canvas.top -= (height - canvas.height) / 2;
         canvas.width = width;
