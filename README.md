@@ -160,11 +160,9 @@ Rebuild the cropper when resize the window.
 - Type: `Boolean`
 - Default: `true`
 
-By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to image url to enable "getCroppedCanvas".
+By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to the image url to reload the image for "getCroppedCanvas".
 
-Added timestamp will reload image to enable "getCroppedCanvas" on cross-origin image.
-
-Adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
+By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
 
 
 ### background
@@ -180,7 +178,7 @@ Show the grid background of the container.
 - Type: `Boolean`
 - Default: `true`
 
-Show the black modal above the crop box.
+Show the black modal above the image and under the crop box.
 
 
 ### guides
