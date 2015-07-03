@@ -33,7 +33,6 @@
     this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
 
     this.init();
-    console.log(this);
   }
 
   CropAvatar.prototype = {
@@ -79,7 +78,7 @@
     initPreview: function () {
       var url = this.$avatar.attr('src');
 
-      this.$avatarPreview.empty().html('<img src="' + url + '">');
+      this.$avatarPreview.html('<img src="' + url + '">');
     },
 
     initIframe: function () {
@@ -215,6 +214,11 @@
 
         this.active = true;
       }
+
+      this.$avatarModal.one('hidden.bs.modal', function () {
+        _this.$avatarPreview.empty();
+        _this.stopCropper();
+      });
     },
 
     stopCropper: function () {
