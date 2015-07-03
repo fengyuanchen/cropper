@@ -27,10 +27,7 @@
   "bugs": {
     "url": "https://github.com/fengyuanchen/cropper/issues"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/fengyuanchen/cropper/blob/master/LICENSE.md"
-  },
+  "license": "MIT",
   "dependencies": {
     "jquery": ">= 1.9.1"
   },
