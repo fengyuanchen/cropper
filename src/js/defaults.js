@@ -26,6 +26,7 @@
 
     modal: true, // Show the black modal
     guides: true, // Show the dashed lines for guiding
+    center: true, // Show the center indicator for guiding
     highlight: true, // Show the white modal to highlight the crop box
     background: true, // Show the grid background
 

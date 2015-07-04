@@ -46,20 +46,24 @@
       $cropBox.addClass(CLASS_HIDDEN);
     }
 
-    if (options.background) {
-      $cropper.addClass(CLASS_BG);
+    if (!options.guides) {
+      $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
+    }
+
+    if (!options.center) {
+      $cropBox.find('.cropper-center').addClass(CLASS_HIDDEN);
+    }
+
+    if (options.cropBoxMovable) {
+      $face.addClass(CLASS_MOVE).data('drag', 'all');
     }
 
     if (!options.highlight) {
       $face.addClass(CLASS_INVISIBLE);
     }
 
-    if (!options.guides) {
-      $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
-    }
-
-    if (options.cropBoxMovable) {
-      $face.addClass(CLASS_MOVE).data('drag', 'all');
+    if (options.background) {
+      $cropper.addClass(CLASS_BG);
     }
 
     if (!options.cropBoxResizable) {

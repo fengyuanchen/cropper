@@ -72,6 +72,38 @@
   }
 }
 
+.cropper-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0;
+  height: 0;
+  .opacity(.75);
+
+  &:before,
+  &:after {
+    position: absolute;
+    display: block;
+    background-color: #fff;
+    content: " ";
+  }
+
+  &:before {
+    top: 0;
+    left: -2px;
+    width: 5px;
+    height: 1px;
+  }
+
+  &:after {
+    top: -2px;
+    left: 0;
+    width: 1px;
+    height: 5px;
+  }
+}
+
 .cropper-face,
 .cropper-line,
 .cropper-point {
