@@ -101,7 +101,7 @@ $('.container > img').cropper({
 
 - About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation in server first before to use cropper.
 
-- [Known iOS Resource Limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices has limited memory, the browser may crash when you are cropping an large Image (IPhone camera resolution). To avoid this, you may resize the image first before start a cropper.
+- [Known iOS Resource Limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices has limited memory, the browser may crash when you are cropping an large Image (IPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
 
 
 
