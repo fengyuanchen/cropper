@@ -55,9 +55,17 @@ Include files:
 <script src="/path/to/cropper.js"></script>
 ```
 
-#### CDN
+#### [CDNJS](https://cdnjs.com/)
 
-The [cdnjs.com](https://cdnjs.com/) provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
+The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
+
+
+#### [RawGit](https://rawgit.com/)
+
+```html
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.0/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.0/dist/cropper.min.js"></script>
+```
 
 
 ### Usage
@@ -395,6 +403,7 @@ A shortcut of the "zoomout.cropper" event.
 - Default: `null`
 
 A shortcut of the "change.cropper" event.
+
 
 
 ## Methods
@@ -743,6 +752,7 @@ This event fires when a cropper instance starts to zoom out its canvas.
 ### change.cropper
 
 This event fires when the image or the crop box changed.
+
 
 
 ## No conflict
