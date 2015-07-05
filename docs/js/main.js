@@ -234,7 +234,26 @@ $(function () {
       canvasData = $image.cropper('getCanvasData');
       $image.cropper('destroy');
     });
+  })();
 
+
+  // Example 3
+  (function () {
+    var $image = $('.cropper-example-3 > img'),
+        replaced;
+
+    $image.cropper();
+
+    $('#replace-toggle').click(function () {
+      var url = '../assets/img/picture-2.jpg';
+
+      if (replaced) {
+        url = '../assets/img/picture.jpg';
+      }
+
+      $image.cropper('replace', url);
+      replaced = !replaced;
+    });
   })();
 
 });

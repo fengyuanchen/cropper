@@ -42,6 +42,7 @@ $(function () {
 
           // modal: false,
           // guides: false,
+          // center: false,
           // highlight: false,
           // background: false,
 

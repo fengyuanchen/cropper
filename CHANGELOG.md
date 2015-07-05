@@ -1,6 +1,14 @@
 # Changelog
 
 
+## 0.10.1 (Jul 5, 2015)
+
+- Add Pointer Events support (#328)
+- Add RTL support (#342)
+- Add one new option: "center" (#367)
+- Allow cropper to grow vertically (#350)
+
+
 ## 0.10.0 (Jun 8, 2015)
 
 - Add three new options: "change", "cropBoxMovable", "doubleClickToggle"

@@ -448,8 +448,14 @@ body {
   }
 }
 
-.cropper-example-1 > img {
+.cropper-example-1 > img,
+.cropper-example-3 > img {
   max-width: 100%;
+}
+
+.cropper-example-3 {
+  width: 100%;
+  margin-top: 15px;
 }
 
 

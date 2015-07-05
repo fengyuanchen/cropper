@@ -63,8 +63,8 @@ The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find th
 #### [RawGit](https://rawgit.com/)
 
 ```html
-<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.0/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.0/dist/cropper.min.js"></script>
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.1/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.1/dist/cropper.min.js"></script>
 ```
 
 
@@ -175,14 +175,6 @@ By default, the plugin will check the image origin, and if it is a cross-origin 
 By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
 
 
-### background
-
-- Type: `Boolean`
-- Default: `true`
-
-Show the grid background of the container.
-
-
 ### modal
 
 - Type: `Boolean`
@@ -199,12 +191,28 @@ Show the black modal above the image and under the crop box.
 Show the dashed lines above the crop box.
 
 
+### center
+
+- Type: `Boolean`
+- Default: `true`
+
+Show the center indicator above the crop box.
+
+
 ### highlight
 
 - Type: `Boolean`
 - Default: `true`
 
 Show the white modal above the crop box (highlight the crop box).
+
+
+### background
+
+- Type: `Boolean`
+- Default: `true`
+
+Show the grid background of the container.
 
 
 ### autoCrop
