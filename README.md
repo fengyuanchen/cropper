@@ -547,7 +547,7 @@ Destroy the cropper and remove the instance from the image.
 
 Get the cropped area data (base on the original image).
 
-![a schematic diagram of data's properties](assets/img/data.png)
+![a schematic diagram of data's properties](assets/img/data.jpg)
 
 
 ### setData(data)
@@ -570,6 +570,8 @@ Set the cropped area data (base on the original image).
     - `height`: the current height of the container
 
 Output the container size data.
+
+![a schematic diagram of cropper's layers](assets/img/layers.jpg)
 
 
 ### getImageData()
