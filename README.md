@@ -16,6 +16,7 @@
 - Supports [methods](#methods)
 - Supports [events](#events)
 - Supports multiple croppers
+- Supports RTL
 - Cross-browser support
 
 
