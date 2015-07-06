@@ -245,10 +245,10 @@ $(function () {
     $image.cropper();
 
     $('#replace-toggle').click(function () {
-      var url = '../assets/img/picture-2.jpg';
+      var url = 'img/picture-2.jpg';
 
       if (replaced) {
-        url = '../assets/img/picture.jpg';
+        url = 'img/picture.jpg';
       }
 
       $image.cropper('replace', url);
