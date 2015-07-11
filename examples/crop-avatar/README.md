@@ -15,3 +15,23 @@ A complete example of Cropper.
 - Internet Explorer 8+
 - Opera (latest 2)
 - Safari (latest 2)
+
+
+## FAQ
+
+### How to debug the example page with browsers?
+
+Take Chrome for example:
+
+1. Open the example page on **Chrome**.
+2. Open the **Developer Tools** of the browser.
+  1. Choose the **Network** panel from the opened window.
+  2. Click the **Clear** button to clear the existent logs.
+3. Click avatar to open the cropping modal.
+  1. Click the file input to choose an image from your local computer.
+  2. Crop the image with the Cropper.
+4. Click the **Save** button to upload and crop the image.
+5. Check the **Network** panel if you got a `parse error`.
+  1. Click the `crop.php` request item from the **Name** column of the panel.
+  2. Click the **Preview** panel from the opened window.
+  3. Find the error from the response.
