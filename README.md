@@ -723,7 +723,7 @@ This event fires when a cropper instance has built completely.
 
 This event fires when the crop box starts to change.
 
-> Related original events: "mousedown", "touchstart".
+> Related original events: "mousedown", "touchstart" and "pointerdown".
 
 ```js
 $().on('dragstart.cropper', function (e) {
@@ -740,7 +740,7 @@ $().on('dragstart.cropper', function (e) {
 
 This event fires when the crop box is changing.
 
-> Related original events: "mousemove", "touchmove".
+> Related original events: "mousemove", "touchmove" and "pointermove".
 
 
 ### dragend.cropper
@@ -749,7 +749,7 @@ This event fires when the crop box is changing.
 
 This event fires when the crop box stops to change.
 
-> Related original events: "mouseup", "mouseleave", "touchend", "touchleave", "touchcancel".
+> Related original events: "mouseup", "touchend", "touchcancel", "pointerup" and "pointercancel".
 
 
 ### zoomin.cropper
