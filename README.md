@@ -669,6 +669,26 @@ $().cropper('getCroppedCanvas', {
   width: 160,
   height: 90
 });
+
+// Upload cropped image to server
+$().cropper('getCroppedCanvas').toBlob(function (blob) {
+  var formData = new FormData();
+
+  formData.append('croppedImage', blob);
+
+  $.ajax('/path/to/upload', {
+    method: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function () {
+      console.log('Upload success');
+    },
+    error: function () {
+      console.log('Upload error');
+    }
+  });
+});
 ```
 
 ### setAspectRatio(aspectRatio)
