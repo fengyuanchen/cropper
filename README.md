@@ -419,7 +419,7 @@ A shortcut of the "change.cropper" event.
 
 ## Methods
 
-As there is a asynchronous process when load the image, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
+As there is an asynchronous process when load the image, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
 
 ```js
 $().cropper({
@@ -717,7 +717,7 @@ Change the drag mode.
 
 ### build.cropper
 
-This event fires when a cropper instance starts to load a image.
+This event fires when a cropper instance starts to load an image.
 
 
 ### built.cropper
