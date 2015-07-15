@@ -1,3 +1,23 @@
+  prototype.init = function () {
+    var $this = this.$element,
+        url;
+
+    if ($this.is('img')) {
+      this.isImg = true;
+      this.originalUrl = url = $this.attr('src'); // e.g.: "img/picture.jpg"
+
+      if (!url) { // Blank image
+        return;
+      }
+
+      url = $this.prop('src'); // e.g.: "http://example.com/img/picture.jpg"
+    } else if ($this.is('canvas') && SUPPORT_CANVAS) {
+      url = $this[0].toDataURL();
+    }
+
+    this.load(url);
+  };
+
   prototype.load = function (url) {
     var options = this.options,
         $this = this.$element,
@@ -5,18 +25,6 @@
         bustCacheUrl,
         buildEvent,
         $clone;
-
-    if (!url) {
-      if ($this.is('img')) {
-        if (!$this.attr('src')) {
-          return;
-        }
-
-        url = $this.prop('src');
-      } else if ($this.is('canvas') && SUPPORT_CANVAS) {
-        url = $this[0].toDataURL();
-      }
-    }
 
     if (!url) {
       return;

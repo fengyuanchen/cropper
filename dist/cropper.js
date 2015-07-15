@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.10.0
+ * Cropper v0.10.1
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright (c) 2014-2015 Fengyuan Chen and other contributors
+ * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-06-08T14:57:26.353Z
+ * Date: 2015-07-05T10:44:58.203Z
  */
 
 (function (factory) {
@@ -45,9 +45,9 @@
       CLASS_BG = 'cropper-bg',
 
       // Events
-      EVENT_MOUSE_DOWN = 'mousedown touchstart',
-      EVENT_MOUSE_MOVE = 'mousemove touchmove',
-      EVENT_MOUSE_UP = 'mouseup mouseleave touchend touchleave touchcancel',
+      EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown',
+      EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove',
+      EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel',
       EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll',
       EVENT_DBLCLICK = 'dblclick',
       EVENT_RESIZE = 'resize' + CROPPER_NAMESPACE, // Bind to window with namespace
@@ -181,11 +181,34 @@
     this.rotated = false;
     this.cropped = false;
     this.disabled = false;
+    this.replaced = false;
+    this.isImg = false;
+    this.originalUrl = '';
     this.canvas = null;
     this.cropBox = null;
 
-    this.load();
+    this.init();
   }
+
+  prototype.init = function () {
+    var $this = this.$element,
+        url;
+
+    if ($this.is('img')) {
+      this.isImg = true;
+      this.originalUrl = url = $this.attr('src'); // e.g.: "img/picture.jpg"
+
+      if (!url) { // Blank image
+        return;
+      }
+
+      url = $this.prop('src'); // e.g.: "http://example.com/img/picture.jpg"
+    } else if ($this.is('canvas') && SUPPORT_CANVAS) {
+      url = $this[0].toDataURL();
+    }
+
+    this.load(url);
+  };
 
   prototype.load = function (url) {
     var options = this.options,
@@ -194,18 +217,6 @@
         bustCacheUrl,
         buildEvent,
         $clone;
-
-    if (!url) {
-      if ($this.is('img')) {
-        if (!$this.attr('src')) {
-          return;
-        }
-
-        url = $this.prop('src');
-      } else if ($this.is('canvas') && SUPPORT_CANVAS) {
-        url = $this[0].toDataURL();
-      }
-    }
 
     if (!url) {
       return;
@@ -300,20 +311,24 @@
       $cropBox.addClass(CLASS_HIDDEN);
     }
 
-    if (options.background) {
-      $cropper.addClass(CLASS_BG);
+    if (!options.guides) {
+      $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
+    }
+
+    if (!options.center) {
+      $cropBox.find('.cropper-center').addClass(CLASS_HIDDEN);
+    }
+
+    if (options.cropBoxMovable) {
+      $face.addClass(CLASS_MOVE).data('drag', 'all');
     }
 
     if (!options.highlight) {
       $face.addClass(CLASS_INVISIBLE);
     }
 
-    if (!options.guides) {
-      $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
-    }
-
-    if (options.cropBoxMovable) {
-      $face.addClass(CLASS_MOVE).data('drag', 'all');
+    if (options.background) {
+      $cropper.addClass(CLASS_BG);
     }
 
     if (!options.cropBoxResizable) {
@@ -1162,6 +1177,10 @@
       var $this = this.$element;
 
       if (this.ready) {
+        if (this.isImg) {
+          $this.attr('src', this.originalUrl);
+        }
+
         this.unbuild();
         $this.removeClass(CLASS_HIDDEN);
       } else if (this.$clone) {
@@ -1173,6 +1192,10 @@
 
     replace: function (url) {
       if (!this.disabled && url) {
+        if (this.isImg) {
+          this.$element.attr('src', url);
+        }
+
         this.options.data = null; // Remove previous data
         this.load(url);
       }
@@ -1990,6 +2013,7 @@
 
     modal: true, // Show the black modal
     guides: true, // Show the dashed lines for guiding
+    center: true, // Show the center indicator for guiding
     highlight: true, // Show the white modal to highlight the crop box
     background: true, // Show the grid background
 
@@ -2033,7 +2057,7 @@
     return source.replace(/\d+/g, function (i) {
       return words[i];
     });
-  })('<0 6="5-container"><0 6="5-canvas"></0><0 6="5-2-9"></0><0 6="5-crop-9"><1 6="5-view-9"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-face"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>', 'div,span,drag,data,point,cropper,class,line,dashed,box');
+  })('<0 6="5-container"><0 6="5-canvas"></0><0 6="5-2-9"></0><0 6="5-crop-9"><1 6="5-view-9"></1><1 6="5-8 8-h"></1><1 6="5-8 8-v"></1><1 6="5-center"></1><1 6="5-face"></1><1 6="5-7 7-e" 3-2="e"></1><1 6="5-7 7-n" 3-2="n"></1><1 6="5-7 7-w" 3-2="w"></1><1 6="5-7 7-s" 3-2="s"></1><1 6="5-4 4-e" 3-2="e"></1><1 6="5-4 4-n" 3-2="n"></1><1 6="5-4 4-w" 3-2="w"></1><1 6="5-4 4-s" 3-2="s"></1><1 6="5-4 4-ne" 3-2="ne"></1><1 6="5-4 4-nw" 3-2="nw"></1><1 6="5-4 4-sw" 3-2="sw"></1><1 6="5-4 4-se" 3-2="se"></1></0></0>', 'div,span,drag,data,point,cropper,class,line,dashed,box');
 
   /* Template source:
   <div class="cropper-container">
@@ -2043,6 +2067,7 @@
       <span class="cropper-view-box"></span>
       <span class="cropper-dashed dashed-h"></span>
       <span class="cropper-dashed dashed-v"></span>
+      <span class="cropper-center"></span>
       <span class="cropper-face"></span>
       <span class="cropper-line line-e" data-drag="e"></span>
       <span class="cropper-line line-n" data-drag="n"></span>
@@ -2074,6 +2099,10 @@
           fn;
 
       if (!data) {
+        if (/destroy/.test(options)) {
+          return;
+        }
+
         $this.data('cropper', (data = new Cropper(this, options)));
       }
 

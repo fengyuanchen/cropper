@@ -179,13 +179,23 @@ $(function () {
 
     // Options
     $('.docs-options :checkbox').on('change', function () {
-      var $this = $(this);
+      var $this = $(this),
+          cropBoxData,
+          canvasData;
 
       if (!$image.data('cropper')) {
         return;
       }
 
       options[$this.val()] = $this.prop('checked');
+
+      cropBoxData = $image.cropper('getCropBoxData');
+      canvasData = $image.cropper('getCanvasData');
+      options.built = function () {
+        $image.cropper('setCropBoxData', cropBoxData);
+        $image.cropper('setCanvasData', canvasData);
+      };
+
       $image.cropper('destroy').cropper(options);
     });
 
@@ -234,7 +244,26 @@ $(function () {
       canvasData = $image.cropper('getCanvasData');
       $image.cropper('destroy');
     });
+  })();
 
+
+  // Example 3
+  (function () {
+    var $image = $('.cropper-example-3 > img'),
+        replaced;
+
+    $image.cropper();
+
+    $('#replace-toggle').click(function () {
+      var url = 'img/picture-2.jpg';
+
+      if (replaced) {
+        url = 'img/picture.jpg';
+      }
+
+      $image.cropper('replace', url);
+      replaced = !replaced;
+    });
   })();
 
 });

@@ -42,6 +42,7 @@ $(function () {
 
           // modal: false,
           // guides: false,
+          // center: false,
           // highlight: false,
           // background: false,
 
@@ -217,13 +218,23 @@ $(function () {
 
     // Options
     $('.docs-options :checkbox').on('change', function () {
-      var $this = $(this);
+      var $this = $(this),
+          cropBoxData,
+          canvasData;
 
       if (!$image.data('cropper')) {
         return;
       }
 
       options[$this.val()] = $this.prop('checked');
+
+      cropBoxData = $image.cropper('getCropBoxData');
+      canvasData = $image.cropper('getCanvasData');
+      options.built = function () {
+        $image.cropper('setCropBoxData', cropBoxData);
+        $image.cropper('setCanvasData', canvasData);
+      };
+
       $image.cropper('destroy').cropper(options);
     });
 

@@ -60,6 +60,10 @@
       var $this = this.$element;
 
       if (this.ready) {
+        if (this.isImg) {
+          $this.attr('src', this.originalUrl);
+        }
+
         this.unbuild();
         $this.removeClass(CLASS_HIDDEN);
       } else if (this.$clone) {
@@ -71,6 +75,10 @@
 
     replace: function (url) {
       if (!this.disabled && url) {
+        if (this.isImg) {
+          this.$element.attr('src', url);
+        }
+
         this.options.data = null; // Remove previous data
         this.load(url);
       }

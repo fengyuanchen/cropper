@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A simple jQuery image cropping plugin.">
   <meta name="keywords" content="HTML, CSS, JS, JavaScript, jQuery plugin, image cropping, front-end, frontend, web development">
@@ -12,7 +12,6 @@
   <link href="favicon.ico" rel="shortcut icon">
   <link href="favicon.ico" rel="icon">
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-  <link href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.css" rel="stylesheet">
   <link href="css/cropper.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
 
@@ -50,7 +49,7 @@
   <!-- Jumbotron -->
   <div class="jumbotron docs-jumbotron">
     <div class="container">
-      <h1>Cropper <small class="version">v0.10.0</small></h1>
+      <h1>Cropper <small class="version">v0.10.1</small></h1>
       <p class="lead">A simple jQuery image cropping plugin.</p>
       <div class="docs-carbonads-container">
         <div class="docs-carbonads">
@@ -275,7 +274,7 @@
                 <h4 class="modal-title" id="diagramTitle">Diagram of data's properties</h4>
               </div>
               <div class="modal-body">
-                <img class="img-responsive" src="img/data.png" alt="a schematic diagram of data's properties">
+                <img class="img-responsive" src="img/data.jpg" alt="a schematic diagram of data's properties">
               </div>
               <!-- <div class="modal-footer">
                 <button class="btn btn-primary" data-dismiss="modal" type="button">Close</button>
@@ -356,6 +355,12 @@
               <label class="checkbox-inline">
                 <input type="checkbox" name="option" value="guides" checked>
                 guides
+              </label>
+            </li>
+            <li role="presentation">
+              <label class="checkbox-inline">
+                <input type="checkbox" name="option" value="center" checked>
+                center
               </label>
             </li>
             <li role="presentation">
@@ -574,6 +579,50 @@ $('#cropper-example-2-modal').on('shown.bs.modal', function () {
     </div>
 
     <!-- Example 3 -->
+    <h3 class="page-header">Cropper with responsive container.</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Demo:</h5>
+        <button class="btn btn-primary" id="replace-toggle" type="button">Toggle</button>
+        <div class="cropper-example-3">
+          <img class="img-responsive" src="img/picture.jpg" alt="Picture">
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h5>HTML:</h5>
+        <pre class="prettyprint">&lt;button class=&quot;btn btn-primary&quot; id=&quot;replace-toggle&quot; type=&quot;button&quot;&gt;Toggle&lt;/button&gt;
+&lt;div class=&quot;cropper-example-3&quot;&gt;
+  &lt;img src=&quot;img/picture.jpg&quot; alt=&quot;Picture&quot;&gt;
+&lt;/div&gt;</pre>
+        <h5>CSS:</h5>
+        <pre class="prettyprint">.cropper-example-3 {
+  width: 100%;
+}
+.cropper-example-3 &gt; img {
+  max-width: 100%;
+}</pre>
+      </div>
+      <div class="col-sm-4">
+        <h5>JavaScript:</h5>
+        <pre class="prettyprint">var $image = $('.cropper-example-3 &gt; img'),
+    replaced;
+
+$image.cropper();
+
+$('#replace-toggle').click(function () {
+  var url = 'img/picture-2.jpg';
+
+  if (replaced) {
+    url = 'img/picture.jpg';
+  }
+
+  $image.cropper('replace', url);
+  replaced = !replaced;
+});</pre>
+      </div>
+    </div>
+
+    <!-- Example 4 -->
     <h3 class="page-header">Crop avatar <small>A complete example</small></h3>
     <p>This example requires a <strong>PHP</strong> server to upload and crop image. Please download and test it.</p>
     <div class="docs-buttons">
@@ -596,14 +645,11 @@ $('#cropper-example-2-modal').on('shown.bs.modal', function () {
     </div>
   </footer>
 
-  <!-- Alert -->
-  <div class="docs-alert"><span class="warning message"></span></div>
-
   <!-- Scripts -->
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
-  <script src="//fengyuanchen.github.io/assets/js/main.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  <script src="//fengyuanchen.github.io/js/main.js"></script>
   <script src="js/cropper.min.js"></script>
   <script src="js/main.js"></script>
 </body>

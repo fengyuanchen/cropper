@@ -16,6 +16,7 @@
 - Supports [methods](#methods)
 - Supports [events](#events)
 - Supports multiple croppers
+- Supports RTL
 - Cross-browser support
 
 
@@ -24,9 +25,9 @@
 
 ```
 dist/
-├── cropper.css     ( 5 KB)
-├── cropper.min.css ( 4 KB)
-├── cropper.js      (56 KB)
+├── cropper.css     ( 6 KB)
+├── cropper.min.css ( 5 KB)
+├── cropper.js      (59 KB)
 └── cropper.min.js  (22 KB)
 ```
 
@@ -55,9 +56,17 @@ Include files:
 <script src="/path/to/cropper.js"></script>
 ```
 
-#### CDN
+#### [CDNJS](https://cdnjs.com/)
 
-The [cdnjs.com](https://cdnjs.com/) provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
+The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
+
+
+#### [RawGit](https://rawgit.com/)
+
+```html
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.1/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.1/dist/cropper.min.js"></script>
+```
 
 
 ### Usage
@@ -92,6 +101,8 @@ $('.container > img').cropper({
 #### Known issues
 
 - About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation in server first before to use cropper.
+
+- [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
 
 
 
@@ -160,19 +171,9 @@ Rebuild the cropper when resize the window.
 - Type: `Boolean`
 - Default: `true`
 
-By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to image url to enable "getCroppedCanvas".
+By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to the image url to reload the image for "getCroppedCanvas".
 
-Added timestamp will reload image to enable "getCroppedCanvas" on cross-origin image.
-
-Adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
-
-
-### background
-
-- Type: `Boolean`
-- Default: `true`
-
-Show the grid background of the container.
+By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
 
 
 ### modal
@@ -180,7 +181,7 @@ Show the grid background of the container.
 - Type: `Boolean`
 - Default: `true`
 
-Show the black modal above the crop box.
+Show the black modal above the image and under the crop box.
 
 
 ### guides
@@ -191,12 +192,28 @@ Show the black modal above the crop box.
 Show the dashed lines above the crop box.
 
 
+### center
+
+- Type: `Boolean`
+- Default: `true`
+
+Show the center indicator above the crop box.
+
+
 ### highlight
 
 - Type: `Boolean`
 - Default: `true`
 
 Show the white modal above the crop box (highlight the crop box).
+
+
+### background
+
+- Type: `Boolean`
+- Default: `true`
+
+Show the grid background of the container.
 
 
 ### autoCrop
@@ -399,9 +416,10 @@ A shortcut of the "zoomout.cropper" event.
 A shortcut of the "change.cropper" event.
 
 
+
 ## Methods
 
-As there is a asynchronous process when load the image, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
+As there is an asynchronous process when load the image, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
 
 ```js
 $().cropper({
@@ -530,7 +548,7 @@ Destroy the cropper and remove the instance from the image.
 
 Get the cropped area data (base on the original image).
 
-![a schematic diagram of data's properties](assets/img/data.png)
+![a schematic diagram of data's properties](assets/img/data.jpg)
 
 
 ### setData(data)
@@ -553,6 +571,8 @@ Set the cropped area data (base on the original image).
     - `height`: the current height of the container
 
 Output the container size data.
+
+![a schematic diagram of cropper's layers](assets/img/layers.jpg)
 
 
 ### getImageData()
@@ -640,7 +660,7 @@ Change the crop box position and size.
 
 Get a canvas drawn the cropped image.
 
-> After then, you can display the canvas as an image directly, or use [canvas.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en/XMLHttpRequest/FormData) if the browser supports these APIs.
+> After then, you can display the canvas as an image directly, or use [canvas.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
 
 ```js
 $().cropper('getCroppedCanvas')
@@ -648,6 +668,26 @@ $().cropper('getCroppedCanvas')
 $().cropper('getCroppedCanvas', {
   width: 160,
   height: 90
+});
+
+// Upload cropped image to server
+$().cropper('getCroppedCanvas').toBlob(function (blob) {
+  var formData = new FormData();
+
+  formData.append('croppedImage', blob);
+
+  $.ajax('/path/to/upload', {
+    method: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function () {
+      console.log('Upload success');
+    },
+    error: function () {
+      console.log('Upload error');
+    }
+  });
 });
 ```
 
@@ -677,7 +717,7 @@ Change the drag mode.
 
 ### build.cropper
 
-This event fires when a cropper instance starts to load a image.
+This event fires when a cropper instance starts to load an image.
 
 
 ### built.cropper
@@ -703,7 +743,7 @@ This event fires when a cropper instance has built completely.
 
 This event fires when the crop box starts to change.
 
-> Related original events: "mousedown", "touchstart".
+> Related original events: "mousedown", "touchstart" and "pointerdown".
 
 ```js
 $().on('dragstart.cropper', function (e) {
@@ -720,7 +760,7 @@ $().on('dragstart.cropper', function (e) {
 
 This event fires when the crop box is changing.
 
-> Related original events: "mousemove", "touchmove".
+> Related original events: "mousemove", "touchmove" and "pointermove".
 
 
 ### dragend.cropper
@@ -729,7 +769,7 @@ This event fires when the crop box is changing.
 
 This event fires when the crop box stops to change.
 
-> Related original events: "mouseup", "mouseleave", "touchend", "touchleave", "touchcancel".
+> Related original events: "mouseup", "touchend", "touchcancel", "pointerup" and "pointercancel".
 
 
 ### zoomin.cropper
@@ -745,6 +785,7 @@ This event fires when a cropper instance starts to zoom out its canvas.
 ### change.cropper
 
 This event fires when the image or the crop box changed.
+
 
 
 ## No conflict
