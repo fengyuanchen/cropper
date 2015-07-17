@@ -107,8 +107,8 @@
 
         this.dragType = dragType;
         this.cropping = false;
-        this.startX = e.pageX;
-        this.startY = e.pageY;
+        this.startX = e.originalEvent ? e.originalEvent.pageX : e.pageX;
+        this.startY = e.originalEvent ? e.originalEvent.pageY : e.pageY;
 
         if (dragType === 'crop') {
           this.cropping = true;
@@ -160,8 +160,8 @@
           return;
         }
 
-        this.endX = e.pageX;
-        this.endY = e.pageY;
+        this.endX = e.originalEvent ? e.originalEvent.pageX : e.pageX;
+        this.endY = e.originalEvent ? e.originalEvent.pageY : e.pageY;
 
         this.change(e.shiftKey);
       }
