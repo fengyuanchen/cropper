@@ -287,8 +287,8 @@
     setCropBoxData: function (data) {
       var cropBox = this.cropBox,
           aspectRatio = this.options.aspectRatio,
-          widthChanged = false,
-          heightChanged = false;
+          widthChanged,
+          heightChanged;
 
       if (this.built && this.cropped && !this.disabled && $.isPlainObject(data)) {
 
@@ -300,22 +300,20 @@
           cropBox.top = data.top;
         }
 
-        if (isNumber(data.width)) {
-          widthChanged = (cropBox.width - data.width) != 0;
+        if (isNumber(data.width) && data.width !== cropBox.width) {
+          widthChanged = true;
           cropBox.width = data.width;
         }
 
-        if (isNumber(data.height)) {
-          heightChanged = (cropBox.height - data.height) != 0;
+        if (isNumber(data.height) && data.height !== cropBox.height) {
+          heightChanged = true;
           cropBox.height = data.height;
         }
 
         if (aspectRatio) {
           if (widthChanged) {
             cropBox.height = cropBox.width / aspectRatio;
-          }
-
-          if (heightChanged) {
+          } else if (heightChanged) {
             cropBox.width = cropBox.height * aspectRatio;
           }
         }
