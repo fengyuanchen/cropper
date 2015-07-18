@@ -34,3 +34,10 @@ Go to the [Cropper issue tracker](https://github.com/fengyuanchen/cropper/issues
 ### Browser support
 
 Remember that Cropper supports multiple browsers and their versions; any contributed code must work in all of them. You can refer to the [browser support page](https://github.com/fengyuanchen/cropper#browser-support) for the current list of supported browsers.
+
+
+
+## Notes for pull request
+
+- Keep the same code style.
+- Don't change the files of the `dist` directory.
