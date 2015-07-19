@@ -35,3 +35,8 @@ Take Chrome for example:
   1. Click the `crop.php` request item from the **Name** column of the panel.
   2. Click the **Preview** panel from the opened window.
   3. Find the error from the response.
+
+
+### How to do when I got an `Unknown upload error`?
+
+You might upload a huge image, just configure the `upload_max_filesize` and `post_max_size` of your `php.ini` file.
