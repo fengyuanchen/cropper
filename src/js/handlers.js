@@ -63,11 +63,10 @@
       var options = this.options,
           originalEvent = event.originalEvent,
           touches = originalEvent && originalEvent.touches,
-          e = event,
+          e = event.originalEvent || event,
           dragType,
           dragStartEvent,
           touchesLength;
-
       if (this.disabled) {
         return;
       }
@@ -121,7 +120,7 @@
       var options = this.options,
           originalEvent = event.originalEvent,
           touches = originalEvent && originalEvent.touches,
-          e = event,
+          e = event.originalEvent || event,
           dragType = this.dragType,
           dragMoveEvent,
           touchesLength;
