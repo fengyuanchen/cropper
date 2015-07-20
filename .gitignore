@@ -1,5 +1,6 @@
 # Files to ignore
 
+.DS_Store
 node_modules
 bower_components
 *.map
