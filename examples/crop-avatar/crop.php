@@ -2,7 +2,6 @@
   class CropAvatar {
     private $src;
     private $data;
-    private $file;
     private $dst;
     private $type;
     private $extension;
