@@ -39,4 +39,4 @@ Take Chrome for example:
 
 ### How to do when I got an `Unknown upload error`?
 
-You might upload a huge image, just configure the `upload_max_filesize` and `post_max_size` of your `php.ini` file.
+You might upload a huge image, just configure the `upload_max_filesize`, `post_max_size` and `memory_limit` of your `php.ini` file.
