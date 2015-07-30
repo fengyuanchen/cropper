@@ -63,7 +63,7 @@
       var options = this.options,
           originalEvent = event.originalEvent,
           touches = originalEvent && originalEvent.touches,
-          e = event,
+          e = originalEvent || event,
           dragType,
           dragStartEvent,
           touchesLength;
@@ -121,7 +121,7 @@
       var options = this.options,
           originalEvent = event.originalEvent,
           touches = originalEvent && originalEvent.touches,
-          e = event,
+          e = originalEvent || event,
           dragType = this.dragType,
           dragMoveEvent,
           touchesLength;
