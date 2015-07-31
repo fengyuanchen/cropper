@@ -124,7 +124,7 @@
           return;
         }
 
-        delta = delta <= -1 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
+        delta = delta < -1 ? 1 / (-delta) : delta <= 0 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
         width = canvas.width * delta;
         height = canvas.height * delta;
         canvas.left -= (width - canvas.width) / 2;
