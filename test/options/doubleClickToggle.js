@@ -13,7 +13,7 @@ $(function () {
       QUnit.test('options.doubleClickToggle', function (assert) {
         cropper.$cropper.trigger('dblclick');
         assert.ok(cropper.$dragBox.hasClass('cropper-crop'));
-        assert.equal(cropper.$dragBox.data('drag'), 'crop');
+        assert.equal(cropper.$dragBox.data('type'), 'crop');
       });
 
     }
