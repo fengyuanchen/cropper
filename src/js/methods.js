@@ -70,7 +70,7 @@
         this.$clone.remove();
       }
 
-      $this.removeData('cropper');
+      $this.removeData(NAMESPACE);
     },
 
     replace: function (url) {

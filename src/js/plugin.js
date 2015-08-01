@@ -8,7 +8,7 @@
 
     this.each(function () {
       var $this = $(this),
-          data = $this.data('cropper'),
+          data = $this.data(NAMESPACE),
           fn;
 
       if (!data) {
@@ -16,7 +16,7 @@
           return;
         }
 
-        $this.data('cropper', (data = new Cropper(this, options)));
+        $this.data(NAMESPACE, (data = new Cropper(this, options)));
       }
 
       if (typeof options === 'string' && $.isFunction((fn = data[options]))) {

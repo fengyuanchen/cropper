@@ -9,7 +9,7 @@
     this.$preview.each(function () {
       var $this = $(this);
 
-      $this.data(CROPPER_PREVIEW, {
+      $this.data(PREVIEW, {
         width: $this.width(),
         height: $this.height(),
         original: $this.html()
@@ -21,7 +21,7 @@
     this.$preview.each(function () {
       var $this = $(this);
 
-      $this.html($this.data(CROPPER_PREVIEW).original).removeData(CROPPER_PREVIEW);
+      $this.html($this.data(PREVIEW).original).removeData(PREVIEW);
     });
   };
 
@@ -49,7 +49,7 @@
 
     this.$preview.each(function () {
       var $this = $(this),
-          data = $this.data(CROPPER_PREVIEW),
+          data = $this.data(PREVIEW),
           ratio = data.width / cropBox.width,
           newWidth = data.width,
           newHeight = cropBox.height * ratio;
