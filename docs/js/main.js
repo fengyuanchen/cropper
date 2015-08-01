@@ -249,19 +249,24 @@ $(function () {
 
   // Example 3
   (function () {
-    var $image = $('.cropper-example-3 > img'),
-        replaced;
+    var $image = $('.cropper-example-3 > img');
+    var $toggle = $('#replace-toggle');
+    var originalText = $toggle.text();
+    var replaced;
 
     $image.cropper();
 
-    $('#replace-toggle').click(function () {
-      var url = 'img/picture-2.jpg';
-
-      if (replaced) {
-        url = 'img/picture.jpg';
+    $toggle.click(function () {
+      if ($toggle.prop('disabled')) {
+        return;
       }
 
-      $image.cropper('replace', url);
+      $toggle.text('loading').prop('disabled', true);
+
+      $image.one('built.cropper', function () {
+        $toggle.text(originalText).prop('disabled', false);
+      }).cropper('replace', replaced ? 'img/picture.jpg' : 'img/picture-2.jpg');
+
       replaced = !replaced;
     });
   })();
