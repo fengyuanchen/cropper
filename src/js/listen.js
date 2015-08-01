@@ -1,7 +1,7 @@
   prototype.addListeners = function () {
-    var options = this.options,
-        $this = this.$element,
-        $cropper = this.$cropper;
+    var options = this.options;
+    var $this = this.$element;
+    var $cropper = this.$cropper;
 
     if ($.isFunction(options.dragstart)) {
       $this.on(EVENT_DRAG_START, options.dragstart);
@@ -45,9 +45,9 @@
   };
 
   prototype.removeListeners = function () {
-    var options = this.options,
-        $this = this.$element,
-        $cropper = this.$cropper;
+    var options = this.options;
+    var $this = this.$element;
+    var $cropper = this.$cropper;
 
     if ($.isFunction(options.dragstart)) {
       $this.off(EVENT_DRAG_START, options.dragstart);

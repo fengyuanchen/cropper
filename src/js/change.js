@@ -1,26 +1,26 @@
   prototype.change = function (shiftKey) {
-    var dragType = this.dragType,
-        options = this.options,
-        canvas = this.canvas,
-        container = this.container,
-        cropBox = this.cropBox,
-        width = cropBox.width,
-        height = cropBox.height,
-        left = cropBox.left,
-        top = cropBox.top,
-        right = left + width,
-        bottom = top + height,
-        minLeft = 0,
-        minTop = 0,
-        maxWidth = container.width,
-        maxHeight = container.height,
-        renderable = true,
-        aspectRatio = options.aspectRatio,
-        range = {
+    var dragType = this.dragType;
+    var options = this.options;
+    var canvas = this.canvas;
+    var container = this.container;
+    var cropBox = this.cropBox;
+    var width = cropBox.width;
+    var height = cropBox.height;
+    var left = cropBox.left;
+    var top = cropBox.top;
+    var right = left + width;
+    var bottom = top + height;
+    var minLeft = 0;
+    var minTop = 0;
+    var maxWidth = container.width;
+    var maxHeight = container.height;
+    var renderable = true;
+    var aspectRatio = options.aspectRatio;
+    var range = {
           x: this.endX - this.startX,
           y: this.endY - this.startY
-        },
-        offset;
+        };
+    var offset;
 
     // Locking aspect ratio in "free mode" by holding shift key (#259)
     if (!aspectRatio && shiftKey) {

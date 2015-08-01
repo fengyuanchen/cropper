@@ -19,12 +19,12 @@
   };
 
   prototype.load = function (url) {
-    var options = this.options,
-        $this = this.$element,
-        crossOrigin,
-        bustCacheUrl,
-        buildEvent,
-        $clone;
+    var options = this.options;
+    var $this = this.$element;
+    var crossOrigin;
+    var bustCacheUrl;
+    var buildEvent;
+    var $clone;
 
     if (!url) {
       return;
@@ -49,9 +49,9 @@
     this.$clone = $clone = $('<img' + (crossOrigin || '') + ' src="' + (bustCacheUrl || url) + '">');
 
     $clone.one('load', $.proxy(function () {
-      var image = $clone[0],
-          naturalWidth = image.naturalWidth || image.width,
-          naturalHeight = image.naturalHeight || image.height; // $clone.width() and $clone.height() will return 0 in IE8 (#319)
+      var image = $clone[0];
+      var naturalWidth = image.naturalWidth || image.width;
+      var naturalHeight = image.naturalHeight || image.height; // $clone.width() and $clone.height() will return 0 in IE8 (#319)
 
       this.image = {
         naturalWidth: naturalWidth,

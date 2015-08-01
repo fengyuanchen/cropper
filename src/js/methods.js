@@ -109,10 +109,10 @@
     },
 
     zoom: function (delta) {
-      var canvas = this.canvas,
-          zoomEvent,
-          width,
-          height;
+      var canvas = this.canvas;
+      var zoomEvent;
+      var width;
+      var height;
 
       delta = num(delta);
 
@@ -149,11 +149,11 @@
     },
 
     getData: function (rounded) {
-      var cropBox = this.cropBox,
-          canvas = this.canvas,
-          image = this.image,
-          ratio,
-          data;
+      var cropBox = this.cropBox;
+      var canvas = this.canvas;
+      var image = this.image;
+      var ratio;
+      var data;
 
       if (this.built && this.cropped) {
         data = {
@@ -185,10 +185,10 @@
     },
 
     setData: function (data) {
-      var image = this.image,
-          canvas = this.canvas,
-          cropBoxData = {},
-          ratio;
+      var image = this.image;
+      var canvas = this.canvas;
+      var cropBoxData = {};
+      var ratio;
 
       if (this.built && !this.disabled && $.isPlainObject(data)) {
         if (isNumber(data.rotate) && data.rotate !== image.rotate && this.options.rotatable) {
@@ -285,10 +285,10 @@
     },
 
     setCropBoxData: function (data) {
-      var cropBox = this.cropBox,
-          aspectRatio = this.options.aspectRatio,
-          widthChanged,
-          heightChanged;
+      var cropBox = this.cropBox;
+      var aspectRatio = this.options.aspectRatio;
+      var widthChanged;
+      var heightChanged;
 
       if (this.built && this.cropped && !this.disabled && $.isPlainObject(data)) {
 
@@ -323,17 +323,17 @@
     },
 
     getCroppedCanvas: function (options) {
-      var originalWidth,
-          originalHeight,
-          canvasWidth,
-          canvasHeight,
-          scaledWidth,
-          scaledHeight,
-          scaledRatio,
-          aspectRatio,
-          canvas,
-          context,
-          data;
+      var originalWidth;
+      var originalHeight;
+      var canvasWidth;
+      var canvasHeight;
+      var scaledWidth;
+      var scaledHeight;
+      var scaledRatio;
+      var aspectRatio;
+      var canvas;
+      var context;
+      var data;
 
       if (!this.built || !this.cropped || !SUPPORT_CANVAS) {
         return;
@@ -376,18 +376,18 @@
 
       // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
       context.drawImage.apply(context, (function () {
-        var source = getSourceCanvas(this.$clone[0], this.image),
-            sourceWidth = source.width,
-            sourceHeight = source.height,
-            args = [source],
-            srcX = data.x, // source canvas
-            srcY = data.y,
-            srcWidth,
-            srcHeight,
-            dstX, // destination canvas
-            dstY,
-            dstWidth,
-            dstHeight;
+        var source = getSourceCanvas(this.$clone[0], this.image);
+        var sourceWidth = source.width;
+        var sourceHeight = source.height;
+        var args = [source];
+        var srcX = data.x; // source canvas
+        var srcY = data.y;
+        var srcWidth;
+        var srcHeight;
+        var dstX; // destination canvas
+        var dstY;
+        var dstWidth;
+        var dstHeight;
 
         if (srcX <= -originalWidth || srcX > sourceWidth) {
           srcX = srcWidth = dstX = dstWidth = 0;
@@ -449,9 +449,9 @@
     },
 
     setDragMode: function (mode) {
-      var options = this.options,
-          croppable,
-          movable;
+      var options = this.options;
+      var croppable;
+      var movable;
 
       if (this.ready && !this.disabled) {
         croppable = options.dragCrop && mode === 'crop';

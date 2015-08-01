@@ -26,14 +26,14 @@
   };
 
   prototype.preview = function () {
-    var image = this.image,
-        canvas = this.canvas,
-        cropBox = this.cropBox,
-        width = image.width,
-        height = image.height,
-        left = cropBox.left - canvas.left - image.left,
-        top = cropBox.top - canvas.top - image.top,
-        rotate = image.rotate;
+    var image = this.image;
+    var canvas = this.canvas;
+    var cropBox = this.cropBox;
+    var width = image.width;
+    var height = image.height;
+    var left = cropBox.left - canvas.left - image.left;
+    var top = cropBox.top - canvas.top - image.top;
+    var rotate = image.rotate;
 
     if (!this.cropped || this.disabled) {
       return;
@@ -48,11 +48,11 @@
     });
 
     this.$preview.each(function () {
-      var $this = $(this),
-          data = $this.data(PREVIEW),
-          ratio = data.width / cropBox.width,
-          newWidth = data.width,
-          newHeight = cropBox.height * ratio;
+      var $this = $(this);
+      var data = $this.data(PREVIEW);
+      var ratio = data.width / cropBox.width;
+      var newWidth = data.width;
+      var newHeight = cropBox.height * ratio;
 
       if (newHeight > data.height) {
         ratio = data.height / cropBox.height;

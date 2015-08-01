@@ -12,10 +12,10 @@
     },
 
     initContainer: function () {
-      var $this = this.$element,
-          $container = this.$container,
-          $cropper = this.$cropper,
-          options = this.options;
+      var $this = this.$element;
+      var $container = this.$container;
+      var $cropper = this.$cropper;
+      var options = this.options;
 
       $cropper.addClass(CLASS_HIDDEN);
       $this.removeClass(CLASS_HIDDEN);
@@ -31,12 +31,12 @@
 
     // image box (wrapper)
     initCanvas: function () {
-      var container = this.container,
-          containerWidth = container.width,
-          containerHeight = container.height,
-          image = this.image,
-          aspectRatio = image.aspectRatio,
-          canvas = {
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var image = this.image;
+      var aspectRatio = image.aspectRatio;
+      var canvas = {
             aspectRatio: aspectRatio,
             width: containerWidth,
             height: containerHeight
@@ -58,20 +58,20 @@
     },
 
     limitCanvas: function (size, position) {
-      var options = this.options,
-          strict = options.strict,
-          container = this.container,
-          containerWidth = container.width,
-          containerHeight = container.height,
-          canvas = this.canvas,
-          aspectRatio = canvas.aspectRatio,
-          cropBox = this.cropBox,
-          cropped = this.cropped && cropBox,
-          initialCanvas = this.initialCanvas || canvas,
-          initialCanvasWidth = initialCanvas.width,
-          initialCanvasHeight = initialCanvas.height,
-          minCanvasWidth,
-          minCanvasHeight;
+      var options = this.options;
+      var strict = options.strict;
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var canvas = this.canvas;
+      var aspectRatio = canvas.aspectRatio;
+      var cropBox = this.cropBox;
+      var cropped = this.cropped && cropBox;
+      var initialCanvas = this.initialCanvas || canvas;
+      var initialCanvasWidth = initialCanvas.width;
+      var initialCanvasHeight = initialCanvas.height;
+      var minCanvasWidth;
+      var minCanvasHeight;
 
       if (size) {
         minCanvasWidth = num(options.minCanvasWidth) || 0;
@@ -136,11 +136,11 @@
     },
 
     renderCanvas: function (changed) {
-      var options = this.options,
-          canvas = this.canvas,
-          image = this.image,
-          aspectRatio,
-          rotated;
+      var options = this.options;
+      var canvas = this.canvas;
+      var image = this.image;
+      var aspectRatio;
+      var rotated;
 
       if (this.rotated) {
         this.rotated = false;
@@ -199,9 +199,9 @@
     },
 
     renderImage: function () {
-      var canvas = this.canvas,
-          image = this.image,
-          reversed;
+      var canvas = this.canvas;
+      var image = this.image;
+      var reversed;
 
       if (image.rotate) {
         reversed = getRotatedSizes({
@@ -234,11 +234,11 @@
     },
 
     initCropBox: function () {
-      var options = this.options,
-          canvas = this.canvas,
-          aspectRatio = options.aspectRatio,
-          autoCropArea = num(options.autoCropArea) || 0.8,
-          cropBox = {
+      var options = this.options;
+      var canvas = this.canvas;
+      var aspectRatio = options.aspectRatio;
+      var autoCropArea = num(options.autoCropArea) || 0.8;
+      var cropBox = {
             width: canvas.width,
             height: canvas.height
           };
@@ -268,16 +268,16 @@
     },
 
     limitCropBox: function (size, position) {
-      var options = this.options,
-          strict = options.strict,
-          container = this.container,
-          containerWidth = container.width,
-          containerHeight = container.height,
-          canvas = this.canvas,
-          cropBox = this.cropBox,
-          aspectRatio = options.aspectRatio,
-          minCropBoxWidth,
-          minCropBoxHeight;
+      var options = this.options;
+      var strict = options.strict;
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var canvas = this.canvas;
+      var cropBox = this.cropBox;
+      var aspectRatio = options.aspectRatio;
+      var minCropBoxWidth;
+      var minCropBoxHeight;
 
       if (size) {
         minCropBoxWidth = num(options.minCropBoxWidth) || 0;
@@ -321,11 +321,11 @@
     },
 
     renderCropBox: function () {
-      var options = this.options,
-          container = this.container,
-          containerWidth = container.width,
-          containerHeight = container.height,
-          cropBox = this.cropBox;
+      var options = this.options;
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var cropBox = this.cropBox;
 
       if (cropBox.width > cropBox.maxWidth || cropBox.width < cropBox.minWidth) {
         cropBox.left = cropBox.oldLeft;

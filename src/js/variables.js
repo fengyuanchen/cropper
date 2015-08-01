@@ -1,51 +1,51 @@
-  var $window = $(window),
-      $document = $(document),
-      location = window.location,
+  var $window = $(window);
+  var $document = $(document);
+  var location = window.location;
 
-      // Constants
-      NAMESPACE = 'cropper',
-      PREVIEW = 'preview.' + NAMESPACE,
+  // Constants
+  var NAMESPACE = 'cropper';
+  var PREVIEW = 'preview.' + NAMESPACE;
 
-      // RegExps
-      REGEXP_DRAG_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/,
+  // RegExps
+  var REGEXP_DRAG_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/;
 
-      // Classes
-      CLASS_MODAL = 'cropper-modal',
-      CLASS_HIDE = 'cropper-hide',
-      CLASS_HIDDEN = 'cropper-hidden',
-      CLASS_INVISIBLE = 'cropper-invisible',
-      CLASS_MOVE = 'cropper-move',
-      CLASS_CROP = 'cropper-crop',
-      CLASS_DISABLED = 'cropper-disabled',
-      CLASS_BG = 'cropper-bg',
+  // Classes
+  var CLASS_MODAL = 'cropper-modal';
+  var CLASS_HIDE = 'cropper-hide';
+  var CLASS_HIDDEN = 'cropper-hidden';
+  var CLASS_INVISIBLE = 'cropper-invisible';
+  var CLASS_MOVE = 'cropper-move';
+  var CLASS_CROP = 'cropper-crop';
+  var CLASS_DISABLED = 'cropper-disabled';
+  var CLASS_BG = 'cropper-bg';
 
-      // Events
-      EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown',
-      EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove',
-      EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel',
-      EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll',
-      EVENT_DBLCLICK = 'dblclick',
-      EVENT_RESIZE = 'resize.' + NAMESPACE, // Bind to window with namespace
-      EVENT_BUILD = 'build.' + NAMESPACE,
-      EVENT_BUILT = 'built.' + NAMESPACE,
-      EVENT_DRAG_START = 'dragstart.' + NAMESPACE,
-      EVENT_DRAG_END = 'dragend.' + NAMESPACE,
-      EVENT_DRAG_MOVE = 'dragmove.' + NAMESPACE,
-      EVENT_ZOOM_IN = 'zoomin.' + NAMESPACE,
-      EVENT_ZOOM_OUT = 'zoomout.' + NAMESPACE,
-      EVENT_CHANGE = 'change.' + NAMESPACE,
+  // Events
+  var EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown';
+  var EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove';
+  var EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel';
+  var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
+  var EVENT_DBLCLICK = 'dblclick';
+  var EVENT_RESIZE = 'resize.' + NAMESPACE; // Bind to window with namespace
+  var EVENT_BUILD = 'build.' + NAMESPACE;
+  var EVENT_BUILT = 'built.' + NAMESPACE;
+  var EVENT_DRAG_START = 'dragstart.' + NAMESPACE;
+  var EVENT_DRAG_END = 'dragend.' + NAMESPACE;
+  var EVENT_DRAG_MOVE = 'dragmove.' + NAMESPACE;
+  var EVENT_ZOOM_IN = 'zoomin.' + NAMESPACE;
+  var EVENT_ZOOM_OUT = 'zoomout.' + NAMESPACE;
+  var EVENT_CHANGE = 'change.' + NAMESPACE;
 
-      // Supports
-      SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext),
+  // Supports
+  var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);
 
-      // Others
-      sqrt = Math.sqrt,
-      min = Math.min,
-      max = Math.max,
-      abs = Math.abs,
-      sin = Math.sin,
-      cos = Math.cos,
-      num = parseFloat,
+  // Others
+  var sqrt = Math.sqrt;
+  var min = Math.min;
+  var max = Math.max;
+  var abs = Math.abs;
+  var sin = Math.sin;
+  var cos = Math.cos;
+  var num = parseFloat;
 
-      // Prototype
-      prototype = {};
+  // Prototype
+  var prototype = {};

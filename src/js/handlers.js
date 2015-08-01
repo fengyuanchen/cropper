@@ -1,10 +1,10 @@
   $.extend(prototype, {
     resize: function () {
-      var $container = this.$container,
-          container = this.container,
-          canvasData,
-          cropBoxData,
-          ratio;
+      var $container = this.$container;
+      var container = this.container;
+      var canvasData;
+      var cropBoxData;
+      var ratio;
 
       if (this.disabled || !container) { // Check "container" for IE8
         return;
@@ -60,13 +60,13 @@
     },
 
     dragstart: function (event) {
-      var options = this.options,
-          originalEvent = event.originalEvent,
-          touches = originalEvent && originalEvent.touches,
-          e = originalEvent || event,
-          dragType,
-          dragStartEvent,
-          touchesLength;
+      var options = this.options;
+      var originalEvent = event.originalEvent;
+      var touches = originalEvent && originalEvent.touches;
+      var e = originalEvent || event;
+      var dragType;
+      var dragStartEvent;
+      var touchesLength;
 
       if (this.disabled) {
         return;
@@ -118,13 +118,13 @@
     },
 
     dragmove: function (event) {
-      var options = this.options,
-          originalEvent = event.originalEvent,
-          touches = originalEvent && originalEvent.touches,
-          e = originalEvent || event,
-          dragType = this.dragType,
-          dragMoveEvent,
-          touchesLength;
+      var options = this.options;
+      var originalEvent = event.originalEvent;
+      var touches = originalEvent && originalEvent.touches;
+      var e = originalEvent || event;
+      var dragType = this.dragType;
+      var dragMoveEvent;
+      var touchesLength;
 
       if (this.disabled) {
         return;

@@ -42,15 +42,15 @@
   }
 
   function getRotatedSizes(data, reverse) {
-    var deg = abs(data.degree) % 180,
-        arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180,
-        sinArc = sin(arc),
-        cosArc = cos(arc),
-        width = data.width,
-        height = data.height,
-        aspectRatio = data.aspectRatio,
-        newWidth,
-        newHeight;
+    var deg = abs(data.degree) % 180;
+    var arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
+    var sinArc = sin(arc);
+    var cosArc = cos(arc);
+    var width = data.width;
+    var height = data.height;
+    var aspectRatio = data.aspectRatio;
+    var newWidth;
+    var newHeight;
 
     if (!reverse) {
       newWidth = width * cosArc + height * sinArc;
@@ -67,12 +67,12 @@
   }
 
   function getSourceCanvas(image, data) {
-    var canvas = $('<canvas>')[0],
-        context = canvas.getContext('2d'),
-        width = data.naturalWidth,
-        height = data.naturalHeight,
-        rotate = data.rotate,
-        rotated = getRotatedSizes({
+    var canvas = $('<canvas>')[0];
+    var context = canvas.getContext('2d');
+    var width = data.naturalWidth;
+    var height = data.naturalHeight;
+    var rotate = data.rotate;
+    var rotated = getRotatedSizes({
           width: width,
           height: height,
           degree: rotate

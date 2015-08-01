@@ -1,10 +1,10 @@
   prototype.build = function () {
-    var $this = this.$element,
-        $clone = this.$clone,
-        options = this.options,
-        $cropper,
-        $cropBox,
-        $face;
+    var $this = this.$element;
+    var $clone = this.$clone;
+    var options = this.options;
+    var $cropper;
+    var $cropBox;
+    var $face;
 
     if (!this.ready) {
       return;
