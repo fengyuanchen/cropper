@@ -67,11 +67,11 @@ $(function () {
 
           // build: null,
           // built: null,
-          // dragstart: null,
-          // dragmove: null,
-          // dragend: null,
-          // zoomin: null,
-          // zoomout: null,
+          // cropstart: null,
+          // cropmove: null,
+          // cropend: null,
+          // change: null,
+          // zoom: null,
 
           aspectRatio: 16 / 9,
           preview: '.img-preview',
@@ -91,23 +91,20 @@ $(function () {
       'built.cropper': function (e) {
         console.log(e.type);
       },
-      'dragstart.cropper': function (e) {
-        console.log(e.type, e.dragType);
+      'cropstart.cropper': function (e) {
+        console.log(e.type, e.cropType);
       },
-      'dragmove.cropper': function (e) {
-        console.log(e.type, e.dragType);
+      'cropmove.cropper': function (e) {
+        console.log(e.type, e.cropType);
       },
-      'dragend.cropper': function (e) {
-        console.log(e.type, e.dragType);
-      },
-      'zoomin.cropper': function (e) {
-        console.log(e.type);
-      },
-      'zoomout.cropper': function (e) {
-        console.log(e.type);
+      'cropend.cropper': function (e) {
+        console.log(e.type, e.cropType);
       },
       'change.cropper': function (e) {
         console.log(e.type);
+      },
+      'zoom.cropper': function (e) {
+        console.log(e.type, e.zoomType, e.zoomRatio);
       }
     }).cropper(options);
 
