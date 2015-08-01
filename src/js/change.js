@@ -1,5 +1,5 @@
-  prototype.change = function (shiftKey) {
-    var dragType = this.dragType;
+  prototype.change = function (shiftKey, originalEvent) {
+    var cropType = this.cropType;
     var options = this.options;
     var canvas = this.canvas;
     var container = this.container;
@@ -39,7 +39,7 @@
       range.Y = range.x / aspectRatio;
     }
 
-    switch (dragType) {
+    switch (cropType) {
       // Move cropBox
       case 'all':
         left += range.x;
@@ -61,7 +61,7 @@
         }
 
         if (width < 0) {
-          dragType = 'w';
+          cropType = 'w';
           width = 0;
         }
 
@@ -82,7 +82,7 @@
         }
 
         if (height < 0) {
-          dragType = 's';
+          cropType = 's';
           height = 0;
         }
 
@@ -103,7 +103,7 @@
         }
 
         if (width < 0) {
-          dragType = 'e';
+          cropType = 'e';
           width = 0;
         }
 
@@ -123,7 +123,7 @@
         }
 
         if (height < 0) {
-          dragType = 'n';
+          cropType = 'n';
           height = 0;
         }
 
@@ -162,14 +162,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'sw';
+          cropType = 'sw';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'nw';
+          cropType = 'nw';
           width = 0;
         } else if (height < 0) {
-          dragType = 'se';
+          cropType = 'se';
           height = 0;
         }
 
@@ -211,14 +211,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'se';
+          cropType = 'se';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'ne';
+          cropType = 'ne';
           width = 0;
         } else if (height < 0) {
-          dragType = 'sw';
+          cropType = 'sw';
           height = 0;
         }
 
@@ -257,14 +257,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'ne';
+          cropType = 'ne';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'se';
+          cropType = 'se';
           width = 0;
         } else if (height < 0) {
-          dragType = 'nw';
+          cropType = 'nw';
           height = 0;
         }
 
@@ -300,14 +300,14 @@
         }
 
         if (width < 0 && height < 0) {
-          dragType = 'nw';
+          cropType = 'nw';
           height = 0;
           width = 0;
         } else if (width < 0) {
-          dragType = 'sw';
+          cropType = 'sw';
           width = 0;
         } else if (height < 0) {
-          dragType = 'ne';
+          cropType = 'ne';
           height = 0;
         }
 
@@ -323,18 +323,17 @@
 
       // Scale image
       case 'zoom':
-        this.zoom(function (x1, y1, x2, y2) {
-          var z1 = sqrt(x1 * x1 + y1 * y1),
-              z2 = sqrt(x2 * x2 + y2 * y2);
+        this.zoom((function (x1, y1, x2, y2) {
+          var z1 = sqrt(x1 * x1 + y1 * y1);
+          var z2 = sqrt(x2 * x2 + y2 * y2);
 
           return (z2 - z1) / z1;
-        }(
+        })(
           abs(this.startX - this.startX2),
           abs(this.startY - this.startY2),
           abs(this.endX - this.endX2),
           abs(this.endY - this.endY2)
-        ));
-
+        ), originalEvent);
         this.startX2 = this.endX2;
         this.startY2 = this.endY2;
         renderable = false;
@@ -351,17 +350,17 @@
 
           if (range.x > 0) {
             if (range.y > 0) {
-              dragType = 'se';
+              cropType = 'se';
             } else {
-              dragType = 'ne';
+              cropType = 'ne';
               top -= height;
             }
           } else {
             if (range.y > 0) {
-              dragType = 'sw';
+              cropType = 'sw';
               left -= width;
             } else {
-              dragType = 'nw';
+              cropType = 'nw';
               left -= width;
               top -= height;
             }
@@ -384,7 +383,7 @@
       cropBox.height = height;
       cropBox.left = left;
       cropBox.top = top;
-      this.dragType = dragType;
+      this.cropType = cropType;
 
       this.renderCropBox();
     }

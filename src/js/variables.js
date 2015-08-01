@@ -7,7 +7,7 @@
   var PREVIEW = 'preview.' + NAMESPACE;
 
   // RegExps
-  var REGEXP_DRAG_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/;
+  var REGEXP_CROP_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/;
 
   // Classes
   var CLASS_MODAL = 'cropper-modal';
@@ -28,12 +28,11 @@
   var EVENT_RESIZE = 'resize.' + NAMESPACE; // Bind to window with namespace
   var EVENT_BUILD = 'build.' + NAMESPACE;
   var EVENT_BUILT = 'built.' + NAMESPACE;
-  var EVENT_DRAG_START = 'dragstart.' + NAMESPACE;
-  var EVENT_DRAG_END = 'dragend.' + NAMESPACE;
-  var EVENT_DRAG_MOVE = 'dragmove.' + NAMESPACE;
-  var EVENT_ZOOM_IN = 'zoomin.' + NAMESPACE;
-  var EVENT_ZOOM_OUT = 'zoomout.' + NAMESPACE;
+  var EVENT_CROP_START = 'cropstart.' + NAMESPACE;
+  var EVENT_CROP_MOVE = 'cropmove.' + NAMESPACE;
+  var EVENT_CROP_END = 'cropend.' + NAMESPACE;
   var EVENT_CHANGE = 'change.' + NAMESPACE;
+  var EVENT_ZOOM = 'zoom.' + NAMESPACE;
 
   // Supports
   var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);

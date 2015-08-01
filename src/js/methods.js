@@ -108,25 +108,30 @@
       }
     },
 
-    zoom: function (delta) {
+    zoom: function (ratio, originalEvent) {
       var canvas = this.canvas;
-      var zoomEvent;
       var width;
       var height;
 
-      delta = num(delta);
+      ratio = num(ratio);
 
-      if (delta && this.built && !this.disabled && this.options.zoomable) {
-        zoomEvent = delta > 0 ? $.Event(EVENT_ZOOM_IN) : $.Event(EVENT_ZOOM_OUT);
-        this.$element.trigger(zoomEvent);
-
-        if (zoomEvent.isDefaultPrevented()) {
+      if (ratio && this.built && !this.disabled && this.options.zoomable) {
+        if (this.trigger(EVENT_ZOOM, {
+          originalEvent: originalEvent,
+          zoomType: ratio > 0 ? 'zoomin' : 'zoomout',
+          zoomRatio: ratio
+        })) {
           return;
         }
 
-        delta = delta < -1 ? 1 / (-delta) : delta <= 0 ? 1 / (1 - delta) : delta <= 1 ? (1 + delta) : delta;
-        width = canvas.width * delta;
-        height = canvas.height * delta;
+        if (ratio < 0) {
+          ratio =  1 / (1 - ratio);
+        } else {
+          ratio = 1 + ratio;
+        }
+
+        width = canvas.width * ratio;
+        height = canvas.height * ratio;
         canvas.left -= (width - canvas.width) / 2;
         canvas.top -= (height - canvas.height) / 2;
         canvas.width = width;
@@ -228,8 +233,8 @@
     },
 
     getCanvasData: function () {
-      var canvas = this.canvas,
-          data;
+      var canvas = this.canvas;
+      var data;
 
       if (this.built) {
         data = {
@@ -244,8 +249,8 @@
     },
 
     setCanvasData: function (data) {
-      var canvas = this.canvas,
-          aspectRatio = canvas.aspectRatio;
+      var canvas = this.canvas;
+      var aspectRatio = canvas.aspectRatio;
 
       if (this.built && !this.disabled && $.isPlainObject(data)) {
         if (isNumber(data.left)) {
@@ -269,8 +274,8 @@
     },
 
     getCropBoxData: function () {
-      var cropBox = this.cropBox,
-          data;
+      var cropBox = this.cropBox;
+      var data;
 
       if (this.built && this.cropped) {
         data = {
@@ -458,11 +463,11 @@
         movable = options.movable && mode === 'move';
         mode = (croppable || movable) ? mode : 'none';
 
-        this.$dragBox.data('drag', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
+        this.$dragBox.data('type', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
 
         if (!options.cropBoxMovable) {
           // Sync drag mode to crop box when it is not movable(#300)
-          this.$face.data('drag', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
+          this.$face.data('type', mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
         }
       }
     }

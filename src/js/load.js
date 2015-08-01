@@ -1,6 +1,6 @@
   prototype.init = function () {
-    var $this = this.$element,
-        url;
+    var $this = this.$element;
+    var url;
 
     if ($this.is('img')) {
       this.isImg = true;
@@ -23,17 +23,15 @@
     var $this = this.$element;
     var crossOrigin;
     var bustCacheUrl;
-    var buildEvent;
     var $clone;
 
     if (!url) {
       return;
     }
 
-    buildEvent = $.Event(EVENT_BUILD);
-    $this.one(EVENT_BUILD, options.build).trigger(buildEvent); // Only trigger once
+    $this.one(EVENT_BUILD, options.build); // Only trigger once
 
-    if (buildEvent.isDefaultPrevented()) {
+    if (this.trigger(EVENT_BUILD)) {
       return;
     }
 

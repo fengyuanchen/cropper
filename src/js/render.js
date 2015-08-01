@@ -345,7 +345,7 @@
 
       if (options.movable && options.cropBoxMovable) {
         // Turn to move the canvas when the crop box is equal to the container
-        this.$face.data('drag', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? 'move' : 'all');
+        this.$face.data('type', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? 'move' : 'all');
       }
 
       this.$cropBox.css({
@@ -365,15 +365,14 @@
     },
 
     output: function () {
-      var options = this.options,
-          $this = this.$element;
+      var options = this.options;
 
       this.preview();
 
       if (options.crop) {
-        options.crop.call($this, this.getData());
+        options.crop.call(this.$element, this.getData());
       }
 
-      $this.trigger(EVENT_CHANGE);
+      this.trigger(EVENT_CHANGE);
     }
   });

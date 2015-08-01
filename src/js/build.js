@@ -55,7 +55,7 @@
     }
 
     if (options.cropBoxMovable) {
-      $face.addClass(CLASS_MOVE).data('drag', 'all');
+      $face.addClass(CLASS_MOVE).data('type', 'all');
     }
 
     if (!options.highlight) {
@@ -75,7 +75,8 @@
     this.built = true;
     this.render();
     this.setData(options.data);
-    $this.one(EVENT_BUILT, options.built).trigger(EVENT_BUILT); // Only trigger once
+    $this.one(EVENT_BUILT, options.built);
+    this.trigger(EVENT_BUILT); // Only trigger once
   };
 
   prototype.unbuild = function () {

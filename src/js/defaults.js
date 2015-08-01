@@ -52,12 +52,11 @@
     // Events
     build: null, // Function
     built: null, // Function
-    dragstart: null, // Function
-    dragmove: null, // Function
-    dragend: null, // Function
-    zoomin: null, // Function
-    zoomout: null, // Function
-    change: null // Function
+    cropstart: null, // Function
+    cropmove: null, // Function
+    cropend: null, // Function
+    change: null, // Function
+    zoom: null // Function
   };
 
   Cropper.setDefaults = function (options) {
