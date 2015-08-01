@@ -4,11 +4,12 @@ $(function () {
 
   var $image = $(window.createCropperImage());
 
-  $image.on('dragmove.cropper', function (e) {
+  $image.on('cropmove.cropper', function (e) {
 
-    QUnit.test('methods.dragmove', function (assert) {
-      assert.equal(e.type, 'dragmove');
+    QUnit.test('events.cropmove', function (assert) {
+      assert.equal(e.type, 'cropmove');
       assert.equal(e.namespace, 'cropper');
+      assert.equal(e.cropType, 'crop');
     });
 
   }).cropper({
@@ -19,11 +20,12 @@ $(function () {
       $dragBox.trigger('mousedown').trigger('mousemove').trigger('mouseup');
     },
 
-    dragmove: function (e) {
+    cropmove: function (e) {
 
-      QUnit.test('options.dragmove', function (assert) {
-        assert.equal(e.type, 'dragmove');
+      QUnit.test('options.cropmove', function (assert) {
+        assert.equal(e.type, 'cropmove');
         assert.equal(e.namespace, 'cropper');
+        assert.equal(e.cropType, 'crop');
       });
 
     }

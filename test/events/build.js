@@ -6,41 +6,35 @@ $(function () {
 
   $image.one('build.cropper', function (e) {
 
-    QUnit.test('methods.build', function (assert) {
-      assert.ok(e.type === 'build' && e.namespace === 'cropper');
+    QUnit.test('events.build', function (assert) {
+      assert.equal(e.type, 'build');
+      assert.equal(e.namespace, 'cropper');
     });
 
     e.preventDefault();
 
-    QUnit.test('methods.build: prevent default', function (assert) {
-      assert.ok(e.isDefaultPrevented());
-    });
+  }).one('built.cropper', function () {
 
-  }).one('built.cropper', function (e) {
-
-    QUnit.test('methods.build: default prevented', function (assert) {
-      assert.ok(e.type !== 'built');
+    QUnit.test('events.build: default prevented', function (assert) {
+      assert.ok(false);
     });
 
   }).cropper({
     build: function (e) {
 
       QUnit.test('options.build', function (assert) {
-        assert.ok(e.type === 'build' && e.namespace === 'cropper');
+        assert.equal(e.type, 'build');
+        assert.equal(e.namespace, 'cropper');
       });
 
       e.preventDefault();
 
-      QUnit.test('options.build: prevent default', function (assert) {
-        assert.ok(e.isDefaultPrevented());
-      });
-
     },
 
-    built: function (e) {
+    built: function () {
 
       QUnit.test('options.build: default prevented', function (assert) {
-        assert.ok(e.type !== 'built');
+        assert.ok(false);
       });
 
     }

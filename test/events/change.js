@@ -6,7 +6,7 @@ $(function () {
 
   $image.on('change.cropper', function (e) {
 
-    QUnit.test('methods.change', function (assert) {
+    QUnit.test('events.change', function (assert) {
       assert.equal(e.type, 'change');
       assert.equal(e.namespace, 'cropper');
     });
