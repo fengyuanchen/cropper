@@ -1,5 +1,7 @@
 # [Image Cropper](https://github.com/fengyuanchen/cropper)
 
+[![Join the chat at https://gitter.im/fengyuanchen/cropper](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fengyuanchen/cropper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > A simple jQuery image cropping plugin.
 
 - [Demo](http://fengyuanchen.github.io/cropper)
