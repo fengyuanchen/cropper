@@ -1,19 +1,25 @@
 // Cropper
-// =============================================================================
+// ==================================================
 
 .cropper-container {
   position: relative;
   overflow: hidden;
-  .user-select(none);
   direction: ltr !important; // Ignore global rtl
+
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -ms-touch-action: none;
-  touch-action: none;
+      touch-action: none;
+
+  .user-select(none);
 
   img {
-    display: block; // Avoid margin top issue (Occur only when margin-top <= -height)
-    image-orientation: 0deg !important; // https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation
+    // Avoid margin top issue (Occur only when margin-top <= -height)
+    display: block;
+
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation
+    image-orientation: 0deg !important;
+
     .square(100%);
     .min-square(e("0 !important"));
     .max-square(e("none !important"));
