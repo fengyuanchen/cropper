@@ -6,13 +6,13 @@
     // Defines the percentage of automatic cropping area when initializes
     autoCropArea: 0.8,
 
-    // Outputs the cropping results
+    // A function for outputting the cropping results
     crop: null,
 
-    // Previous cropping result data
+    // An object with the previous cropping result data
     data: null,
 
-    // Add extra containers (jQuery selector) for previewing
+    // A jQuery selector for adding extra containers to preview
     preview: '',
 
     // Strict mode, the image cannot zoom out less than the container
