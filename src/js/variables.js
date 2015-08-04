@@ -1,3 +1,4 @@
+  // Globals
   var $window = $(window);
   var $document = $(document);
   var location = window.location;
@@ -37,7 +38,7 @@
   // Supports
   var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);
 
-  // Others
+  // Maths
   var sqrt = Math.sqrt;
   var min = Math.min;
   var max = Math.max;

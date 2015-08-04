@@ -9,7 +9,8 @@
   function toArray(obj, offset) {
     var args = [];
 
-    if (isNumber(offset)) { // It's necessary for IE8
+    // This is necessary for IE8
+    if (isNumber(offset)) {
       args.push(offset);
     }
 
@@ -28,7 +29,11 @@
   function isCrossOriginURL(url) {
     var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
 
-    return parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port);
+    return parts && (
+      parts[1] !== location.protocol ||
+      parts[2] !== location.hostname ||
+      parts[3] !== location.port
+    );
   }
 
   function addTimestamp(url) {

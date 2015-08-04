@@ -6,12 +6,14 @@
       var cropBoxData;
       var ratio;
 
-      if (this.disabled || !container) { // Check "container" for IE8
+      // Check `container` is necessary for IE8
+      if (this.disabled || !container) {
         return;
       }
 
       ratio = $container.width() / container.width;
 
+      // Resize when width changed or height changed
       if (ratio !== 1 || $container.height() !== container.height) {
         canvasData = this.getCanvasData();
         cropBoxData = this.getCropBoxData();
@@ -36,14 +38,6 @@
       } else {
         this.setDragMode('crop');
       }
-    },
-
-    trigger: function (type, data) {
-      var e = $.Event(type, data);
-
-      this.$element.trigger(e);
-
-      return e.isDefaultPrevented();
     },
 
     wheel: function (event) {

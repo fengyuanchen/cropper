@@ -12,10 +12,10 @@
     },
 
     initContainer: function () {
+      var options = this.options;
       var $this = this.$element;
       var $container = this.$container;
       var $cropper = this.$cropper;
-      var options = this.options;
 
       $cropper.addClass(CLASS_HIDDEN);
       $this.removeClass(CLASS_HIDDEN);
@@ -29,7 +29,7 @@
       $cropper.removeClass(CLASS_HIDDEN);
     },
 
-    // image box (wrapper)
+    // Canvas (image wrapper)
     initCanvas: function () {
       var container = this.container;
       var containerWidth = container.width;
@@ -283,14 +283,15 @@
         minCropBoxWidth = num(options.minCropBoxWidth) || 0;
         minCropBoxHeight = num(options.minCropBoxHeight) || 0;
 
-        // min/maxCropBoxWidth/Height must less than conatiner width/height
+        // The min/maxCropBoxWidth/Height must less than conatiner width/height
         cropBox.minWidth = min(containerWidth, minCropBoxWidth);
         cropBox.minHeight = min(containerHeight, minCropBoxHeight);
         cropBox.maxWidth = min(containerWidth, strict ? canvas.width : containerWidth);
         cropBox.maxHeight = min(containerHeight, strict ? canvas.height : containerHeight);
 
         if (aspectRatio) {
-          // compare crop box size with container first
+
+          // Compare crop box size with container first
           if (cropBox.maxHeight * aspectRatio > cropBox.maxWidth) {
             cropBox.minHeight = cropBox.minWidth / aspectRatio;
             cropBox.maxHeight = cropBox.maxWidth / aspectRatio;
@@ -344,6 +345,7 @@
       cropBox.oldTop = cropBox.top = min(max(cropBox.top, cropBox.minTop), cropBox.maxTop);
 
       if (options.movable && options.cropBoxMovable) {
+
         // Turn to move the canvas when the crop box is equal to the container
         this.$face.data('type', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? 'move' : 'all');
       }
