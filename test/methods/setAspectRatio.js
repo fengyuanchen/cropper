@@ -6,8 +6,8 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      var cropper = $image.data('cropper'),
-          options = cropper.options;
+      var cropper = $image.data('cropper');
+      var options = cropper.options;
 
       QUnit.test('methods.setAspectRatio', function (assert) {
         var ratios = [0, 1 / 2, 1, 'auto', true, null, { a:1 }, ['auto', 2, 3], [1, 2, 3]];

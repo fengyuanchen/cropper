@@ -8,8 +8,8 @@ $(function () {
     strict: false,
 
     built: function () {
-      var canvasData = $image.cropper('getCanvasData'),
-          cropBoxData = $image.cropper('getCropBoxData');
+      var canvasData = $image.cropper('getCanvasData');
+      var cropBoxData = $image.cropper('getCropBoxData');
 
       QUnit.test('methods.reset', function (assert) {
         $image.cropper('setCanvasData', {

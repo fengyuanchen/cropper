@@ -2,8 +2,8 @@ $(function () {
 
   'use strict';
 
-  var $image = $(window.createCropperImage()),
-      _data = {
+  var $image = $(window.createCropperImage());
+  var _data = {
         x: 360,
         y: 450,
         width: 640,

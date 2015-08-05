@@ -28,8 +28,8 @@ $(function () {
       QUnit.test('methods.getCroppedCanvas: fillColor', function (assert) {
         var canvas = $image.cropper('rotate', 90).cropper('getCroppedCanvas', {
               fillColor: '#010101'
-            }),
-            pixelData = canvas.getContext('2d').getImageData(0, 0, 1, 1).data;
+            });
+        var pixelData = canvas.getContext('2d').getImageData(0, 0, 1, 1).data;
 
         assert.strictEqual(pixelData[0], 1, 'red is 1');
         assert.strictEqual(pixelData[1], 1, 'green is 1');

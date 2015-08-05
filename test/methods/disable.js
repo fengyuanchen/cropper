@@ -6,8 +6,8 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      var cropper = $image.data('cropper'),
-          options = cropper.options;
+      var cropper = $image.data('cropper');
+      var options = cropper.options;
 
       $image.cropper('disable');
 

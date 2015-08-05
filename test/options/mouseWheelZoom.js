@@ -8,8 +8,8 @@ $(function () {
     mouseWheelZoom: false,
 
     built: function () {
-      var cropper = $image.data('cropper'),
-          _ratio = cropper.image.ratio;
+      var cropper = $image.data('cropper');
+      var _ratio = cropper.image.ratio;
 
       QUnit.test('options.mouseWheelZoom', function (assert) {
         cropper.$cropper.trigger($.Event('wheel', {

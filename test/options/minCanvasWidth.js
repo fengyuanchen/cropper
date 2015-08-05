@@ -2,8 +2,8 @@ $(function () {
 
   'use strict';
 
-  var $image = $(window.createCropperImage()),
-      minCanvasWidth = 160;
+  var $image = $(window.createCropperImage());
+  var minCanvasWidth = 160;
 
   $image.cropper({
     strict: false,

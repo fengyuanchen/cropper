@@ -2,10 +2,10 @@ $(function () {
 
   'use strict';
 
-  var console = window.console || { log: function () {} },
-      $alert = $('.docs-alert'),
-      $message = $alert.find('.message'),
-      showMessage = function (message, type) {
+  var console = window.console || { log: function () {} };
+  var $alert = $('.docs-alert');
+  var $message = $alert.find('.message');
+  var showMessage = function (message, type) {
         $message.text(message);
 
         if (type) {
@@ -23,15 +23,15 @@ $(function () {
   // -------------------------------------------------------------------------
 
   (function () {
-    var $image = $('.img-container > img'),
-        $dataX = $('#dataX'),
-        $dataY = $('#dataY'),
-        $dataHeight = $('#dataHeight'),
-        $dataWidth = $('#dataWidth'),
-        $dataRotate = $('#dataRotate'),
-        options = {
+    var $image = $('.img-container > img');
+    var $dataX = $('#dataX');
+    var $dataY = $('#dataY');
+    var $dataHeight = $('#dataHeight');
+    var $dataWidth = $('#dataWidth');
+    var $dataRotate = $('#dataRotate');
+    var options = {
           // data: {
-          //   x: 420,
+          //   x: 420;
           //   y: 60,
           //   width: 640,
           //   height: 360
@@ -111,9 +111,9 @@ $(function () {
 
     // Methods
     $(document.body).on('click', '[data-method]', function () {
-      var data = $(this).data(),
-          $target,
-          result;
+      var data = $(this).data();
+      var $target;
+      var result;
 
       if (!$image.data('cropper')) {
         return;
@@ -181,14 +181,14 @@ $(function () {
 
 
     // Import image
-    var $inputImage = $('#inputImage'),
-        URL = window.URL || window.webkitURL,
-        blobURL;
+    var $inputImage = $('#inputImage');
+    var URL = window.URL || window.webkitURL;
+    var blobURL;
 
     if (URL) {
       $inputImage.change(function () {
-        var files = this.files,
-            file;
+        var files = this.files;
+        var file;
 
         if (!$image.data('cropper')) {
           return;
@@ -215,9 +215,9 @@ $(function () {
 
     // Options
     $('.docs-options :checkbox').on('change', function () {
-      var $this = $(this),
-          cropBoxData,
-          canvasData;
+      var $this = $(this);
+      var cropBoxData;
+      var canvasData;
 
       if (!$image.data('cropper')) {
         return;

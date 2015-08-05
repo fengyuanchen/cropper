@@ -8,10 +8,10 @@ $(function () {
     movable: false,
 
     built: function () {
-      var cropper = $image.data('cropper'),
-          canvas = cropper.canvas,
-          _left = canvas.left,
-          _top = canvas.top;
+      var cropper = $image.data('cropper');
+      var canvas = cropper.canvas;
+      var _left = canvas.left;
+      var _top = canvas.top;
 
       QUnit.test('options.movable', function (assert) {
         $image.cropper('move', 10, 10);

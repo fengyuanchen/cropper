@@ -6,9 +6,9 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      var cropper = $image.data('cropper'),
-          options = cropper.options,
-          cropBox = cropper.cropBox;
+      var cropper = $image.data('cropper');
+      var options = cropper.options;
+      var cropBox = cropper.cropBox;
 
       QUnit.test('options.aspectRatio: Number', function (assert) {
         var ratios = [NaN, 0, 9, -8 / 7, -6 / 5, -1, -1 / 2, -3 / 4, 1 / 2, 3 / 4, 1, 8 / 7, 6 / 5, 9];

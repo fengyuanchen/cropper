@@ -6,8 +6,8 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      var canvasData,
-          cropBoxData;
+      var canvasData;
+      var cropBoxData;
 
       QUnit.test('options.strict: true', function (assert) {
         $image.cropper('zoom', -0.5); // Zoom out

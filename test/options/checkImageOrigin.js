@@ -2,11 +2,11 @@ $(function () {
 
   'use strict';
 
-  var crossOriginImage = 'http://fengyuanchen.github.io/cropper/img/picture.jpg',
-      $image = $(window.createCropperImage({
+  var crossOriginImage = 'http://fengyuanchen.github.io/cropper/img/picture.jpg';
+  var $image = $(window.createCropperImage({
         src: crossOriginImage
-      })),
-      $image2 = $(window.createCropperImage({
+      }));
+  var $image2 = $(window.createCropperImage({
         src: crossOriginImage,
         crossOrigin: 'anonymous'
       }));

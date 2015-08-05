@@ -6,12 +6,12 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      var cropper = $image.data('cropper'),
-          image = cropper.image;
+      var cropper = $image.data('cropper');
+      var image = cropper.image;
 
       QUnit.test('methods.zoom', function (assert) {
-        var width = image.width,
-            height = image.height;
+        var width = image.width;
+        var height = image.height;
 
         $image.cropper('zoom', 0.1);
 

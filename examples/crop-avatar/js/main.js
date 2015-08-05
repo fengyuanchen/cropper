@@ -1,10 +1,12 @@
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
+    // AMD. Register as anonymous module.
     define(['jquery'], factory);
   } else if (typeof exports === 'object') {
     // Node / CommonJS
     factory(require('jquery'));
   } else {
+    // Browser globals.
     factory(jQuery);
   }
 })(function ($) {
@@ -82,12 +84,12 @@
     },
 
     initIframe: function () {
-      var target = 'upload-iframe-' + (new Date()).getTime(),
-          $iframe = $('<iframe>').attr({
+      var target = 'upload-iframe-' + (new Date()).getTime();
+      var $iframe = $('<iframe>').attr({
             name: target,
             src: ''
-          }),
-          _this = this;
+          });
+      var _this = this;
 
       // Ready ifrmae
       $iframe.one('load', function () {
@@ -129,8 +131,8 @@
     },
 
     change: function () {
-      var files,
-          file;
+      var files;
+      var file;
 
       if (this.support.datauri) {
         files = this.$avatarInput.prop('files');
@@ -230,9 +232,9 @@
     },
 
     ajaxUpload: function () {
-      var url = this.$avatarForm.attr('action'),
-          data = new FormData(this.$avatarForm[0]),
-          _this = this;
+      var url = this.$avatarForm.attr('action');
+      var data = new FormData(this.$avatarForm[0]);
+      var _this = this;
 
       $.ajax(url, {
         type: 'post',

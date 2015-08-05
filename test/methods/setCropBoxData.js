@@ -2,10 +2,11 @@ $(function () {
 
   'use strict';
 
-  var $image = $(window.createCropperImage()),
-      isNumber = function (n) {
-        return typeof n === 'number' && !isNaN(n);
-      };
+  var $image = $(window.createCropperImage());
+
+  function isNumber(n) {
+    return typeof n === 'number' && !isNaN(n);
+  }
 
   $image.cropper({
     built: function () {
