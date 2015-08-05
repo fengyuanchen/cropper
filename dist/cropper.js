@@ -972,7 +972,7 @@
         delta = e.detail > 0 ? 1 : -1;
       }
 
-      this.zoom(-delta * 0.1);
+      this.zoom(-delta * this.options.zoomRatio);
     },
 
     dragstart: function (event) {
@@ -1561,6 +1561,26 @@
       }
     },
 
+    setZoomRatio: function (zoomRatio) {
+      var options = this.options;
+
+      if (!this.disabled && !isUndefined(zoomRatio)) {
+        options.zoomRatio = num(zoomRatio) || NaN; // 0 -> NaN
+
+        if (this.built) {
+          this.initCropBox();
+
+          if (this.cropped) {
+            this.renderCropBox();
+          }
+        }
+      }
+	},
+
+    getZoomRatio: function () {
+      return this.options.zoomRatio;
+	},
+
     setDragMode: function (mode) {
       var options = this.options,
           croppable,
@@ -1983,6 +2003,7 @@
     // Defines the aspect ratio of the crop box
     // Type: Number
     aspectRatio: NaN,
+    zoomRatio: 0.1,
 
     // Defines the percentage of automatic cropping area when initializes
     // Type: Number (Must large than 0 and less than 1)
