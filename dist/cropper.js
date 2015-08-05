@@ -1564,22 +1564,14 @@
     setZoomRatio: function (zoomRatio) {
       var options = this.options;
 
-      if (!this.disabled && !isUndefined(zoomRatio)) {
-        options.zoomRatio = num(zoomRatio) || NaN; // 0 -> NaN
-
-        if (this.built) {
-          this.initCropBox();
-
-          if (this.cropped) {
-            this.renderCropBox();
-          }
-        }
+      if (!isUndefined(zoomRatio)) {
+        options.zoomRatio = num(zoomRatio) || 0.1;
       }
-	},
+    },
 
     getZoomRatio: function () {
       return this.options.zoomRatio;
-	},
+    },
 
     setDragMode: function (mode) {
       var options = this.options,
