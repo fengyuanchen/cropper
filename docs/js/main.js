@@ -61,7 +61,7 @@ $(function () {
         console.log(e.type);
       },
       'zoom.cropper': function (e) {
-        console.log(e.type, e.zoomType, e.zoomRatio);
+        console.log(e.type, e.ratio);
       }
     }).cropper(options);
 

@@ -149,8 +149,7 @@
       if (ratio && this.built && !this.disabled && this.options.zoomable) {
         if (this.trigger(EVENT_ZOOM, {
           originalEvent: _originalEvent,
-          zoomType: ratio > 0 ? 'zoomin' : 'zoomout',
-          zoomRatio: ratio
+          ratio: ratio
         })) {
           return;
         }
