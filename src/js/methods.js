@@ -167,7 +167,7 @@
         canvas.width = width;
         canvas.height = height;
         this.renderCanvas(true);
-        this.setDragMode('move');
+        this.setDragMode(ACTION_MOVE);
       }
     },
 
@@ -559,9 +559,9 @@
       var movable;
 
       if (this.ready && !this.disabled) {
-        croppable = options.dragCrop && mode === 'crop';
-        movable = options.movable && mode === 'move';
-        mode = (croppable || movable) ? mode : 'none';
+        croppable = options.dragCrop && mode === ACTION_CROP;
+        movable = options.movable && mode === ACTION_MOVE;
+        mode = (croppable || movable) ? mode : ACTION_NONE;
 
         this.$dragBox.
           data('action', mode).

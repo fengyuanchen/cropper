@@ -7,9 +7,6 @@
   var NAMESPACE = 'cropper';
   var PREVIEW = 'preview.' + NAMESPACE;
 
-  // RegExps
-  var REGEXP_ACTIONS = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/;
-
   // Classes
   var CLASS_MODAL = 'cropper-modal';
   var CLASS_HIDE = 'cropper-hide';
@@ -34,6 +31,24 @@
   var EVENT_CROP_END = 'cropend.' + NAMESPACE;
   var EVENT_CHANGE = 'change.' + NAMESPACE;
   var EVENT_ZOOM = 'zoom.' + NAMESPACE;
+
+  // RegExps
+  var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+
+  // Actions
+  var ACTION_EAST = 'e';
+  var ACTION_WEST = 'w';
+  var ACTION_SOUTH = 's';
+  var ACTION_NORTH = 'n';
+  var ACTION_SOUTH_EAST = 'se';
+  var ACTION_SOUTH_WEST = 'sw';
+  var ACTION_NORTH_EAST = 'ne';
+  var ACTION_NORTH_WEST = 'nw';
+  var ACTION_ALL = 'all';
+  var ACTION_CROP = 'crop';
+  var ACTION_MOVE = 'move';
+  var ACTION_ZOOM = 'zoom';
+  var ACTION_NONE = 'none';
 
   // Supports
   var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);

@@ -44,13 +44,13 @@
 
       switch (action) {
         // Move crop box
-        case 'all':
+        case ACTION_ALL:
           left += range.x;
           top += range.y;
           break;
 
         // Resize crop box
-        case 'e':
+        case ACTION_EAST:
           if (range.x >= 0 && (right >= maxWidth || aspectRatio &&
             (top <= minTop || bottom >= maxHeight))) {
 
@@ -66,13 +66,13 @@
           }
 
           if (width < 0) {
-            action = 'w';
+            action = ACTION_WEST;
             width = 0;
           }
 
           break;
 
-        case 'n':
+        case ACTION_NORTH:
           if (range.y <= 0 && (top <= minTop || aspectRatio &&
             (left <= minLeft || right >= maxWidth))) {
 
@@ -89,13 +89,13 @@
           }
 
           if (height < 0) {
-            action = 's';
+            action = ACTION_SOUTH;
             height = 0;
           }
 
           break;
 
-        case 'w':
+        case ACTION_WEST:
           if (range.x <= 0 && (left <= minLeft || aspectRatio &&
             (top <= minTop || bottom >= maxHeight))) {
 
@@ -112,13 +112,13 @@
           }
 
           if (width < 0) {
-            action = 'e';
+            action = ACTION_EAST;
             width = 0;
           }
 
           break;
 
-        case 's':
+        case ACTION_SOUTH:
           if (range.y >= 0 && (bottom >= maxHeight || aspectRatio &&
             (left <= minLeft || right >= maxWidth))) {
 
@@ -134,13 +134,13 @@
           }
 
           if (height < 0) {
-            action = 'n';
+            action = ACTION_NORTH;
             height = 0;
           }
 
           break;
 
-        case 'ne':
+        case ACTION_NORTH_EAST:
           if (aspectRatio) {
             if (range.y <= 0 && (top <= minTop || right >= maxWidth)) {
               renderable = false;
@@ -173,20 +173,20 @@
           }
 
           if (width < 0 && height < 0) {
-            action = 'sw';
+            action = ACTION_SOUTH_WEST;
             height = 0;
             width = 0;
           } else if (width < 0) {
-            action = 'nw';
+            action = ACTION_NORTH_WEST;
             width = 0;
           } else if (height < 0) {
-            action = 'se';
+            action = ACTION_SOUTH_EAST;
             height = 0;
           }
 
           break;
 
-        case 'nw':
+        case ACTION_NORTH_WEST:
           if (aspectRatio) {
             if (range.y <= 0 && (top <= minTop || left <= minLeft)) {
               renderable = false;
@@ -222,20 +222,20 @@
           }
 
           if (width < 0 && height < 0) {
-            action = 'se';
+            action = ACTION_SOUTH_EAST;
             height = 0;
             width = 0;
           } else if (width < 0) {
-            action = 'ne';
+            action = ACTION_NORTH_EAST;
             width = 0;
           } else if (height < 0) {
-            action = 'sw';
+            action = ACTION_SOUTH_WEST;
             height = 0;
           }
 
           break;
 
-        case 'sw':
+        case ACTION_SOUTH_WEST:
           if (aspectRatio) {
             if (range.x <= 0 && (left <= minLeft || bottom >= maxHeight)) {
               renderable = false;
@@ -268,20 +268,20 @@
           }
 
           if (width < 0 && height < 0) {
-            action = 'ne';
+            action = ACTION_NORTH_EAST;
             height = 0;
             width = 0;
           } else if (width < 0) {
-            action = 'se';
+            action = ACTION_SOUTH_EAST;
             width = 0;
           } else if (height < 0) {
-            action = 'nw';
+            action = ACTION_NORTH_WEST;
             height = 0;
           }
 
           break;
 
-        case 'se':
+        case ACTION_SOUTH_EAST:
           if (aspectRatio) {
             if (range.x >= 0 && (right >= maxWidth || bottom >= maxHeight)) {
               renderable = false;
@@ -311,21 +311,21 @@
           }
 
           if (width < 0 && height < 0) {
-            action = 'nw';
+            action = ACTION_NORTH_WEST;
             height = 0;
             width = 0;
           } else if (width < 0) {
-            action = 'sw';
+            action = ACTION_SOUTH_WEST;
             width = 0;
           } else if (height < 0) {
-            action = 'ne';
+            action = ACTION_NORTH_EAST;
             height = 0;
           }
 
           break;
 
         // Move canvas
-        case 'move':
+        case ACTION_MOVE:
           canvas.left += range.x;
           canvas.top += range.y;
           this.renderCanvas(true);
@@ -333,7 +333,7 @@
           break;
 
         // Zoom canvas
-        case 'zoom':
+        case ACTION_ZOOM:
           this.zoom((function (x1, y1, x2, y2) {
             var z1 = sqrt(x1 * x1 + y1 * y1);
             var z2 = sqrt(x2 * x2 + y2 * y2);
@@ -351,7 +351,7 @@
           break;
 
         // Create crop box
-        case 'crop':
+        case ACTION_CROP:
           if (range.x && range.y) {
             offset = this.$cropper.offset();
             left = this.startX - offset.left;
@@ -361,17 +361,17 @@
 
             if (range.x > 0) {
               if (range.y > 0) {
-                action = 'se';
+                action = ACTION_SOUTH_EAST;
               } else {
-                action = 'ne';
+                action = ACTION_NORTH_EAST;
                 top -= height;
               }
             } else {
               if (range.y > 0) {
-                action = 'sw';
+                action = ACTION_SOUTH_WEST;
                 left -= width;
               } else {
-                action = 'nw';
+                action = ACTION_NORTH_WEST;
                 left -= width;
                 top -= height;
               }

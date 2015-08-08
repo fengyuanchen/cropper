@@ -34,9 +34,9 @@
       }
 
       if (this.$dragBox.hasClass(CLASS_CROP)) {
-        this.setDragMode('move');
+        this.setDragMode(ACTION_MOVE);
       } else {
-        this.setDragMode('crop');
+        this.setDragMode(ACTION_CROP);
       }
     },
 
@@ -82,7 +82,7 @@
             e = touches[1];
             this.startX2 = e.pageX;
             this.startY2 = e.pageY;
-            action = 'zoom';
+            action = ACTION_ZOOM;
           } else {
             return;
           }
@@ -106,7 +106,7 @@
         this.startX = e.pageX;
         this.startY = e.pageY;
 
-        if (action === 'crop') {
+        if (action === ACTION_CROP) {
           this.cropping = true;
           this.$dragBox.addClass(CLASS_MODAL);
         }
@@ -152,7 +152,7 @@
         this.endX = e.pageX;
         this.endY = e.pageY;
 
-        this.change(e.shiftKey, action === 'zoom' ? originalEvent : null);
+        this.change(e.shiftKey, action === ACTION_ZOOM ? originalEvent : null);
       }
     },
 

@@ -57,7 +57,7 @@
       }
 
       if (options.cropBoxMovable) {
-        $face.addClass(CLASS_MOVE).data('action', 'all');
+        $face.addClass(CLASS_MOVE).data('action', ACTION_ALL);
       }
 
       if (!options.highlight) {
@@ -72,7 +72,7 @@
         $cropBox.find('.cropper-line, .cropper-point').addClass(CLASS_HIDDEN);
       }
 
-      this.setDragMode(options.dragCrop ? 'crop' : (options.movable ? 'move' : 'none'));
+      this.setDragMode(options.dragCrop ? ACTION_CROP : (options.movable ? ACTION_MOVE : ACTION_NONE));
 
       this.built = true;
       this.render();
