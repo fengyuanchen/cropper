@@ -9,7 +9,7 @@ $(function () {
     QUnit.test('events.cropend', function (assert) {
       assert.equal(e.type, 'cropend');
       assert.equal(e.namespace, 'cropper');
-      assert.equal(e.cropType, 'crop');
+      assert.equal(e.action, 'crop');
     });
 
   }).cropper({
@@ -25,7 +25,7 @@ $(function () {
       QUnit.test('options.cropend', function (assert) {
         assert.equal(e.type, 'cropend');
         assert.equal(e.namespace, 'cropper');
-        assert.equal(e.cropType, 'crop');
+        assert.equal(e.action, 'crop');
       });
 
     }

@@ -8,7 +8,7 @@
   var PREVIEW = 'preview.' + NAMESPACE;
 
   // RegExps
-  var REGEXP_CROP_TYPES = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/;
+  var REGEXP_ACTIONS = /^(e|n|w|s|ne|nw|sw|se|all|crop|move|zoom)$/;
 
   // Classes
   var CLASS_MODAL = 'cropper-modal';

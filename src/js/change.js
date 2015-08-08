@@ -2,7 +2,7 @@
     change: function (shiftKey, originalEvent) {
       var options = this.options;
       var aspectRatio = options.aspectRatio;
-      var cropType = this.cropType;
+      var action = this.action;
       var container = this.container;
       var canvas = this.canvas;
       var cropBox = this.cropBox;
@@ -42,8 +42,7 @@
         range.Y = range.x / aspectRatio;
       }
 
-      switch (cropType) {
-
+      switch (action) {
         // Move crop box
         case 'all':
           left += range.x;
@@ -67,7 +66,7 @@
           }
 
           if (width < 0) {
-            cropType = 'w';
+            action = 'w';
             width = 0;
           }
 
@@ -90,7 +89,7 @@
           }
 
           if (height < 0) {
-            cropType = 's';
+            action = 's';
             height = 0;
           }
 
@@ -113,7 +112,7 @@
           }
 
           if (width < 0) {
-            cropType = 'e';
+            action = 'e';
             width = 0;
           }
 
@@ -135,7 +134,7 @@
           }
 
           if (height < 0) {
-            cropType = 'n';
+            action = 'n';
             height = 0;
           }
 
@@ -174,14 +173,14 @@
           }
 
           if (width < 0 && height < 0) {
-            cropType = 'sw';
+            action = 'sw';
             height = 0;
             width = 0;
           } else if (width < 0) {
-            cropType = 'nw';
+            action = 'nw';
             width = 0;
           } else if (height < 0) {
-            cropType = 'se';
+            action = 'se';
             height = 0;
           }
 
@@ -223,14 +222,14 @@
           }
 
           if (width < 0 && height < 0) {
-            cropType = 'se';
+            action = 'se';
             height = 0;
             width = 0;
           } else if (width < 0) {
-            cropType = 'ne';
+            action = 'ne';
             width = 0;
           } else if (height < 0) {
-            cropType = 'sw';
+            action = 'sw';
             height = 0;
           }
 
@@ -269,14 +268,14 @@
           }
 
           if (width < 0 && height < 0) {
-            cropType = 'ne';
+            action = 'ne';
             height = 0;
             width = 0;
           } else if (width < 0) {
-            cropType = 'se';
+            action = 'se';
             width = 0;
           } else if (height < 0) {
-            cropType = 'nw';
+            action = 'nw';
             height = 0;
           }
 
@@ -312,14 +311,14 @@
           }
 
           if (width < 0 && height < 0) {
-            cropType = 'nw';
+            action = 'nw';
             height = 0;
             width = 0;
           } else if (width < 0) {
-            cropType = 'sw';
+            action = 'sw';
             width = 0;
           } else if (height < 0) {
-            cropType = 'ne';
+            action = 'ne';
             height = 0;
           }
 
@@ -362,17 +361,17 @@
 
             if (range.x > 0) {
               if (range.y > 0) {
-                cropType = 'se';
+                action = 'se';
               } else {
-                cropType = 'ne';
+                action = 'ne';
                 top -= height;
               }
             } else {
               if (range.y > 0) {
-                cropType = 'sw';
+                action = 'sw';
                 left -= width;
               } else {
-                cropType = 'nw';
+                action = 'nw';
                 left -= width;
                 top -= height;
               }
@@ -395,7 +394,7 @@
         cropBox.height = height;
         cropBox.left = left;
         cropBox.top = top;
-        this.cropType = cropType;
+        this.action = action;
 
         this.renderCropBox();
       }

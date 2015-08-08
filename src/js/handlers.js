@@ -68,7 +68,7 @@
       var touches = originalEvent && originalEvent.touches;
       var e = originalEvent || event;
       var touchesLength;
-      var cropType;
+      var action;
 
       if (this.disabled) {
         return;
@@ -82,7 +82,7 @@
             e = touches[1];
             this.startX2 = e.pageX;
             this.startY2 = e.pageY;
-            cropType = 'zoom';
+            action = 'zoom';
           } else {
             return;
           }
@@ -91,22 +91,22 @@
         e = touches[0];
       }
 
-      cropType = cropType || $(e.target).data('type');
+      action = action || $(e.target).data('action');
 
-      if (REGEXP_CROP_TYPES.test(cropType)) {
+      if (REGEXP_ACTIONS.test(action)) {
         if (this.trigger(EVENT_CROP_START, {
           originalEvent: originalEvent,
-          cropType: cropType
+          action: action
         })) {
           return;
         }
 
-        this.cropType = cropType;
+        this.action = action;
         this.cropping = false;
         this.startX = e.pageX;
         this.startY = e.pageY;
 
-        if (cropType === 'crop') {
+        if (action === 'crop') {
           this.cropping = true;
           this.$dragBox.addClass(CLASS_MODAL);
         }
@@ -118,7 +118,7 @@
       var originalEvent = event.originalEvent;
       var touches = originalEvent && originalEvent.touches;
       var e = originalEvent || event;
-      var cropType = this.cropType;
+      var action = this.action;
       var touchesLength;
 
       if (this.disabled) {
@@ -141,10 +141,10 @@
         e = touches[0];
       }
 
-      if (cropType) {
+      if (action) {
         if (this.trigger(EVENT_CROP_MOVE, {
           originalEvent: originalEvent,
-          cropType: cropType
+          action: action
         })) {
           return;
         }
@@ -152,29 +152,29 @@
         this.endX = e.pageX;
         this.endY = e.pageY;
 
-        this.change(e.shiftKey, cropType === 'zoom' ? originalEvent : null);
+        this.change(e.shiftKey, action === 'zoom' ? originalEvent : null);
       }
     },
 
     cropEnd: function (event) {
       var originalEvent = event.originalEvent;
-      var cropType = this.cropType;
+      var action = this.action;
 
       if (this.disabled) {
         return;
       }
 
-      if (cropType) {
+      if (action) {
         if (this.cropping) {
           this.cropping = false;
           this.$dragBox.toggleClass(CLASS_MODAL, this.cropped && this.options.modal);
         }
 
-        this.cropType = '';
+        this.action = '';
 
         this.trigger(EVENT_CROP_END, {
           originalEvent: originalEvent,
-          cropType: cropType
+          action: action
         });
       }
     }

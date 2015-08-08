@@ -57,7 +57,7 @@
       }
 
       if (options.cropBoxMovable) {
-        $face.addClass(CLASS_MOVE).data('type', 'all');
+        $face.addClass(CLASS_MOVE).data('action', 'all');
       }
 
       if (!options.highlight) {
