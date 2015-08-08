@@ -29,7 +29,7 @@
   var EVENT_CROP_START = 'cropstart.' + NAMESPACE;
   var EVENT_CROP_MOVE = 'cropmove.' + NAMESPACE;
   var EVENT_CROP_END = 'cropend.' + NAMESPACE;
-  var EVENT_CHANGE = 'change.' + NAMESPACE;
+  var EVENT_CROP = 'crop.' + NAMESPACE;
   var EVENT_ZOOM = 'zoom.' + NAMESPACE;
 
   // RegExps

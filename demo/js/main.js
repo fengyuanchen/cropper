@@ -30,57 +30,14 @@ $(function () {
     var $dataWidth = $('#dataWidth');
     var $dataRotate = $('#dataRotate');
     var options = {
-          // data: {
-          //   x: 420;
-          //   y: 60,
-          //   width: 640,
-          //   height: 360
-          // },
-          // strict: false,
-          // responsive: false,
-          // checkImageOrigin: false
-
-          // modal: false,
-          // guides: false,
-          // center: false,
-          // highlight: false,
-          // background: false,
-
-          // autoCrop: false,
-          // autoCropArea: 0.5,
-          // dragCrop: false,
-          // movable: false,
-          // rotatable: false,
-          // zoomable: false,
-          // touchDragZoom: false,
-          // mouseWheelZoom: false,
-          // cropBoxMovable: false,
-          // cropBoxResizable: false,
-          // doubleClickToggle: false,
-
-          // minCanvasWidth: 320,
-          // minCanvasHeight: 180,
-          // minCropBoxWidth: 160,
-          // minCropBoxHeight: 90,
-          // minContainerWidth: 320,
-          // minContainerHeight: 180,
-
-          // build: null,
-          // built: null,
-          // cropstart: null,
-          // cropmove: null,
-          // cropend: null,
-          // change: null,
-          // zoom: null,
-
           aspectRatio: 16 / 9,
           preview: '.img-preview',
-          crop: function (data) {
-            $dataX.val(Math.round(data.x));
-            $dataY.val(Math.round(data.y));
-            $dataHeight.val(Math.round(data.height));
-            $dataWidth.val(Math.round(data.width));
-            $dataRotate.val(Math.round(data.rotate));
+          crop: function (e) {
+            $dataX.val(Math.round(e.x));
+            $dataY.val(Math.round(e.y));
+            $dataHeight.val(Math.round(e.height));
+            $dataWidth.val(Math.round(e.width));
+            $dataRotate.val(Math.round(e.rotate));
           }
         };
 
@@ -92,16 +49,16 @@ $(function () {
         console.log(e.type);
       },
       'cropstart.cropper': function (e) {
-        console.log(e.type, e.cropType);
+        console.log(e.type, e.action);
       },
       'cropmove.cropper': function (e) {
-        console.log(e.type, e.cropType);
+        console.log(e.type, e.action);
       },
       'cropend.cropper': function (e) {
-        console.log(e.type, e.cropType);
+        console.log(e.type, e.action);
       },
-      'change.cropper': function (e) {
-        console.log(e.type);
+      'crop.cropper': function (e) {
+        console.log(e.type, e.x, e.y, e.width, e.height, e.rotate);
       },
       'zoom.cropper': function (e) {
         console.log(e.type, e.ratio);

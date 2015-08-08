@@ -16,8 +16,8 @@
         $this.on(EVENT_CROP_END, options.cropend);
       }
 
-      if ($.isFunction(options.change)) {
-        $this.on(EVENT_CHANGE, options.change);
+      if ($.isFunction(options.crop)) {
+        $this.on(EVENT_CROP, options.crop);
       }
 
       if ($.isFunction(options.zoom)) {
@@ -60,8 +60,8 @@
         $this.off(EVENT_CROP_END, options.cropend);
       }
 
-      if ($.isFunction(options.change)) {
-        $this.off(EVENT_CHANGE, options.change);
+      if ($.isFunction(options.crop)) {
+        $this.off(EVENT_CROP, options.crop);
       }
 
       if ($.isFunction(options.zoom)) {

@@ -367,14 +367,7 @@
     },
 
     output: function () {
-      var options = this.options;
-
       this.preview();
-
-      if (options.crop) {
-        options.crop.call(this.$element, this.getData());
-      }
-
-      this.trigger(EVENT_CHANGE);
+      this.trigger(EVENT_CROP, this.getData());
     }
   });

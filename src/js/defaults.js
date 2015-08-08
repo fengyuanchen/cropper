@@ -6,9 +6,6 @@
     // Defines the percentage of automatic cropping area when initializes
     autoCropArea: 0.8,
 
-    // A function for outputting the cropping results
-    crop: null,
-
     // An object with the previous cropping result data
     data: null,
 
@@ -83,7 +80,7 @@
     cropstart: null,
     cropmove: null,
     cropend: null,
-    change: null,
+    crop: null,
     zoom: null
   };
 

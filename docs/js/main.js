@@ -32,12 +32,12 @@ $(function () {
     var options = {
           aspectRatio: 16 / 9,
           preview: '.img-preview',
-          crop: function (data) {
-            $dataX.val(Math.round(data.x));
-            $dataY.val(Math.round(data.y));
-            $dataHeight.val(Math.round(data.height));
-            $dataWidth.val(Math.round(data.width));
-            $dataRotate.val(Math.round(data.rotate));
+          crop: function (e) {
+            $dataX.val(Math.round(e.x));
+            $dataY.val(Math.round(e.y));
+            $dataHeight.val(Math.round(e.height));
+            $dataWidth.val(Math.round(e.width));
+            $dataRotate.val(Math.round(e.rotate));
           }
         };
 
@@ -49,16 +49,16 @@ $(function () {
         console.log(e.type);
       },
       'cropstart.cropper': function (e) {
-        console.log(e.type, e.cropType);
+        console.log(e.type, e.action);
       },
       'cropmove.cropper': function (e) {
-        console.log(e.type, e.cropType);
+        console.log(e.type, e.action);
       },
       'cropend.cropper': function (e) {
-        console.log(e.type, e.cropType);
+        console.log(e.type, e.action);
       },
-      'change.cropper': function (e) {
-        console.log(e.type);
+      'crop.cropper': function (e) {
+        console.log(e.type, e.x, e.y, e.width, e.height, e.rotate);
       },
       'zoom.cropper': function (e) {
         console.log(e.type, e.ratio);
