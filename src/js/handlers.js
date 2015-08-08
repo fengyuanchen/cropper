@@ -43,6 +43,7 @@
     wheel: function (event) {
       var originalEvent = event.originalEvent;
       var e = originalEvent;
+      var ratio = num(this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
       if (this.disabled) {
@@ -59,7 +60,7 @@
         delta = e.detail > 0 ? 1 : -1;
       }
 
-      this.zoom(-delta * 0.1, originalEvent);
+      this.zoom(-delta * ratio, originalEvent);
     },
 
     cropStart: function (event) {

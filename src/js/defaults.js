@@ -1,10 +1,7 @@
   Cropper.DEFAULTS = {
 
-    // Defines the aspect ratio of the crop box
+    // Define the aspect ratio of the crop box
     aspectRatio: NaN,
-
-    // Defines the percentage of automatic cropping area when initializes
-    autoCropArea: 0.8,
 
     // An object with the previous cropping result data
     data: null,
@@ -39,6 +36,9 @@
     // Enable to crop the image automatically when initialize
     autoCrop: true,
 
+    // Define the percentage of automatic cropping area when initializes
+    autoCropArea: 0.8,
+
     // Enable to create new crop box by dragging over the image
     dragCrop: true,
 
@@ -52,10 +52,13 @@
     zoomable: true,
 
     // Enable to zoom the image by wheeling mouse
-    touchDragZoom: true,
+    mouseWheelZoom: true,
+
+    // Define zoom ratio when zoom the image by wheeling mouse
+    wheelZoomRatio: 0.1,
 
     // Enable to zoom the image by dragging touch
-    mouseWheelZoom: true,
+    touchDragZoom: true,
 
     // Enable to move the crop box
     cropBoxMovable: true,
