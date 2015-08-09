@@ -10,12 +10,10 @@ $(function () {
       assert.equal(e.type, 'zoom');
       assert.equal(e.namespace, 'cropper');
 
-      if (e.zoomRatio > 0) {
-        assert.equal(e.zoomRatio, 0.1);
-        assert.equal(e.zoomType, 'zoomin');
+      if (e.ratio > 0) {
+        assert.equal(e.ratio, 0.1);
       } else {
-        assert.equal(e.zoomRatio, -0.1);
-        assert.equal(e.zoomType, 'zoomout');
+        assert.equal(e.ratio, -0.1);
       }
     });
 
@@ -30,12 +28,10 @@ $(function () {
         assert.equal(e.type, 'zoom');
         assert.equal(e.namespace, 'cropper');
 
-        if (e.zoomRatio > 0) {
-          assert.equal(e.zoomRatio, 0.1);
-          assert.equal(e.zoomType, 'zoomin');
+        if (e.ratio > 0) {
+          assert.equal(e.ratio, 0.1);
         } else {
-          assert.equal(e.zoomRatio, -0.1);
-          assert.equal(e.zoomType, 'zoomout');
+          assert.equal(e.ratio, -0.1);
         }
       });
 

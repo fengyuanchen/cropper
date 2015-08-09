@@ -9,8 +9,6 @@ $(function () {
       var image = $image.data('cropper').image;
 
       QUnit.test('methods.rotate', function (assert) {
-        assert.ok(image.rotate === 0);
-
         $image.cropper('rotate', 360);
         assert.ok(image.rotate === 0);
 
