@@ -33,7 +33,7 @@
       this.$face = $face = $cropBox.find('.cropper-face');
 
       this.initPreview();
-      this.addListeners();
+      this.bind();
 
       // Format aspect ratio (0 -> NaN)
       options.aspectRatio = num(options.aspectRatio) || NaN;
@@ -97,7 +97,7 @@
 
       // Clear `cropBox` is necessary when replace
       this.cropBox = null;
-      this.removeListeners();
+      this.unbind();
 
       this.resetPreview();
       this.$preview = null;
