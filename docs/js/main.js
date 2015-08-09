@@ -29,6 +29,8 @@ $(function () {
     var $dataHeight = $('#dataHeight');
     var $dataWidth = $('#dataWidth');
     var $dataRotate = $('#dataRotate');
+    var $dataScaleX = $('#dataScaleX');
+    var $dataScaleY = $('#dataScaleY');
     var options = {
           aspectRatio: 16 / 9,
           preview: '.img-preview',
@@ -37,7 +39,9 @@ $(function () {
             $dataY.val(Math.round(e.y));
             $dataHeight.val(Math.round(e.height));
             $dataWidth.val(Math.round(e.width));
-            $dataRotate.val(Math.round(e.rotate));
+            $dataRotate.val(e.rotate);
+            $dataScaleX.val(e.scaleX);
+            $dataScaleY.val(e.scaleY);
           }
         };
 
@@ -58,7 +62,7 @@ $(function () {
         console.log(e.type, e.action);
       },
       'crop.cropper': function (e) {
-        console.log(e.type, e.x, e.y, e.width, e.height, e.rotate);
+        console.log(e.type);
       },
       'zoom.cropper': function (e) {
         console.log(e.type, e.ratio);
@@ -91,7 +95,15 @@ $(function () {
           }
         }
 
-        result = $image.cropper(data.method, data.option);
+        result = $image.cropper(data.method, data.option, data.secondOption);
+
+        if (data.flip === 'horizontal') {
+          $(this).data('option', -data.option);
+        }
+
+        if (data.flip === 'vertical') {
+          $(this).data('secondOption', -data.secondOption);
+        }
 
         if (data.method === 'getCroppedCanvas') {
           $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);

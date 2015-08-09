@@ -11,7 +11,8 @@
   <link href="apple-touch-icon.png" rel="apple-touch-icon">
   <link href="favicon.ico" rel="shortcut icon">
   <link href="favicon.ico" rel="icon">
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/cropper.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
 
@@ -37,7 +38,7 @@
       <nav class="collapse navbar-collapse" id="navbar-collapse-1" role="navigation">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#examples">Examples</a></li>
-          <li><a href="//github.com/fengyuanchen/cropper/blob/master/README.md">Docs</a></li>
+          <li><a href="//github.com/fengyuanchen/cropper/tree/v0.11.0/README.md">Docs</a></li>
           <li><a href="//github.com/fengyuanchen/cropper">Github</a></li>
           <li><a href="//chenfengyuan.com">About</a></li>
           <li><a href="//fengyuanchen.github.io/">More</a></li>
@@ -49,7 +50,7 @@
   <!-- Jumbotron -->
   <div class="jumbotron docs-jumbotron">
     <div class="container">
-      <h1>Cropper <small class="version">v0.10.1</small></h1>
+      <h1>Cropper <small class="version">v0.11.0</small></h1>
       <p class="lead">A simple jQuery image cropping plugin.</p>
       <div class="docs-carbonads-container">
         <div class="docs-carbonads">
@@ -104,6 +105,14 @@
             <input class="form-control" id="dataRotate" type="text" placeholder="rotate">
             <span class="input-group-addon">deg</span>
           </div>
+          <div class="input-group">
+            <label class="input-group-addon" for="dataScaleX">ScaleX</label>
+            <input class="form-control" id="dataScaleX" type="text" placeholder="scaleX">
+          </div>
+          <div class="input-group">
+            <label class="input-group-addon" for="dataScaleY">ScaleY</label>
+            <input class="form-control" id="dataScaleY" type="text" placeholder="scaleY">
+          </div>
         </div>
       </div>
     </div>
@@ -113,32 +122,74 @@
         <div class="btn-group">
           <button class="btn btn-primary" data-method="setDragMode" data-option="move" type="button" title="Move">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)">
-              <span class="icon icon-move"></span>
+              <span class="fa fa-arrows"></span>
             </span>
           </button>
           <button class="btn btn-primary" data-method="setDragMode" data-option="crop" type="button" title="Crop">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;crop&quot;)">
-              <span class="icon icon-crop"></span>
+              <span class="fa fa-crop"></span>
             </span>
           </button>
+        </div>
+
+        <div class="btn-group">
           <button class="btn btn-primary" data-method="zoom" data-option="0.1" type="button" title="Zoom In">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, 0.1)">
-              <span class="icon icon-zoom-in"></span>
+              <span class="fa fa-search-plus"></span>
             </span>
           </button>
           <button class="btn btn-primary" data-method="zoom" data-option="-0.1" type="button" title="Zoom Out">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, -0.1)">
-              <span class="icon icon-zoom-out"></span>
+              <span class="fa fa-search-minus"></span>
             </span>
           </button>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0" type="button" title="Move Left">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, -10, 0)">
+              <span class="fa fa-arrow-left"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="move" data-option="10" data-second-option="0" type="button" title="Move Right">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, 10, 0)">
+              <span class="fa fa-arrow-right"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10" type="button" title="Move Up">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, 0, -10)">
+              <span class="fa fa-arrow-up"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="move" data-option="0" data-second-option="10" type="button" title="Move Down">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, 0, 10)">
+              <span class="fa fa-arrow-down"></span>
+            </span>
+          </button>
+        </div>
+
+        <div class="btn-group">
           <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button" title="Rotate Left">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, -45)">
-              <span class="icon icon-rotate-left"></span>
+              <span class="fa fa-rotate-left"></span>
             </span>
           </button>
           <button class="btn btn-primary" data-method="rotate" data-option="45" type="button" title="Rotate Right">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, 45)">
-              <span class="icon icon-rotate-right"></span>
+              <span class="fa fa-rotate-right"></span>
+            </span>
+          </button>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-primary" data-method="scale" data-option="-1" data-second-option="1" data-flip="horizontal" type="button" title="Flip Horizontal">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;scale&quot;, -1, 1)">
+              <span class="fa fa-arrows-h"></span>
+            </span>
+          </button>
+          <button class="btn btn-primary" data-method="scale" data-option="1" data-second-option="-1" data-flip="vertical" type="button" title="Flip Vertical">
+            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;scale&quot;, 1, -1)">
+              <span class="fa fa-arrows-v"></span>
             </span>
           </button>
         </div>
@@ -146,38 +197,44 @@
         <div class="btn-group">
           <button class="btn btn-primary" data-method="crop" type="button" title="Crop">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;crop&quot;)">
-              <span class="icon icon-ok"></span>
+              <span class="fa fa-check"></span>
             </span>
           </button>
           <button class="btn btn-primary" data-method="clear" type="button" title="Clear">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;clear&quot;)">
-              <span class="icon icon-remove"></span>
+              <span class="fa fa-remove"></span>
             </span>
           </button>
+        </div>
+
+        <div class="btn-group">
           <button class="btn btn-primary" data-method="disable" type="button" title="Disable">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;disable&quot;)">
-              <span class="icon icon-lock"></span>
+              <span class="fa fa-lock"></span>
             </span>
           </button>
           <button class="btn btn-primary" data-method="enable" type="button" title="Enable">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;enable&quot;)">
-              <span class="icon icon-unlock"></span>
+              <span class="fa fa-unlock"></span>
             </span>
           </button>
+        </div>
+
+        <div class="btn-group">
           <button class="btn btn-primary" data-method="reset" type="button" title="Reset">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;reset&quot;)">
-              <span class="icon icon-refresh"></span>
+              <span class="fa fa-refresh"></span>
             </span>
           </button>
           <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
             <input class="sr-only" id="inputImage" name="file" type="file" accept="image/*">
             <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
-              <span class="icon icon-upload"></span>
+              <span class="fa fa-upload"></span>
             </span>
           </label>
           <button class="btn btn-primary" data-method="destroy" type="button" title="Destroy">
             <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;destroy&quot;)">
-              <span class="icon icon-off"></span>
+              <span class="fa fa-power-off"></span>
             </span>
           </button>
         </div>
@@ -402,20 +459,26 @@
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
+                <input type="checkbox" name="option" value="scalable" checked>
+                scalable
+              </label>
+            </li>
+            <li role="presentation">
+              <label class="checkbox-inline">
                 <input type="checkbox" name="option" value="zoomable" checked>
                 zoomable
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="touchDragZoom" checked>
-                touchDragZoom
+                <input type="checkbox" name="option" value="mouseWheelZoom" checked>
+                mouseWheelZoom
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="mouseWheelZoom" checked>
-                mouseWheelZoom
+                <input type="checkbox" name="option" value="touchDragZoom" checked>
+                touchDragZoom
               </label>
             </li>
             <li role="presentation">
@@ -467,12 +530,14 @@
           <pre class="prettyprint">$(&quot;.img-container > img&quot;).cropper({
   aspectRatio: 16 / 9,
   preview: &quot;.img-preview&quot;,
-  crop: function(data) {
-    $(&quot;#dataX&quot;).val(Math.round(data.x));
-    $(&quot;#dataY&quot;).val(Math.round(data.y));
-    $(&quot;#dataHeight&quot;).val(Math.round(data.height));
-    $(&quot;#dataWidth&quot;).val(Math.round(data.width));
-    $(&quot;#dataRotate&quot;).val(Math.round(data.rotate));
+  crop: function(e) {
+    $(&quot;#dataX&quot;).val(Math.round(e.x));
+    $(&quot;#dataY&quot;).val(Math.round(e.y));
+    $(&quot;#dataHeight&quot;).val(Math.round(e.height));
+    $(&quot;#dataWidth&quot;).val(Math.round(e.width));
+    $(&quot;#dataRotate&quot;).val(e.rotate);
+    $(&quot;#dataScaleX&quot;).val(e.scaleX);
+    $(&quot;#dataScaleY&quot;).val(e.scaleY);
   }
 });</pre>
         </div>
@@ -639,7 +704,7 @@ $('#replace-toggle').click(function () {
       <a href="//github.com/fengyuanchen/cropper/issues">Issues</a>
       <a href="//github.com/fengyuanchen/cropper/releases">Releases</a>
       <a href="//github.com/fengyuanchen/cropper/blob/master/LICENSE.md">License</a>
-      <a href="//github.com/fengyuanchen/cropper/tree/v0.8.0">v0.8.0 docs</a>
+      <a href="//github.com/fengyuanchen/cropper/0.10.1">v0.10.1 docs</a>
       <a href="//fengyuanchen.github.io/cropper/0.7.9">v0.7.9 docs</a>
       <a class="back-to-top" href="#top" title="Back to top">Back to top</a>
     </div>
