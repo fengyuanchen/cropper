@@ -102,6 +102,8 @@
           return;
         }
 
+        event.preventDefault();
+
         this.action = action;
         this.cropping = false;
         this.startX = e.pageX;
@@ -150,6 +152,8 @@
           return;
         }
 
+        event.preventDefault();
+
         this.endX = e.pageX;
         this.endY = e.pageY;
 
@@ -166,6 +170,8 @@
       }
 
       if (action) {
+        event.preventDefault();
+
         if (this.cropping) {
           this.cropping = false;
           this.$dragBox.toggleClass(CLASS_MODAL, this.cropped && this.options.modal);
