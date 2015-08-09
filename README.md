@@ -83,8 +83,16 @@ Initialize with `$.fn.cropper` method.
 ```js
 $('.container > img').cropper({
   aspectRatio: 16 / 9,
-  crop: function(data) {
+  crop: function(e) {
+
     // Output the result data for cropping image.
+    console.log(e.x);
+    console.log(e.y);
+    console.log(e.width);
+    console.log(e.height);
+    console.log(e.rotate);
+    console.log(e.scaleX);
+    console.log(e.scaleY);
   }
 });
 ```
@@ -479,12 +487,12 @@ Destroy the cropper and remove the instance from the image.
 - **offsetX**:
   - Type: `Number`
   - Default: `0`
-  - Moving size (px) in the horizontal direction
+  - Moving size (px) in the horizontal direction.
 
 - **offsetY**:
   - Type: `Number`
-  - Moving size (px) in the vertical direction
-  - If not present, its defualt value is `offsetX`
+  - Moving size (px) in the vertical direction.
+  - If not present, its defualt value is `offsetX`.
 
 Move the canvas (image wrapper).
 
@@ -532,11 +540,13 @@ $().cropper('rotate', -90);
 - **scaleX**:
   - Type: `Number`
   - Default: `1`
+  - The scaling factor to apply on the abscissa of the image.
   - When equal to `1` it does nothing.
 
 - **scaleY** (optional):
   - Type: `Number`
-  - If not present, its defualt value is `scaleX`
+  - The scaling factor to apply on the ordinate of the image.
+  - If not present, its defualt value is `scaleX`.
 
 Scale the image.
 
@@ -564,6 +574,8 @@ $().cropper('scale', 1, -1); // Flip vertical
     - `width`: the width of the cropped area
     - `height`: the height of the cropped area
     - `rotate`: the rotated degrees of the image
+    - `scaleX`: the scaling factor to apply on the abscissa of the image
+    - `scaleY`: the scaling factor to apply on the ordinate of the image
 
 Output the cropped area position and size data (base on the original image).
 
@@ -813,11 +825,15 @@ This event fires when the canvas (image wrapper) or the crop box stops to change
 
 ### crop.cropper
 
-- **event.x**: the offset left of the cropped area.
-- **event.y**: the offset top of the cropped area.
-- **event.width**: the width of the cropped area.
-- **event.height**: the height of the cropped area.
-- **event.rotate**: the rotated degrees of the image.
+- **event.x**
+- **event.y**
+- **event.width**
+- **event.height**
+- **event.rotate**
+- **event.scaleX**
+- **event.scaleY**
+
+> About these properies, see the [`getData`](#getdatarounded) method.
 
 This event fires when the canvas (image wrapper) or the crop box changed.
 
