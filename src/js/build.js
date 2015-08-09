@@ -22,7 +22,7 @@
       // Hide the original image
       $this.addClass(CLASS_HIDDEN);
 
-      // Show the clone iamge
+      // Show the clone image
       $clone.removeClass(CLASS_HIDE);
 
       this.$container = $this.parent().append($cropper);

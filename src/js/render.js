@@ -145,7 +145,7 @@
       if (this.rotated) {
         this.rotated = false;
 
-        // Computes rotatation sizes with image sizes
+        // Computes rotated sizes with image sizes
         rotated = getRotatedSizes({
           width: image.width,
           height: image.height,
@@ -287,7 +287,7 @@
         minCropBoxWidth = num(options.minCropBoxWidth) || 0;
         minCropBoxHeight = num(options.minCropBoxHeight) || 0;
 
-        // The min/maxCropBoxWidth/Height must less than conatiner width/height
+        // The min/maxCropBoxWidth/Height must less than container width/height
         cropBox.minWidth = min(containerWidth, minCropBoxWidth);
         cropBox.minHeight = min(containerHeight, minCropBoxHeight);
         cropBox.maxWidth = min(containerWidth, strict ? canvas.width : containerWidth);
