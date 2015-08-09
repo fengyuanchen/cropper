@@ -72,8 +72,7 @@
         this.image = {
           naturalWidth: naturalWidth,
           naturalHeight: naturalHeight,
-          aspectRatio: naturalWidth / naturalHeight,
-          rotate: 0
+          aspectRatio: naturalWidth / naturalHeight
         };
 
         this.url = url;
