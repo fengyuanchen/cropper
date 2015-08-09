@@ -119,16 +119,22 @@
      * Move the canvas
      *
      * @param {Number} offsetX
-     * @param {Number} offsetY
+     * @param {Number} offsetY (optional)
      */
     move: function (offsetX, offsetY) {
       var canvas = this.canvas;
 
-      if (this.built && !this.disabled && this.options.movable &&
-        isNumber(offsetX) && isNumber(offsetY)) {
+      // If "offsetY" is not present, its default value is "offsetX"
+      if (isUndefined(offsetY)) {
+        offsetY = offsetX;
+      }
 
-        canvas.left += offsetX;
-        canvas.top += offsetY;
+      offsetX = num(offsetX);
+      offsetY = num(offsetY);
+
+      if (this.built && !this.disabled && this.options.movable) {
+        canvas.left += isNumber(offsetX) ? offsetX : 0;
+        canvas.top += isNumber(offsetY) ? offsetY : 0;
         this.renderCanvas(true);
       }
     },

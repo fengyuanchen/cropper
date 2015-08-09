@@ -474,15 +474,17 @@ Disable (freeze) the cropper.
 Destroy the cropper and remove the instance from the image.
 
 
-### move(offsetX, offsetY)
+### move(offsetX[, offsetY])
 
 - **offsetX**:
   - Type: `Number`
+  - Default: `0`
   - Moving size (px) in the horizontal direction
 
 - **offsetY**:
   - Type: `Number`
   - Moving size (px) in the vertical direction
+  - If not present, its defualt value is `offsetX`
 
 Move the canvas (image wrapper).
 
