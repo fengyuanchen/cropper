@@ -826,7 +826,28 @@ This event fires when the canvas (image wrapper) or the crop box changed.
 
 This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
+```js
+$().on('zoom.cropper', function (e) {
+  var maxRatio = 10;
+  var imageData = $(this).cropper('getImageData');
+  var currentRatio = imageData.width / imageData.naturalWidth;
 
+  // Zoom in
+  if (e.ratio > 0 && currentRatio > maxRatio) {
+
+    // Prevent zoom in
+    e.preventDefault();
+
+    // Fit the max zoom ratio
+    $(this).cropper('setCanvasData', {
+      width: imageData.naturalWidth * maxRatio
+    });
+  }
+
+  // Zoom out
+  // ...
+});
+```
 
 ## No conflict
 
