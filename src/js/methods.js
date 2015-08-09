@@ -179,11 +179,12 @@
      */
     rotate: function (degree) {
       var image = this.image;
+      var rotate = image.rotate || 0;
 
-      degree = num(degree);
+      degree = num(degree) || 0;
 
-      if (degree && this.built && !this.disabled && this.options.rotatable) {
-        image.rotate = (image.rotate + degree) % 360;
+      if (this.built && !this.disabled && this.options.rotatable) {
+        image.rotate = (rotate + degree) % 360;
         this.rotated = true;
         this.renderCanvas(true);
       }
@@ -253,7 +254,7 @@
       }
 
       if (options.rotatable) {
-        data.rotate = this.ready ? image.rotate : 0;
+        data.rotate = image.rotate || 0;
       }
 
       if (options.scalable) {
