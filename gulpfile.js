@@ -137,6 +137,26 @@ gulp.task('less', function () {
     pipe(gulp.dest(styles.dest));
 });
 
+gulp.task('htmlcomb:demo', function () {
+  return gulp.src('demo/*.html').
+    pipe(plugins.htmlcomb()).
+    pipe(gulp.dest('demo'));
+});
+
+gulp.task('htmlcomb:docs', function () {
+  return gulp.src('docs/*.html').
+    pipe(plugins.htmlcomb()).
+    pipe(gulp.dest('docs'));
+});
+
+gulp.task('htmlcomb:examples', function () {
+  return gulp.src('examples/crop-avatar/*.html').
+    pipe(plugins.htmlcomb()).
+    pipe(gulp.dest('examples/crop-avatar'));
+});
+
+gulp.task('htmlcomb', ['htmlcomb:demo', 'htmlcomb:docs', 'htmlcomb:examples']);
+
 gulp.task('assets:js', function () {
   return gulp.src([
       'bower_components/jquery/dist/jquery.min.js',

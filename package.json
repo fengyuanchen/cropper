@@ -43,6 +43,7 @@
     "gulp-concat": "~2.6.0",
     "gulp-csscomb": "^3.0.6",
     "gulp-csslint": "^0.1.5",
+    "gulp-htmlcomb": "0.0.1",
     "gulp-jscs": "^2.0.0",
     "gulp-jshint": "^1.11.0",
     "gulp-less": "^3.0.3",
