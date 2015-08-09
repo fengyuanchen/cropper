@@ -6,6 +6,11 @@
   "keywords": [
     "image",
     "crop",
+    "cropping",
+    "move",
+    "zoom",
+    "rotate",
+    "scale",
     "jquery",
     "plugin",
     "html",
