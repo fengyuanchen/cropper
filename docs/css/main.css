@@ -1,48 +1,6 @@
 /* Main
  * ========================================================================== */
 
-/* Alerts
- * -------------------------------------------------------------------------- */
-
-.docs-alert {
-  display: none;
-  position: fixed;
-  top: 20px;
-  left: 0;
-  right: 0;
-  height: 0;
-  text-align: center;
-  opacity: 0.9;
-}
-
-.docs-alert .message {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 2px;
-  background-color: #aaa;
-  color: #fff;
-}
-
-.docs-alert .primary {
-  background-color: #0074d9;
-}
-
-.docs-alert .success {
-  background-color: #2ecc40;
-}
-
-.docs-alert .info {
-  background-color: #39cccc;
-}
-
-.docs-alert .warning {
-  background-color: #ff851b;
-}
-
-.docs-alert .danger {
-  background-color: #ff4136;
-}
-
 /* Button
  * -------------------------------------------------------------------------- */
 

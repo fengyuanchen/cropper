@@ -3,21 +3,11 @@ $(function () {
   'use strict';
 
   var console = window.console || { log: function () {} };
-  var $alert = $('.docs-alert');
-  var $message = $alert.find('.message');
-  var showMessage = function (message, type) {
-        $message.text(message);
+  var $body = $('body');
 
-        if (type) {
-          $message.addClass(type);
-        }
-
-        $alert.fadeIn();
-
-        setTimeout(function () {
-          $alert.fadeOut();
-        }, 3000);
-      };
+  $('[data-toggle="tooltip"]').tooltip();
+  $.fn.tooltip.noConflict();
+  $body.tooltip();
 
   // Demo
   // -------------------------------------------------------------------------
@@ -177,7 +167,7 @@ $(function () {
             }).cropper('reset').cropper('replace', blobURL);
             $inputImage.val('');
           } else {
-            showMessage('Please choose an image file.');
+            $body.tooltip('Please choose an image file.', 'warning');
           }
         }
       });
@@ -207,10 +197,6 @@ $(function () {
 
       $image.cropper('destroy').cropper(options);
     });
-
-
-    // Tooltips
-    $('[data-toggle="tooltip"]').tooltip();
 
   }());
 
