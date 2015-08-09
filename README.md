@@ -74,7 +74,7 @@ The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find th
 Initialize with `$.fn.cropper` method.
 
 ```html
-<!-- Wrap the image or canvas with a block element -->
+<!-- Wrap the image or canvas element with a block element -->
 <div class="container">
   <img src="picture.jpg">
 </div>
@@ -128,14 +128,6 @@ Set the aspect ratio of the crop box. By default, the crop box is free ratio.
 The previous cropped data if you had stored, will be passed to `setData` method automatically.
 
 
-### crop
-
-- Type: `Function`
-- Default: `null`
-
-This function will be executed when changes the crop box or image.
-
-
 ### preview
 
 - Type: `String` (**jQuery selector**)
@@ -155,7 +147,7 @@ Add extra elements (containers) for previewing.
 - Type: `Boolean`
 - Default: `true`
 
-In strict mode, the canvas cannot be smaller than the container, and the crop box cannot be outside of the canvas.
+In strict mode, the canvas (image wrapper) cannot be smaller than the container, and the crop box cannot be outside of the canvas (image wrapper).
 
 
 ### responsive
@@ -272,6 +264,14 @@ Enable to zoom the image.
 Enable to zoom the image by wheeling mouse.
 
 
+### wheelZoomRatio
+
+- Type: `Number`
+- Default: `0.1`
+
+Define zoom ratio when zoom the image by wheeling mouse.
+
+
 ### touchDragZoom
 
 - Type: `Boolean`
@@ -368,52 +368,44 @@ A shortcut of the "build.cropper" event.
 A shortcut of the "built.cropper" event.
 
 
-### dragstart
+### cropstart
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "dragstart.cropper" event.
+A shortcut of the "cropstart.cropper" event.
 
 
-### dragmove
-
-- Type: `Function`
-- Default: `null`
-
-A shortcut of the "dragmove.cropper" event.
-
-
-### dragend
+### cropmove
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "dragend.cropper" event.
+A shortcut of the "cropmove.cropper" event.
 
 
-### zoomin
-
-- Type: `Function`
-- Default: `null`
-
-A shortcut of the "zoomin.cropper" event.
-
-
-### zoomout
+### cropend
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "zoomout.cropper" event.
+A shortcut of the "cropend.cropper" event.
 
 
-### change
+### crop
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "change.cropper" event.
+A shortcut of the "crop.cropper" event.
+
+
+### zoom
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut of the "zoom.cropper" event.
 
 
 
@@ -448,16 +440,51 @@ $().cropper({
 ```
 
 
+### reset()
+
+Reset the image and crop box to their initial states.
+
+
+### clear()
+
+Clear the crop box.
+
+
+### replace(url)
+
+- **url**:
+  - Type: `String`
+  - A new image url.
+
+Replace the image's src and rebuild the cropper.
+
+
+### enable()
+
+Enable (unfreeze) the cropper.
+
+
+### disable()
+
+Disable (freeze) the cropper.
+
+
+### destroy()
+
+Destroy the cropper and remove the instance from the image.
+
+
 ### move(offsetX, offsetY)
 
 - **offsetX**:
   - Type: `Number`
   - Moving size (px) in the horizontal direction
+
 - **offsetY**:
   - Type: `Number`
   - Moving size (px) in the vertical direction
 
-Move the image.
+Move the canvas (image wrapper).
 
 ```js
 $().cropper('move', 1, 0)
@@ -473,7 +500,7 @@ $().cropper('move', 0, -1)
   - Zoom in: requires a positive number (ratio > 0)
   - Zoom out: requires a negative number (ratio < 0)
 
-Zoom the image.
+Zoom the canvas (image wrapper).
 
 ```js
 $().cropper('zoom', 0.1)
@@ -488,46 +515,14 @@ $().cropper('zoom', -0.1)
   - Rotate right: requires a positive number (degree > 0)
   - Rotate left: requires a negative number (degree < 0)
 
-Rotate the image. Requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+Rotate the canvas (image wrapper).
+
+> Requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
 
 ```js
 $().cropper('rotate', 90)
 $().cropper('rotate', -90)
 ```
-
-
-### enable()
-
-Enable (unfreeze) the cropper.
-
-
-### disable()
-
-Disable (freeze) the cropper.
-
-
-### reset()
-
-Reset the image and crop box to the initial states.
-
-
-### clear()
-
-Clear the crop box.
-
-
-### replace(url)
-
-- **url**:
-  - Type: `String`
-  - A new image url.
-
-Replace the image and rebuild the cropper.
-
-
-### destroy()
-
-Destroy the cropper and remove the instance from the image.
 
 
 ### getData([rounded])
@@ -546,7 +541,7 @@ Destroy the cropper and remove the instance from the image.
     - `height`: the height of the cropped area
     - `rotate`: the rotated degrees of the image
 
-Get the cropped area data (base on the original image).
+Output the cropped area position and size data (base on the original image).
 
 ![a schematic diagram of data's properties](assets/img/data.jpg)
 
@@ -555,9 +550,9 @@ Get the cropped area data (base on the original image).
 
 - **data**:
   - Type: `Object`
-  - Properties: See the [`getData`](#getData) method.
+  - Properties: See the [`getData`](#getdatarounded) method.
 
-Set the cropped area data (base on the original image).
+Change the cropped area position and size with new data (base on the original image).
 
 **Note:** Only available in strict mode.
 
@@ -585,7 +580,7 @@ Output the container size data.
     - `width`: the width of the image
     - `height`: the height of the image
 
-Output the image position and size.
+Output the image position and size data.
 
 
 ### getCanvasData()
@@ -598,7 +593,7 @@ Output the image position and size.
     - `width`: the width of the canvas
     - `height`: the height of the canvas
 
-Output the canvas (image wrapper) position and size.
+Output the canvas (image wrapper) position and size data.
 
 
 ### setCanvasData(data)
@@ -611,7 +606,7 @@ Output the canvas (image wrapper) position and size.
     - `width`: the new width of the canvas
     - `height`: the new height of the canvas
 
-Change the canvas (image wrapper) position and size.
+Change the canvas (image wrapper) position and size with new data.
 
 
 ### getCropBoxData()
@@ -624,7 +619,7 @@ Change the canvas (image wrapper) position and size.
     - `width`: the width of the crop box
     - `height`: the height of the crop box
 
-Output the crop box position and size.
+Output the crop box position and size data.
 
 
 ### setCropBoxData(data)
@@ -637,7 +632,7 @@ Output the crop box position and size.
     - `width`: the new width of the crop box
     - `height`: the new height of the crop box
 
-Change the crop box position and size.
+Change the crop box position and size with new data.
 
 
 ### getCroppedCanvas([options])
@@ -725,66 +720,83 @@ This event fires when a cropper instance starts to load an image.
 This event fires when a cropper instance has built completely.
 
 
-### dragstart.cropper
+### cropstart.cropper
 
-- **event.dragType**:
-  - "crop": create a new crop box
-  - "move": move the canvas
-  - "zoom": zoom in / out the canvas by dragging touch.
-  - "e": resize the east side of the crop box
-  - "w": resize the west side of the crop box
-  - "s": resize the south side of the crop box
-  - "n": resize the north side of the crop box
-  - "se": resize the southeast side of the crop box
-  - "sw": resize the southwest side of the crop box
-  - "ne": resize the northeast side of the crop box
-  - "nw": resize the northwest side of the crop box
-  - "all": move the crop box
+- **event.originalEvent**:
+  - Type: `Event`
+  - Options: `mousedown`, `touchstart` and `pointerdown`
 
-This event fires when the crop box starts to change.
+- **event.action**:
+  - Type: `String`
+  - Options:
+    - `'crop'`: create a new crop box
+    - `'move'`: move the canvas (image wrapper)
+    - `'zoom'`: zoom in / out the canvas (image wrapper) by touch.
+    - `'e'`: resize the east side of the crop box
+    - `'w'`: resize the west side of the crop box
+    - `'s'`: resize the south side of the crop box
+    - `'n'`: resize the north side of the crop box
+    - `'se'`: resize the southeast side of the crop box
+    - `'sw'`: resize the southwest side of the crop box
+    - `'ne'`: resize the northeast side of the crop box
+    - `'nw'`: resize the northwest side of the crop box
+    - `'all'`: move the crop box (all directions)
 
-> Related original events: "mousedown", "touchstart" and "pointerdown".
+This event fires when the canvas (image wrapper) or the crop box starts to change.
 
 ```js
-$().on('dragstart.cropper', function (e) {
-  console.log(e.type); // dragstart
+$().on('cropstart.cropper', function (e) {
+  console.log(e.type); // cropstart
   console.log(e.namespace); // cropper
-  console.log(e.dragType); // ...
+  console.log(e.action); // ...
 });
 ```
 
 
-### dragmove.cropper
+### cropmove.cropper
 
-- **event.dragType**: The same as "dragstart.cropper".
+- **event.originalEvent**:
+  - Type: `Event`
+  - Options: `mousemove`, `touchmove` and `pointermove`.
 
-This event fires when the crop box is changing.
+- **event.action**: the same as "cropstart.cropper".
 
-> Related original events: "mousemove", "touchmove" and "pointermove".
-
-
-### dragend.cropper
-
-- **event.dragType**: The same as "dragstart.cropper".
-
-This event fires when the crop box stops to change.
-
-> Related original events: "mouseup", "touchend", "touchcancel", "pointerup" and "pointercancel".
+This event fires when the canvas (image wrapper) or the crop box is changing.
 
 
-### zoomin.cropper
+### cropend.cropper
 
-This event fires when a cropper instance starts to zoom in its canvas.
+- **event.originalEvent**:
+  - Type: `Event`
+  - Options: `mouseup`, `touchend`, `touchcancel`, `pointerup` and `pointercancel`.
+
+- **event.action**: the same as "cropstart.cropper".
+
+This event fires when the canvas (image wrapper) or the crop box stops to change.
 
 
-### zoomout.cropper
+### crop.cropper
 
-This event fires when a cropper instance starts to zoom out its canvas.
+- **event.x**: the offset left of the cropped area.
+- **event.y**: the offset top of the cropped area.
+- **event.width**: the width of the cropped area.
+- **event.height**: the height of the cropped area.
+- **event.rotate**: the rotated degrees of the image.
+
+This event fires when the canvas (image wrapper) or the crop box changed.
 
 
-### change.cropper
+### zoom.cropper
 
-This event fires when the image or the crop box changed.
+- **event.originalEvent**:
+  - Type: `Event`
+  - Options: `wheel`, `touchmove`.
+
+- **event.ratio**:
+  - Type: `Number`
+  - The current zoom ratio (`ratio > 0` means zoom in, `ratio < 0` means zoom out)
+
+This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
 
 
