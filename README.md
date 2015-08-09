@@ -489,8 +489,8 @@ Destroy the cropper and remove the instance from the image.
 Move the canvas (image wrapper).
 
 ```js
-$().cropper('move', 1, 0)
-$().cropper('move', 0, -1)
+$().cropper('move', 1, 0);
+$().cropper('move', 0, -1);
 
 ```
 
@@ -505,8 +505,8 @@ $().cropper('move', 0, -1)
 Zoom the canvas (image wrapper).
 
 ```js
-$().cropper('zoom', 0.1)
-$().cropper('zoom', -0.1)
+$().cropper('zoom', 0.1);
+$().cropper('zoom', -0.1);
 ```
 
 
@@ -522,8 +522,8 @@ Rotate the canvas (image wrapper).
 > Requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
 
 ```js
-$().cropper('rotate', 90)
-$().cropper('rotate', -90)
+$().cropper('rotate', 90);
+$().cropper('rotate', -90);
 ```
 
 
@@ -688,7 +688,7 @@ Get a canvas drawn the cropped image.
 > After then, you can display the canvas as an image directly, or use [canvas.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
 
 ```js
-$().cropper('getCroppedCanvas')
+$().cropper('getCroppedCanvas');
 
 $().cropper('getCroppedCanvas', {
   width: 160,
