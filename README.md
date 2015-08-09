@@ -601,8 +601,14 @@ Output the container size data.
     - `top`: the offset top of the image
     - `width`: the width of the image
     - `height`: the height of the image
+    - `naturalWidth`: the natural width of the image
+    - `naturalHeight`: the natural height of the image
+    - `aspectRatio`: the aspect ratio of the image
+    - `rotate`: the rotated degrees of the image if rotated
+    - `scaleX`: the scaling factor to apply on the abscissa of the image if scaled
+    - `scaleY`: the scaling factor to apply on the ordinate of the image if scaled
 
-Output the image position and size data.
+Output the image position, size and other related data.
 
 
 ### getCanvasData()
