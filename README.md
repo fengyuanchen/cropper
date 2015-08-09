@@ -517,7 +517,7 @@ $().cropper('zoom', -0.1)
 
 Rotate the canvas (image wrapper).
 
-> Requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+> Requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
 
 ```js
 $().cropper('rotate', 90)
@@ -672,7 +672,7 @@ Change the crop box position and size with new data.
 
 - Browser support:
   - Basic image: requires [Canvas](http://caniuse.com/canvas) support (IE 9+).
-  - Rotated image: requires CSS3 [Transforms3d](http://caniuse.com/transforms3d) support (IE 10+).
+  - Rotated image: requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
   - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
 
 Get a canvas drawn the cropped image.
