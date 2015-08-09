@@ -201,13 +201,13 @@
           aspectRatio: 1,
           preview: this.$avatarPreview.selector,
           strict: false,
-          crop: function (data) {
+          crop: function (e) {
             var json = [
-                  '{"x":' + data.x,
-                  '"y":' + data.y,
-                  '"height":' + data.height,
-                  '"width":' + data.width,
-                  '"rotate":' + data.rotate + '}'
+                  '{"x":' + e.x,
+                  '"y":' + e.y,
+                  '"height":' + e.height,
+                  '"width":' + e.width,
+                  '"rotate":' + e.rotate + '}'
                 ].join();
 
             _this.$avatarData.val(json);
