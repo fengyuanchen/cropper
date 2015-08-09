@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "bootstrap": "~3.3.5",
+    "fontawesome": "~4.4.0",
     "jquery": "~1.11.3",
     "qunit": "~1.18.0"
   }
