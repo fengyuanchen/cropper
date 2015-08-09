@@ -282,6 +282,10 @@
       var cropBoxData = {};
       var ratio;
 
+      if ($.isFunction(data)) {
+        data = data.call(this.$element);
+      }
+
       if (this.built && !this.disabled && $.isPlainObject(data)) {
         if (isNumber(data.rotate) && data.rotate !== image.rotate &&
           this.options.rotatable) {
@@ -361,6 +365,10 @@
       var canvas = this.canvas;
       var aspectRatio = canvas.aspectRatio;
 
+      if ($.isFunction(data)) {
+        data = data.call(this.$element);
+      }
+
       if (this.built && !this.disabled && $.isPlainObject(data)) {
         if (isNumber(data.left)) {
           canvas.left = data.left;
@@ -413,6 +421,10 @@
       var aspectRatio = this.options.aspectRatio;
       var widthChanged;
       var heightChanged;
+
+      if ($.isFunction(data)) {
+        data = data.call(this.$element);
+      }
 
       if (this.built && this.cropped && !this.disabled && $.isPlainObject(data)) {
 
