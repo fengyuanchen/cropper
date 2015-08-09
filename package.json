@@ -34,6 +34,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@fengyuanchen/tooltip": "0.0.2",
     "jquery": ">= 1.9.1"
   },
   "devDependencies": {
