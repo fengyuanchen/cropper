@@ -777,6 +777,12 @@ $().on('cropstart.cropper', function (e) {
   console.log(e.type); // cropstart
   console.log(e.namespace); // cropper
   console.log(e.action); // ...
+  console.log(e.originalEvent.pageX);
+
+  // Prevent to start cropping, moving, etc if necessary
+  if (e.action === 'crop') {
+    e.preventDefault();
+  }
 });
 ```
 
