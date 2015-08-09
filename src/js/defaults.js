@@ -48,6 +48,9 @@
     // Enable to rotate the image
     rotatable: true,
 
+    // Enable to scale the image
+    scalable: true,
+
     // Enable to zoom the image
     zoomable: true,
 

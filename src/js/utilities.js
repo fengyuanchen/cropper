@@ -42,8 +42,21 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
-  function getRotateValue(degree) {
-    return degree ? 'rotate(' + degree + 'deg)' : 'none';
+  function getTransform(options) {
+    var transforms = [];
+    var rotate = options.rotate;
+    var scaleX = options.scaleX;
+    var scaleY = options.scaleY;
+
+    if (isNumber(rotate)) {
+      transforms.push('rotate(' + rotate + 'deg)');
+    }
+
+    if (isNumber(scaleX) && isNumber(scaleY)) {
+      transforms.push('scale(' + scaleX + ',' + scaleY + ')');
+    }
+
+    return transforms.length ? transforms.join(' ') : 'none';
   }
 
   function getRotatedSizes(data, reverse) {
@@ -74,27 +87,63 @@
   function getSourceCanvas(image, data) {
     var canvas = $('<canvas>')[0];
     var context = canvas.getContext('2d');
+    var x = 0;
+    var y = 0;
     var width = data.naturalWidth;
     var height = data.naturalHeight;
     var rotate = data.rotate;
-    var rotated = getRotatedSizes({
-          width: width,
-          height: height,
-          degree: rotate
-        });
+    var scaleX = data.scaleX;
+    var scaleY = data.scaleY;
+    var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
+    var rotatable = isNumber(rotate) && rotate !== 0;
+    var advanced = rotatable || scalable;
+    var canvasWidth = width;
+    var canvasHeight = height;
+    var translateX;
+    var translateY;
+    var rotated;
 
-    if (rotate) {
-      canvas.width = rotated.width;
-      canvas.height = rotated.height;
+    if (scalable) {
+      translateX = width / 2;
+      translateY = height / 2;
+    }
+
+    if (rotatable) {
+      rotated = getRotatedSizes({
+        width: width,
+        height: height,
+        degree: rotate
+      });
+
+      canvasWidth = rotated.width;
+      canvasHeight = rotated.height;
+      translateX = rotated.width / 2;
+      translateY = rotated.height / 2;
+    }
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    if (advanced) {
+      x = -width / 2;
+      y = -height / 2;
+
       context.save();
-      context.translate(rotated.width / 2, rotated.height / 2);
+      context.translate(translateX, translateY);
+    }
+
+    if (scalable) {
+      context.scale(scaleX, scaleY);
+    }
+
+    if (rotatable) {
       context.rotate(rotate * Math.PI / 180);
-      context.drawImage(image, -width / 2, -height / 2, width, height);
+    }
+
+    context.drawImage(image, x, y, width, height);
+
+    if (advanced) {
       context.restore();
-    } else {
-      canvas.width = width;
-      canvas.height = height;
-      context.drawImage(image, 0, 0, width, height);
     }
 
     return canvas;

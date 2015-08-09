@@ -525,6 +525,28 @@ $().cropper('rotate', -90)
 ```
 
 
+### scale(scaleX[, scaleY])
+
+- **scaleX**:
+  - Type: `Number`
+  - Default: `1`
+  - When equal to `1` it does nothing.
+
+- **scaleY** (optional):
+  - Type: `Number`
+  - If not present, its defualt value is `scaleX`
+
+Scale the image.
+
+> Requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
+
+```js
+$().cropper('scale', -1); // Flip both horizontal and vertical
+$().cropper('scale', -1, 1); // Flip horizontal
+$().cropper('scale', 1, -1); // Flip vertical
+```
+
+
 ### getData([rounded])
 
 - **rounded** (optional):

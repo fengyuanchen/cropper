@@ -173,6 +173,7 @@
 
     /**
      * Rotate the canvas
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
      *
      * @param {Number} degree
      */
@@ -189,12 +190,38 @@
     },
 
     /**
+     * Scale the image
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scale()
+     *
+     * @param {Number} scaleX
+     * @param {Number} scaleY (optional)
+     */
+    scale: function (scaleX, scaleY) {
+      var image = this.image;
+
+      // If "scaleY" is not present, its default value is "scaleX"
+      if (isUndefined(scaleY)) {
+        scaleY = scaleX;
+      }
+
+      scaleX = num(scaleX);
+      scaleY = num(scaleY);
+
+      if (this.built && !this.disabled && this.options.scalable) {
+        image.scaleX = isNumber(scaleX) ? scaleX : 1;
+        image.scaleY = isNumber(scaleY) ? scaleY : 1;
+        this.renderImage(true);
+      }
+    },
+
+    /**
      * Get the cropped area position and size data (base on the original image)
      *
      * @param {Boolean} rounded (optional)
      * @return {Object} data
      */
     getData: function (rounded) {
+      var options = this.options;
       var image = this.image;
       var canvas = this.canvas;
       var cropBox = this.cropBox;
@@ -225,7 +252,14 @@
         };
       }
 
-      data.rotate = this.ready ? image.rotate : 0;
+      if (options.rotatable) {
+        data.rotate = this.ready ? image.rotate : 0;
+      }
+
+      if (options.scalable) {
+        data.scaleX = image.scaleX || 1;
+        data.scaleY = image.scaleY || 1;
+      }
 
       return data;
     },

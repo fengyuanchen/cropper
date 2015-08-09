@@ -198,7 +198,7 @@
       }
     },
 
-    renderImage: function () {
+    renderImage: function (changed) {
       var canvas = this.canvas;
       var image = this.image;
       var reversed;
@@ -229,8 +229,12 @@
         height: image.height,
         marginLeft: image.left,
         marginTop: image.top,
-        transform: getRotateValue(image.rotate)
+        transform: getTransform(image)
       });
+
+      if (changed) {
+        this.output();
+      }
     },
 
     initCropBox: function () {

@@ -44,7 +44,6 @@
       var height = image.height;
       var left = cropBox.left - canvas.left - image.left;
       var top = cropBox.top - canvas.top - image.top;
-      var rotate = image.rotate;
 
       if (!this.cropped || this.disabled) {
         return;
@@ -55,7 +54,7 @@
         height: height,
         marginLeft: -left,
         marginTop: -top,
-        transform: getRotateValue(rotate)
+        transform: getTransform(image)
       });
 
       this.$preview.each(function () {
@@ -76,7 +75,7 @@
           height: height * ratio,
           marginLeft: -left * ratio,
           marginTop: -top * ratio,
-          transform: getRotateValue(rotate)
+          transform: getTransform(image)
         });
       });
     }
