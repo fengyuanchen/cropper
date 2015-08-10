@@ -25,10 +25,10 @@
 
 ```
 dist/
-├── cropper.css     ( 6 KB)
-├── cropper.min.css ( 5 KB)
-├── cropper.js      (59 KB)
-└── cropper.min.js  (22 KB)
+├── cropper.css     ( 5 KB)
+├── cropper.min.css ( 4 KB)
+├── cropper.js      (63 KB)
+└── cropper.min.js  (23 KB)
 ```
 
 
@@ -64,8 +64,8 @@ The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find th
 #### [RawGit](https://rawgit.com/)
 
 ```html
-<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.1/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v0.10.1/dist/cropper.min.js"></script>
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v0.11.0/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v0.11.0/dist/cropper.min.js"></script>
 ```
 
 
@@ -84,7 +84,6 @@ Initialize with `$.fn.cropper` method.
 $('.container > img').cropper({
   aspectRatio: 16 / 9,
   crop: function(e) {
-
     // Output the result data for cropping image.
     console.log(e.x);
     console.log(e.y);
@@ -489,7 +488,7 @@ Destroy the cropper and remove the instance from the image.
   - Default: `0`
   - Moving size (px) in the horizontal direction.
 
-- **offsetY**:
+- **offsetY** (optional):
   - Type: `Number`
   - Moving size (px) in the vertical direction.
   - If not present, its defualt value is `offsetX`.
@@ -497,6 +496,7 @@ Destroy the cropper and remove the instance from the image.
 Move the canvas (image wrapper).
 
 ```js
+$().cropper('move', 1);
 $().cropper('move', 1, 0);
 $().cropper('move', 0, -1);
 

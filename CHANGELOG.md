@@ -1,6 +1,35 @@
 # Changelog
 
 
+## 0.11.0 (Aug 10, 2015)
+
+- Improve `setCropBoxData` method (#385)
+- Fix event issue on IE10 (#394)
+- Optimize code (use `var` for per variable)
+
+
+### Options
+
+- Add "scalable" option
+- Add "wheelZoomRatio" option
+- Convert "crop" option to "crop" event
+
+
+### Methods
+
+- Add "scale" method
+- Improve "move" method (the `offsetY` parameter is optional now)
+
+
+### Events
+
+- Rename "dragstart" to "cropstart"
+- Rename "dragmove" to "cropmove"
+- Rename "dragend" to "cropend"
+- Merge "zoomin" and "zoomout" to "zoom"
+- Merge "crop" option and "change" event to "crop" event
+
+
 ## 0.10.1 (Jul 5, 2015)
 
 - Add Pointer Events support (#328)
