@@ -25,8 +25,8 @@ var scripts = {
         'src/js/preview.js',
         'src/js/listen.js',
         'src/js/handlers.js',
-        'src/js/methods.js',
         'src/js/change.js',
+        'src/js/methods.js',
         'src/js/prototype.js',
         'src/js/defaults.js',
         'src/js/template.js',
@@ -122,7 +122,7 @@ gulp.task('css', ['csslint'], function () {
   return gulp.src(styles.main).
     pipe(plugins.replace(replacement.regexp, replacement.filter)).
     pipe(plugins.autoprefixer()).
-    pipe(plugins.csscomb()).
+    pipe(plugins.csscomb('src/.csscomb.json')).
     pipe(gulp.dest(styles.dest)).
     pipe(plugins.rename(styles.min)).
     pipe(plugins.minifyCss()).
@@ -214,7 +214,7 @@ gulp.task('test', ['js', 'css'], function () {
     pipe(plugins.qunit());
 });
 
-gulp.task('release', ['test'], function () {
+gulp.task('release', ['test', 'docs'], function () {
   return gulp.src('dist/*.{js,css}').
     pipe(gulp.dest('_releases/' + pkg.version));
 });
