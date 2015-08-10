@@ -136,7 +136,7 @@
       context.rotate(rotate * Math.PI / 180);
     }
 
-    // Should scale should after rotated
+    // Should call `scale` after rotated
     if (scalable) {
       context.scale(scaleX, scaleY);
     }
