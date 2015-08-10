@@ -132,12 +132,13 @@
       context.translate(translateX, translateY);
     }
 
-    if (scalable) {
-      context.scale(scaleX, scaleY);
-    }
-
     if (rotatable) {
       context.rotate(rotate * Math.PI / 180);
+    }
+
+    // Should scale should after rotated
+    if (scalable) {
+      context.scale(scaleX, scaleY);
     }
 
     context.drawImage(image, x, y, width, height);
