@@ -255,6 +255,14 @@ Enable to move the image.
 Enable to rotate the image.
 
 
+### scalable
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to scale the image.
+
+
 ### zoomable
 
 - Type: `Boolean`
