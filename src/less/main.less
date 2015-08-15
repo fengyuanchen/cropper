@@ -5,13 +5,10 @@
   position: relative;
   overflow: hidden;
   direction: ltr !important; // Ignore global rtl
-
+  touch-action: none;
+  user-select: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
-  -ms-touch-action: none;
-      touch-action: none;
-
-  .user-select(none);
 
   img {
     // Avoid margin top issue (Occur only when margin-top <= -height)
