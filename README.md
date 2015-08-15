@@ -11,6 +11,7 @@
 - Supports touch
 - Supports zoom
 - Supports rotation
+- Supports scale
 - Supports canvas
 - Supports [options](#options)
 - Supports [methods](#methods)
