@@ -427,7 +427,7 @@ A shortcut of the "zoom.cropper" event.
 
 ## Methods
 
-As there is an asynchronous process when load the image, you should call most of the methods after built, except "setAspectRatio", "replace" and "destroy".
+As there is an **asynchronous** process when load the image, you **should call most of the methods after built**, except "setAspectRatio", "replace" and "destroy".
 
 ```js
 $().cropper({
