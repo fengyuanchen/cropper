@@ -67,7 +67,7 @@
       var options = this.options;
       var originalEvent = event.originalEvent;
       var touches = originalEvent && originalEvent.touches;
-      var e = originalEvent || event;
+      var e = event;
       var touchesLength;
       var action;
 
@@ -106,8 +106,11 @@
 
         this.action = action;
         this.cropping = false;
-        this.startX = e.pageX;
-        this.startY = e.pageY;
+
+        // IE8  has `event.pageX/Y`, but not `event.originalEvent.pageX/Y`
+        // IE10 has `event.originalEvent.pageX/Y`, but not `event.pageX/Y`
+        this.startX = e.pageX || originalEvent.pageX;
+        this.startY = e.pageY || originalEvent.pageY;
 
         if (action === ACTION_CROP) {
           this.cropping = true;
@@ -120,7 +123,7 @@
       var options = this.options;
       var originalEvent = event.originalEvent;
       var touches = originalEvent && originalEvent.touches;
-      var e = originalEvent || event;
+      var e = event;
       var action = this.action;
       var touchesLength;
 
@@ -154,8 +157,8 @@
 
         event.preventDefault();
 
-        this.endX = e.pageX;
-        this.endY = e.pageY;
+        this.endX = e.pageX || originalEvent.pageX;
+        this.endY = e.pageY || originalEvent.pageY;
 
         this.change(e.shiftKey, action === ACTION_ZOOM ? originalEvent : null);
       }
