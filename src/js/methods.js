@@ -115,6 +115,12 @@
       $this.removeData(NAMESPACE);
     },
 
+    // Destroy the cropper and remove the instance from the image and then initialize it again
+    reinitialize: function () {
+      this.destroy();
+      this.init();
+    },
+
     /**
      * Move the canvas
      *
