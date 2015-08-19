@@ -17,14 +17,10 @@
 // -------------------------
 
 .cropper-hide {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  .square(e("auto!important"));
-  .min-square(e("0!important"));
-  .max-square(e("none!important"));
-  .opacity(0);
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
 }
 
 .cropper-hidden {

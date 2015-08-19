@@ -23,6 +23,8 @@
   var EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel';
   var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
   var EVENT_DBLCLICK = 'dblclick';
+  var EVENT_LOAD = 'load.' + NAMESPACE;
+  var EVENT_ERROR = 'error.' + NAMESPACE;
   var EVENT_RESIZE = 'resize.' + NAMESPACE; // Bind to window with namespace
   var EVENT_BUILD = 'build.' + NAMESPACE;
   var EVENT_BUILT = 'built.' + NAMESPACE;

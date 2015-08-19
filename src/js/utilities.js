@@ -42,6 +42,26 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
+  function getImageData(image) {
+    var naturalWidth = image.naturalWidth;
+    var naturalHeight = image.naturalHeight;
+    var newImage;
+
+    // IE8
+    if (!naturalWidth) {
+      newImage = new Image();
+      newImage.src = image.src;
+      naturalWidth = newImage.width;
+      naturalHeight = newImage.height;
+    }
+
+    return {
+      naturalWidth: naturalWidth,
+      naturalHeight: naturalHeight,
+      aspectRatio: naturalWidth / naturalHeight
+    };
+  }
+
   function getTransform(options) {
     var transforms = [];
     var rotate = options.rotate;
@@ -148,4 +168,14 @@
     }
 
     return canvas;
+  }
+
+  function toString(o) {
+    var items =[];
+
+    $.each(o, function (i, n) {
+      items.push([i, n].join(': '))
+    });
+
+    return items.join(', ');
   }

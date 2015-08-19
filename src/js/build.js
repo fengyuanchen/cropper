@@ -17,20 +17,21 @@
       }
 
       // Create cropper elements
+      this.$container = $this.parent();
       this.$cropper = $cropper = $(Cropper.TEMPLATE);
-
-      // Hide the original image
-      $this.addClass(CLASS_HIDDEN);
-
-      // Show the clone image
-      $clone.removeClass(CLASS_HIDE);
-
-      this.$container = $this.parent().append($cropper);
       this.$canvas = $cropper.find('.cropper-canvas').append($clone);
       this.$dragBox = $cropper.find('.cropper-drag-box');
       this.$cropBox = $cropBox = $cropper.find('.cropper-crop-box');
       this.$viewBox = $cropper.find('.cropper-view-box');
       this.$face = $face = $cropBox.find('.cropper-face');
+
+      // Hide the original image
+      $this.addClass(CLASS_HIDDEN).after($cropper);
+
+      // Show the clone image if is hidden
+      if (!this.isImg) {
+        $clone.removeClass(CLASS_HIDE);
+      }
 
       this.initPreview();
       this.bind();

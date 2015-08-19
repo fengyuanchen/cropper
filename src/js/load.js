@@ -43,6 +43,8 @@
         return;
       }
 
+      this.url = url;
+
       // Trigger build event first
       $this.one(EVENT_BUILD, options.build);
 
@@ -59,30 +61,31 @@
         }
       }
 
-      // IE8 compatibility: Don't use "$.fn.attr" to set "src"
       this.$clone = $clone = $('<img' + crossOrigin + ' src="' + (bustCacheUrl || url) + '">');
 
-      $clone.one('load', $.proxy(function () {
-        var image = $clone[0];
+      if (this.isImg) {
+        if ($this[0].complete) {
+          this.start();
+        } else {
+          $this.one(EVENT_LOAD, $.proxy(this.start, this));
+        }
+      } else {
+        $clone.
+          one(EVENT_LOAD, $.proxy(this.start, this)).
+          one(EVENT_ERROR, $.proxy(this.stop, this)).
+          addClass(CLASS_HIDE).
+          insertAfter($this);
+      }
+    },
 
-        // Note: $clone.width() and $clone.height() will return 0 in IE8 (#319)
-        var naturalWidth = image.naturalWidth || image.width;
-        var naturalHeight = image.naturalHeight || image.height;
+    start: function () {
+      this.image = getImageData(this.isImg ? this.$element[0] : this.$clone[0]);
+      this.ready = true;
+      this.build();
+    },
 
-        this.image = {
-          naturalWidth: naturalWidth,
-          naturalHeight: naturalHeight,
-          aspectRatio: naturalWidth / naturalHeight
-        };
-
-        this.url = url;
-        this.ready = true;
-        this.build();
-      }, this)).one('error', function () {
-        $clone.remove();
-      });
-
-      // Hide the clone image and insert it after the original image
-      $clone.addClass(CLASS_HIDE).insertAfter($this);
+    stop: function () {
+      this.$clone.remove();
+      this.$clone = null;
     }
   });

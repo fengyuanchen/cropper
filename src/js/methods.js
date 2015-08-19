@@ -108,8 +108,12 @@
 
         this.unbuild();
         $this.removeClass(CLASS_HIDDEN);
-      } else if (this.$clone) {
-        this.$clone.remove();
+      } else {
+        if (this.isImg) {
+          $this.off(EVENT_LOAD, this.start);
+        } else if (this.$clone) {
+          this.$clone.remove();
+        }
       }
 
       $this.removeData(NAMESPACE);
