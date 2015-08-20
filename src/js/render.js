@@ -372,6 +372,15 @@
 
     output: function () {
       this.preview();
-      this.trigger(EVENT_CROP, this.getData());
+
+      if (this.complete) {
+        this.trigger(EVENT_CROP, this.getData());
+      } else if (!this.built) {
+
+        // Only trigger one crop event before complete
+        this.$element.one(EVENT_BUILT, $.proxy(function () {
+          this.trigger(EVENT_CROP, this.getData());
+        }, this));
+      }
     }
   });

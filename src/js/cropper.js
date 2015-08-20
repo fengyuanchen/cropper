@@ -3,6 +3,7 @@
     this.options = $.extend({}, Cropper.DEFAULTS, $.isPlainObject(options) && options);
     this.ready = false;
     this.built = false;
+    this.complete = false;
     this.rotated = false;
     this.cropped = false;
     this.disabled = false;

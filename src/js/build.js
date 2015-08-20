@@ -75,11 +75,16 @@
 
       this.setDragMode(options.dragCrop ? ACTION_CROP : (options.movable ? ACTION_MOVE : ACTION_NONE));
 
-      this.built = true;
       this.render();
+      this.built = true;
       this.setData(options.data);
       $this.one(EVENT_BUILT, options.built);
-      this.trigger(EVENT_BUILT);
+
+      // Trigger the built event asynchronously to keep `data('cropper')` is defined
+      setTimeout($.proxy(function () {
+        this.trigger(EVENT_BUILT);
+        this.complete = true;
+      }, this), 0);
     },
 
     unbuild: function () {
