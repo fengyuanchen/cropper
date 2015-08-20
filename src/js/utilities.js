@@ -169,13 +169,3 @@
 
     return canvas;
   }
-
-  function toString(o) {
-    var items =[];
-
-    $.each(o, function (i, n) {
-      items.push([i, n].join(': '))
-    });
-
-    return items.join(', ');
-  }
