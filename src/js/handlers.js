@@ -109,8 +109,8 @@
 
         // IE8  has `event.pageX/Y`, but not `event.originalEvent.pageX/Y`
         // IE10 has `event.originalEvent.pageX/Y`, but not `event.pageX/Y`
-        this.startX = e.pageX || originalEvent.pageX;
-        this.startY = e.pageY || originalEvent.pageY;
+        this.startX = e.pageX || originalEvent && originalEvent.pageX;
+        this.startY = e.pageY || originalEvent && originalEvent.pageY;
 
         if (action === ACTION_CROP) {
           this.cropping = true;
@@ -157,8 +157,8 @@
 
         event.preventDefault();
 
-        this.endX = e.pageX || originalEvent.pageX;
-        this.endY = e.pageY || originalEvent.pageY;
+        this.endX = e.pageX || originalEvent && originalEvent.pageX;
+        this.endY = e.pageY || originalEvent && originalEvent.pageY;
 
         this.change(e.shiftKey, action === ACTION_ZOOM ? originalEvent : null);
       }
