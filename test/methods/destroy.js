@@ -5,10 +5,8 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   QUnit.test('methods.destroy: before built', function (assert) {
-    assert.ok(!$image.hasClass('cropper-hidden'));
-
     $image.cropper();
-    assert.ok(!$image.hasClass('cropper-hidden'));
+    assert.ok($image.hasClass('cropper-hidden'));
     assert.ok(typeof $image.data('cropper') === 'object');
 
     $image.cropper('destroy');
