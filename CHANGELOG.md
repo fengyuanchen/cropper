@@ -1,6 +1,14 @@
 # Changelog
 
 
+## 0.11.1 (Aug 22, 2015)
+
+- Optimize "built" and "crop" events
+- Improve the starting speed (#422)
+- Improve the building process (#428)
+- Fix event issue on IE8 (#319)
+
+
 ## 0.11.0 (Aug 10, 2015)
 
 - Improve `setCropBoxData` method (#385)
