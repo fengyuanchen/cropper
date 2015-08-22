@@ -72,6 +72,7 @@
     replace: function (url) {
       if (!this.disabled && url) {
         if (this.isImg) {
+          this.replaced = true;
           this.$element.attr('src', url);
         }
 
@@ -102,7 +103,7 @@
       var $this = this.$element;
 
       if (this.ready) {
-        if (this.isImg) {
+        if (this.isImg && this.replaced) {
           $this.attr('src', this.originalUrl);
         }
 
