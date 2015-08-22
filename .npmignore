@@ -3,3 +3,4 @@
 bower_components
 *.map
 _*
+!src/scss/_*.scss

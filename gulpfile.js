@@ -44,9 +44,9 @@ var styles = {
         'dist/*.css',
         'docs/css/*.css'
       ],
-      less: 'src/less/*.less',
+      scss: 'src/scss/*.scss',
       main: 'dist/cropper.css',
-      src: 'src/less/cropper.less',
+      src: 'src/scss/cropper.scss',
       dest: 'dist'
     };
 var replacement = {
@@ -108,7 +108,7 @@ gulp.task('concat', function () {
 
 gulp.task('css+', function () {
   return gulp.src(styles.src).
-    pipe(plugins.less()).
+    pipe(plugins.sass()).
     pipe(gulp.dest(styles.dest));
 });
 
@@ -140,10 +140,10 @@ gulp.task('css', ['csslint'], function () {
     pipe(gulp.dest(styles.dest));
 });
 
-gulp.task('less', function () {
+gulp.task('sass', function () {
   return gulp.src(styles.src).
     pipe(plugins.sourcemaps.init()).
-    pipe(plugins.less()).
+    pipe(plugins.sass()).
     pipe(plugins.sourcemaps.write('./')).
     pipe(gulp.dest(styles.dest));
 });
@@ -232,7 +232,7 @@ gulp.task('release', ['test', 'docs'], function () {
 
 gulp.task('watch', function () {
   gulp.watch(scripts.list, ['concat']);
-  gulp.watch(styles.less, ['less']);
+  gulp.watch(styles.scss, ['scss']);
   gulp.watch('docs/**', ['docs:html']);
 });
 
