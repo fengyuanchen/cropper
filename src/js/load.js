@@ -79,9 +79,18 @@
     },
 
     start: function () {
-      this.image = getImageData(this.isImg ? this.$element[0] : this.$clone[0]);
-      this.ready = true;
-      this.build();
+      var image = this.isImg ? this.$element[0] : this.$clone[0];
+
+      getNaturalSize(image, $.proxy(function (naturalWidth, naturalHeight) {
+        this.image = {
+          naturalWidth: naturalWidth,
+          naturalHeight: naturalHeight,
+          aspectRatio: naturalWidth / naturalHeight
+        };
+
+        this.ready = true;
+        this.build();
+      }, this));
     },
 
     stop: function () {

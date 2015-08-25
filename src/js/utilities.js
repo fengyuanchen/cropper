@@ -42,24 +42,22 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
-  function getImageData(image) {
-    var naturalWidth = image.naturalWidth;
-    var naturalHeight = image.naturalHeight;
+  function getNaturalSize(image, callback) {
     var newImage;
 
-    // IE8
-    if (!naturalWidth) {
-      newImage = new Image();
-      newImage.src = image.src;
-      naturalWidth = newImage.width;
-      naturalHeight = newImage.height;
+    // Modern browsers
+    if (image.naturalWidth) {
+      return callback(image.naturalWidth, image.naturalHeight);
     }
 
-    return {
-      naturalWidth: naturalWidth,
-      naturalHeight: naturalHeight,
-      aspectRatio: naturalWidth / naturalHeight
+    // IE8
+    newImage = new Image();
+
+    newImage.onload = function () {
+      callback(this.width, this.height);
     };
+
+    newImage.src = image.src;
   }
 
   function getTransform(options) {
