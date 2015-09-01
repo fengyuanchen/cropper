@@ -500,7 +500,7 @@ Destroy the cropper and remove the instance from the image.
 - **offsetY** (optional):
   - Type: `Number`
   - Moving size (px) in the vertical direction.
-  - If not present, its defualt value is `offsetX`.
+  - If not present, its default value is `offsetX`.
 
 Move the canvas (image wrapper).
 
@@ -508,7 +508,6 @@ Move the canvas (image wrapper).
 $().cropper('move', 1);
 $().cropper('move', 1, 0);
 $().cropper('move', 0, -1);
-
 ```
 
 
@@ -555,7 +554,7 @@ $().cropper('rotate', -90);
 - **scaleY** (optional):
   - Type: `Number`
   - The scaling factor to apply on the ordinate of the image.
-  - If not present, its defualt value is `scaleX`.
+  - If not present, its default value is `scaleX`.
 
 Scale the image.
 
@@ -842,7 +841,7 @@ This event fires when the canvas (image wrapper) or the crop box stops to change
 - **event.scaleX**
 - **event.scaleY**
 
-> About these properies, see the [`getData`](#getdatarounded) method.
+> About these properties, see the [`getData`](#getdatarounded) method.
 
 This event fires when the canvas (image wrapper) or the crop box changed.
 
