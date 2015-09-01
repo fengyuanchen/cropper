@@ -50,8 +50,8 @@
       return callback(image.naturalWidth, image.naturalHeight);
     }
 
-    // IE8
-    newImage = new Image();
+    // IE8: Don't use `new Image()` here (#319)
+    newImage = document.createElement('img');
 
     newImage.onload = function () {
       callback(this.width, this.height);
