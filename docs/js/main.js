@@ -63,8 +63,7 @@ $(function () {
 
     // Download
     if (typeof $download[0].download === 'undefined') {
-      $download.addClass('hide');
-      $download = false;
+      $download.addClass('disabled');
     }
 
 
@@ -106,7 +105,7 @@ $(function () {
         if (data.method === 'getCroppedCanvas' && result) {
           $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
-          if ($download) {
+          if (!$download.hasClass('disabled')) {
             $download.attr('href', result.toDataURL());
           }
         }
@@ -184,7 +183,7 @@ $(function () {
         }
       });
     } else {
-      $inputImage.parent().addClass('hide');
+      $inputImage.prop('disabled', true).parent().addClass('disabled');
     }
 
 
