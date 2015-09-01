@@ -326,9 +326,7 @@
 
         // Move canvas
         case ACTION_MOVE:
-          canvas.left += range.x;
-          canvas.top += range.y;
-          this.renderCanvas(true);
+          this.move(range.x, range.y);
           renderable = false;
           break;
 
