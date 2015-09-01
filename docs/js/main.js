@@ -14,6 +14,7 @@ $(function () {
 
   (function () {
     var $image = $('.img-container > img');
+    var $download = $('#download');
     var $dataX = $('#dataX');
     var $dataY = $('#dataY');
     var $dataHeight = $('#dataHeight');
@@ -60,8 +61,15 @@ $(function () {
     }).cropper(options);
 
 
+    // Download
+    if (typeof $download[0].download === 'undefined') {
+      $download.addClass('hide');
+      $download = false;
+    }
+
+
     // Methods
-    $(document.body).on('click', '[data-method]', function () {
+    $body.on('click', '[data-method]', function () {
       var data = $(this).data();
       var $target;
       var result;
@@ -95,8 +103,12 @@ $(function () {
           $(this).data('secondOption', -data.secondOption);
         }
 
-        if (data.method === 'getCroppedCanvas') {
+        if (data.method === 'getCroppedCanvas' && result) {
           $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
+
+          if ($download) {
+            $download.attr('href', result.toDataURL());
+          }
         }
 
         if ($.isPlainObject(result) && $target) {
@@ -172,7 +184,7 @@ $(function () {
         }
       });
     } else {
-      $inputImage.parent().remove();
+      $inputImage.parent().addClass('hide');
     }
 
 
