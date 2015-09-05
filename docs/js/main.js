@@ -61,6 +61,17 @@ $(function () {
     }).cropper(options);
 
 
+    // Buttons
+    if (!$.isFunction(document.createElement('canvas').getContext)) {
+      $('button[data-method="getCroppedCanvas"]').prop('disabled', true);
+    }
+
+    if (typeof document.createElement('cropper').style.transition === 'undefined') {
+      $('button[data-method="rotate"]').prop('disabled', true);
+      $('button[data-method="scale"]').prop('disabled', true);
+    }
+
+
     // Download
     if (typeof $download[0].download === 'undefined') {
       $download.addClass('disabled');
@@ -73,11 +84,11 @@ $(function () {
       var $target;
       var result;
 
-      if (!$image.data('cropper')) {
+      if ($this.prop('disabled') || $this.hasClass('disabled')) {
         return;
       }
 
-      if (data.method) {
+      if ($image.data('cropper') && data.method) {
         data = $.extend({}, data); // Clone a new one
 
         if (typeof data.target !== 'undefined') {
