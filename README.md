@@ -915,7 +915,8 @@ As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jqu
 
 ## Related projects
 
-- [react-cropper](https://github.com/roadmanfong/react-cropper) - Cropper as React components.
 - [ngCropper](https://github.com/koorgoo/ngCropper) - AngularJS wrapper for Cropper.
+- [react-cropper](https://github.com/roadmanfong/react-cropper) - Cropper as React components.
+- [meteor-cropper](https://github.com/jonblum/meteor-cropper) - Cropper for Meteor.
 - [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) - Ember cli addon for Cropper.
 - [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) - Ember-cli addon for cropping/resizing images based on the jQuery Cropper plugin.
