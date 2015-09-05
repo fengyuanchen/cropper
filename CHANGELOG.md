@@ -1,6 +1,16 @@
 # Changelog
 
 
+## 1.0.0-rc.1 (Sep 5, 2015)
+
+- Moved from Less to Sass
+- Fixed the issue of `destroy` method (#434)
+- Fixed the issue on IE8 (#319)
+- Added an example for customizing preview
+- Added download button to documentation
+- Added FAQ
+
+
 ## 0.11.1 (Aug 22, 2015)
 
 - Optimize "built" and "crop" events

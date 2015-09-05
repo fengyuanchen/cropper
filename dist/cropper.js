@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.11.1
+ * Cropper v1.0.0-rc.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-08-22T04:55:04.780Z
+ * Date: 2015-09-05T04:29:32.906Z
  */
 
 (function (factory) {
@@ -136,24 +136,22 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
-  function getImageData(image) {
-    var naturalWidth = image.naturalWidth;
-    var naturalHeight = image.naturalHeight;
+  function getNaturalSize(image, callback) {
     var newImage;
 
-    // IE8
-    if (!naturalWidth) {
-      newImage = new Image();
-      newImage.src = image.src;
-      naturalWidth = newImage.width;
-      naturalHeight = newImage.height;
+    // Modern browsers
+    if (image.naturalWidth) {
+      return callback(image.naturalWidth, image.naturalHeight);
     }
 
-    return {
-      naturalWidth: naturalWidth,
-      naturalHeight: naturalHeight,
-      aspectRatio: naturalWidth / naturalHeight
+    // IE8: Don't use `new Image()` here (#319)
+    newImage = document.createElement('img');
+
+    newImage.onload = function () {
+      callback(this.width, this.height);
     };
+
+    newImage.src = image.src;
   }
 
   function getTransform(options) {
@@ -362,9 +360,18 @@
     },
 
     start: function () {
-      this.image = getImageData(this.isImg ? this.$element[0] : this.$clone[0]);
-      this.ready = true;
-      this.build();
+      var image = this.isImg ? this.$element[0] : this.$clone[0];
+
+      getNaturalSize(image, $.proxy(function (naturalWidth, naturalHeight) {
+        this.image = {
+          naturalWidth: naturalWidth,
+          naturalHeight: naturalHeight,
+          aspectRatio: naturalWidth / naturalHeight
+        };
+
+        this.ready = true;
+        this.build();
+      }, this));
     },
 
     stop: function () {
@@ -1574,9 +1581,7 @@
 
         // Move canvas
         case ACTION_MOVE:
-          canvas.left += range.x;
-          canvas.top += range.y;
-          this.renderCanvas(true);
+          this.move(range.x, range.y);
           renderable = false;
           break;
 
@@ -1727,6 +1732,7 @@
     replace: function (url) {
       if (!this.disabled && url) {
         if (this.isImg) {
+          this.replaced = true;
           this.$element.attr('src', url);
         }
 
@@ -1757,7 +1763,7 @@
       var $this = this.$element;
 
       if (this.ready) {
-        if (this.isImg) {
+        if (this.isImg && this.replaced) {
           $this.attr('src', this.originalUrl);
         }
 

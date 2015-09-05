@@ -27,7 +27,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (65 KB)
+├── cropper.js      (66 KB)
 └── cropper.min.js  (24 KB)
 ```
 
@@ -909,6 +909,18 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 - Safari (latest 2)
 
 As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jquery.com/browser-support/).
+
+
+
+## Contributing
+
+Please read through our [contributing guidelines](CONTRIBUTING.md).
+
+
+
+## Versioning
+
+Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 
 
