@@ -8,16 +8,15 @@
 
 ## Features
 
-- Supports touch
-- Supports zoom
-- Supports rotation
-- Supports scale
-- Supports canvas
 - Supports [options](#options)
 - Supports [methods](#methods)
 - Supports [events](#events)
+- Supports touch (mobile)
+- Supports zoom
+- Supports rotation
+- Supports scale (flip)
+- Supports canvas
 - Supports multiple croppers
-- Supports RTL
 - Cross-browser support
 
 
