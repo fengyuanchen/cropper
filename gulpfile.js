@@ -225,14 +225,14 @@ gulp.task('test', ['js', 'css'], function () {
     pipe(plugins.qunit());
 });
 
-gulp.task('release', ['test', 'docs'], function () {
+gulp.task('release', ['test'], function () {
   return gulp.src('dist/*.{js,css}').
     pipe(gulp.dest('_releases/' + pkg.version));
 });
 
 gulp.task('watch', function () {
   gulp.watch(scripts.list, ['concat']);
-  gulp.watch(styles.scss, ['scss']);
+  gulp.watch(styles.scss, ['sass']);
   gulp.watch('docs/**', ['docs:html']);
 });
 
