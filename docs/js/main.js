@@ -80,7 +80,8 @@ $(function () {
 
     // Methods
     $body.on('click', '[data-method]', function () {
-      var data = $(this).data();
+      var $this = $(this);
+      var data = $this.data();
       var $target;
       var result;
 
