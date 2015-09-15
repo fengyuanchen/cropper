@@ -658,6 +658,7 @@ $('#cropper-example-2-modal').on('shown.bs.modal', function () {
       <div class="col-sm-4">
         <h5>HTML:</h5>
         <pre class="prettyprint">&lt;button class=&quot;btn btn-primary&quot; id=&quot;replace-toggle&quot; type=&quot;button&quot;&gt;Toggle&lt;/button&gt;
+
 &lt;div class=&quot;cropper-example-3&quot;&gt;
   &lt;img src=&quot;img/picture.jpg&quot; alt=&quot;Picture&quot;&gt;
 &lt;/div&gt;</pre>
@@ -665,6 +666,7 @@ $('#cropper-example-2-modal').on('shown.bs.modal', function () {
         <pre class="prettyprint">.cropper-example-3 {
   width: 100%;
 }
+
 .cropper-example-3 &gt; img {
   max-width: 100%;
 }</pre>
@@ -674,7 +676,11 @@ $('#cropper-example-2-modal').on('shown.bs.modal', function () {
         <pre class="prettyprint">var $image = $('.cropper-example-3 &gt; img'),
     replaced;
 
-$image.cropper();
+$image.cropper({
+  movable: false,
+  zoomable: false,
+  rotatable: false
+});
 
 $('#replace-toggle').click(function () {
   var url = 'img/picture-2.jpg';

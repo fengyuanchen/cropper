@@ -272,7 +272,11 @@ $(function () {
     var originalText = $toggle.text();
     var replaced;
 
-    $image.cropper();
+    $image.cropper({
+      movable: false,
+      zoomable: false,
+      rotatable: false
+    });
 
     $toggle.click(function () {
       if ($toggle.prop('disabled')) {
