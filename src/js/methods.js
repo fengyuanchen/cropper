@@ -161,7 +161,7 @@
         if (this.trigger(EVENT_ZOOM, {
           originalEvent: _originalEvent,
           ratio: ratio
-        })) {
+        }).isDefaultPrevented()) {
           return;
         }
 

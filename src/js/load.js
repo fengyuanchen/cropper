@@ -29,7 +29,7 @@
 
       this.$element.trigger(e);
 
-      return e.isDefaultPrevented();
+      return e;
     },
 
     load: function (url) {
@@ -48,7 +48,7 @@
       // Trigger build event first
       $this.one(EVENT_BUILD, options.build);
 
-      if (this.trigger(EVENT_BUILD)) {
+      if (this.trigger(EVENT_BUILD).isDefaultPrevented()) {
         return;
       }
 

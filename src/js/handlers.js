@@ -98,7 +98,7 @@
         if (this.trigger(EVENT_CROP_START, {
           originalEvent: originalEvent,
           action: action
-        })) {
+        }).isDefaultPrevented()) {
           return;
         }
 
@@ -151,7 +151,7 @@
         if (this.trigger(EVENT_CROP_MOVE, {
           originalEvent: originalEvent,
           action: action
-        })) {
+        }).isDefaultPrevented()) {
           return;
         }
 
