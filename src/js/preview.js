@@ -8,7 +8,7 @@
         var $this = $(this);
 
         // Save the original size for recover
-        $this.data(PREVIEW, {
+        $this.data(DATA_PREVIEW, {
           width: $this.width(),
           height: $this.height(),
           original: $this.html()
@@ -32,7 +32,7 @@
       this.$preview.each(function () {
         var $this = $(this);
 
-        $this.html($this.data(PREVIEW).original).removeData(PREVIEW);
+        $this.html($this.data(DATA_PREVIEW).original).removeData(DATA_PREVIEW);
       });
     },
 
@@ -59,7 +59,7 @@
 
       this.$preview.each(function () {
         var $this = $(this);
-        var data = $this.data(PREVIEW);
+        var data = $this.data(DATA_PREVIEW);
         var ratio = data.width / cropBox.width;
         var newWidth = data.width;
         var newHeight = cropBox.height * ratio;

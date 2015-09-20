@@ -5,7 +5,6 @@
 
   // Constants
   var NAMESPACE = 'cropper';
-  var PREVIEW = 'preview.' + NAMESPACE;
 
   // Classes
   var CLASS_MODAL = 'cropper-modal';
@@ -36,6 +35,10 @@
 
   // RegExps
   var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+
+  // Data keys
+  var DATA_PREVIEW = 'preview';
+  var DATA_ACTION = 'action';
 
   // Actions
   var ACTION_EAST = 'e';

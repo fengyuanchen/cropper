@@ -351,7 +351,7 @@
       if (options.movable && options.cropBoxMovable) {
 
         // Turn to move the canvas when the crop box is equal to the container
-        this.$face.data('action', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
+        this.$face.data(DATA_ACTION, (cropBox.width === containerWidth && cropBox.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
       }
 
       this.$cropBox.css({

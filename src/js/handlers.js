@@ -92,7 +92,7 @@
         e = touches[0];
       }
 
-      action = action || $(e.target).data('action');
+      action = action || $(e.target).data(DATA_ACTION);
 
       if (REGEXP_ACTIONS.test(action)) {
         if (this.trigger(EVENT_CROP_START, {

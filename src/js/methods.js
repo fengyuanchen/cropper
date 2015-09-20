@@ -622,7 +622,7 @@
         mode = (croppable || movable) ? mode : ACTION_NONE;
 
         this.$dragBox.
-          data('action', mode).
+          data(DATA_ACTION, mode).
           toggleClass(CLASS_CROP, croppable).
           toggleClass(CLASS_MOVE, movable);
 
@@ -630,7 +630,7 @@
 
           // Sync drag mode to crop box when it is not movable(#300)
           this.$face.
-            data('action', mode).
+            data(DATA_ACTION, mode).
             toggleClass(CLASS_CROP, croppable).
             toggleClass(CLASS_MOVE, movable);
         }
