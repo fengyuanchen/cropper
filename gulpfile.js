@@ -23,7 +23,7 @@ var scripts = {
         'src/js/build.js',
         'src/js/render.js',
         'src/js/preview.js',
-        'src/js/listen.js',
+        'src/js/bind.js',
         'src/js/handlers.js',
         'src/js/change.js',
         'src/js/methods.js',
