@@ -5,15 +5,19 @@ $(function () {
   var console = window.console || { log: function () {} };
   var $body = $('body');
 
+
+  // Tooltip
   $('[data-toggle="tooltip"]').tooltip();
   $.fn.tooltip.noConflict();
   $body.tooltip();
 
+
   // Demo
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   (function () {
     var $image = $('.img-container > img');
+    var $actions = $('.docs-actions');
     var $download = $('#download');
     var $dataX = $('#dataX');
     var $dataY = $('#dataY');
@@ -53,7 +57,7 @@ $(function () {
         console.log(e.type, e.action);
       },
       'crop.cropper': function (e) {
-        console.log(e.type);
+        console.log(e.type, e.x, e.y, e.width, e.height, e.rotate, e.scaleX, e.scaleY);
       },
       'zoom.cropper': function (e) {
         console.log(e.type, e.ratio);
@@ -78,8 +82,31 @@ $(function () {
     }
 
 
+    // Options
+    $actions.on('change', ':checkbox', function () {
+      var $this = $(this);
+      var cropBoxData;
+      var canvasData;
+
+      if (!$image.data('cropper')) {
+        return;
+      }
+
+      options[$this.val()] = $this.prop('checked');
+
+      cropBoxData = $image.cropper('getCropBoxData');
+      canvasData = $image.cropper('getCanvasData');
+      options.built = function () {
+        $image.cropper('setCropBoxData', cropBoxData);
+        $image.cropper('setCanvasData', canvasData);
+      };
+
+      $image.cropper('destroy').cropper(options);
+    });
+
+
     // Methods
-    $body.on('click', '[data-method]', function () {
+    $actions.on('click', '[data-method]', function () {
       var $this = $(this);
       var data = $this.data();
       var $target;
@@ -131,13 +158,13 @@ $(function () {
         }
 
       }
-    }).on('keydown', function (e) {
+    });
 
-      if (!$image.data('cropper')) {
-        return;
-      }
 
-      if (this.scrollTop > 300) {
+    // Keyboard
+    $body.on('keydown', function (e) {
+
+      if (!$image.data('cropper') || this.scrollTop > 300) {
         return;
       }
 
@@ -198,34 +225,11 @@ $(function () {
       $inputImage.prop('disabled', true).parent().addClass('disabled');
     }
 
-
-    // Options
-    $('.docs-options :checkbox').on('change', function () {
-      var $this = $(this);
-      var cropBoxData;
-      var canvasData;
-
-      if (!$image.data('cropper')) {
-        return;
-      }
-
-      options[$this.val()] = $this.prop('checked');
-
-      cropBoxData = $image.cropper('getCropBoxData');
-      canvasData = $image.cropper('getCanvasData');
-      options.built = function () {
-        $image.cropper('setCropBoxData', cropBoxData);
-        $image.cropper('setCanvasData', canvasData);
-      };
-
-      $image.cropper('destroy').cropper(options);
-    });
-
   }());
 
 
   // Examples
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   // Example 1
   (function () {
