@@ -160,7 +160,7 @@ Add extra elements (containers) for previewing.
 - Type: `Boolean`
 - Default: `true`
 
-In strict mode, the canvas (image wrapper) cannot be smaller than the container, and the crop box cannot be outside of the canvas (image wrapper).
+In strict mode, the crop box cannot be outside of the canvas (image wrapper).
 
 
 ### responsive
