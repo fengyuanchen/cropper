@@ -42,7 +42,7 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
-  function getNaturalSize(image, callback) {
+  function getImageSize(image, callback) {
     var newImage;
 
     // Modern browsers

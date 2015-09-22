@@ -81,7 +81,7 @@
     start: function () {
       var image = this.isImg ? this.$element[0] : this.$clone[0];
 
-      getNaturalSize(image, $.proxy(function (naturalWidth, naturalHeight) {
+      getImageSize(image, $.proxy(function (naturalWidth, naturalHeight) {
         this.image = {
           naturalWidth: naturalWidth,
           naturalHeight: naturalHeight,
