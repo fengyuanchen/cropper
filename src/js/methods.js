@@ -55,7 +55,7 @@
       this.cropped = false;
       this.renderCropBox();
 
-      this.limitCanvas();
+      this.limitCanvas(true, true);
 
       // Render canvas after crop box rendered
       this.renderCanvas();
