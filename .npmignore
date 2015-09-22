@@ -1,6 +1,14 @@
 # Files to ignore
 
 bower_components
+examples
+assets
+demo
+docs
+test
 *.map
+.*
 _*
 !src/scss/_*.scss
+CONTRIBUTING.md
+FAQ.md

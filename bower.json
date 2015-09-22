@@ -28,6 +28,8 @@
   ],
   "license": "MIT",
   "ignore": [
+    "CONTRIBUTING.md",
+    "FAQ.md",
     "**/.*",
     "node_modules",
     "bower_components",
