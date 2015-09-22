@@ -78,13 +78,13 @@ gulp.task('js+', function () {
 
 gulp.task('jshint', ['js+'], function () {
   return gulp.src(scripts.all).
-    pipe(plugins.jshint('src/.jshintrc')).
+    pipe(plugins.jshint()).
     pipe(plugins.jshint.reporter('default'));
 });
 
 gulp.task('jscs', ['js+'], function () {
   return gulp.src(scripts.all).
-    pipe(plugins.jscs('src/.jscsrc'));
+    pipe(plugins.jscs());
 });
 
 gulp.task('js', ['jshint', 'jscs'], function () {
@@ -114,7 +114,7 @@ gulp.task('css+', function () {
 
 gulp.task('csslint', ['css+'], function () {
   return gulp.src(styles.all).
-    pipe(plugins.csslint('src/.csslintrc')).
+    pipe(plugins.csslint('.csslintrc')).
     pipe(plugins.csslint.reporter());
 });
 
@@ -133,7 +133,7 @@ gulp.task('css', ['csslint'], function () {
         'Safari >= 6'
       ]
     })).
-    pipe(plugins.csscomb('src/.csscomb.json')).
+    pipe(plugins.csscomb()).
     pipe(gulp.dest(styles.dest)).
     pipe(plugins.rename(styles.min)).
     pipe(plugins.minifyCss()).
