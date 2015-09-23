@@ -79,9 +79,15 @@
     },
 
     start: function () {
-      var image = this.isImg ? this.$element[0] : this.$clone[0];
+      var $image = this.$element;
+      var $clone = this.$clone;
 
-      getImageSize(image, $.proxy(function (naturalWidth, naturalHeight) {
+      if (!this.isImg) {
+        $clone.off(EVENT_ERROR, this.stop);
+        $image = $clone;
+      }
+
+      getImageSize($image[0], $.proxy(function (naturalWidth, naturalHeight) {
         this.image = {
           naturalWidth: naturalWidth,
           naturalHeight: naturalHeight,
