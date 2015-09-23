@@ -282,22 +282,42 @@
      * @param {Object} data
      */
     setData: function (data) {
+      var options = this.options;
       var image = this.image;
       var canvas = this.canvas;
       var cropBoxData = {};
+      var rotated;
+      var scaled;
       var ratio;
 
       if ($.isFunction(data)) {
-        data = data.call(this.$element);
+        data = data.call(this.element);
       }
 
       if (this.built && !this.disabled && $.isPlainObject(data)) {
-        if (isNumber(data.rotate) && data.rotate !== image.rotate &&
-          this.options.rotatable) {
+        if (options.rotatable) {
+          if (isNumber(data.rotate) && data.rotate !== image.rotate) {
+            image.rotate = data.rotate;
+            this.rotated = rotated = true;
+          }
+        }
 
-          image.rotate = data.rotate;
-          this.rotated = true;
-          this.renderCanvas(true);
+        if (options.scalable) {
+          if (isNumber(data.scaleX) && data.scaleX !== image.scaleX) {
+            image.scaleX = data.scaleX;
+            scaled = true;
+          }
+
+          if (isNumber(data.scaleY) && data.scaleY !== image.scaleY) {
+            image.scaleY = data.scaleY;
+            scaled = true;
+          }
+        }
+
+        if (rotated) {
+          this.renderCanvas();
+        } else if (scaled) {
+          this.renderImage();
         }
 
         ratio = image.width / image.naturalWidth;
