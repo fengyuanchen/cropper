@@ -3,6 +3,7 @@
 > A simple jQuery image cropping plugin.
 
 - [Demo](http://fengyuanchen.github.io/cropper)
+- [Cropper with native JavaScript](http://github.com/fengyuanchen/cropperjs)
 
 
 
