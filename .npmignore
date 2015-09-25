@@ -6,9 +6,10 @@ assets
 demo
 docs
 test
-*.map
-.*
-_*
-!src/scss/_*.scss
+/_*
+/.*
+dist/*.map
+bower.json
+gulpfile.js
 CONTRIBUTING.md
 FAQ.md
