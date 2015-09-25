@@ -275,18 +275,11 @@
           </div>
         </div><!-- /.modal -->
 
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-method="getData" data-option data-target="#putData">
-            <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getData&quot;)">
-              Get Data
-            </span>
-          </button>
-          <button type="button" class="btn btn-primary btn-toggle" data-target="#diagram" data-toggle="modal">
-            <span class="docs-tooltip" data-toggle="tooltip" title="View diagram of data properties">
-              <span class="icon icon-info"></span>
-            </span>
-          </button>
-        </div>
+        <button type="button" class="btn btn-primary" data-method="getData" data-option data-target="#putData">
+          <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getData&quot;)">
+            Get Data
+          </span>
+        </button>
         <button type="button" class="btn btn-primary" data-method="setData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setData&quot;, data)">
             Set Data
@@ -323,25 +316,6 @@
           </span>
         </button>
         <input type="text" class="form-control" id="putData" placeholder="Get data to here or set data with this value">
-
-        <!-- Show the diagram in modal -->
-        <div class="modal fade docs-diagram" id="diagram" aria-hidden="true" aria-labelledby="diagramTitle" role="dialog" tabindex="-1">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="diagramTitle">Diagram of data's properties</h4>
-              </div>
-              <div class="modal-body">
-                <img class="img-responsive" src="img/data.jpg" alt="a schematic diagram of data's properties">
-              </div>
-              <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-              </div> -->
-            </div>
-          </div>
-        </div><!-- /.modal -->
-
       </div><!-- /.docs-buttons -->
 
       <div class="col-md-3 docs-toggles">
