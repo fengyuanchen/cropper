@@ -279,7 +279,8 @@ $(function () {
     $image.cropper({
       movable: false,
       zoomable: false,
-      rotatable: false
+      rotatable: false,
+      scalable: false
     });
 
     $toggle.click(function () {
