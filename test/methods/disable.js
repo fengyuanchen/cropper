@@ -43,14 +43,14 @@ $(function () {
         assert.equal(cropper.image.rotate, rotate);
       });
 
-      QUnit.test('methods.disable: setImageData', function (assert) {
-        var imageData = $image.cropper('getImageData');
+      QUnit.test('methods.disable: setCanvasData', function (assert) {
+        var canvasData = $image.cropper('getCanvasData');
 
-        $image.cropper('setImageData', {
-          width: imageData.width - 160
+        $image.cropper('setCanvasData', {
+          width: canvasData.width - 160
         });
 
-        assert.deepEqual($image.cropper('getImageData'), imageData);
+        assert.deepEqual($image.cropper('getCanvasData'), canvasData);
       });
 
       QUnit.test('methods.disable: setCropBoxData', function (assert) {

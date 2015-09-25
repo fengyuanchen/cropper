@@ -10,7 +10,7 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      var _data = $image.cropper('getImageData');
+      var _data = $image.cropper('getCanvasData');
 
       QUnit.test('methods.setCanvasData', function (assert) {
         var data = $image.cropper('setCanvasData', {
@@ -18,15 +18,12 @@ $(function () {
               height: 120
             }).cropper('getCanvasData');
 
-        assert.ok($.isPlainObject(data));
         assert.ok(isNumber(data.left));
         assert.ok(isNumber(data.top));
         assert.ok(isNumber(data.width));
         assert.ok(isNumber(data.height));
 
         assert.notEqual(data.left, _data.left);
-        assert.equal(data.top, _data.top);
-        assert.notEqual(data.width, _data.width);
         assert.notEqual(data.height, _data.height);
       });
 
@@ -38,8 +35,6 @@ $(function () {
 
         assert.notEqual(data.left, _data.left);
         assert.notEqual(data.top, _data.top);
-        assert.equal(data.width, _data.width);
-        assert.equal(data.height, _data.height);
       });
 
 
@@ -49,8 +44,6 @@ $(function () {
               height: 180
             }).cropper('getCanvasData');
 
-        assert.equal(data.left, _data.left);
-        assert.equal(data.top, _data.top);
         assert.notEqual(data.width, _data.width);
         assert.notEqual(data.height, _data.height);
       });

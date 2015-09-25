@@ -2,7 +2,7 @@ $(function () {
 
   'use strict';
 
-  var $image = $(window.createCropperCanvas());
+  var $image = $(window.createCropperImage());
 
   function isNumber(n) {
     return typeof n === 'number' && !isNaN(n);
@@ -14,7 +14,6 @@ $(function () {
       QUnit.test('methods.getContainerData', function (assert) {
         var data = $image.cropper('getContainerData');
 
-        assert.ok($.isPlainObject(data));
         assert.ok(isNumber(data.width));
         assert.ok(isNumber(data.height));
       });
