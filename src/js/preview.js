@@ -40,6 +40,8 @@
       var image = this.image;
       var canvas = this.canvas;
       var cropBox = this.cropBox;
+      var cropBoxWidth = cropBox.width;
+      var cropBoxHeight = cropBox.height;
       var width = image.width;
       var height = image.height;
       var left = cropBox.left - canvas.left - image.left;
@@ -60,14 +62,21 @@
       this.$preview.each(function () {
         var $this = $(this);
         var data = $this.data(DATA_PREVIEW);
-        var ratio = data.width / cropBox.width;
-        var newWidth = data.width;
-        var newHeight = cropBox.height * ratio;
+        var originalWidth = data.width;
+        var originalHeight = data.height;
+        var newWidth = originalWidth;
+        var newHeight = originalHeight;
+        var ratio = 1;
 
-        if (newHeight > data.height) {
-          ratio = data.height / cropBox.height;
-          newWidth = cropBox.width * ratio;
-          newHeight = data.height;
+        if (cropBoxWidth) {
+          ratio = originalWidth / cropBoxWidth;
+          newHeight = cropBoxHeight * ratio;
+        }
+
+        if (cropBoxHeight && newHeight > originalHeight) {
+          ratio = originalHeight / cropBoxHeight;
+          newWidth = cropBoxWidth * ratio;
+          newHeight = originalHeight;
         }
 
         $this.width(newWidth).height(newHeight).find('img').css({
