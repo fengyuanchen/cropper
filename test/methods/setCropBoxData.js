@@ -18,7 +18,6 @@ $(function () {
               height: 120
             }).cropper('getCropBoxData');
 
-        assert.ok($.isPlainObject(data));
         assert.ok(isNumber(data.left));
         assert.ok(isNumber(data.top));
         assert.ok(isNumber(data.width));

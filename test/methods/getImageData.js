@@ -15,7 +15,6 @@ $(function () {
         var data = $image.cropper('getImageData');
 
         // Not rotate
-        assert.ok($.isPlainObject(data));
         assert.ok(isNumber(data.naturalWidth));
         assert.ok(isNumber(data.naturalHeight));
         assert.ok(isNumber(data.aspectRatio));

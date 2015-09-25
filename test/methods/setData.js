@@ -18,7 +18,6 @@ $(function () {
               height: 120
             }).cropper('getData');
 
-        assert.ok($.isPlainObject(data));
         assert.ok(isNumber(data.x));
         assert.ok(isNumber(data.y));
         assert.ok(isNumber(data.width));
