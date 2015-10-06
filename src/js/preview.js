@@ -1,9 +1,15 @@
   $.extend(prototype, {
     initPreview: function () {
+      var options = this.options;
+      var crossOrigin = '';
       var url = this.url;
 
+      if (options.checkImageOrigin && isCrossOriginURL(url)) {
+        crossOrigin = ' crossOrigin="anonymous"';
+      }
+
       this.$preview = $(this.options.preview);
-      this.$viewBox.html('<img src="' + url + '">');
+      this.$viewBox.html('<img' + crossOrigin + ' src="' + url + '">');
       this.$preview.each(function () {
         var $this = $(this);
 
@@ -20,7 +26,7 @@
          * (Occur only when margin-top <= -height)
          */
         $this.html(
-          '<img src="' + url + '" style="display:block;width:100%;height:auto;' +
+          '<img' + crossOrigin + ' src="' + url + '" style="display:block;width:100%;height:auto;' +
           'min-width:0!important;min-height:0!important;' +
           'max-width:none!important;max-height:none!important;' +
           'image-orientation:0deg!important">'
