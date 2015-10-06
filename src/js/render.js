@@ -292,10 +292,16 @@
 
           // Compare crop box size with container first
           if (cropBox.maxHeight * aspectRatio > cropBox.maxWidth) {
-            cropBox.minHeight = cropBox.minWidth / aspectRatio;
+            if (cropBox.minWidth) {
+              cropBox.minHeight = cropBox.minWidth / aspectRatio;
+            }
+
             cropBox.maxHeight = cropBox.maxWidth / aspectRatio;
           } else {
-            cropBox.minWidth = cropBox.minHeight * aspectRatio;
+            if (cropBox.minHeight) {
+              cropBox.minWidth = cropBox.minHeight * aspectRatio;
+            }
+
             cropBox.maxWidth = cropBox.maxHeight * aspectRatio;
           }
         }
