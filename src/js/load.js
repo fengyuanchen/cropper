@@ -53,15 +53,18 @@
       }
 
       if (options.checkImageOrigin && isCrossOriginURL(url)) {
-        crossOrigin = ' crossOrigin="anonymous"';
+        crossOrigin = $this.prop('crossOrigin');
 
         // Bust cache (#148), only when there was not a "crossOrigin" property
-        if (!$this.prop('crossOrigin')) {
+        if (!crossOrigin) {
+          crossOrigin = 'anonymous';
           bustCacheUrl = addTimestamp(url);
         }
+
+        this.crossOrigin = crossOrigin;
       }
 
-      this.$clone = $clone = $('<img' + crossOrigin + ' src="' + (bustCacheUrl || url) + '">');
+      this.$clone = $clone = $('<img' + getCrossOrigin(crossOrigin) + ' src="' + (bustCacheUrl || url) + '">');
 
       if (this.isImg) {
         if ($this[0].complete) {

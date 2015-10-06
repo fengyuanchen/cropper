@@ -42,6 +42,10 @@
     return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
   }
 
+  function getCrossOrigin(crossOrigin) {
+    return crossOrigin ? ' crossOrigin="' + crossOrigin + '"' : '';
+  }
+
   function getImageSize(image, callback) {
     var newImage;
 
