@@ -78,6 +78,7 @@ body {
   min-height: 200px;
   max-height: 554px;
   margin-bottom: 20px;
+  overflow:visible;
 }
 
 @media (min-width: 768px) {
