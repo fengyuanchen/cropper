@@ -75,20 +75,12 @@
         minCanvasWidth = num(options.minCanvasWidth) || 0;
         minCanvasHeight = num(options.minCanvasHeight) || 0;
 
-        if (minCanvasWidth) {
-          if (strict) {
-            minCanvasWidth = max(cropped ? cropBox.width : initialCanvas.width, minCanvasWidth);
-          }
-
-          minCanvasHeight = minCanvasWidth / aspectRatio;
-        } else if (minCanvasHeight) {
-          if (strict) {
-            minCanvasHeight = max(cropped ? cropBox.height : initialCanvas.height, minCanvasHeight);
-          }
-
-          minCanvasWidth = minCanvasHeight * aspectRatio;
-        } else if (strict) {
-          if (cropped) {
+        if (strict) {
+          if (minCanvasWidth) {
+            minCanvasWidth = max(minCanvasWidth, cropped ? cropBox.width : initialCanvas.width);
+          } else if (minCanvasHeight) {
+            minCanvasHeight = max(minCanvasHeight, cropped ? cropBox.height : initialCanvas.height);
+          } else if (cropped) {
             minCanvasWidth = cropBox.width;
             minCanvasHeight = cropBox.height;
 
@@ -98,6 +90,18 @@
               minCanvasHeight = minCanvasWidth / aspectRatio;
             }
           }
+        }
+
+        if (minCanvasWidth && minCanvasHeight) {
+          if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+            minCanvasHeight = minCanvasWidth / aspectRatio;
+          } else {
+            minCanvasWidth = minCanvasHeight * aspectRatio;
+          }
+        } else if (minCanvasWidth) {
+          minCanvasHeight = minCanvasWidth / aspectRatio;
+        } else if (minCanvasHeight) {
+          minCanvasWidth = minCanvasHeight * aspectRatio;
         }
 
         $.extend(canvas, {
@@ -110,17 +114,14 @@
 
       if (position) {
         if (strict) {
-          if (cropped) {
-            canvas.minLeft = min(cropBox.left, (cropBox.left + cropBox.width) - canvas.width);
-            canvas.minTop = min(cropBox.top, (cropBox.top + cropBox.height) - canvas.height);
-            canvas.maxLeft = cropBox.left;
-            canvas.maxTop = cropBox.top;
-          } else {
-            canvas.minLeft = min(0, containerWidth - canvas.width);
-            canvas.minTop = min(0, containerHeight - canvas.height);
-            canvas.maxLeft = max(0, containerWidth - canvas.width);
-            canvas.maxTop = max(0, containerHeight - canvas.height);
-          }
+          canvas.minLeft = cropped ?
+            min(cropBox.left, (cropBox.left + cropBox.width) - canvas.width) :
+            min(0, containerWidth - canvas.width);
+          canvas.minTop = cropped ?
+            min(cropBox.top, (cropBox.top + cropBox.height) - canvas.height) :
+            min(0, containerHeight - canvas.height);
+          canvas.maxLeft = cropped ? cropBox.left : max(0, containerWidth - canvas.width);
+          canvas.maxTop = cropped ? cropBox.top : max(0, containerHeight - canvas.height);
         } else {
           canvas.minLeft = -canvas.width;
           canvas.minTop = -canvas.height;
