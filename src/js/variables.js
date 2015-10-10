@@ -68,4 +68,6 @@
   var num = parseFloat;
 
   // Prototype
-  var prototype = {};
+  var prototype = {
+    version: '@VERSION'
+  };
