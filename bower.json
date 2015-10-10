@@ -28,16 +28,18 @@
   ],
   "license": "MIT",
   "ignore": [
-    "CONTRIBUTING.md",
-    "FAQ.md",
     "**/.*",
     "node_modules",
     "bower_components",
+    "tests",
     "test",
     "examples",
     "assets",
     "demo",
-    "docs"
+    "docs",
+    "gulpfile.js",
+    "CONTRIBUTING.md",
+    "FAQ.md"
   ],
   "dependencies": {
     "jquery": ">= 1.9.1"

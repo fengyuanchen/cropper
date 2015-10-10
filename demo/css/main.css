@@ -76,13 +76,13 @@ body {
 
 .img-container {
   min-height: 200px;
-  max-height: 554px;
+  max-height: 516px;
   margin-bottom: 20px;
 }
 
 @media (min-width: 768px) {
   .img-container {
-    min-height: 554px;
+    min-height: 516px;
   }
 }
 
@@ -92,7 +92,6 @@ body {
 
 .docs-preview {
   margin-right: -15px;
-  margin-bottom: 10px;
 }
 
 .img-preview {

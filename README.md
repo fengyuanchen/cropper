@@ -3,7 +3,7 @@
 > A simple jQuery image cropping plugin.
 
 - [Demo](http://fengyuanchen.github.io/cropper)
-- [Cropper with native JavaScript](http://github.com/fengyuanchen/cropperjs)
+- [Cropper without jQuery](http://github.com/fengyuanchen/cropperjs)
 
 
 
@@ -28,7 +28,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (66 KB)
+├── cropper.js      (67 KB)
 └── cropper.min.js  (24 KB)
 ```
 
@@ -65,8 +65,8 @@ The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find th
 #### [RawGit](https://rawgit.com/)
 
 ```html
-<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v1.0.0-rc.1/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v1.0.0-rc.1/dist/cropper.min.js"></script>
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v1.0.0/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v1.0.0/dist/cropper.min.js"></script>
 ```
 
 

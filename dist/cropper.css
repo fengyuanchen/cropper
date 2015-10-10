@@ -1,11 +1,11 @@
 /*!
- * Cropper v1.0.0-rc.1
+ * Cropper v1.0.0
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-09-05T04:29:22.355Z
+ * Date: 2015-10-10T02:10:06.999Z
  */
 .cropper-container {
   position: relative;
@@ -63,8 +63,8 @@
   width: 100%;
   height: 100%; 
   overflow: hidden;
-  outline: 1px solid #69f;
-  outline-color: rgba(102, 153, 255, .75);
+  outline: 1px solid #39f;
+  outline-color: rgba(51, 153, 255, .75);
 }
 
 .cropper-dashed {
@@ -139,7 +139,7 @@
 }
 
 .cropper-line {
-  background-color: #69f;
+  background-color: #39f;
 }
 .cropper-line.line-e {
   top: 0;
@@ -169,7 +169,7 @@
 .cropper-point {
   width: 5px;
   height: 5px;
-  background-color: #69f;
+  background-color: #39f;
   filter: alpha(opacity=75); 
   opacity: .75;
 }
@@ -229,7 +229,7 @@
   width: 200%;
   height: 200%;
   content: " ";
-  background-color: #69f;
+  background-color: #39f;
   filter: alpha(opacity=0); 
   opacity: 0;
 }

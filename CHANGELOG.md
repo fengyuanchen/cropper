@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 1.0.0 (Oct 10, 2015)
+
+- Improved canvas limitation
+- Improved preview
+- Improved test
+- Fixed an error in the `clear` method (missed parameters)
+- Fixed the issue of crop box limitaion (#430)
+
+
 ## 1.0.0-rc.1 (Sep 5, 2015)
 
 - Moved from Less to Sass
