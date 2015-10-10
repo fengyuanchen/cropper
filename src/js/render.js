@@ -104,10 +104,10 @@
           minCanvasWidth = minCanvasHeight * aspectRatio;
         }
 
-        canvas.minWidth = minCanvasWidth,
-        canvas.minHeight = minCanvasHeight,
-        canvas.maxWidth = Infinity,
-        canvas.maxHeight = Infinity
+        canvas.minWidth = minCanvasWidth;
+        canvas.minHeight = minCanvasHeight;
+        canvas.maxWidth = Infinity;
+        canvas.maxHeight = Infinity;
       }
 
       if (position) {
