@@ -5,8 +5,8 @@
  * -------------------------------------------------------------------------- */
 
 .btn-primary {
-  border-color: #0066bf;  /* hsb(208, 100%, 75%) */
-  background-color: #0074d9; /* hsb(208, 100%, 85%) */
+  border-color: #0066bf;
+  background-color: #0074d9;
 }
 
 .btn-primary:hover,
@@ -15,8 +15,8 @@
 .btn-primary.active,
 .btn-primary.active:focus,
 .btn-primary.active:hover {
-  border-color: #005299; /* hsb(208, 100%, 60%) */
-  background-color: #005fb3; /* hsb(208, 100%, 70%) */
+  border-color: #005299;
+  background-color: #005fb3;
 }
 
 
@@ -49,7 +49,7 @@ body {
 .docs-header .navbar-toggle:hover,
 .docs-header .navbar-toggle:focus {
   border-color: transparent;
-  background-color: #0066bf;
+  background-color: #005fb3;
 }
 
 .docs-header .navbar-collapse {
@@ -136,6 +136,7 @@ body {
   background-color: #f7f7f7;
   width: 100%;
   text-align: center;
+  overflow: hidden;
 }
 
 .img-container {
@@ -163,7 +164,6 @@ body {
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
-  overflow: hidden;
 }
 
 .img-preview > img {
