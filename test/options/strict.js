@@ -13,10 +13,8 @@ $(function () {
         $image.cropper('zoom', -0.5); // Zoom out
         canvasData = $image.cropper('getCanvasData');
         cropBoxData = $image.cropper('getCropBoxData');
-        assert.equal(Math.round(canvasData.width), Math.round(cropBoxData.width));
-        assert.equal(Math.round(canvasData.height), Math.round(cropBoxData.height));
-        assert.equal(Math.round(canvasData.left), Math.round(cropBoxData.left));
-        assert.equal(Math.round(canvasData.top), Math.round(cropBoxData.top));
+        assert.ok(canvasData.width >= cropBoxData.width);
+        assert.ok(canvasData.height >= cropBoxData.height);
       });
 
     }
@@ -29,7 +27,7 @@ $(function () {
       strict: false,
 
       built: function () {
-        var canvasData = {
+        var _canvasData = {
               left: 100,
               top: 100,
               width: 160,
@@ -37,8 +35,12 @@ $(function () {
             };
 
         QUnit.test('options.strict: false', function (assert) {
-          $image.cropper('setCanvasData', canvasData);
-          assert.deepEqual($image.cropper('getCanvasData'), canvasData);
+          var canvasData = $image.cropper('setCanvasData', _canvasData).cropper('getCanvasData');
+
+          assert.equal(canvasData.left, _canvasData.left);
+          assert.equal(canvasData.top, _canvasData.top);
+          assert.equal(canvasData.width, _canvasData.width);
+          assert.equal(canvasData.height, _canvasData.height);
         });
 
       }

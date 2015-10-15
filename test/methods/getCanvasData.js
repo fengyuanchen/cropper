@@ -18,6 +18,8 @@ $(function () {
         assert.ok(isNumber(data.top));
         assert.ok(isNumber(data.width));
         assert.ok(isNumber(data.height));
+        assert.ok(isNumber(data.naturalWidth));
+        assert.ok(isNumber(data.naturalHeight));
       });
 
     }

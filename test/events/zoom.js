@@ -9,17 +9,12 @@ $(function () {
     QUnit.test('events.zoom', function (assert) {
       assert.equal(e.type, 'zoom');
       assert.equal(e.namespace, 'cropper');
-
-      if (e.ratio > 0) {
-        assert.equal(e.ratio, 0.1);
-      } else {
-        assert.equal(e.ratio, -0.1);
-      }
+      assert.ok(e.ratio > e.oldRatio);
     });
 
   }).cropper({
     built: function () {
-      $image.cropper('zoom', 0.1).cropper('zoom', -0.1);
+      $image.cropper('zoom', 0.1);
     },
 
     zoom: function (e) {
@@ -27,12 +22,7 @@ $(function () {
       QUnit.test('options.zoom', function (assert) {
         assert.equal(e.type, 'zoom');
         assert.equal(e.namespace, 'cropper');
-
-        if (e.ratio > 0) {
-          assert.equal(e.ratio, 0.1);
-        } else {
-          assert.equal(e.ratio, -0.1);
-        }
+        assert.ok(e.ratio > e.oldRatio);
       });
 
     }
