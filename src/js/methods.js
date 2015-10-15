@@ -453,18 +453,22 @@
      */
     getCanvasData: function () {
       var canvas = this.canvas;
-      var data;
+      var data = {};
 
       if (this.built) {
-        data = {
-          left: canvas.left,
-          top: canvas.top,
-          width: canvas.width,
-          height: canvas.height
-        };
+        $.each([
+          'left',
+          'top',
+          'width',
+          'height',
+          'naturalWidth',
+          'naturalHeight'
+        ], function (i, n) {
+          data[n] = canvas[n];
+        });
       }
 
-      return data || {};
+      return data;
     },
 
     /**
