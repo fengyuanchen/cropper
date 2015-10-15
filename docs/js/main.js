@@ -133,20 +133,24 @@ $(function () {
 
         result = $image.cropper(data.method, data.option, data.secondOption);
 
-        if (data.flip === 'horizontal') {
-          $(this).data('option', -data.option);
-        }
+        switch (data.method) {
+          case 'scaleX':
+          case 'scaleY':
+            $(this).data('option', -data.option);
+            break;
 
-        if (data.flip === 'vertical') {
-          $(this).data('secondOption', -data.secondOption);
-        }
+          case 'getCroppedCanvas':
+            if (result) {
 
-        if (data.method === 'getCroppedCanvas' && result) {
-          $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
+              // Bootstrap's Modal
+              $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
-          if (!$download.hasClass('disabled')) {
-            $download.attr('href', result.toDataURL());
-          }
+              if (!$download.hasClass('disabled')) {
+                $download.attr('href', result.toDataURL());
+              }
+            }
+
+            break;
         }
 
         if ($.isPlainObject(result) && $target) {
