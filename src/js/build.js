@@ -37,7 +37,7 @@
       this.bind();
 
       // Format aspect ratio (0 -> NaN)
-      options.aspectRatio = num(options.aspectRatio) || NaN;
+      options.aspectRatio = max(0, options.aspectRatio) || NaN;
 
       if (options.autoCrop) {
         this.cropped = true;
