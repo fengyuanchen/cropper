@@ -121,7 +121,7 @@
     },
 
     /**
-     * Move the canvas
+     * Move the canvas with relative offsets
      *
      * @param {Number} offsetX
      * @param {Number} offsetY (optional)
@@ -129,73 +129,126 @@
     move: function (offsetX, offsetY) {
       var canvas = this.canvas;
 
-      // If "offsetY" is not present, its default value is "offsetX"
-      if (isUndefined(offsetY)) {
-        offsetY = offsetX;
+      this.moveTo(
+        isUndefined(offsetX) ? offsetX : canvas.left + num(offsetX),
+        isUndefined(offsetY) ? offsetY : canvas.top + num(offsetY)
+      );
+    },
+
+    /**
+     * Move the canvas to an absolute point
+     *
+     * @param {Number} x
+     * @param {Number} y (optional)
+     */
+    moveTo: function (x, y) {
+      var canvas = this.canvas;
+      var changed = false;
+
+      // If "y" is not present, its default value is "x"
+      if (isUndefined(y)) {
+        y = x;
       }
 
-      offsetX = num(offsetX);
-      offsetY = num(offsetY);
+      x = num(x);
+      y = num(y);
 
       if (this.built && !this.disabled && this.options.movable) {
-        canvas.left += isNumber(offsetX) ? offsetX : 0;
-        canvas.top += isNumber(offsetY) ? offsetY : 0;
-        this.renderCanvas(true);
+        if (isNumber(x)) {
+          canvas.left = x;
+          changed = true;
+        }
+
+        if (isNumber(y)) {
+          canvas.top = y;
+          changed = true;
+        }
+
+        if (changed) {
+          this.renderCanvas(true);
+        }
       }
     },
 
     /**
-     * Zoom the canvas
+     * Zoom the canvas with a relative ratio
      *
      * @param {Number} ratio
      * @param {Event} _originalEvent (private)
      */
     zoom: function (ratio, _originalEvent) {
       var canvas = this.canvas;
-      var width;
-      var height;
 
       ratio = num(ratio);
 
-      if (ratio && this.built && !this.disabled && this.options.zoomable) {
+      if (ratio < 0) {
+        ratio =  1 / (1 - ratio);
+      } else {
+        ratio = 1 + ratio;
+      }
+
+      this.zoomTo(canvas.width * ratio / canvas.naturalWidth, _originalEvent);
+    },
+
+    /**
+     * Zoom the canvas to an absolute ratio
+     *
+     * @param {Number} ratio
+     * @param {Event} _originalEvent (private)
+     */
+    zoomTo: function (ratio, _originalEvent) {
+      var options = this.options;
+      var canvas = this.canvas;
+      var width = canvas.width;
+      var height = canvas.height;
+      var naturalWidth = canvas.naturalWidth;
+      var naturalHeight = canvas.naturalHeight;
+      var newWidth;
+      var newHeight;
+
+      ratio = num(ratio);
+
+      if (ratio >= 0 && this.built && !this.disabled && options.zoomable) {
+        newWidth = naturalWidth * ratio;
+        newHeight = naturalHeight * ratio;
+
         if (this.trigger(EVENT_ZOOM, {
           originalEvent: _originalEvent,
-          ratio: ratio
+          oldRatio: width / naturalWidth,
+          ratio: newWidth / naturalWidth
         }).isDefaultPrevented()) {
           return;
         }
 
-        if (ratio < 0) {
-          ratio =  1 / (1 - ratio);
-        } else {
-          ratio = 1 + ratio;
-        }
-
-        width = canvas.width * ratio;
-        height = canvas.height * ratio;
-        canvas.left -= (width - canvas.width) / 2;
-        canvas.top -= (height - canvas.height) / 2;
-        canvas.width = width;
-        canvas.height = height;
+        canvas.left -= (newWidth - width) / 2;
+        canvas.top -= (newHeight - height) / 2;
+        canvas.width = newWidth;
+        canvas.height = newHeight;
         this.renderCanvas(true);
         this.setDragMode(ACTION_MOVE);
       }
     },
 
     /**
-     * Rotate the canvas
-     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
+     * Rotate the canvas with a relative degree
      *
      * @param {Number} degree
      */
     rotate: function (degree) {
-      var image = this.image;
-      var rotate = image.rotate || 0;
+      this.rotateTo((this.image.rotate || 0) + num(degree));
+    },
 
-      degree = num(degree) || 0;
+    /**
+     * Rotate the canvas to an absolute degree
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
+     *
+     * @param {Number} degree
+     */
+    rotateTo: function (degree) {
+      degree = num(degree);
 
-      if (this.built && !this.disabled && this.options.rotatable) {
-        image.rotate = (rotate + degree) % 360;
+      if (isNumber(degree) && this.built && !this.disabled && this.options.rotatable) {
+        this.image.rotate = degree % 360;
         this.rotated = true;
         this.renderCanvas(true);
       }
@@ -210,6 +263,7 @@
      */
     scale: function (scaleX, scaleY) {
       var image = this.image;
+      var changed = false;
 
       // If "scaleY" is not present, its default value is "scaleX"
       if (isUndefined(scaleY)) {
@@ -220,10 +274,42 @@
       scaleY = num(scaleY);
 
       if (this.built && !this.disabled && this.options.scalable) {
-        image.scaleX = isNumber(scaleX) ? scaleX : 1;
-        image.scaleY = isNumber(scaleY) ? scaleY : 1;
-        this.renderImage(true);
+        if (isNumber(scaleX)) {
+          image.scaleX = scaleX;
+          changed = true;
+        }
+
+        if (isNumber(scaleY)) {
+          image.scaleY = scaleY;
+          changed = true;
+        }
+
+        if (changed) {
+          this.renderImage(true);
+        }
       }
+    },
+
+    /**
+     * Scale the abscissa of the image
+     *
+     * @param {Number} scaleX
+     */
+    scaleX: function (scaleX) {
+      var scaleY = this.image.scaleY;
+
+      this.scale(scaleX, isNumber(scaleY) ? scaleY : 1);
+    },
+
+    /**
+     * Scale the ordinate of the image
+     *
+     * @param {Number} scaleY
+     */
+    scaleY: function (scaleY) {
+      var scaleX = this.image.scaleX;
+
+      this.scale(isNumber(scaleX) ? scaleX : 1, scaleY);
     },
 
     /**
