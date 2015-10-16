@@ -11,7 +11,7 @@ $(function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options.modal', function (assert) {
-        assert.ok(!cropper.$canvas.hasClass('cropper-modal'));
+        assert.ok(!cropper.$dragBox.hasClass('cropper-modal'));
       });
 
     }

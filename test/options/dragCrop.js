@@ -11,7 +11,7 @@ $(function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options.dragCrop', function (assert) {
-        assert.notEqual(cropper.$canvas.data('action'), 'crop');
+        assert.notEqual(cropper.$dragBox.data('action'), 'crop');
       });
 
     }
