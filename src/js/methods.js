@@ -338,7 +338,7 @@
 
         $.each(data, function (i, n) {
           n = n / ratio;
-          data[i] = rounded ? Math.round(n) : n;
+          data[i] = rounded ? round(n) : n;
         });
 
       } else {
@@ -618,8 +618,9 @@
         }
       }
 
-      canvasWidth = scaledWidth || originalWidth;
-      canvasHeight = scaledHeight || originalHeight;
+
+      canvasWidth = round(scaledWidth || originalWidth);
+      canvasHeight = round(scaledHeight || originalHeight);
 
       canvas = $('<canvas>')[0];
       canvas.width = canvasWidth;

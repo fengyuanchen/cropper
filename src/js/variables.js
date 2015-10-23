@@ -59,13 +59,14 @@
   var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);
 
   // Maths
-  var sqrt = Math.sqrt;
+  var num = Number;
   var min = Math.min;
   var max = Math.max;
   var abs = Math.abs;
   var sin = Math.sin;
   var cos = Math.cos;
-  var num = Number;
+  var sqrt = Math.sqrt;
+  var round = Math.round;
 
   // Prototype
   var prototype = {
