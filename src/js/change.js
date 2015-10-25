@@ -375,6 +375,7 @@
             // Show the crop box if is hidden
             if (!this.cropped) {
               this.cropped = true;
+              this.limitCropBox(true, true);
               this.$cropBox.removeClass(CLASS_HIDDEN);
             }
           }
