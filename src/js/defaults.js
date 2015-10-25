@@ -9,7 +9,7 @@
     // A jQuery selector for adding extra containers to preview
     preview: '',
 
-    // Strict mode, the image cannot zoom out less than the container
+    // Strict mode, the canvas cannot zoom out less than the crop box
     strict: true,
 
     // Rebuild when resize the window
