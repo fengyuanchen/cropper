@@ -69,7 +69,6 @@
       var aspectRatio = canvas.aspectRatio;
       var cropBox = this.cropBox;
       var cropped = this.cropped && cropBox;
-      var initialCanvas = this.initialCanvas || canvas;
       var minCanvasWidth;
       var minCanvasHeight;
 
@@ -79,9 +78,9 @@
 
         if (strict) {
           if (minCanvasWidth) {
-            minCanvasWidth = max(minCanvasWidth, cropped ? cropBox.width : initialCanvas.width);
+            minCanvasWidth = max(minCanvasWidth, cropped ? cropBox.width : 0);
           } else if (minCanvasHeight) {
-            minCanvasHeight = max(minCanvasHeight, cropped ? cropBox.height : initialCanvas.height);
+            minCanvasHeight = max(minCanvasHeight, cropped ? cropBox.height : 0);
           } else if (cropped) {
             minCanvasWidth = cropBox.width;
             minCanvasHeight = cropBox.height;
