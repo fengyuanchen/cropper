@@ -125,6 +125,19 @@ You may set cropper options with `$().cropper(options)`.
 If you want to change the global default options, You may use `$.fn.cropper.setDefaults(options)`.
 
 
+### mode
+
+- Type: `Number`
+- Default: `0`
+- Options:
+  - `0`: the crop box is just within the container
+  - `1`: the crop box should be within the canvas
+  - `2`: the canvas should not be within the container
+  - `3`: the container should be within the canvas
+
+Define the working mode of the cropper.
+
+
 ### aspectRatio
 
 - Type: `Number`
@@ -154,14 +167,6 @@ Add extra elements (containers) for previewing.
 - The maximum height is the initial height of preview container.
 - If you set an `aspectRatio` option, be sure to set the preview container with the same aspect ratio.
 - If preview is not getting properly displayed, set `overflow:hidden` to the preview container.
-
-
-### strict
-
-- Type: `Boolean`
-- Default: `true`
-
-In strict mode, the crop box cannot be outside of the canvas (image wrapper).
 
 
 ### responsive
