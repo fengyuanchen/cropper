@@ -85,6 +85,7 @@ $(function () {
     $('.docs-toggles').on('change', 'input', function () {
       var $this = $(this);
       var name = $this.attr('name');
+      var type = $this.prop('type');
       var cropBoxData;
       var canvasData;
 
@@ -92,7 +93,7 @@ $(function () {
         return;
       }
 
-      if ($this.is(':checkbox')) {
+      if (type === 'checkbox') {
         options[name] = $this.prop('checked');
         cropBoxData = $image.cropper('getCropBoxData');
         canvasData = $image.cropper('getCanvasData');
@@ -101,7 +102,7 @@ $(function () {
           $image.cropper('setCropBoxData', cropBoxData);
           $image.cropper('setCanvasData', canvasData);
         };
-      } else {
+      } else if (type === 'radio') {
         options[name] = $this.val();
       }
 
@@ -110,7 +111,7 @@ $(function () {
 
 
     // Methods
-    $('.docs-actions').on('click', '[data-method]', function () {
+    $('.docs-buttons').on('click', '[data-method]', function () {
       var $this = $(this);
       var data = $this.data();
       var $target;
