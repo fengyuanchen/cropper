@@ -20,7 +20,7 @@
          * Add `display:block` to avoid margin top issue
          * (Occur only when margin-top <= -height)
          */
-        $this.html(
+        $this.css('overflow', 'hidden').html(
           '<img' + crossOrigin + ' src="' + url + '" style="' +
           'display:block;width:100%;height:auto;' +
           'min-width:0!important;min-height:0!important;' +
@@ -33,8 +33,13 @@
     resetPreview: function () {
       this.$preview.each(function () {
         var $this = $(this);
+        var data = $this.data(DATA_PREVIEW);
 
-        $this.html($this.data(DATA_PREVIEW).original).removeData(DATA_PREVIEW);
+        $this.css({
+          width: data.width,
+          height: data.height,
+          overflow: 'visible'
+        }).html(data.original).removeData(DATA_PREVIEW);
       });
     },
 
@@ -81,7 +86,10 @@
           newHeight = originalHeight;
         }
 
-        $this.width(newWidth).height(newHeight).find('img').css({
+        $this.css({
+          width: newWidth,
+          height: newHeight
+        }).find('img').css({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,
