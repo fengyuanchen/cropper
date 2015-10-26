@@ -28,8 +28,6 @@
 
       this.image = $.extend({}, this.initialImage);
       this.canvas = $.extend({}, this.initialCanvas);
-
-      // Required for strict mode
       this.cropBox = $.extend({}, this.initialCropBox);
 
       this.renderCanvas();

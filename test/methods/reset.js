@@ -5,8 +5,6 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    strict: false,
-
     built: function () {
       var canvasData = $image.cropper('getCanvasData');
       var cropBoxData = $image.cropper('getCropBoxData');

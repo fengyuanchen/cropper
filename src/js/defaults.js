@@ -1,5 +1,8 @@
   Cropper.DEFAULTS = {
 
+    // Define the working mode of the cropper
+    mode: 0, // 0, 1, 2, 3
+
     // Define the aspect ratio of the crop box
     aspectRatio: NaN,
 
@@ -8,9 +11,6 @@
 
     // A jQuery selector for adding extra containers to preview
     preview: '',
-
-    // Strict mode, the canvas cannot zoom out less than the crop box
-    strict: true,
 
     // Rebuild when resize the window
     responsive: true,

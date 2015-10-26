@@ -6,7 +6,6 @@ $(function () {
   var minCanvasHeight = 90;
 
   $image.cropper({
-    strict: false,
     minCanvasHeight: minCanvasHeight,
 
     built: function () {
