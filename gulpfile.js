@@ -41,8 +41,9 @@ var styles = {
       name: 'cropper.css',
       min: 'cropper.min.css',
       all: [
-        'dist/*.css',
-        'docs/css/*.css'
+        'dist/cropper.css',
+        'demo/css/main.css',
+        'docs/css/main.css'
       ],
       scss: 'src/scss/*.scss',
       main: 'dist/cropper.css',
