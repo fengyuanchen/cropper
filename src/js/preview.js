@@ -25,7 +25,7 @@
           'display:block;width:100%;height:auto;' +
           'min-width:0!important;min-height:0!important;' +
           'max-width:none!important;max-height:none!important;' +
-          'image-orientation:0deg!important">'
+          'image-orientation:0deg!important;">'
         );
       });
     },
