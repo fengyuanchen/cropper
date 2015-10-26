@@ -12,7 +12,7 @@ $(function () {
       $image.cropper('disable');
 
       QUnit.test('methods.disable', function (assert) {
-        assert.ok(cropper.disabled);
+        assert.equal(cropper.isDisabled, true);
         assert.ok(cropper.$cropper.hasClass('cropper-disabled'));
       });
 

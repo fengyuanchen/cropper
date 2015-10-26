@@ -17,7 +17,7 @@ $(function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options.autoCrop', function (assert) {
-        assert.notEqual(cropper.cropped, true);
+        assert.equal(cropper.isCropped, false);
       });
 
     }

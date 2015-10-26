@@ -49,7 +49,7 @@
       var left = cropBox.left - canvas.left - image.left;
       var top = cropBox.top - canvas.top - image.top;
 
-      if (!this.cropped || this.disabled) {
+      if (!this.isCropped || this.isDisabled) {
         return;
       }
 

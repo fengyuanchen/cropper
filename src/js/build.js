@@ -7,12 +7,12 @@
       var $cropBox;
       var $face;
 
-      if (!this.ready) {
+      if (!this.isLoaded) {
         return;
       }
 
       // Unbuild first when replace
-      if (this.built) {
+      if (this.isBuilt) {
         this.unbuild();
       }
 
@@ -40,7 +40,7 @@
       options.aspectRatio = max(0, options.aspectRatio) || NaN;
 
       if (options.autoCrop) {
-        this.cropped = true;
+        this.isCropped = true;
 
         if (options.modal) {
           this.$dragBox.addClass(CLASS_MODAL);
@@ -76,23 +76,23 @@
       this.setDragMode(options.dragCrop ? ACTION_CROP : (options.movable ? ACTION_MOVE : ACTION_NONE));
 
       this.render();
-      this.built = true;
+      this.isBuilt = true;
       this.setData(options.data);
       $this.one(EVENT_BUILT, options.built);
 
       // Trigger the built event asynchronously to keep `data('cropper')` is defined
       setTimeout($.proxy(function () {
         this.trigger(EVENT_BUILT);
-        this.complete = true;
+        this.isCompleted = true;
       }, this), 0);
     },
 
     unbuild: function () {
-      if (!this.built) {
+      if (!this.isBuilt) {
         return;
       }
 
-      this.built = false;
+      this.isBuilt = false;
       this.initialImage = null;
 
       // Clear `initialCanvas` is necessary when replace
