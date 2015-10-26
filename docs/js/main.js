@@ -17,7 +17,6 @@ $(function () {
 
   (function () {
     var $image = $('.img-container > img');
-    var $actions = $('.docs-actions');
     var $download = $('#download');
     var $dataX = $('#dataX');
     var $dataY = $('#dataY');
@@ -83,8 +82,9 @@ $(function () {
 
 
     // Options
-    $actions.on('change', ':checkbox', function () {
+    $('.docs-toggles').on('change', 'input', function () {
       var $this = $(this);
+      var name = $this.attr('name');
       var cropBoxData;
       var canvasData;
 
@@ -92,21 +92,25 @@ $(function () {
         return;
       }
 
-      options[$this.val()] = $this.prop('checked');
+      if ($this.is(':checkbox')) {
+        options[name] = $this.prop('checked');
+        cropBoxData = $image.cropper('getCropBoxData');
+        canvasData = $image.cropper('getCanvasData');
 
-      cropBoxData = $image.cropper('getCropBoxData');
-      canvasData = $image.cropper('getCanvasData');
-      options.built = function () {
-        $image.cropper('setCropBoxData', cropBoxData);
-        $image.cropper('setCanvasData', canvasData);
-      };
+        options.built = function () {
+          $image.cropper('setCropBoxData', cropBoxData);
+          $image.cropper('setCanvasData', canvasData);
+        };
+      } else {
+        options[name] = $this.val();
+      }
 
       $image.cropper('destroy').cropper(options);
     });
 
 
     // Methods
-    $actions.on('click', '[data-method]', function () {
+    $('.docs-actions').on('click', '[data-method]', function () {
       var $this = $(this);
       var data = $this.data();
       var $target;
@@ -240,7 +244,6 @@ $(function () {
     $('.cropper-example-1 > img').cropper({
       aspectRatio: 16 / 9,
       autoCropArea: 0.65,
-      strict: false,
       guides: false,
       highlight: false,
       dragCrop: false,
@@ -278,7 +281,7 @@ $(function () {
     var $image = $('.cropper-example-3 > img');
     var $toggle = $('#replace-toggle');
     var originalText = $toggle.text();
-    var replaced;
+    var isReplaced = false;
 
     $image.cropper({
       movable: false,
@@ -296,9 +299,9 @@ $(function () {
 
       $image.one('built.cropper', function () {
         $toggle.text(originalText).prop('disabled', false);
-      }).cropper('replace', replaced ? 'img/picture.jpg' : 'img/picture-2.jpg');
+      }).cropper('replace', isReplaced ? 'img/picture.jpg' : 'img/picture-2.jpg');
 
-      replaced = !replaced;
+      isReplaced = !isReplaced;
     });
   })();
 
