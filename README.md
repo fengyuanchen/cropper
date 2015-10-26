@@ -28,8 +28,8 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (67 KB)
-└── cropper.min.js  (24 KB)
+├── cropper.js      (70 KB)
+└── cropper.min.js  (25 KB)
 ```
 
 
@@ -113,7 +113,7 @@ See the [FAQ](FAQ.md) documentation.
 
 #### Known issues
 
-- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation in server first before to use cropper.
+- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation with canvas as [JavaScript-Load-Image](https://github.com/blueimp/JavaScript-Load-Image) or in server as PHP first before to use cropper.
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
 
@@ -500,7 +500,6 @@ Destroy the cropper and remove the instance from the image.
 
 - **offsetX**:
   - Type: `Number`
-  - Default: `0`
   - Moving size (px) in the horizontal direction.
 
 - **offsetY** (optional):
@@ -508,13 +507,27 @@ Destroy the cropper and remove the instance from the image.
   - Moving size (px) in the vertical direction.
   - If not present, its default value is `offsetX`.
 
-Move the canvas (image wrapper).
+Move the canvas (image wrapper) with relative offsets.
 
 ```js
 $().cropper('move', 1);
 $().cropper('move', 1, 0);
 $().cropper('move', 0, -1);
 ```
+
+
+### moveTo(x[, y])
+
+- **x**:
+  - Type: `Number`
+  - The `left` value of the canvas
+
+- **y** (optional):
+  - Type: `Number`
+  - The `top` value of the canvas
+  - If not present, its default value is `x`.
+
+Move the canvas (image wrapper) to an absolute point.
 
 
 ### zoom(ratio)
@@ -524,11 +537,23 @@ $().cropper('move', 0, -1);
   - Zoom in: requires a positive number (ratio > 0)
   - Zoom out: requires a negative number (ratio < 0)
 
-Zoom the canvas (image wrapper).
+Zoom the canvas (image wrapper) with a relative ratio.
 
 ```js
 $().cropper('zoom', 0.1);
 $().cropper('zoom', -0.1);
+```
+
+
+### zoomTo(ratio)
+
+- **ratio**:
+  - Type: `Number`
+
+Zoom the canvas (image wrapper) to an absolute ratio.
+
+```js
+$().cropper('zoom', 1); // 1:1 (canvasData.width === canvasData.naturalWidth)
 ```
 
 
@@ -539,7 +564,7 @@ $().cropper('zoom', -0.1);
   - Rotate right: requires a positive number (degree > 0)
   - Rotate left: requires a negative number (degree < 0)
 
-Rotate the canvas (image wrapper).
+Rotate the canvas (image wrapper) with a relative degree.
 
 > Requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
 
@@ -547,6 +572,14 @@ Rotate the canvas (image wrapper).
 $().cropper('rotate', 90);
 $().cropper('rotate', -90);
 ```
+
+
+### rotateTo(degree)
+
+- **degree**:
+  - Type: `Number`
+
+Rotate the canvas (image wrapper) to an absolute degree.
 
 
 ### scale(scaleX[, scaleY])
@@ -571,6 +604,28 @@ $().cropper('scale', -1); // Flip both horizontal and vertical
 $().cropper('scale', -1, 1); // Flip horizontal
 $().cropper('scale', 1, -1); // Flip vertical
 ```
+
+
+### scaleX(scaleX)
+
+- **scaleX**:
+  - Type: `Number`
+  - Default: `1`
+  - The scaling factor to apply on the abscissa of the image.
+  - When equal to `1` it does nothing.
+
+Scale the abscissa of the image.
+
+
+### scaleY(scaleY)
+
+- **scaleY**:
+  - Type: `Number`
+  - Default: `1`
+  - The scaling factor to apply on the ordinate of the image.
+  - When equal to `1` it does nothing.
+
+Scale the ordinate of the image.
 
 
 ### getData([rounded])
@@ -648,8 +703,19 @@ Output the image position, size and other related data.
     - `top`: the offset top of the canvas
     - `width`: the width of the canvas
     - `height`: the height of the canvas
+    - `naturalWidth`: the natural width of the canvas (read only)
+    - `naturalHeight`: the natural height of the canvas (read only)
 
 Output the canvas (image wrapper) position and size data.
+
+```js
+var imageData = $().cropper('getImageData');
+var canvasData = $().cropper('getCanvasData');
+
+if (imageData.rotate % 180 === 0) {
+  console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
+}
+```
 
 
 ### setCanvasData(data)
@@ -858,28 +924,24 @@ This event fires when the canvas (image wrapper) or the crop box changed.
   - Type: `Event`
   - Options: `wheel`, `touchmove`.
 
+- **event.oldRatio**:
+  - Type: `Number`
+  - The old ratio of the canvas
+
 - **event.ratio**:
   - Type: `Number`
-  - The current zoom ratio (`ratio > 0` means zoom in, `ratio < 0` means zoom out)
+  - The new ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
 
 This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
 ```js
 $().on('zoom.cropper', function (e) {
-  var maxRatio = 10;
-  var imageData = $(this).cropper('getImageData');
-  var currentRatio = imageData.width / imageData.naturalWidth;
 
   // Zoom in
-  if (e.ratio > 0 && currentRatio > maxRatio) {
+  if (e.ratio > e.oldRatio) {
 
     // Prevent zoom in
     e.preventDefault();
-
-    // Fit the max zoom ratio
-    $(this).cropper('setCanvasData', {
-      width: imageData.naturalWidth * maxRatio
-    });
   }
 
   // Zoom out
