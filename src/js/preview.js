@@ -12,7 +12,7 @@
         $this.data(DATA_PREVIEW, {
           width: $this.width(),
           height: $this.height(),
-          original: $this.html()
+          html: $this.html()
         });
 
         /**
@@ -20,7 +20,7 @@
          * Add `display:block` to avoid margin top issue
          * (Occur only when margin-top <= -height)
          */
-        $this.css('overflow', 'hidden').html(
+        $this.html(
           '<img' + crossOrigin + ' src="' + url + '" style="' +
           'display:block;width:100%;height:auto;' +
           'min-width:0!important;min-height:0!important;' +
@@ -37,9 +37,8 @@
 
         $this.css({
           width: data.width,
-          height: data.height,
-          overflow: 'visible'
-        }).html(data.original).removeData(DATA_PREVIEW);
+          height: data.height
+        }).html(data.html).removeData(DATA_PREVIEW);
       });
     },
 
