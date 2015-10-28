@@ -126,7 +126,7 @@ You may set cropper options with `$().cropper(options)`.
 If you want to change the global default options, You may use `$.fn.cropper.setDefaults(options)`.
 
 
-### mode
+### viewMode
 
 - Type: `Number`
 - Default: `0`
@@ -136,7 +136,7 @@ If you want to change the global default options, You may use `$.fn.cropper.setD
   - `2`: the canvas should not be within the container
   - `3`: the container should be within the canvas
 
-Define the working mode of the cropper.
+Define the view mode of the cropper.
 
 
 ### aspectRatio

@@ -6,7 +6,7 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      QUnit.test('options.mode: 0', function (assert) {
+      QUnit.test('options.viewMode: 0', function (assert) {
         var canvasData = {
               left: 100,
               top: 100,
@@ -28,12 +28,12 @@ $(function () {
     var $image = $(window.createCropperImage());
 
     $image.cropper({
-      mode: 1,
+      viewMode: 1,
 
       built: function () {
 
 
-        QUnit.test('options.mode: 1', function (assert) {
+        QUnit.test('options.viewMode: 1', function (assert) {
           var canvasData = $image.cropper('zoom', -0.5).cropper('getCanvasData');
           var cropBoxData = $image.cropper('getCropBoxData');
 
@@ -49,10 +49,10 @@ $(function () {
     var $image = $(window.createCropperImage());
 
     $image.cropper({
-      mode: 2,
+      viewMode: 2,
 
       built: function () {
-        QUnit.test('options.mode: 2', function (assert) {
+        QUnit.test('options.viewMode: 2', function (assert) {
           var canvasData = $image.cropper('zoom', -0.5).cropper('getCanvasData');
           var containerData = $image.cropper('getContainerData');
 
@@ -67,10 +67,10 @@ $(function () {
     var $image = $(window.createCropperImage());
 
     $image.cropper({
-      mode: 3,
+      viewMode: 3,
 
       built: function () {
-        QUnit.test('options.mode: 3', function (assert) {
+        QUnit.test('options.viewMode: 3', function (assert) {
           var canvasData = $image.cropper('zoom', -0.5).cropper('getCanvasData');
           var containerData = $image.cropper('getContainerData');
 

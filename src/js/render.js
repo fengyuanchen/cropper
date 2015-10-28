@@ -31,7 +31,7 @@
 
     // Canvas (image wrapper)
     initCanvas: function () {
-      var mode = this.options.mode;
+      var viewMode = this.options.viewMode;
       var container = this.container;
       var containerWidth = container.width;
       var containerHeight = container.height;
@@ -46,13 +46,13 @@
           };
 
       if (containerHeight * aspectRatio > containerWidth) {
-        if (mode === 3) {
+        if (viewMode === 3) {
           canvas.width = containerHeight * aspectRatio;
         } else {
           canvas.height = containerWidth / aspectRatio;
         }
       } else {
-        if (mode === 3) {
+        if (viewMode === 3) {
           canvas.height = containerWidth / aspectRatio;
         } else {
           canvas.width = containerHeight * aspectRatio;
@@ -63,7 +63,7 @@
       canvas.oldTop = canvas.top = (containerHeight - canvas.height) / 2;
 
       this.canvas = canvas;
-      this.isLimited = (mode === 1 || mode === 2);
+      this.isLimited = (viewMode === 1 || viewMode === 2);
       this.limitCanvas(true, true);
       this.initialImage = $.extend({}, image);
       this.initialCanvas = $.extend({}, canvas);
@@ -71,7 +71,7 @@
 
     limitCanvas: function (isSizeLimited, isPositionLimited) {
       var options = this.options;
-      var mode = options.mode;
+      var viewMode = options.viewMode;
       var container = this.container;
       var containerWidth = container.width;
       var containerHeight = container.height;
@@ -88,12 +88,12 @@
         minCanvasWidth = num(options.minCanvasWidth) || 0;
         minCanvasHeight = num(options.minCanvasHeight) || 0;
 
-        if (mode) {
-          if (mode > 1) {
+        if (viewMode) {
+          if (viewMode > 1) {
             minCanvasWidth = max(minCanvasWidth, containerWidth);
             minCanvasHeight = max(minCanvasHeight, containerHeight);
 
-            if (mode === 3) {
+            if (viewMode === 3) {
               if (minCanvasHeight * aspectRatio > minCanvasWidth) {
                 minCanvasWidth = minCanvasHeight * aspectRatio;
               } else {
@@ -137,7 +137,7 @@
       }
 
       if (isPositionLimited) {
-        if (mode) {
+        if (viewMode) {
           newCanvasLeft = containerWidth - canvas.width;
           newCanvasTop = containerHeight - canvas.height;
 
@@ -158,7 +158,7 @@
             canvas.maxLeft = cropBox.left;
             canvas.maxTop = cropBox.top;
 
-            if (mode === 2) {
+            if (viewMode === 2) {
               if (canvas.width >= containerWidth) {
                 canvas.minLeft = min(0, newCanvasLeft);
                 canvas.maxLeft = max(0, newCanvasLeft);
