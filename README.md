@@ -18,6 +18,7 @@
 - Supports scale (flip)
 - Supports canvas
 - Supports multiple croppers
+- Supports to crop image in the browser-side with canvas
 - Cross-browser support
 
 
@@ -113,7 +114,7 @@ See the [FAQ](FAQ.md) documentation.
 
 #### Known issues
 
-- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation with canvas as [JavaScript-Load-Image](https://github.com/blueimp/JavaScript-Load-Image) or in server as PHP first before to use cropper.
+- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation with canvas as [JavaScript Load Image](https://github.com/blueimp/JavaScript-Load-Image) or in server as PHP first before to use cropper.
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
 
