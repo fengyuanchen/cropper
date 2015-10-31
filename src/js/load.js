@@ -52,7 +52,7 @@
         return;
       }
 
-      if (options.checkImageOrigin && isCrossOriginURL(url)) {
+      if (options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = $this.prop('crossOrigin');
 
         // Bust cache (#148), only when there was not a "crossOrigin" property
