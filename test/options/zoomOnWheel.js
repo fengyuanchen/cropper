@@ -15,7 +15,7 @@ $(function () {
       }));
     },
 
-    zoom: function (e) {
+    zoom: function () {
       QUnit.test('options.zoomOnWheel: true', function (assert) {
         assert.ok(true);
       });
@@ -38,7 +38,7 @@ $(function () {
         }));
       },
 
-      zoom: function (e) {
+      zoom: function () {
         QUnit.test('options.zoomOnWheel: false', function (assert) {
           assert.ok(false);
         });
