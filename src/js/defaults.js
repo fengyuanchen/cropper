@@ -58,7 +58,7 @@
     zoomOnTouch: true,
 
     // Enable to zoom the image by wheeling mouse
-    mouseWheelZoom: true,
+    zoomOnWheel: true,
 
     // Define zoom ratio when zoom the image by wheeling mouse
     wheelZoomRatio: 0.1,

@@ -26,7 +26,7 @@
 
       $cropper.on(EVENT_MOUSE_DOWN, $.proxy(this.cropStart, this));
 
-      if (options.zoomable && options.mouseWheelZoom) {
+      if (options.zoomable && options.zoomOnWheel) {
         $cropper.on(EVENT_WHEEL, $.proxy(this.wheel, this));
       }
 
@@ -70,7 +70,7 @@
 
       $cropper.off(EVENT_MOUSE_DOWN, this.cropStart);
 
-      if (options.zoomable && options.mouseWheelZoom) {
+      if (options.zoomable && options.zoomOnWheel) {
         $cropper.off(EVENT_WHEEL, this.wheel);
       }
 
