@@ -66,8 +66,8 @@ The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find th
 #### [RawGit](https://rawgit.com/)
 
 ```html
-<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v1.0.0/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v1.0.0/dist/cropper.min.js"></script>
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.0/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.0/dist/cropper.min.js"></script>
 ```
 
 
@@ -139,6 +139,18 @@ If you want to change the global default options, You may use `$.fn.cropper.setD
 Define the view mode of the cropper.
 
 
+### dragMode
+
+- Type: `String`
+- Default: `'crop'`
+- Options:
+  - `'crop'`: create a new crop box
+  - `'move'`: move the canvas
+  - `'none'`: do nothing
+
+Define the dragging mode of the cropper.
+
+
 ### aspectRatio
 
 - Type: `Number`
@@ -178,7 +190,7 @@ Add extra elements (containers) for previewing.
 Rebuild the cropper when resize the window.
 
 
-### checkImageOrigin
+### checkCrossOrigin
 
 - Type: `Boolean`
 - Default: `true`
@@ -244,14 +256,6 @@ Enable to crop the image automatically when initialize.
 A number between 0 and 1. Define the automatic cropping area size (percentage).
 
 
-### dragCrop
-
-- Type: `Boolean`
-- Default: `true`
-
-Enable to remove the current crop box and create a new one by dragging over the image.
-
-
 ### movable
 
 - Type: `Boolean`
@@ -284,7 +288,15 @@ Enable to scale the image.
 Enable to zoom the image.
 
 
-### mouseWheelZoom
+### zoomOnTouch
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to zoom the image by dragging touch.
+
+
+### zoomOnWheel
 
 - Type: `Boolean`
 - Default: `true`
@@ -298,14 +310,6 @@ Enable to zoom the image by wheeling mouse.
 - Default: `0.1`
 
 Define zoom ratio when zoom the image by wheeling mouse.
-
-
-### touchDragZoom
-
-- Type: `Boolean`
-- Default: `true`
-
-Enable to zoom the image by dragging touch.
 
 
 ### cropBoxMovable
@@ -324,12 +328,12 @@ Enable to move the crop box.
 Enable to resize the crop box.
 
 
-### doubleClickToggle
+### toggleDragModeOnDblclick
 
 - Type: `Boolean`
 - Default: `true`
 
-Enable to toggle drag mode between "crop" and "move" when double click on the cropper.
+Enable to toggle drag mode between "crop" and "move" when click twice on the cropper.
 
 
 ### minContainerWidth
