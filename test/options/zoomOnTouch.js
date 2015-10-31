@@ -7,13 +7,13 @@ $(function () {
   var pageY = window.innerHeight / 2;
 
   $image.cropper({
-    touchDragZoom: false,
+    zoomOnTouch: false,
 
     built: function () {
       var cropper = $image.data('cropper');
       var _ratio = cropper.image.ratio;
 
-      QUnit.test('options.touchDragZoom', function (assert) {
+      QUnit.test('options.zoomOnTouch', function (assert) {
         cropper.$cropper.trigger($.Event('touchstart', {
           originalEvent: {
             touches: [
