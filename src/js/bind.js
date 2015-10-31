@@ -30,7 +30,7 @@
         $cropper.on(EVENT_WHEEL, $.proxy(this.wheel, this));
       }
 
-      if (options.doubleClickToggle) {
+      if (options.toggleDragModeOnDblclick) {
         $cropper.on(EVENT_DBLCLICK, $.proxy(this.dblclick, this));
       }
 
@@ -74,7 +74,7 @@
         $cropper.off(EVENT_WHEEL, this.wheel);
       }
 
-      if (options.doubleClickToggle) {
+      if (options.toggleDragModeOnDblclick) {
         $cropper.off(EVENT_DBLCLICK, this.dblclick);
       }
 
