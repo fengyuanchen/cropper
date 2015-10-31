@@ -247,7 +247,6 @@ $(function () {
       autoCropArea: 0.65,
       guides: false,
       highlight: false,
-      dragCrop: false,
       cropBoxMovable: false,
       cropBoxResizable: false
     });
