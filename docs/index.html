@@ -13,7 +13,6 @@
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.rawgit.com/fengyuanchen/tooltip/v0.0.2/dist/tooltip.min.css">
   <link rel="stylesheet" href="css/cropper.min.css">
   <link rel="stylesheet" href="css/main.css">
 
@@ -38,7 +37,6 @@
       </div>
       <nav class="collapse navbar-collapse" id="navbar-collapse-1" role="navigation">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#examples">Examples</a></li>
           <li><a href="https://github.com/fengyuanchen/cropper/tree/v2.0.0/README.md">Docs</a></li>
           <li><a href="https://github.com/fengyuanchen/cropper">Github</a></li>
           <li><a href="https://chenfengyuan.com">About</a></li>
@@ -67,7 +65,7 @@
       <div class="col-md-9">
         <!-- <h3 class="page-header">Demo:</h3> -->
         <div class="img-container">
-          <img src="img/picture.jpg" alt="Picture">
+          <img id="image" src="img/picture.jpg" alt="Picture">
         </div>
       </div>
       <div class="col-md-3">
@@ -511,174 +509,24 @@
     </div>
   </div>
 
-  <!-- Examples -->
-  <div class="container">
-    <h2 class="page-header" id="examples">Examples</h2>
-
-    <!-- Example 1 -->
-    <h3 class="page-header">Cropper with fixed crop box.</h3>
-    <div class="row">
-      <div class="col-sm-6">
-        <h5>Demo:</h5>
-        <div class="cropper-example-1">
-          <img class="img-responsive" src="img/picture.jpg" alt="Picture">
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <h5>HTML:</h5>
-        <pre class="prettyprint">&lt;div class=&quot;cropper-example-1&quot;&gt;
-  &lt;img src=&quot;img/picture.jpg&quot; alt=&quot;Picture&quot;&gt;
-&lt;/div&gt;</pre>
-        <h5>JavaScript:</h5>
-        <pre class="prettyprint">$('.cropper-example-1 &gt; img').cropper({
-  aspectRatio: 16 / 9,
-  autoCropArea: 0.65,
-  guides: false,
-  highlight: false,
-  cropBoxMovable: false,
-  cropBoxResizable: false
-});</pre>
-      </div>
-    </div>
-
-    <!-- Example 2 -->
-    <h3 class="page-header">Cropper in a Bootstrap modal</h3>
-    <div class="row">
-      <div class="col-sm-6">
-        <p>Demo:</p>
-        <p><button type="button" class="btn btn-primary" data-target="#cropper-example-2-modal" data-toggle="modal">Launch the demo</button></p>
-        <p>HTML:</p>
-        <pre class="prettyprint">&lt;div class=&quot;modal fade&quot; id=&quot;cropper-example-2-modal&quot;&gt;
-  &lt;div class=&quot;modal-dialog&quot;&gt;
-    &lt;div class=&quot;modal-content&quot;&gt;
-      ...
-      &lt;div class=&quot;modal-body&quot;&gt;
-        &lt;div id=&quot;cropper-example-2&quot;&gt;
-          &lt;img src=&quot;img/picture.jpg&quot; alt=&quot;Picture&quot;&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-      ...
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</pre>
-
-        <!-- Modal -->
-        <div class="modal fade" id="cropper-example-2-modal" aria-hidden="true" aria-labelledby="bootstrap-modal-label" role="dialog" tabindex="-1">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="bootstrap-modal-label">Cropper</h4>
-              </div>
-              <div class="modal-body">
-                <div id="cropper-example-2">
-                  <img class="img-responsive" src="img/picture.jpg" alt="Picture">
-                </div>
-              </div>
-              <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-              </div> -->
-            </div>
-          </div>
-        </div><!-- /.modal -->
-
-      </div>
-      <div class="col-sm-6">
-        <p>JavaScript:</p>
-        <pre class="prettyprint">var $image = $('#cropper-example-2 &gt; img'),
-    cropBoxData,
-    canvasData;
-
-$('#cropper-example-2-modal').on('shown.bs.modal', function () {
-  $image.cropper({
-    autoCropArea: 0.5,
-    built: function () {
-      // Strict mode: set crop box data first
-      $image.cropper('setCropBoxData', cropBoxData);
-      $image.cropper('setCanvasData', canvasData);
-    }
-  });
-}).on('hidden.bs.modal', function () {
-  cropBoxData = $image.cropper('getCropBoxData');
-  canvasData = $image.cropper('getCanvasData');
-  $image.cropper('destroy');
-});</pre>
-      </div>
-    </div>
-
-    <!-- Example 3 -->
-    <h3 class="page-header">Cropper with responsive container.</h3>
-    <div class="row">
-      <div class="col-sm-4">
-        <h5>Demo:</h5>
-        <button type="button" class="btn btn-primary" id="replace-toggle">Toggle</button>
-        <div class="cropper-example-3">
-          <img class="img-responsive" src="img/picture.jpg" alt="Picture">
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <h5>HTML:</h5>
-        <pre class="prettyprint">&lt;button class=&quot;btn btn-primary&quot; id=&quot;replace-toggle&quot; type=&quot;button&quot;&gt;Toggle&lt;/button&gt;
-
-&lt;div class=&quot;cropper-example-3&quot;&gt;
-  &lt;img src=&quot;img/picture.jpg&quot; alt=&quot;Picture&quot;&gt;
-&lt;/div&gt;</pre>
-        <h5>CSS:</h5>
-        <pre class="prettyprint">.cropper-example-3 {
-  width: 100%;
-}
-
-.cropper-example-3 &gt; img {
-  max-width: 100%;
-}</pre>
-      </div>
-      <div class="col-sm-4">
-        <h5>JavaScript:</h5>
-        <pre class="prettyprint">var $image = $('.cropper-example-3 &gt; img'),
-    isReplaced = false;
-
-$image.cropper({
-  movable: false,
-  zoomable: false,
-  rotatable: false,
-  scalable: false
-});
-
-$('#replace-toggle').click(function () {
-  var url = 'img/picture-2.jpg';
-
-  if (isReplaced) {
-    url = 'img/picture.jpg';
-  }
-
-  $image.cropper('replace', url);
-  isReplaced = !isReplaced;
-});</pre>
-      </div>
-    </div>
-
-    <!-- Example 4 -->
-    <h3 class="page-header">Crop avatar <small>A complete example</small></h3>
-    <p>This example requires a <strong>PHP</strong> server to upload and crop image. Please download and test it.</p>
-    <div class="docs-buttons">
-      <a class="btn btn-primary" href="//github.com/fengyuanchen/cropper/archive/master.zip">Download</a>
-      <a class="btn btn-primary" href="//github.com/fengyuanchen/cropper/tree/master/examples/crop-avatar">View the sources</a>
-    </div>
-
-  </div>
-
   <!-- Footer -->
   <footer class="docs-footer">
     <div class="container">
       <span class="hearts"></span>
+      <ul class="list-inline">
+        <li><a href="https://github.com/fengyuanchen/cropper/tree/master/examples">Examples</a></li>
+        <li><a href="https://github.com/fengyuanchen/cropper/releases">Releases</a></li>
+        <li><a href="https://github.com/fengyuanchen/cropper/issues">Issues</a></li>
+        <li><a href="https://github.com/fengyuanchen/cropper/blob/master/LICENSE.md">License</a></li>
+        <li><a href="https://fengyuanchen.github.io/cropper/v1.0.0/">v1.0.0</a></li>
+        <li><a href="https://fengyuanchen.github.io/cropper/v0.7.9/">v0.7.9</a></li>
+      </ul>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <script src="https://cdn.rawgit.com/fengyuanchen/tooltip/v0.0.2/dist/tooltip.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
   <script src="https://fengyuanchen.github.io/js/main.js"></script>
   <script src="js/cropper.min.js"></script>
   <script src="js/main.js"></script>

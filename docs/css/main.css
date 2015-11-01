@@ -278,6 +278,11 @@ body {
   overflow: hidden;
 }
 
+.docs-footer ul {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
 .hearts {
   position: relative;
   display: block;
@@ -313,37 +318,4 @@ body {
   padding-right: 8px;
   background-color: #fff;
   content: "♥";
-}
-
-
-/* Examples
- * -------------------------------------------------------------------------- */
-
-.cropper-example-1 {
-  max-height: 331px;
-}
-
-@media (min-width: 768px) {
-  .cropper-example-1 {
-    min-height: 305px;
-  }
-}
-
-.cropper-example-1 > img,
-.cropper-example-3 > img {
-  max-width: 100%;
-}
-
-.cropper-example-3 {
-  width: 100%;
-  margin-top: 15px;
-}
-
-
-/* Google code prettify
- * -------------------------------------------------------------------------- */
-
-.prettyprint {
-  padding: 10px 15px !important;
-  border: 1px solid #ddd !important;
 }
