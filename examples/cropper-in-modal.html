@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cropper in a Bootstrap modal">
+  <meta name="keywords" content="HTML, CSS, JS, JavaScript, jQuery plugin, image cropping, image crop, image move, image zoom, image rotate, image scale, front-end, frontend, web development">
+  <meta name="author" content="Fengyuan Chen">
+  <title>Cropper</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="page-header">Cropper in a Bootstrap modal</h1>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modalLabel">Crop the image</h4>
+          </div>
+          <div class="modal-body">
+            <div>
+              <img id="image" src="../assets/img/picture.jpg" alt="Picture">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../dist/cropper.js"></script>
+  <script>
+    $(function () {
+      var $image = $('#image');
+      var cropBoxData;
+      var canvasData;
+
+      $('#modal').on('shown.bs.modal', function () {
+        $image.cropper({
+          autoCropArea: 0.5,
+          built: function () {
+            $image.cropper('setCanvasData', canvasData);
+            $image.cropper('setCropBoxData', cropBoxData);
+          }
+        });
+      }).on('hidden.bs.modal', function () {
+        cropBoxData = $image.cropper('getCropBoxData');
+        canvasData = $image.cropper('getCanvasData');
+        $image.cropper('destroy');
+      });
+    });
+  </script>
+</body>
+</html>
