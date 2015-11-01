@@ -77,13 +77,13 @@ Initialize with `$.fn.cropper` method.
 
 ```html
 <!-- Wrap the image or canvas element with a block element -->
-<div class="container">
-  <img src="picture.jpg">
+<div>
+  <img id="image" src="picture.jpg">
 </div>
 ```
 
 ```js
-$('.container > img').cropper({
+$('#image').cropper({
   aspectRatio: 16 / 9,
   crop: function(e) {
     // Output the result data for cropping image.
