@@ -42,7 +42,7 @@
 
     wheel: function (event) {
       var originalEvent = event.originalEvent;
-      var e = originalEvent;
+      var e = originalEvent || event;
       var ratio = num(this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
