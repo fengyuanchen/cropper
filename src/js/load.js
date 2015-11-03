@@ -60,10 +60,9 @@
           crossOrigin = 'anonymous';
           bustCacheUrl = addTimestamp(url);
         }
-
-        this.crossOrigin = crossOrigin;
       }
 
+      this.crossOrigin = crossOrigin;
       this.$clone = $clone = $('<img' + getCrossOrigin(crossOrigin) + ' src="' + (bustCacheUrl || url) + '">');
 
       if (this.isImg) {
