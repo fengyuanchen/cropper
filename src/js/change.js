@@ -357,16 +357,8 @@
             width = cropBox.minWidth;
             height = cropBox.minHeight;
 
-            if (range.x > 0) {
-              action = range.y > 0 ? ACTION_SOUTH_EAST :
-                (range.y < 0 ? ACTION_NORTH_EAST : ACTION_EAST);
-            } else if (range.x < 0) {
-              left -= width;
-              action = range.y > 0 ? ACTION_SOUTH_WEST :
-                (range.y < 0 ? ACTION_NORTH_WEST : ACTION_WEST);
-            } else {
-              action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
-            }
+            action = (range.y > 0 ? ACTION_SOUTH : range.y < 0 ? ACTION_NORTH : '') +
+                     (range.x > 0 ? ACTION_EAST : range.x < 0 ? ACTION_WEST : '');
 
             if (range.y < 0) {
               top -= height;
