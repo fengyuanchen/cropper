@@ -46,7 +46,7 @@
 - Improved preview
 - Improved test
 - Fixed an error in the `clear` method (missed parameters)
-- Fixed the issue of crop box limitaion (#430)
+- Fixed the issue of crop box limitation (#430)
 
 
 ## 1.0.0-rc.1 (Sep 5, 2015)
@@ -144,7 +144,7 @@
 - Supports multiple global croppers by default.
 - Outputs cropped canvas for display or get Data URL or get Blob
 - Identifies drag events with "event.dragType" property
-- Added zoom events for controling the canvas (image) size.
+- Added zoom events for controlling the canvas (image) size.
 - Improved responsiveness for window resizing.
 
 
@@ -182,7 +182,7 @@
 - Refactored source code.
 - Compiles CSS with [Less](http://lesscss.org) CSS preprocessors.
 - Supports fixed container.
-- Supports rotation with CSS3 Transform3d.
+- Supports rotation with CSS3 2D Transforms.
 
 
 ### Options:
@@ -355,7 +355,7 @@
 - Add eight new options: "autoCrop", "dragCrop", "moveable", "resizeable", "maxWidth", "maxHeight", "minWidth" and "minHeight".
 - Add three new methods: "reset", "release" and "destroy".
 - Add three new events: "build.cropper", "built.cropper" and "render.cropper".
-- Remove two old methods: "enbale" and "disable".
+- Remove two old methods: "enable" and "disable".
 - Remove three old events: "dragstart", "dragmove" and "dragend".
 - Supports no conflict with the "$.fn.cropper.noConflict" method.
 
