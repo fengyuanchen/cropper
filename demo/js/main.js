@@ -27,7 +27,7 @@ $(function () {
       };
 
 
-   // Tooltip
+  // Tooltip
   $('[data-toggle="tooltip"]').tooltip();
 
 
