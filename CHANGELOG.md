@@ -1,6 +1,45 @@
 # Changelog
 
 
+## 2.0.0 (Nov 11, 2015)
+
+### Common
+
+- Supports four modes
+- Supports three drag modes
+- Improved the experience of cropping
+- Makes the crop box's borders and handlers visible when overflow
+- Fixed an issue of canvas limitation
+- Fixed an issue of cropping
+
+
+### Options
+
+- Added `viewMode`
+- Added `dragMode`
+- Renamed `touchDragZoom` to `zoomOnTouch`
+- Renamed `mouseWheelZoom` to `zoomOnWheel`
+- Renamed `doubleClickToggle` to `toggleDragModeOnDblclick`
+- Renamed `checkImageOrigin` to `checkCrossOrigin`
+- Removed `strict` (supported by `viewMode: 1`)
+- Removed `dragCrop` (supported by `dragMode: 'crop'`)
+
+
+### Methods
+
+- Added `moveTo`
+- Added `zoomTo`
+- Added `rotateTo`
+- Added `scaleX`
+- Added `scaleY`
+- Improved `getCanvasData` (added `naturalWidth` and `naturalHeight`)
+
+
+### Events
+
+- Improved `zoom` (changed `event.ratio` and added `event.oldRatio`)
+
+
 ## 1.0.0 (Oct 10, 2015)
 
 - Improved canvas limitation

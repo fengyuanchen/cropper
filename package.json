@@ -1,8 +1,14 @@
 {
   "name": "cropper",
   "description": "A simple jQuery image cropping plugin.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "dist/cropper.js",
+  "license": "MIT",
+  "repository": "fengyuanchen/cropper",
+  "author": {
+    "name": "Fengyuan Chen",
+    "url": "chenfengyuan.com"
+  },
   "keywords": [
     "image",
     "crop",
@@ -20,19 +26,15 @@
     "web",
     "development"
   ],
-  "author": {
-    "name": "Fengyuan Chen",
-    "url": "https://github.com/fengyuanchen"
-  },
-  "homepage": "https://github.com/fengyuanchen/cropper",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fengyuanchen/cropper.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fengyuanchen/cropper/issues"
-  },
-  "license": "MIT",
+  "files": [
+    "src",
+    "dist",
+    "demo",
+    "docs",
+    "test",
+    "assets",
+    "examples"
+  ],
   "dependencies": {
     "jquery": ">= 1.9.1"
   },
@@ -47,10 +49,10 @@
     "gulp-jshint": "^1.11.0",
     "gulp-load-plugins": "^1.0.0",
     "gulp-minify-css": "^1.2.1",
-    "gulp-qunit": "^1.2.1",
-    "gulp-rename": "^1.2.0",
-    "gulp-replace": "^0.5.3",
-    "gulp-sass": "^2.0.4",
+    "gulp-qunit": "^1.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.1.0",
     "gulp-sourcemaps": "~1.6.0",
     "gulp-uglify": "^1.4.2"
   }

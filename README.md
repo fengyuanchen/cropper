@@ -998,9 +998,9 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 
 
-## [License](LICENSE.md)
+## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://github.com/fengyuanchen)
+[MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://chenfengyuan.com)
 
 
 
