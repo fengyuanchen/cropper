@@ -350,36 +350,35 @@
 
         // Create crop box
         case ACTION_CROP:
-          if (range.x || range.y) {
-            offset = this.$cropper.offset();
-            left = this.startX - offset.left;
-            top = this.startY - offset.top;
-            width = cropBox.minWidth;
-            height = cropBox.minHeight;
+          if (!range.x || !range.y) {
+            renderable = false;
+            break;
+          }
 
-            if (range.x > 0) {
-              action = range.y > 0 ? ACTION_SOUTH_EAST :
-                (range.y < 0 ? ACTION_NORTH_EAST : ACTION_EAST);
-            } else if (range.x < 0) {
-              left -= width;
-              action = range.y > 0 ? ACTION_SOUTH_WEST :
-                (range.y < 0 ? ACTION_NORTH_WEST : ACTION_WEST);
-            } else {
-              action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
-            }
+          offset = this.$cropper.offset();
+          left = this.startX - offset.left;
+          top = this.startY - offset.top;
+          width = cropBox.minWidth;
+          height = cropBox.minHeight;
 
-            if (range.y < 0) {
-              top -= height;
-            }
+          if (range.x > 0) {
+            action = range.y > 0 ? ACTION_SOUTH_EAST : ACTION_NORTH_EAST;
+          } else if (range.x < 0) {
+            left -= width;
+            action = range.y > 0 ? ACTION_SOUTH_WEST : ACTION_NORTH_WEST;
+          }
 
-            // Show the crop box if is hidden
-            if (!this.isCropped) {
-              this.$cropBox.removeClass(CLASS_HIDDEN);
-              this.isCropped = true;
+          if (range.y < 0) {
+            top -= height;
+          }
 
-              if (this.limited) {
-                this.limitCropBox(true, true);
-              }
+          // Show the crop box if is hidden
+          if (!this.isCropped) {
+            this.$cropBox.removeClass(CLASS_HIDDEN);
+            this.isCropped = true;
+
+            if (this.limited) {
+              this.limitCropBox(true, true);
             }
           }
 
