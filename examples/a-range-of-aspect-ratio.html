@@ -46,7 +46,7 @@
       var maxAspectRatio = 1.5;
 
       $image.cropper({
-        built: function (e) {
+        built: function () {
           var containerData = $image.cropper('getContainerData');
           var cropBoxData = $image.cropper('getCropBoxData');
           var aspectRatio = cropBoxData.width / cropBoxData.height;
@@ -61,7 +61,7 @@
             });
           }
         },
-        cropmove: function (e) {
+        cropmove: function () {
           var cropBoxData = $image.cropper('getCropBoxData');
           var aspectRatio = cropBoxData.width / cropBoxData.height;
 
