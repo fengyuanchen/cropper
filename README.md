@@ -66,8 +66,8 @@ The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find th
 #### [RawGit](https://rawgit.com/)
 
 ```html
-<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.0/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.0/dist/cropper.min.js"></script>
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.1/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.1/dist/cropper.min.js"></script>
 ```
 
 
@@ -114,7 +114,7 @@ See the [FAQ](FAQ.md) documentation.
 
 #### Known issues
 
-- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may handle the EXIF Orientation with canvas as [JavaScript Load Image](https://github.com/blueimp/JavaScript-Load-Image) or in server as PHP first before to use cropper.
+- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may translate the EXIF Orientation by canvas as [Loader](https://github.com/fengyuanchen/loader) first before to use cropper.
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
 

@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 2.0.1 (Nov 18, 2015)
+
+- Improved new crop box creating
+
+
 ## 2.0.0 (Nov 11, 2015)
 
 ### Common

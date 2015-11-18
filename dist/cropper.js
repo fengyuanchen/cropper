@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.0.0
+ * Cropper v2.0.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-11-11T11:11:11.111Z
+ * Date: 2015-11-18T03:13:47.241Z
  */
 
 (function (factory) {
@@ -95,7 +95,7 @@
 
   // Prototype
   var prototype = {
-    version: '2.0.0'
+    version: '2.0.1'
   };
 
   function isNumber(n) {
@@ -1715,36 +1715,35 @@
 
         // Create crop box
         case ACTION_CROP:
-          if (range.x || range.y) {
-            offset = this.$cropper.offset();
-            left = this.startX - offset.left;
-            top = this.startY - offset.top;
-            width = cropBox.minWidth;
-            height = cropBox.minHeight;
+          if (!range.x || !range.y) {
+            renderable = false;
+            break;
+          }
 
-            if (range.x > 0) {
-              action = range.y > 0 ? ACTION_SOUTH_EAST :
-                (range.y < 0 ? ACTION_NORTH_EAST : ACTION_EAST);
-            } else if (range.x < 0) {
-              left -= width;
-              action = range.y > 0 ? ACTION_SOUTH_WEST :
-                (range.y < 0 ? ACTION_NORTH_WEST : ACTION_WEST);
-            } else {
-              action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
-            }
+          offset = this.$cropper.offset();
+          left = this.startX - offset.left;
+          top = this.startY - offset.top;
+          width = cropBox.minWidth;
+          height = cropBox.minHeight;
 
-            if (range.y < 0) {
-              top -= height;
-            }
+          if (range.x > 0) {
+            action = range.y > 0 ? ACTION_SOUTH_EAST : ACTION_NORTH_EAST;
+          } else if (range.x < 0) {
+            left -= width;
+            action = range.y > 0 ? ACTION_SOUTH_WEST : ACTION_NORTH_WEST;
+          }
 
-            // Show the crop box if is hidden
-            if (!this.isCropped) {
-              this.$cropBox.removeClass(CLASS_HIDDEN);
-              this.isCropped = true;
+          if (range.y < 0) {
+            top -= height;
+          }
 
-              if (this.limited) {
-                this.limitCropBox(true, true);
-              }
+          // Show the crop box if is hidden
+          if (!this.isCropped) {
+            this.$cropBox.removeClass(CLASS_HIDDEN);
+            this.isCropped = true;
+
+            if (this.limited) {
+              this.limitCropBox(true, true);
             }
           }
 
