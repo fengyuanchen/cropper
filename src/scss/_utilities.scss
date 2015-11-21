@@ -6,7 +6,32 @@
 
 .cropper-bg {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC");
+  -webkit-animation: cropper-bg 0.5s linear infinite;
+  -moz-animation: cropper-bg 0.5s linear infinite;
+  -ms-animation: cropper-bg 0.5s linear infinite;
+  animation: cropper-bg 0.5s linear infinite;
 }
+
+@-webkit-keyframes cropper-bg {
+  0% {background-position: 0 0;}
+  100% {background-position: -8px -8px;}
+}
+
+@-moz-keyframes cropper-bg {
+  0% {background-position: 0 0;}
+  100% {background-position: -8px -8px;}
+}
+
+@-ms-keyframes cropper-bg {
+  0% {background-position: 0 0;}
+  100% {background-position: -8px -8px;}
+}
+
+@keyframes cropper-bg {
+  0% {background-position: 0 0;}
+  100% {background-position: -8px -8px;}
+}
+
 
 .cropper-invisible {
   @include opacity(0);
