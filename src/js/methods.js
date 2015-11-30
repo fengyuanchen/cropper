@@ -670,7 +670,8 @@
           srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
         }
 
-        args.push(srcX, srcY, srcWidth, srcHeight);
+        // All the numerical parameters should be integer for `drawImage` (#476)
+        args.push(floor(srcX), floor(srcY), floor(srcWidth), floor(srcHeight));
 
         // Scale destination sizes
         if (scaledRatio) {
@@ -682,7 +683,7 @@
 
         // Avoid "IndexSizeError" in IE and Firefox
         if (dstWidth > 0 && dstHeight > 0) {
-          args.push(dstX, dstY, dstWidth, dstHeight);
+          args.push(floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
         }
 
         return args;
