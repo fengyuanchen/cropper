@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 2.1.0 (Dec 2, 2015)
+
+- Added new `restore` option
+
+
 ## 2.0.2 (Nov 30, 2015)
 
 - Fixed #476: Floor the numerical parameters for `CanvasRenderingContext2D.drawImage`

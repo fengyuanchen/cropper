@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.0.2
+ * Cropper v2.1.0
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-11-30T02:58:10.111Z
+ * Date: 2015-12-02T07:17:35.448Z
  */
 
 (function (factory) {
@@ -96,7 +96,7 @@
 
   // Prototype
   var prototype = {
-    version: '2.0.2'
+    version: '2.1.0'
   };
 
   function isNumber(n) {
@@ -1174,6 +1174,7 @@
 
   $.extend(prototype, {
     resize: function () {
+      var restore = this.options.restore;
       var $container = this.$container;
       var container = this.container;
       var canvasData;
@@ -1189,16 +1190,21 @@
 
       // Resize when width changed or height changed
       if (ratio !== 1 || $container.height() !== container.height) {
-        canvasData = this.getCanvasData();
-        cropBoxData = this.getCropBoxData();
+        if (restore) {
+          canvasData = this.getCanvasData();
+          cropBoxData = this.getCropBoxData();
+        }
 
         this.render();
-        this.setCanvasData($.each(canvasData, function (i, n) {
-          canvasData[i] = n * ratio;
-        }));
-        this.setCropBoxData($.each(cropBoxData, function (i, n) {
-          cropBoxData[i] = n * ratio;
-        }));
+
+        if (restore) {
+          this.setCanvasData($.each(canvasData, function (i, n) {
+            canvasData[i] = n * ratio;
+          }));
+          this.setCropBoxData($.each(cropBoxData, function (i, n) {
+            cropBoxData[i] = n * ratio;
+          }));
+        }
       }
     },
 
@@ -2537,8 +2543,11 @@
     // A jQuery selector for adding extra containers to preview
     preview: '',
 
-    // Rebuild when resize the window
+    // Re-render the cropper when resize the window
     responsive: true,
+
+    // Restore the cropped area after resize the window
+    restore: true,
 
     // Check if the target image is cross origin
     checkCrossOrigin: true,
