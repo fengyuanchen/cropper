@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cropper</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    .container {
+      max-width: 960px;
+      margin: 20px auto;
+    }
+
+    .img-container {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .img-container img {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="page-header">Cropper with responsive container</h1>
+    <button type="button" class="btn btn-primary" id="replace">Replace Image</button>
+    <div class="img-container">
+      <img src="../assets/img/picture.jpg" alt="Picture">
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../dist/cropper.js"></script>
+  <script>
+    $(function () {
+      var $image = $('.img-container > img');
+
+      $image.cropper({
+        movable: false,
+        zoomable: false,
+        rotatable: false,
+        scalable: false
+      });
+
+      $('#replace').on('click', function () {
+        $image.cropper('replace', '../assets/img/picture-2.jpg');
+      });
+    });
+  </script>
+</body>
+</html>
