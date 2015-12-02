@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cropper</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    .container {
+      max-width: 960px;
+      margin: 20px auto;
+    }
+
+    .img-container {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .img-container img {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="page-header">Multiple Croppers</h1>
+    <div class="row">
+      <div class="col-sm-6">
+        <h3>Cropper</h3>
+        <div class="img-container">
+          <img src="../assets/img/picture.jpg" alt="Picture">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <h3>Another</h3>
+        <div class="img-container">
+          <img src="../assets/img/picture.jpg" alt="Picture">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../dist/cropper.js"></script>
+  <script>
+    $(function () {
+      $('.img-container > img').cropper();
+    });
+  </script>
+</body>
+</html>
