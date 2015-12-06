@@ -201,7 +201,9 @@ Restore the cropped area after resize the window.
 - Type: `Boolean`
 - Default: `true`
 
-By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to the image url to reload the image for "getCroppedCanvas".
+Check if the current image is a cross-origin image.
+
+If it is, when clone the image, a `crossOrigin` attribute will be added to the cloned image element and a timestamp will be added to the `src` attribute to reload the source image to avoid browser cache error.
 
 By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
 
