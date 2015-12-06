@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.1.0
+ * Cropper v2.2.0
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-12-02T07:17:35.448Z
+ * Date: 2015-12-06T07:06:12.378Z
  */
 
 (function (factory) {
@@ -27,6 +27,10 @@
   var $window = $(window);
   var $document = $(document);
   var location = window.location;
+  var ArrayBuffer = window.ArrayBuffer;
+  var Uint8Array = window.Uint8Array;
+  var DataView = window.DataView;
+  var btoa = window.btoa;
 
   // Constants
   var NAMESPACE = 'cropper';
@@ -96,8 +100,10 @@
 
   // Prototype
   var prototype = {
-    version: '2.1.0'
+    version: '2.2.0'
   };
+
+  var fromCharCode = String.fromCharCode;
 
   function isNumber(n) {
     return typeof n === 'number' && !isNaN(n);
@@ -273,6 +279,89 @@
     return canvas;
   }
 
+  function getStringFromCharCode(dataView, start, length) {
+    var str = '';
+    var i;
+
+    for (i = start, length += start; i < length; i++) {
+      str += fromCharCode(dataView.getUint8(i));
+    }
+
+    return str;
+  }
+
+  function getOrientation(arrayBuffer) {
+    var dataView = new DataView(arrayBuffer);
+    var length = dataView.byteLength;
+    var orientation;
+    var exifIDCode;
+    var tiffOffset;
+    var firstIFDOffset;
+    var littleEndian;
+    var endianness;
+    var app1Start;
+    var ifdStart;
+    var offset;
+    var i;
+
+    // Only handle JPEG image (start by 0xFFD8)
+    if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
+      offset = 2;
+
+      while (offset < length) {
+        if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
+          app1Start = offset;
+          break;
+        }
+
+        offset++;
+      }
+    }
+
+    if (app1Start) {
+      exifIDCode = app1Start + 4;
+      tiffOffset = app1Start + 10;
+
+      if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
+        endianness = dataView.getUint16(tiffOffset);
+        littleEndian = endianness === 0x4949;
+
+        if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
+          if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+            firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+
+            if (firstIFDOffset >= 0x00000008) {
+              ifdStart = tiffOffset + firstIFDOffset;
+            }
+          }
+        }
+      }
+    }
+
+    if (ifdStart) {
+      length = dataView.getUint16(ifdStart, littleEndian);
+
+      for (i = 0; i < length; i++) {
+        offset = ifdStart + i * 12 + 2;
+
+        if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
+
+          // 8 is the offset of the current tag's value
+          offset += 8;
+
+          // Get the original orientation value
+          orientation = dataView.getUint16(offset, littleEndian);
+
+          // Override the orientation with the default value: 1
+          dataView.setUint16(offset, 1, littleEndian);
+          break;
+        }
+      }
+    }
+
+    return orientation;
+  }
+
   function Cropper(element, options) {
     this.$element = $(element);
     this.options = $.extend({}, Cropper.DEFAULTS, $.isPlainObject(options) && options);
@@ -286,7 +375,6 @@
     this.isLimited = false;
     this.isImg = false;
     this.originalUrl = '';
-    this.crossOrigin = '';
     this.canvas = null;
     this.cropBox = null;
     this.init();
@@ -329,15 +417,12 @@
     load: function (url) {
       var options = this.options;
       var $this = this.$element;
-      var crossOrigin = '';
-      var bustCacheUrl;
-      var $clone;
+      var read;
+      var xhr;
 
       if (!url) {
         return;
       }
-
-      this.url = url;
 
       // Trigger build event first
       $this.one(EVENT_BUILD, options.build);
@@ -346,18 +431,115 @@
         return;
       }
 
+      this.url = url;
+      this.image = {};
+
+      if (!options.checkOrientation || !ArrayBuffer) {
+        return this.clone();
+      }
+
+      read = $.proxy(this.read, this);
+      xhr = new XMLHttpRequest();
+
+      xhr.onload = function () {
+        read(this.response);
+      };
+
+      xhr.open('get', url);
+      xhr.responseType = 'arraybuffer';
+      xhr.send();
+    },
+
+    read: function (arrayBuffer) {
+      var options = this.options;
+      var orientation = getOrientation(arrayBuffer);
+      var image = this.image;
+      var base64 = '';
+      var rotate;
+      var scaleX;
+      var scaleY;
+
+      if (orientation) {
+        $.each(new Uint8Array(arrayBuffer), function (i, code) {
+          base64 += fromCharCode(code);
+        });
+
+        this.url = 'data:image/jpeg;base64,' + btoa(base64);
+
+        switch (orientation) {
+
+          // flip horizontal
+          case 2:
+            scaleX = -1;
+            break;
+
+          // rotate left 180°
+          case 3:
+            rotate = -180;
+            break;
+
+          // flip vertical
+          case 4:
+            scaleY = -1;
+            break;
+
+          // flip vertical + rotate right 90°
+          case 5:
+            rotate = 90;
+            scaleY = -1;
+            break;
+
+          // rotate right 90°
+          case 6:
+            rotate = 90;
+            break;
+
+          // flip horizontal + rotate right 90°
+          case 7:
+            rotate = 90;
+            scaleX = -1;
+            break;
+
+          // rotate left 90°
+          case 8:
+            rotate = -90;
+            break;
+        }
+      }
+
+      if (options.rotatable) {
+        image.rotate = rotate;
+      }
+
+      if (options.scalable) {
+        image.scaleX = scaleX;
+        image.scaleY = scaleY;
+      }
+
+      this.clone();
+    },
+
+    clone: function () {
+      var options = this.options;
+      var $this = this.$element;
+      var url = this.url;
+      var crossOrigin = '';
+      var crossOriginUrl;
+      var $clone;
+
       if (options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = $this.prop('crossOrigin');
 
         // Bust cache (#148), only when there was not a "crossOrigin" property
         if (!crossOrigin) {
           crossOrigin = 'anonymous';
-          bustCacheUrl = addTimestamp(url);
+          crossOriginUrl = addTimestamp(url);
         }
       }
 
       this.crossOrigin = crossOrigin;
-      this.$clone = $clone = $('<img' + getCrossOrigin(crossOrigin) + ' src="' + (bustCacheUrl || url) + '">');
+      this.crossOriginUrl = crossOriginUrl;
+      this.$clone = $clone = $('<img' + getCrossOrigin(crossOrigin) + ' src="' + (crossOriginUrl || url) + '">');
 
       if (this.isImg) {
         if ($this[0].complete) {
@@ -384,11 +566,11 @@
       }
 
       getImageSize($image[0], $.proxy(function (naturalWidth, naturalHeight) {
-        this.image = {
+        $.extend(this.image, {
           naturalWidth: naturalWidth,
           naturalHeight: naturalHeight,
           aspectRatio: naturalWidth / naturalHeight
-        };
+        });
 
         this.isLoaded = true;
         this.build();
@@ -495,6 +677,7 @@
       }
 
       this.isBuilt = false;
+      this.isCompleted = false;
       this.initialImage = null;
 
       // Clear `initialCanvas` is necessary when replace
@@ -559,31 +742,40 @@
       var containerWidth = container.width;
       var containerHeight = container.height;
       var image = this.image;
-      var aspectRatio = image.aspectRatio;
-      var canvas = {
-            naturalWidth: image.naturalWidth,
-            naturalHeight: image.naturalHeight,
-            aspectRatio: aspectRatio,
-            width: containerWidth,
-            height: containerHeight
-          };
+      var imageNaturalWidth = image.naturalWidth;
+      var imageNaturalHeight = image.naturalHeight;
+      var is90Degree = abs(image.rotate) === 90;
+      var naturalWidth = is90Degree ? imageNaturalHeight : imageNaturalWidth;
+      var naturalHeight = is90Degree ? imageNaturalWidth : imageNaturalHeight;
+      var aspectRatio = naturalWidth / naturalHeight;
+      var canvasWidth = containerWidth;
+      var canvasHeight = containerHeight;
+      var canvas;
 
       if (containerHeight * aspectRatio > containerWidth) {
         if (viewMode === 3) {
-          canvas.width = containerHeight * aspectRatio;
+          canvasWidth = containerHeight * aspectRatio;
         } else {
-          canvas.height = containerWidth / aspectRatio;
+          canvasHeight = containerWidth / aspectRatio;
         }
       } else {
         if (viewMode === 3) {
-          canvas.height = containerWidth / aspectRatio;
+          canvasHeight = containerWidth / aspectRatio;
         } else {
-          canvas.width = containerHeight * aspectRatio;
+          canvasWidth = containerHeight * aspectRatio;
         }
       }
 
-      canvas.oldLeft = canvas.left = (containerWidth - canvas.width) / 2;
-      canvas.oldTop = canvas.top = (containerHeight - canvas.height) / 2;
+      canvas = {
+        naturalWidth: naturalWidth,
+        naturalHeight: naturalHeight,
+        aspectRatio: aspectRatio,
+        width: canvasWidth,
+        height: canvasHeight
+      };
+
+      canvas.oldLeft = canvas.left = (containerWidth - canvasWidth) / 2;
+      canvas.oldTop = canvas.top = (containerHeight - canvasHeight) / 2;
 
       this.canvas = canvas;
       this.isLimited = (viewMode === 1 || viewMode === 2);
@@ -984,7 +1176,7 @@
   $.extend(prototype, {
     initPreview: function () {
       var crossOrigin = getCrossOrigin(this.crossOrigin);
-      var url = this.url;
+      var url = crossOrigin ? this.crossOriginUrl : this.url;
 
       this.$preview = $(this.options.preview);
       this.$viewBox.html('<img' + crossOrigin + ' src="' + url + '">');
@@ -2549,8 +2741,11 @@
     // Restore the cropped area after resize the window
     restore: true,
 
-    // Check if the target image is cross origin
+    // Check if the current image is a cross-origin image
     checkCrossOrigin: true,
+
+    // Check the current image's Exif Orientation information
+    checkOrientation: true,
 
     // Show the black modal
     modal: true,

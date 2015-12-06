@@ -1,7 +1,7 @@
 {
   "name": "cropper",
   "description": "A simple jQuery image cropping plugin.",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "main": "dist/cropper.js",
   "license": "MIT",
   "repository": "fengyuanchen/cropper",
@@ -44,7 +44,6 @@
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "~2.6.0",
-    "gulp-csscomb": "^3.0.6",
     "gulp-csslint": "^0.2.0",
     "gulp-htmlcomb": "0.1.0",
     "gulp-jscs": "^3.0.2",
