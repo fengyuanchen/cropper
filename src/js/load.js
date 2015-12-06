@@ -36,7 +36,7 @@
       var options = this.options;
       var $this = this.$element;
       var crossOrigin = '';
-      var bustCacheUrl;
+      var crossOriginUrl;
       var $clone;
 
       if (!url) {
@@ -58,12 +58,13 @@
         // Bust cache (#148), only when there was not a "crossOrigin" property
         if (!crossOrigin) {
           crossOrigin = 'anonymous';
-          bustCacheUrl = addTimestamp(url);
+          crossOriginUrl = addTimestamp(url);
         }
       }
 
       this.crossOrigin = crossOrigin;
-      this.$clone = $clone = $('<img' + getCrossOrigin(crossOrigin) + ' src="' + (bustCacheUrl || url) + '">');
+      this.crossOriginUrl = crossOriginUrl;
+      this.$clone = $clone = $('<img' + getCrossOrigin(crossOrigin) + ' src="' + (crossOriginUrl || url) + '">');
 
       if (this.isImg) {
         if ($this[0].complete) {

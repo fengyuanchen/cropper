@@ -2,14 +2,10 @@
     initPreview: function () {
       var bustCacheUrl;
       var crossOrigin = getCrossOrigin(this.crossOrigin);
-      var url = this.url;
-
-      if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
-        bustCacheUrl = addTimestamp(url);
-      }
+      var url = crossOrigin ? this.crossOriginUrl : this.url;
 
       this.$preview = $(this.options.preview);
-      this.$viewBox.html('<img' + crossOrigin + ' src="' + (bustCacheUrl || url) + '">');
+      this.$viewBox.html('<img' + crossOrigin + ' src="' + url + '">');
       this.$preview.each(function () {
         var $this = $(this);
 
