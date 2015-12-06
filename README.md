@@ -12,9 +12,9 @@
   - [Features](#features)
   - [Main](#main)
   - [Getting started](#getting-started)
-  - [Methods](#methods)
   - [Options](#options)
-  - [Event](#event)
+  - [Methods](#methods)
+  - [Events](#events)
   - [No conflict](#no-conflict)
   - [Browser support](#browser-support)
   - [Contributing](#contributing)
@@ -25,9 +25,9 @@
 
 ## Features
 
-- Supports 39 options
-- Supports 27 methods
-- Supports 7 events
+- Supports 39 [options](#options)
+- Supports 27 [methods](#methods)
+- Supports 7 [events](#events)
 - Supports touch (mobile)
 - Supports zooming
 - Supports rotating
