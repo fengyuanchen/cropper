@@ -1,6 +1,5 @@
   $.extend(prototype, {
     initPreview: function () {
-      var bustCacheUrl;
       var crossOrigin = getCrossOrigin(this.crossOrigin);
       var url = crossOrigin ? this.crossOriginUrl : this.url;
 

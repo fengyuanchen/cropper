@@ -114,8 +114,6 @@ See the [FAQ](FAQ.md) documentation.
 
 #### Known issues
 
-- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](examples/crop-avatar). Or you may translate the EXIF Orientation by canvas as [Loader](https://github.com/fengyuanchen/loader) first before to use cropper.
-
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
 
 
@@ -206,6 +204,18 @@ Restore the cropped area after resize the window.
 By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to the image url to reload the image for "getCroppedCanvas".
 
 By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
+
+
+### checkOrientation
+
+- Type: `Boolean`
+- Default: `true`
+
+Check the current image's Exif Orientation information.
+
+More exactly, read the Orientation value for rotating or flipping the image, and then override the Orientation value with `1` (the default value) to avoid some issues (#120, #509) on iOS devices.
+
+> Requires [Typed Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) support ([IE 10+](http://caniuse.com/typedarrays)).
 
 
 ### modal

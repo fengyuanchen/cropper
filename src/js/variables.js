@@ -2,6 +2,10 @@
   var $window = $(window);
   var $document = $(document);
   var location = window.location;
+  var ArrayBuffer = window.ArrayBuffer;
+  var Uint8Array = window.Uint8Array;
+  var DataView = window.DataView;
+  var btoa = window.btoa;
 
   // Constants
   var NAMESPACE = 'cropper';
@@ -73,3 +77,5 @@
   var prototype = {
     version: '@VERSION'
   };
+
+  var fromCharCode = String.fromCharCode;

@@ -24,6 +24,9 @@
     // Check if the target image is cross origin
     checkCrossOrigin: true,
 
+    // Check the current image's Exif Orientation information
+    checkOrientation: true,
+
     // Show the black modal
     modal: true,
 

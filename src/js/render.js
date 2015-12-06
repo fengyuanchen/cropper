@@ -36,31 +36,40 @@
       var containerWidth = container.width;
       var containerHeight = container.height;
       var image = this.image;
-      var aspectRatio = image.aspectRatio;
-      var canvas = {
-            naturalWidth: image.naturalWidth,
-            naturalHeight: image.naturalHeight,
-            aspectRatio: aspectRatio,
-            width: containerWidth,
-            height: containerHeight
-          };
+      var imageNaturalWidth = image.naturalWidth;
+      var imageNaturalHeight = image.naturalHeight;
+      var is90Degree = abs(image.rotate) === 90;
+      var naturalWidth = is90Degree ? imageNaturalHeight : imageNaturalWidth;
+      var naturalHeight = is90Degree ? imageNaturalWidth : imageNaturalHeight;
+      var aspectRatio = naturalWidth / naturalHeight;
+      var canvasWidth = containerWidth;
+      var canvasHeight = containerHeight;
+      var canvas;
 
       if (containerHeight * aspectRatio > containerWidth) {
         if (viewMode === 3) {
-          canvas.width = containerHeight * aspectRatio;
+          canvasWidth = containerHeight * aspectRatio;
         } else {
-          canvas.height = containerWidth / aspectRatio;
+          canvasHeight = containerWidth / aspectRatio;
         }
       } else {
         if (viewMode === 3) {
-          canvas.height = containerWidth / aspectRatio;
+          canvasHeight = containerWidth / aspectRatio;
         } else {
-          canvas.width = containerHeight * aspectRatio;
+          canvasWidth = containerHeight * aspectRatio;
         }
       }
 
-      canvas.oldLeft = canvas.left = (containerWidth - canvas.width) / 2;
-      canvas.oldTop = canvas.top = (containerHeight - canvas.height) / 2;
+      canvas = {
+        naturalWidth: naturalWidth,
+        naturalHeight: naturalHeight,
+        aspectRatio: aspectRatio,
+        width: canvasWidth,
+        height: canvasHeight
+      };
+
+      canvas.oldLeft = canvas.left = (containerWidth - canvasWidth) / 2;
+      canvas.oldTop = canvas.top = (containerHeight - canvasHeight) / 2;
 
       this.canvas = canvas;
       this.isLimited = (viewMode === 1 || viewMode === 2);
