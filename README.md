@@ -1,4 +1,4 @@
-# [Cropper](https://github.com/fengyuanchen/cropper)
+# Cropper
 
 > A simple jQuery image cropping plugin.
 
@@ -7,18 +7,35 @@
 
 
 
+## Table of contents
+
+  - [Features](#features)
+  - [Main](#main)
+  - [Getting started](#getting-started)
+  - [Methods](#methods)
+  - [Options](#options)
+  - [Event](#event)
+  - [No conflict](#no-conflict)
+  - [Browser support](#browser-support)
+  - [Contributing](#contributing)
+  - [Versioning](#versioning)
+  - [License](#license)
+
+
+
 ## Features
 
-- Supports [options](#options)
-- Supports [methods](#methods)
-- Supports [events](#events)
+- Supports 39 options
+- Supports 27 methods
+- Supports 7 events
 - Supports touch (mobile)
-- Supports zoom
-- Supports rotation
-- Supports scale (flip)
-- Supports canvas
+- Supports zooming
+- Supports rotating
+- Supports scaling (flipping)
 - Supports multiple croppers
-- Supports to crop image in the browser-side with canvas
+- Supports to crop on a canvas
+- Supports to crop image in the browser-side by canvas
+- Supports to translate Exif Orientation information
 - Cross-browser support
 
 
@@ -115,6 +132,9 @@ See the [FAQ](FAQ.md) documentation.
 #### Known issues
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
+
+
+[⬆ back to top](#table-of-contents)
 
 
 
@@ -458,6 +478,9 @@ A shortcut of the "crop.cropper" event.
 - Default: `null`
 
 A shortcut of the "zoom.cropper" event.
+
+
+[⬆ back to top](#table-of-contents)
 
 
 
@@ -859,6 +882,9 @@ Change the drag mode.
 **Tips:** You can toggle the "crop" and "move" mode by double click on the cropper.
 
 
+[⬆ back to top](#table-of-contents)
+
+
 
 ## Events
 
@@ -979,6 +1005,11 @@ $().on('zoom.cropper', function (e) {
 });
 ```
 
+
+[⬆ back to top](#table-of-contents)
+
+
+
 ## No conflict
 
 If you have to use other plugin with the same namespace, just call the `$.fn.cropper.noConflict` method to revert to it.
@@ -1031,3 +1062,6 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 - [meteor-cropper](https://github.com/jonblum/meteor-cropper) - Cropper for Meteor.
 - [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) - Ember cli addon for Cropper.
 - [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) - Ember-cli addon for cropping/resizing images based on the jQuery Cropper plugin.
+
+
+[⬆ back to top](#table-of-contents)
