@@ -1059,11 +1059,13 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 ## Related projects
 
-- [ngCropper](https://github.com/koorgoo/ngCropper) - AngularJS wrapper for Cropper.
-- [react-cropper](https://github.com/roadmanfong/react-cropper) - Cropper as React components.
-- [meteor-cropper](https://github.com/jonblum/meteor-cropper) - Cropper for Meteor.
-- [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) - Ember cli addon for Cropper.
-- [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) - Ember-cli addon for cropping/resizing images based on the jQuery Cropper plugin.
+- [ngCropper](https://github.com/koorgoo/ngCropper) by @koorgoo
+- [ngCropper](https://github.com/alexisnomine/ngCropper) by @alexisnomine
+- [react-cropper](https://github.com/roadmanfong/react-cropper) by @roadmanfong
+- [redux-cropper](https://github.com/lapanoid/redux-cropper) @lapanoid
+- [meteor-cropper](https://github.com/jonblum/meteor-cropper) @jonblum
+- [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) @anilmaurya
+- [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) @mhretab
 
 
 [⬆ back to top](#table-of-contents)
