@@ -59,6 +59,10 @@
       read = $.proxy(this.read, this);
       xhr = new XMLHttpRequest();
 
+      xhr.onerror = xhr.onabort = $.proxy(function () {
+        this.clone();
+      }, this);
+
       xhr.onload = function () {
         read(this.response);
       };
