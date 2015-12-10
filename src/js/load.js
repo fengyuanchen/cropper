@@ -81,7 +81,7 @@
       var scaleX;
       var scaleY;
 
-      if (orientation) {
+      if (orientation > 1) {
         $.each(new Uint8Array(arrayBuffer), function (i, code) {
           base64 += fromCharCode(code);
         });
