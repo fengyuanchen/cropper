@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.2.0
+ * Cropper v2.2.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-12-06T07:06:12.378Z
+ * Date: 2015-12-12T07:24:25.791Z
  */
 
 (function (factory) {
@@ -63,7 +63,10 @@
   var EVENT_ZOOM = 'zoom.' + NAMESPACE;
 
   // RegExps
-  var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+  var REGEXP_ACTIONS = /e|w|s|n|se|sw|ne|nw|all|crop|move|zoom/;
+  var REGEXP_DATA_URL = /^data\:/;
+  var REGEXP_DATA_URL_HEAD = /^data\:([^\;]+)\;base64,/;
+  var REGEXP_DATA_URL_JPEG = /^data\:image\/jpeg.*;base64,/;
 
   // Data keys
   var DATA_PREVIEW = 'preview';
@@ -100,7 +103,7 @@
 
   // Prototype
   var prototype = {
-    version: '2.2.0'
+    version: '2.2.1'
   };
 
   var fromCharCode = String.fromCharCode;
@@ -362,6 +365,35 @@
     return orientation;
   }
 
+  function dataURLToArrayBuffer(dataURL) {
+    var base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
+    var binary = atob(base64);
+    var length = binary.length;
+    var arrayBuffer = new ArrayBuffer(length);
+    var dataView = new Uint8Array(arrayBuffer);
+    var i;
+
+    for (i = 0; i < length; i++) {
+      dataView[i] = binary.charCodeAt(i);
+    }
+
+    return arrayBuffer;
+  }
+
+  // Only available for JPEG image
+  function arrayBufferToDataURL(arrayBuffer) {
+    var dataView = new Uint8Array(arrayBuffer);
+    var length = dataView.length;
+    var base64 = '';
+    var i;
+
+    for (i = 0; i < length; i++) {
+      base64 += fromCharCode(dataView[i]);
+    }
+
+    return 'data:image/jpeg;base64,' + btoa(base64);
+  }
+
   function Cropper(element, options) {
     this.$element = $(element);
     this.options = $.extend({}, Cropper.DEFAULTS, $.isPlainObject(options) && options);
@@ -439,7 +471,19 @@
       }
 
       read = $.proxy(this.read, this);
+
+      // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
+      if (REGEXP_DATA_URL.test(url)) {
+        return REGEXP_DATA_URL_JPEG.test(url) ?
+          read(dataURLToArrayBuffer(url)) :
+          this.clone();
+      }
+
       xhr = new XMLHttpRequest();
+
+      xhr.onerror = xhr.onabort = $.proxy(function () {
+        this.clone();
+      }, this);
 
       xhr.onload = function () {
         read(this.response);
@@ -454,17 +498,12 @@
       var options = this.options;
       var orientation = getOrientation(arrayBuffer);
       var image = this.image;
-      var base64 = '';
       var rotate;
       var scaleX;
       var scaleY;
 
-      if (orientation) {
-        $.each(new Uint8Array(arrayBuffer), function (i, code) {
-          base64 += fromCharCode(code);
-        });
-
-        this.url = 'data:image/jpeg;base64,' + btoa(base64);
+      if (orientation > 1) {
+        this.url = arrayBufferToDataURL(arrayBuffer);
 
         switch (orientation) {
 

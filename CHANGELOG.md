@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 2.2.1 (Dec 12, 2015)
+
+- Handle Data URL (Fixed #540: avoid to use XMLHttpRequest to open a Data URL)
+- Handle ajax error when load ArrayBuffer
+- Not to transform the image to base64 when Orientation equals to `1`
+
+
 ## 2.2.0 (Dec 6, 2015)
 
 - Added a new option: `checkOrientation` (#120, #509)
