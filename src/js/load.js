@@ -57,6 +57,14 @@
       }
 
       read = $.proxy(this.read, this);
+
+      // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
+      if (REGEXP_DATA_URL.test(url)) {
+        return REGEXP_DATA_URL_JPEG.test(url) ?
+          read(dataURLToArrayBuffer(url)) :
+          this.clone();
+      }
+
       xhr = new XMLHttpRequest();
 
       xhr.onerror = xhr.onabort = $.proxy(function () {
@@ -76,17 +84,12 @@
       var options = this.options;
       var orientation = getOrientation(arrayBuffer);
       var image = this.image;
-      var base64 = '';
       var rotate;
       var scaleX;
       var scaleY;
 
       if (orientation > 1) {
-        $.each(new Uint8Array(arrayBuffer), function (i, code) {
-          base64 += fromCharCode(code);
-        });
-
-        this.url = 'data:image/jpeg;base64,' + btoa(base64);
+        this.url = arrayBufferToDataURL(arrayBuffer);
 
         switch (orientation) {
 

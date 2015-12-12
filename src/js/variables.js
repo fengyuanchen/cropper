@@ -38,7 +38,10 @@
   var EVENT_ZOOM = 'zoom.' + NAMESPACE;
 
   // RegExps
-  var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+  var REGEXP_ACTIONS = /e|w|s|n|se|sw|ne|nw|all|crop|move|zoom/;
+  var REGEXP_DATA_URL = /^data\:/;
+  var REGEXP_DATA_URL_HEAD = /^data\:([^\;]+)\;base64,/;
+  var REGEXP_DATA_URL_JPEG = /^data\:image\/jpeg.*;base64,/;
 
   // Data keys
   var DATA_PREVIEW = 'preview';
