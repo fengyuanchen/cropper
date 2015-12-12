@@ -227,7 +227,7 @@ gulp.task('test', ['js', 'css'], function () {
     .pipe(plugins.qunit());
 });
 
-gulp.task('release', ['test'], function () {
+gulp.task('release', ['test', 'docs'], function () {
   return gulp.src('dist/*.{js,css}')
     .pipe(gulp.dest('_releases/' + pkg.version));
 });
