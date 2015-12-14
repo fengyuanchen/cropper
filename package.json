@@ -5,6 +5,7 @@
   "main": "dist/cropper.js",
   "license": "MIT",
   "repository": "fengyuanchen/cropper",
+  "homepage": "http://fengyuanchen.github.io/cropper",
   "author": {
     "name": "Fengyuan Chen",
     "url": "http://chenfengyuan.com"
