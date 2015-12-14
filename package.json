@@ -29,15 +29,6 @@
     "web",
     "development"
   ],
-  "files": [
-    "src",
-    "dist",
-    "demo",
-    "docs",
-    "test",
-    "assets",
-    "examples"
-  ],
   "dependencies": {
     "jquery": ">= 1.9.1"
   },
