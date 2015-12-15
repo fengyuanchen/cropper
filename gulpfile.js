@@ -141,6 +141,7 @@ gulp.task('css', ['csslint'], function () {
         'Safari >= 6'
       ]
     }))
+    .pipe(plugins.csscomb())
     .pipe(gulp.dest(styles.dest))
     .pipe(gulp.dest(styles.site))
     .pipe(plugins.rename(styles.min))
