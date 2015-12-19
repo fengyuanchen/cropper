@@ -58,6 +58,17 @@
 
       event.preventDefault();
 
+      // Limit wheel speed to prevent zoom too fast
+      if (this.isWheeled) {
+        return;
+      }
+
+      this.isWheeled = true;
+
+      setTimeout(function () {
+        this.isWheeled = false;
+      }, 50);
+
       if (e.deltaY) {
         delta = e.deltaY > 0 ? 1 : -1;
       } else if (e.wheelDelta) {

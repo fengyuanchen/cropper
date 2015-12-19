@@ -9,6 +9,7 @@
     this.isDisabled = false;
     this.isReplaced = false;
     this.isLimited = false;
+    this.isWheeled = false;
     this.isImg = false;
     this.originalUrl = '';
     this.canvas = null;
