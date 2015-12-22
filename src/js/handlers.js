@@ -59,15 +59,15 @@
       event.preventDefault();
 
       // Limit wheel speed to prevent zoom too fast
-      if (this.isWheeled) {
+      if (this.wheeling) {
         return;
       }
 
-      this.isWheeled = true;
+      this.wheeling = true;
 
-      setTimeout(function () {
-        this.isWheeled = false;
-      }, 50);
+      setTimeout($.proxy(function () {
+        this.wheeling = false;
+      }, this), 50);
 
       if (e.deltaY) {
         delta = e.deltaY > 0 ? 1 : -1;
