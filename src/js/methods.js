@@ -1,5 +1,3 @@
-  $.extend(prototype, {
-
     // Show the crop box manually
     crop: function () {
       if (!this.isBuilt || this.isDisabled) {
@@ -745,4 +743,4 @@
         }
       }
     }
-  });
+  };

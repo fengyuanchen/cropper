@@ -1,4 +1,3 @@
-  $.extend(prototype, {
     change: function (shiftKey, originalEvent) {
       var options = this.options;
       var aspectRatio = options.aspectRatio;
@@ -400,5 +399,4 @@
       // Override
       this.startX = this.endX;
       this.startY = this.endY;
-    }
-  });
+    },

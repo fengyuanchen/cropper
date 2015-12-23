@@ -1,4 +1,6 @@
-  $.extend(prototype, {
+  Cropper.prototype = {
+    constructor: Cropper,
+
     init: function () {
       var $this = this.$element;
       var url;
@@ -205,5 +207,4 @@
     stop: function () {
       this.$clone.remove();
       this.$clone = null;
-    }
-  });
+    },

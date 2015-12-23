@@ -1,4 +1,3 @@
-  $.extend(prototype, {
     bind: function () {
       var options = this.options;
       var $this = this.$element;
@@ -85,5 +84,4 @@
       if (options.responsive) {
         $window.off(EVENT_RESIZE, this._resize);
       }
-    }
-  });
+    },

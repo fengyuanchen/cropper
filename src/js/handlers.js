@@ -1,4 +1,3 @@
-  $.extend(prototype, {
     resize: function () {
       var restore = this.options.restore;
       var $container = this.$container;
@@ -204,5 +203,4 @@
           action: action
         });
       }
-    }
-  });
+    },

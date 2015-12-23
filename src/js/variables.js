@@ -76,9 +76,5 @@
   var round = Math.round;
   var floor = Math.floor;
 
-  // Prototype
-  var prototype = {
-    version: '@VERSION'
-  };
-
+  // Utilities
   var fromCharCode = String.fromCharCode;

@@ -1,4 +1,3 @@
-  $.extend(prototype, {
     render: function () {
       this.initContainer();
       this.initCanvas();
@@ -464,5 +463,4 @@
           this.trigger(EVENT_CROP, this.getData());
         }, this));
       }
-    }
-  });
+    },

@@ -1,4 +1,3 @@
-  $.extend(prototype, {
     build: function () {
       var options = this.options;
       var $this = this.$element;
@@ -116,5 +115,4 @@
 
       this.$cropper.remove();
       this.$cropper = null;
-    }
-  });
+    },
