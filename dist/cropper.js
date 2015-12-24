@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.2.1
+ * Cropper v2.2.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-12-12T07:24:25.791Z
+ * Date: 2015-12-24T08:58:54.511Z
  */
 
 (function (factory) {
@@ -101,11 +101,7 @@
   var round = Math.round;
   var floor = Math.floor;
 
-  // Prototype
-  var prototype = {
-    version: '2.2.1'
-  };
-
+  // Utilities
   var fromCharCode = String.fromCharCode;
 
   function isNumber(n) {
@@ -405,6 +401,7 @@
     this.isDisabled = false;
     this.isReplaced = false;
     this.isLimited = false;
+    this.wheeling = false;
     this.isImg = false;
     this.originalUrl = '';
     this.canvas = null;
@@ -412,7 +409,9 @@
     this.init();
   }
 
-  $.extend(prototype, {
+  Cropper.prototype = {
+    constructor: Cropper,
+
     init: function () {
       var $this = this.$element;
       var url;
@@ -619,10 +618,8 @@
     stop: function () {
       this.$clone.remove();
       this.$clone = null;
-    }
-  });
+    },
 
-  $.extend(prototype, {
     build: function () {
       var options = this.options;
       var $this = this.$element;
@@ -740,10 +737,8 @@
 
       this.$cropper.remove();
       this.$cropper = null;
-    }
-  });
+    },
 
-  $.extend(prototype, {
     render: function () {
       this.initContainer();
       this.initCanvas();
@@ -1209,10 +1204,8 @@
           this.trigger(EVENT_CROP, this.getData());
         }, this));
       }
-    }
-  });
+    },
 
-  $.extend(prototype, {
     initPreview: function () {
       var crossOrigin = getCrossOrigin(this.crossOrigin);
       var url = crossOrigin ? this.crossOriginUrl : this.url;
@@ -1310,10 +1303,8 @@
           transform: getTransform(image)
         });
       });
-    }
-  });
+    },
 
-  $.extend(prototype, {
     bind: function () {
       var options = this.options;
       var $this = this.$element;
@@ -1400,10 +1391,8 @@
       if (options.responsive) {
         $window.off(EVENT_RESIZE, this._resize);
       }
-    }
-  });
+    },
 
-  $.extend(prototype, {
     resize: function () {
       var restore = this.options.restore;
       var $container = this.$container;
@@ -1462,6 +1451,17 @@
       }
 
       event.preventDefault();
+
+      // Limit wheel speed to prevent zoom too fast
+      if (this.wheeling) {
+        return;
+      }
+
+      this.wheeling = true;
+
+      setTimeout($.proxy(function () {
+        this.wheeling = false;
+      }, this), 50);
 
       if (e.deltaY) {
         delta = e.deltaY > 0 ? 1 : -1;
@@ -1598,10 +1598,8 @@
           action: action
         });
       }
-    }
-  });
+    },
 
-  $.extend(prototype, {
     change: function (shiftKey, originalEvent) {
       var options = this.options;
       var aspectRatio = options.aspectRatio;
@@ -2003,10 +2001,7 @@
       // Override
       this.startX = this.endX;
       this.startY = this.endY;
-    }
-  });
-
-  $.extend(prototype, {
+    },
 
     // Show the crop box manually
     crop: function () {
@@ -2556,12 +2551,12 @@
           cropBox.top = data.top;
         }
 
-        if (isNumber(data.width) && data.width !== cropBox.width) {
+        if (isNumber(data.width)) {
           isWidthChanged = true;
           cropBox.width = data.width;
         }
 
-        if (isNumber(data.height) && data.height !== cropBox.height) {
+        if (isNumber(data.height)) {
           isHeightChanged = true;
           cropBox.height = data.height;
         }
@@ -2753,9 +2748,7 @@
         }
       }
     }
-  });
-
-  $.extend(Cropper.prototype, prototype);
+  };
 
   Cropper.DEFAULTS = {
 
@@ -2891,24 +2884,26 @@
   Cropper.other = $.fn.cropper;
 
   // Register as jQuery plugin
-  $.fn.cropper = function (options) {
+  $.fn.cropper = function (option) {
     var args = toArray(arguments, 1);
     var result;
 
     this.each(function () {
       var $this = $(this);
       var data = $this.data(NAMESPACE);
+      var options;
       var fn;
 
       if (!data) {
-        if (/destroy/.test(options)) {
+        if (/destroy/.test(option)) {
           return;
         }
 
+        options = $.extend({}, $this.data(), $.isPlainObject(option) && option);
         $this.data(NAMESPACE, (data = new Cropper(this, options)));
       }
 
-      if (typeof options === 'string' && $.isFunction(fn = data[options])) {
+      if (typeof option === 'string' && $.isFunction(fn = data[option])) {
         result = fn.apply(data, args);
       }
     });

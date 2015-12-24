@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 2.2.2 (Dec 24, 2015)
+
+- Limit wheel speed to prevent zoom too fast
+- Improve the `setCropBoxData` method
+
+
 ## 2.2.1 (Dec 12, 2015)
 
 - Handle Data URL (Fixed #540: avoid to use XMLHttpRequest to open a Data URL)
