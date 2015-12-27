@@ -170,9 +170,9 @@
      * Zoom the canvas with a relative ratio
      *
      * @param {Number} ratio
-     * @param {Event} _originalEvent (private)
+     * @param {jQuery Event} _event (private)
      */
-    zoom: function (ratio, _originalEvent) {
+    zoom: function (ratio, _event) {
       var canvas = this.canvas;
 
       ratio = num(ratio);
@@ -183,24 +183,27 @@
         ratio = 1 + ratio;
       }
 
-      this.zoomTo(canvas.width * ratio / canvas.naturalWidth, _originalEvent);
+      this.zoomTo(canvas.width * ratio / canvas.naturalWidth, _event);
     },
 
     /**
      * Zoom the canvas to an absolute ratio
      *
      * @param {Number} ratio
-     * @param {Event} _originalEvent (private)
+     * @param {jQuery Event} _event (private)
      */
-    zoomTo: function (ratio, _originalEvent) {
+    zoomTo: function (ratio, _event) {
       var options = this.options;
       var canvas = this.canvas;
       var width = canvas.width;
       var height = canvas.height;
       var naturalWidth = canvas.naturalWidth;
       var naturalHeight = canvas.naturalHeight;
+      var originalEvent;
       var newWidth;
       var newHeight;
+      var offset;
+      var center;
 
       ratio = num(ratio);
 
@@ -208,16 +211,39 @@
         newWidth = naturalWidth * ratio;
         newHeight = naturalHeight * ratio;
 
+        if (_event) {
+          originalEvent = _event.originalEvent;
+        }
+
         if (this.trigger(EVENT_ZOOM, {
-          originalEvent: _originalEvent,
+          originalEvent: originalEvent,
           oldRatio: width / naturalWidth,
           ratio: newWidth / naturalWidth
         }).isDefaultPrevented()) {
           return;
         }
 
-        canvas.left -= (newWidth - width) / 2;
-        canvas.top -= (newHeight - height) / 2;
+        if (originalEvent) {
+          offset = this.$cropper.offset();
+          center = originalEvent.touches ? getTouchesCenter(originalEvent.touches) : {
+            pageX: _event.pageX || originalEvent.pageX || 0,
+            pageY: _event.pageY || originalEvent.pageY || 0
+          };
+
+          // Zoom from the triggering point of the event
+          canvas.left -= (newWidth - width) * (
+            ((center.pageX - offset.left) - canvas.left) / width
+          );
+          canvas.top -= (newHeight - height) * (
+            ((center.pageY - offset.top) - canvas.top) / height
+          );
+        } else {
+
+          // Zoom from the center of the canvas
+          canvas.left -= (newWidth - width) / 2;
+          canvas.top -= (newHeight - height) / 2;
+        }
+
         canvas.width = newWidth;
         canvas.height = newHeight;
         this.renderCanvas(true);

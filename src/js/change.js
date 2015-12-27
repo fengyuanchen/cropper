@@ -1,4 +1,4 @@
-    change: function (shiftKey, originalEvent) {
+    change: function (shiftKey, event) {
       var options = this.options;
       var aspectRatio = options.aspectRatio;
       var action = this.action;
@@ -341,7 +341,7 @@
             abs(this.startY - this.startY2),
             abs(this.endX - this.endX2),
             abs(this.endY - this.endY2)
-          ), originalEvent);
+          ), event);
           this.startX2 = this.endX2;
           this.startY2 = this.endY2;
           renderable = false;

@@ -46,8 +46,7 @@
     },
 
     wheel: function (event) {
-      var originalEvent = event.originalEvent;
-      var e = originalEvent || event;
+      var e = event.originalEvent || event;
       var ratio = num(this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
@@ -76,7 +75,7 @@
         delta = e.detail > 0 ? 1 : -1;
       }
 
-      this.zoom(-delta * ratio, originalEvent);
+      this.zoom(-delta * ratio, event);
     },
 
     cropStart: function (event) {
@@ -176,7 +175,7 @@
         this.endX = e.pageX || originalEvent && originalEvent.pageX;
         this.endY = e.pageY || originalEvent && originalEvent.pageY;
 
-        this.change(e.shiftKey, action === ACTION_ZOOM ? originalEvent : null);
+        this.change(e.shiftKey, action === ACTION_ZOOM ? event : null);
       }
     },
 
