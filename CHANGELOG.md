@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 2.2.3 (Dec 28, 2015)
+
+- Supports to zoom from event triggering point.
+
+
 ## 2.2.2 (Dec 24, 2015)
 
 - Limit wheel speed to prevent zoom too fast

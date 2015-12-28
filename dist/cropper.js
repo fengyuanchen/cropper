@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.2.2
+ * Cropper v2.2.3
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2015 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-12-24T08:58:54.511Z
+ * Date: 2015-12-28T03:45:43.533Z
  */
 
 (function (factory) {
@@ -276,6 +276,27 @@
     }
 
     return canvas;
+  }
+
+  function getTouchesCenter(touches) {
+    var length = touches.length;
+    var pageX = 0;
+    var pageY = 0;
+
+    if (length) {
+      $.each(touches, function (i, touch) {
+        pageX += touch.pageX;
+        pageY += touch.pageY;
+      });
+
+      pageX /= length;
+      pageY /= length;
+    }
+
+    return {
+      pageX: pageX,
+      pageY: pageY
+    };
   }
 
   function getStringFromCharCode(dataView, start, length) {
@@ -1441,8 +1462,7 @@
     },
 
     wheel: function (event) {
-      var originalEvent = event.originalEvent;
-      var e = originalEvent || event;
+      var e = event.originalEvent || event;
       var ratio = num(this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
@@ -1471,7 +1491,7 @@
         delta = e.detail > 0 ? 1 : -1;
       }
 
-      this.zoom(-delta * ratio, originalEvent);
+      this.zoom(-delta * ratio, event);
     },
 
     cropStart: function (event) {
@@ -1571,7 +1591,7 @@
         this.endX = e.pageX || originalEvent && originalEvent.pageX;
         this.endY = e.pageY || originalEvent && originalEvent.pageY;
 
-        this.change(e.shiftKey, action === ACTION_ZOOM ? originalEvent : null);
+        this.change(e.shiftKey, action === ACTION_ZOOM ? event : null);
       }
     },
 
@@ -1600,7 +1620,7 @@
       }
     },
 
-    change: function (shiftKey, originalEvent) {
+    change: function (shiftKey, event) {
       var options = this.options;
       var aspectRatio = options.aspectRatio;
       var action = this.action;
@@ -1943,7 +1963,7 @@
             abs(this.startY - this.startY2),
             abs(this.endX - this.endX2),
             abs(this.endY - this.endY2)
-          ), originalEvent);
+          ), event);
           this.startX2 = this.endX2;
           this.startY2 = this.endY2;
           renderable = false;
@@ -2175,9 +2195,9 @@
      * Zoom the canvas with a relative ratio
      *
      * @param {Number} ratio
-     * @param {Event} _originalEvent (private)
+     * @param {jQuery Event} _event (private)
      */
-    zoom: function (ratio, _originalEvent) {
+    zoom: function (ratio, _event) {
       var canvas = this.canvas;
 
       ratio = num(ratio);
@@ -2188,24 +2208,27 @@
         ratio = 1 + ratio;
       }
 
-      this.zoomTo(canvas.width * ratio / canvas.naturalWidth, _originalEvent);
+      this.zoomTo(canvas.width * ratio / canvas.naturalWidth, _event);
     },
 
     /**
      * Zoom the canvas to an absolute ratio
      *
      * @param {Number} ratio
-     * @param {Event} _originalEvent (private)
+     * @param {jQuery Event} _event (private)
      */
-    zoomTo: function (ratio, _originalEvent) {
+    zoomTo: function (ratio, _event) {
       var options = this.options;
       var canvas = this.canvas;
       var width = canvas.width;
       var height = canvas.height;
       var naturalWidth = canvas.naturalWidth;
       var naturalHeight = canvas.naturalHeight;
+      var originalEvent;
       var newWidth;
       var newHeight;
+      var offset;
+      var center;
 
       ratio = num(ratio);
 
@@ -2213,16 +2236,39 @@
         newWidth = naturalWidth * ratio;
         newHeight = naturalHeight * ratio;
 
+        if (_event) {
+          originalEvent = _event.originalEvent;
+        }
+
         if (this.trigger(EVENT_ZOOM, {
-          originalEvent: _originalEvent,
+          originalEvent: originalEvent,
           oldRatio: width / naturalWidth,
           ratio: newWidth / naturalWidth
         }).isDefaultPrevented()) {
           return;
         }
 
-        canvas.left -= (newWidth - width) / 2;
-        canvas.top -= (newHeight - height) / 2;
+        if (originalEvent) {
+          offset = this.$cropper.offset();
+          center = originalEvent.touches ? getTouchesCenter(originalEvent.touches) : {
+            pageX: _event.pageX || originalEvent.pageX || 0,
+            pageY: _event.pageY || originalEvent.pageY || 0
+          };
+
+          // Zoom from the triggering point of the event
+          canvas.left -= (newWidth - width) * (
+            ((center.pageX - offset.left) - canvas.left) / width
+          );
+          canvas.top -= (newHeight - height) * (
+            ((center.pageY - offset.top) - canvas.top) / height
+          );
+        } else {
+
+          // Zoom from the center of the canvas
+          canvas.left -= (newWidth - width) / 2;
+          canvas.top -= (newHeight - height) / 2;
+        }
+
         canvas.width = newWidth;
         canvas.height = newHeight;
         this.renderCanvas(true);
