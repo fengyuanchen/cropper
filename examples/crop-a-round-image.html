@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    img {
+      max-width: 100%;
+    }
+
+    .cropper-view-box,
+    .cropper-face {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="page-header">Crop a round image</h1>
+    <div class="row">
+      <div class="col-sm-6">
+        <h3 class="page-header">Image</h3>
+        <div>
+          <img class="img-responsive" id="image" src="../assets/img/picture.jpg" alt="Picture">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <h3 class="page-header">Result</h3>
+        <button type="button" class="btn btn-primary" id="button">Crop</button>
+        <div id="result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../dist/cropper.js"></script>
+  <script>
+    function getRoundedCanvas(sourceCanvas) {
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      var width = sourceCanvas.width;
+      var height = sourceCanvas.height;
+
+      canvas.width = width;
+      canvas.height = height;
+      context.beginPath();
+      context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI);
+      context.strokeStyle = 'rgba(0,0,0,0)';
+      context.stroke();
+      context.clip();
+      context.drawImage(sourceCanvas, 0, 0, width, height);
+
+      return canvas;
+    }
+
+    $(function () {
+      var $image = $('#image');
+      var $button = $('#button');
+      var $result = $('#result');
+      var croppable = false;
+
+      $image.cropper({
+        aspectRatio: 1,
+        viewMode: 1,
+        built: function () {
+          croppable = true;
+        }
+      });
+
+      $button.on('click', function () {
+        var croppedCanvas;
+        var roundedCanvas;
+
+        if (!croppable) {
+          return;
+        }
+
+        // Crop
+        croppedCanvas = $image.cropper('getCroppedCanvas');
+
+        // Round
+        roundedCanvas = getRoundedCanvas(croppedCanvas);
+
+        // Show
+        $result.html('<img src="' + roundedCanvas.toDataURL() + '">');
+      });
+    });
+  </script>
+</body>
+</html>
