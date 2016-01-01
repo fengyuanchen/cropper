@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.2.3
+ * Cropper v2.2.4
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright (c) 2014-2015 Fengyuan Chen and contributors
+ * Copyright (c) 2014-2016 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2015-12-28T03:45:43.533Z
+ * Date: 2016-01-01T08:20:32.820Z
  */
 
 (function (factory) {
@@ -2664,9 +2664,9 @@
         }
       }
 
-
-      canvasWidth = round(scaledWidth || originalWidth);
-      canvasHeight = round(scaledHeight || originalHeight);
+      // The canvas element will use `Math.floor` on a float number, so floor first
+      canvasWidth = floor(scaledWidth || originalWidth);
+      canvasHeight = floor(scaledHeight || originalHeight);
 
       canvas = $('<canvas>')[0];
       canvas.width = canvasWidth;
