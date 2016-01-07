@@ -38,7 +38,7 @@
       image.rotate = this.image.rotate || this.options.rotate;
       var imageNaturalWidth = image.naturalWidth;
       var imageNaturalHeight = image.naturalHeight;
-      var is90Degree = (image.rotate % 360) === 90 || (image.rotate % 360) === 270;
+      var is90Degree = abs(image.rotate % 360) === 90 || abs(image.rotate % 360) === 270;
       var naturalWidth = is90Degree ? imageNaturalHeight : imageNaturalWidth;
       var naturalHeight = is90Degree ? imageNaturalWidth : imageNaturalHeight;
       var aspectRatio = naturalWidth / naturalHeight;
