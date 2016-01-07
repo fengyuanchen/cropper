@@ -35,7 +35,7 @@
       var containerWidth = container.width;
       var containerHeight = container.height;
       var image = this.image;
-      var image.rotate = this.image.rotate || this.options.rotate;
+      image.rotate = this.image.rotate || this.options.rotate;
       var imageNaturalWidth = image.naturalWidth;
       var imageNaturalHeight = image.naturalHeight;
       var is90Degree = (image.rotate % 360) === 90 || (image.rotate % 360) === 270;
