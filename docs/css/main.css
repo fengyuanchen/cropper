@@ -264,12 +264,12 @@ body {
   overflow: hidden;
 }
 
-.docs-footer ul {
+.links {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.hearts {
+.heart {
   position: relative;
   display: block;
   width: 100%;
@@ -282,11 +282,11 @@ body {
   text-align: center;
 }
 
-.hearts:hover {
+.heart:hover {
   color: #ff4136;
 }
 
-.hearts:before {
+.heart:before {
   position: absolute;
   top: 50%;
   right: 0;
@@ -297,7 +297,7 @@ body {
   content: " ";
 }
 
-.hearts:after {
+.heart:after {
   position: relative;
   z-index: 1;
   padding-left: 8px;
