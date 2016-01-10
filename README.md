@@ -832,7 +832,7 @@ $().cropper('getCroppedCanvas', {
   height: 90
 });
 
-// Upload cropped image to server
+// Upload cropped image to server if the browser supports `canvas.toBlob`
 $().cropper('getCroppedCanvas').toBlob(function (blob) {
   var formData = new FormData();
 
@@ -974,11 +974,11 @@ This event fires when the canvas (image wrapper) or the crop box changed.
 
 - **event.oldRatio**:
   - Type: `Number`
-  - The old ratio of the canvas
+  - The old (current) ratio of the canvas
 
 - **event.ratio**:
   - Type: `Number`
-  - The new ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
+  - The new (next) ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
 
 This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
