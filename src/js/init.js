@@ -157,9 +157,12 @@
       if (options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = $this.prop('crossOrigin');
 
-        // Bust cache (#148), only when there was not a "crossOrigin" property
-        if (!crossOrigin) {
+        if (crossOrigin) {
+          crossOriginUrl = url;
+        } else {
           crossOrigin = 'anonymous';
+
+          // Bust cache (#148) when there is not a "crossOrigin" property
           crossOriginUrl = addTimestamp(url);
         }
       }
