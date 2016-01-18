@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 2.2.5 (Jan 18, 2016)
+
+- Fixed crossOriginUrl undefined error when exists the `crossOrigin` property.
+
+
 ## 2.2.4 (Jan 1, 2016)
 
 - Fixed a dimension bug in the "getCroppedCanvas" method.
