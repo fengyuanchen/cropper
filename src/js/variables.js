@@ -2,6 +2,7 @@
   var $window = $(window);
   var $document = $(document);
   var location = window.location;
+  var navigator = window.navigator;
   var ArrayBuffer = window.ArrayBuffer;
   var Uint8Array = window.Uint8Array;
   var DataView = window.DataView;
@@ -64,6 +65,7 @@
 
   // Supports
   var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);
+  var IS_SAFARI = navigator && /safari/i.test(navigator.userAgent) && /apple computer/i.test(navigator.vendor);
 
   // Maths
   var num = Number;

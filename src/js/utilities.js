@@ -49,8 +49,8 @@
   function getImageSize(image, callback) {
     var newImage;
 
-    // Modern browsers
-    if (image.naturalWidth) {
+    // Modern browsers (ignore Safari, #120 & #509)
+    if (image.naturalWidth && !IS_SAFARI) {
       return callback(image.naturalWidth, image.naturalHeight);
     }
 
