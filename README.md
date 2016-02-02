@@ -5,7 +5,7 @@
 - [Homepage](http://fengyuanchen.github.io/cropper)
 - [Cropper without jQuery](https://github.com/fengyuanchen/cropperjs)
 
-[![Build Status Images](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fengyuanchen/cropper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status Images](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper)
 
 
 
