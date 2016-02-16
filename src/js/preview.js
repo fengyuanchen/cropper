@@ -1,9 +1,11 @@
     initPreview: function () {
       var crossOrigin = getCrossOrigin(this.crossOrigin);
       var url = crossOrigin ? this.crossOriginUrl : this.url;
+      var $clone2;
 
       this.$preview = $(this.options.preview);
-      this.$viewBox.html('<img' + crossOrigin + ' src="' + url + '">');
+      this.$clone2 = $clone2 = $('<img' + crossOrigin + ' src="' + url + '">')
+      this.$viewBox.html($clone2);
       this.$preview.each(function () {
         var $this = $(this);
 
@@ -56,7 +58,7 @@
         return;
       }
 
-      this.$viewBox.find('img').css({
+      this.$clone2.css({
         width: width,
         height: height,
         marginLeft: -left,
