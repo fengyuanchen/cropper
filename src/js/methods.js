@@ -64,17 +64,26 @@
      * Replace the image's src and rebuild the cropper
      *
      * @param {String} url
+     * @param {Boolean} onlyColorChanged (optional)
      */
-    replace: function (url) {
+    replace: function (url, onlyColorChanged) {
       if (!this.isDisabled && url) {
         if (this.isImg) {
-          this.isReplaced = true;
           this.$element.attr('src', url);
         }
 
-        // Clear previous data
-        this.options.data = null;
-        this.load(url);
+        if (onlyColorChanged) {
+          this.url = url;
+          this.$preview.find('img').add(this.$clone).add(this.$clone2).attr('src', url);
+        } else {
+          if (this.isImg) {
+            this.isReplaced = true;
+          }
+
+          // Clear previous data
+          this.options.data = null;
+          this.load(url);
+        }
       }
     },
 
