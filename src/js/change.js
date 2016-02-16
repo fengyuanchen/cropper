@@ -27,8 +27,8 @@
       if (this.limited) {
         minLeft = cropBox.minLeft;
         minTop = cropBox.minTop;
-        maxWidth = minLeft + min(container.width, canvas.width);
-        maxHeight = minTop + min(container.height, canvas.height);
+        maxWidth = minLeft + min(container.width, canvas.left + canvas.width);
+        maxHeight = minTop + min(container.height, canvas.top + canvas.height);
       }
 
       range = {
