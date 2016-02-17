@@ -4,7 +4,7 @@
       var $clone2;
 
       this.$preview = $(this.options.preview);
-      this.$clone2 = $clone2 = $('<img' + crossOrigin + ' src="' + url + '">')
+      this.$clone2 = $clone2 = $('<img' + crossOrigin + ' src="' + url + '">');
       this.$viewBox.html($clone2);
       this.$preview.each(function () {
         var $this = $(this);
