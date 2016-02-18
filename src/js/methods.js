@@ -74,7 +74,11 @@
 
         if (onlyColorChanged) {
           this.url = url;
-          this.$preview.find('img').add(this.$clone).add(this.$clone2).attr('src', url);
+          this.$clone.attr('src', url);
+
+          if (this.isBuilt) {
+            this.$preview.find('img').add(this.$clone2).attr('src', url);
+          }
         } else {
           if (this.isImg) {
             this.isReplaced = true;
