@@ -200,7 +200,6 @@
         this.$img.cropper({
           aspectRatio: 1,
           preview: this.$avatarPreview.selector,
-          strict: false,
           crop: function (e) {
             var json = [
                   '{"x":' + e.x,
