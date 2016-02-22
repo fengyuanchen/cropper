@@ -265,6 +265,12 @@
 
           // Get the original orientation value
           orientation = dataView.getUint16(offset, littleEndian);
+
+          // Override the orientation with its default value for Safari (#120)
+          if (IS_SAFARI) {
+            dataView.setUint16(offset, 1, littleEndian);
+          }
+
           break;
         }
       }
