@@ -85,10 +85,17 @@ The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find th
 Initialize with `$.fn.cropper` method.
 
 ```html
-<!-- Wrap the image or canvas element with a block element -->
+<!-- Wrap the image or canvas element with a block element (container) -->
 <div>
   <img id="image" src="picture.jpg">
 </div>
+```
+
+```css
+/* Limit image width to avoid overflow the container */
+img {
+  max-width: 100%;
+}
 ```
 
 ```js
