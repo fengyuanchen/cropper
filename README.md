@@ -899,7 +899,7 @@ Change the drag mode.
 
 ### setMinCropBoxHeight(minCropBoxHeight)
 
-- **aspectRatio**:
+- **minCropBoxHeight**:
   - Type: `Number`
   - Requires a non-negative number.
 
@@ -908,7 +908,7 @@ Change the minimum height of the crop box.
 
 ### setMinCropBoxWidth(minCropBoxWidth)
 
-- **aspectRatio**:
+- **minCropBoxWidth**:
   - Type: `Number`
   - Requires a non-negative number.
 
