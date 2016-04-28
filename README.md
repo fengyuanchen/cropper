@@ -2,7 +2,7 @@
 
 > A simple jQuery image cropping plugin.
 
-- [Homepage](http://fengyuanchen.github.io/cropper)
+- [Website](https://fengyuanchen.github.io/cropper)
 - [Cropper without jQuery](https://github.com/fengyuanchen/cropperjs)
 
 [![Build Status Images](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper)
@@ -77,7 +77,7 @@ Include files:
 <script src="/path/to/cropper.js"></script>
 ```
 
-The CDNJS provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
+The [cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
 
 
 ### Usage
