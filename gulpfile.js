@@ -5,71 +5,71 @@ var plugins = require('gulp-load-plugins')();
 var pkg = require('./package');
 var now = new Date();
 var scripts = {
-      name: 'cropper.js',
-      all: [
-        'gulpfile.js',
-        'dist/cropper.js',
-        'demo/js/main.js',
-        'docs/js/main.js',
-        'examples/*/js/main.js',
-        'test/**/*.js'
-      ],
-      list: [
-        'src/js/intro.js',
-        'src/js/variables.js',
-        'src/js/utilities.js',
-        'src/js/cropper.js',
-        'src/js/init.js',
-        'src/js/build.js',
-        'src/js/render.js',
-        'src/js/preview.js',
-        'src/js/bind.js',
-        'src/js/handlers.js',
-        'src/js/change.js',
-        'src/js/methods.js',
-        'src/js/defaults.js',
-        'src/js/template.js',
-        'src/js/plugin.js',
-        'src/js/outro.js'
-      ],
-      main: 'dist/cropper.js',
-      site: '_gh_pages/js',
-      src: 'src/*.js',
-      dest: 'dist'
-    };
+  name: 'cropper.js',
+  all: [
+    'gulpfile.js',
+    'dist/cropper.js',
+    'demo/js/main.js',
+    'docs/js/main.js',
+    'examples/*/js/main.js',
+    'test/**/*.js'
+  ],
+  list: [
+    'src/js/intro.js',
+    'src/js/variables.js',
+    'src/js/utilities.js',
+    'src/js/cropper.js',
+    'src/js/init.js',
+    'src/js/build.js',
+    'src/js/render.js',
+    'src/js/preview.js',
+    'src/js/bind.js',
+    'src/js/handlers.js',
+    'src/js/change.js',
+    'src/js/methods.js',
+    'src/js/defaults.js',
+    'src/js/template.js',
+    'src/js/plugin.js',
+    'src/js/outro.js'
+  ],
+  main: 'dist/cropper.js',
+  site: '_gh_pages/js',
+  src: 'src/*.js',
+  dest: 'dist'
+};
 var styles = {
-      name: 'cropper.css',
-      all: [
-        'dist/cropper.css',
-        'demo/css/main.css',
-        'docs/css/main.css'
-      ],
-      scss: 'src/scss/*.scss',
-      main: 'dist/cropper.css',
-      site: '_gh_pages/css',
-      src: 'src/scss/*.scss',
-      dest: 'dist'
-    };
+  name: 'cropper.css',
+  all: [
+    'dist/cropper.css',
+    'demo/css/main.css',
+    'docs/css/main.css'
+  ],
+  scss: 'src/scss/*.scss',
+  main: 'dist/cropper.css',
+  site: '_gh_pages/css',
+  src: 'src/scss/*.scss',
+  dest: 'dist'
+};
 var replacement = {
-      regexp: /@\w+/g,
-      filter: function (placeholder) {
-        switch (placeholder) {
-          case '@VERSION':
-            placeholder = pkg.version;
-            break;
+  regexp: /@\w+/g,
+  filter: function (placeholder) {
+    switch (placeholder) {
+      case '@VERSION':
+        placeholder = pkg.version;
+        break;
 
-          case '@YEAR':
-            placeholder = now.getFullYear();
-            break;
+      case '@YEAR':
+        placeholder = now.getFullYear();
+        break;
 
-          case '@DATE':
-            placeholder = now.toISOString();
-            break;
-        }
+      case '@DATE':
+        placeholder = now.toISOString();
+        break;
+    }
 
-        return placeholder;
-      }
-    };
+    return placeholder;
+  }
+};
 
 gulp.task('js+', function () {
   return gulp.src(scripts.list)
