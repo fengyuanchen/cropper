@@ -36,6 +36,13 @@ $(function () {
 
       });
 
+      QUnit.test('methods.getCroppedCanvas: clear', function (assert) {
+        $image.cropper('clear');
+        var canvas = $image.cropper('getCroppedCanvas');
+
+        assert.ok(canvas instanceof HTMLCanvasElement);
+      });
+
     }
   });
 
