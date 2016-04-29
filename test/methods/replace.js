@@ -6,7 +6,7 @@ $(function () {
 
   $image.one('built.cropper', function () {
 
-    QUnit.test('methods.replace', function (assert) {
+    QUnit.test('methods#replace', function (assert) {
       var done = assert.async();
 
       $image.one('built.cropper', function () {

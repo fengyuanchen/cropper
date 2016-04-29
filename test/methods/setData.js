@@ -12,7 +12,7 @@ $(function () {
     built: function () {
       var _data = $image.cropper('getData');
 
-      QUnit.test('methods.setData', function (assert) {
+      QUnit.test('methods#setData', function (assert) {
         var data = $image.cropper('setData', {
               x: 16,
               height: 120
@@ -29,7 +29,7 @@ $(function () {
         assert.notEqual(data.height, _data.height);
       });
 
-      QUnit.test('methods.setData: move', function (assert) {
+      QUnit.test('methods#setData: move', function (assert) {
         var data = $image.cropper('reset').cropper('setData', {
               x: 16,
               y: 9
@@ -42,7 +42,7 @@ $(function () {
       });
 
 
-      QUnit.test('methods.setData: resize', function (assert) {
+      QUnit.test('methods#setData: resize', function (assert) {
         var data = $image.cropper('reset').cropper('setData', {
               width: 320,
               height: 180

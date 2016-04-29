@@ -10,7 +10,7 @@ $(function () {
 
     built: function () {
 
-      QUnit.test('options.minCanvasHeight', function (assert) {
+      QUnit.test('options#minCanvasHeight', function (assert) {
         var data = $image.cropper('setCanvasData', {
               height: 45
             }).cropper('getCanvasData');

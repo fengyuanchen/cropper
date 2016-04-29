@@ -12,7 +12,7 @@ $(function () {
       var cropper = $image.data('cropper');
       var container = cropper.container;
 
-      QUnit.test('options.minContainerWidth', function (assert) {
+      QUnit.test('options#minContainerWidth', function (assert) {
         assert.ok(Math.round(container.width) === minContainerWidth);
       });
 

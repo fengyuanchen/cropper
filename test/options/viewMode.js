@@ -6,7 +6,7 @@ $(function () {
 
   $image.cropper({
     built: function () {
-      QUnit.test('options.viewMode: 0', function (assert) {
+      QUnit.test('options#viewMode: 0', function (assert) {
         var canvasData = {
               left: 100,
               top: 100,
@@ -33,7 +33,7 @@ $(function () {
       built: function () {
 
 
-        QUnit.test('options.viewMode: 1', function (assert) {
+        QUnit.test('options#viewMode: 1', function (assert) {
           var canvasData = $image.cropper('zoom', -0.5).cropper('getCanvasData');
           var cropBoxData = $image.cropper('getCropBoxData');
 
@@ -52,7 +52,7 @@ $(function () {
       viewMode: 2,
 
       built: function () {
-        QUnit.test('options.viewMode: 2', function (assert) {
+        QUnit.test('options#viewMode: 2', function (assert) {
           var canvasData = $image.cropper('zoom', -0.5).cropper('getCanvasData');
           var containerData = $image.cropper('getContainerData');
 
@@ -70,7 +70,7 @@ $(function () {
       viewMode: 3,
 
       built: function () {
-        QUnit.test('options.viewMode: 3', function (assert) {
+        QUnit.test('options#viewMode: 3', function (assert) {
           var canvasData = $image.cropper('zoom', -0.5).cropper('getCanvasData');
           var containerData = $image.cropper('getContainerData');
 

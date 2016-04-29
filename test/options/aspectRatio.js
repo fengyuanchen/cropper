@@ -10,7 +10,7 @@ $(function () {
       var options = cropper.options;
       var aspectRatio = 16 / 9;
 
-      QUnit.test('options.aspectRatio', function (assert) {
+      QUnit.test('options#aspectRatio', function (assert) {
         assert.ok(isNaN(options.aspectRatio));
         cropper.setAspectRatio(aspectRatio);
         assert.equal(options.aspectRatio, aspectRatio);

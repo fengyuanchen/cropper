@@ -6,7 +6,7 @@ $(function () {
 
   $image.one('build.cropper', function (e) {
 
-    QUnit.test('events.build', function (assert) {
+    QUnit.test('events#build', function (assert) {
       assert.equal(e.type, 'build');
       assert.equal(e.namespace, 'cropper');
     });
@@ -15,14 +15,14 @@ $(function () {
 
   }).one('built.cropper', function () {
 
-    QUnit.test('events.build: default prevented', function (assert) {
+    QUnit.test('events#build: default prevented', function (assert) {
       assert.ok(false);
     });
 
   }).cropper({
     build: function (e) {
 
-      QUnit.test('options.build', function (assert) {
+      QUnit.test('options#build', function (assert) {
         assert.equal(e.type, 'build');
         assert.equal(e.namespace, 'cropper');
       });
@@ -33,7 +33,7 @@ $(function () {
 
     built: function () {
 
-      QUnit.test('options.build: default prevented', function (assert) {
+      QUnit.test('options#build: default prevented', function (assert) {
         assert.ok(false);
       });
 

@@ -9,7 +9,7 @@ $(function () {
       var canvasData = $image.cropper('getCanvasData');
       var cropBoxData = $image.cropper('getCropBoxData');
 
-      QUnit.test('methods.reset', function (assert) {
+      QUnit.test('methods#reset', function (assert) {
         $image.cropper('setCanvasData', {
           top: canvasData.top + 10,
           width: canvasData.width - 10

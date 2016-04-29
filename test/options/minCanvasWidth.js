@@ -10,7 +10,7 @@ $(function () {
 
     built: function () {
 
-      QUnit.test('options.minCanvasWidth', function (assert) {
+      QUnit.test('options#minCanvasWidth', function (assert) {
         var data = $image.cropper('setCanvasData', {
               width: 80
             }).cropper('getCanvasData');

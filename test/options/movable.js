@@ -12,7 +12,7 @@ $(function () {
       var _left = canvas.left;
       var _top = canvas.top;
 
-      QUnit.test('options.movable: true', function (assert) {
+      QUnit.test('options#movable: true', function (assert) {
         $image.cropper('move', 10, 10);
         assert.equal(canvas.left, _left + 10);
         assert.equal(canvas.top, _top + 10);
@@ -29,7 +29,7 @@ $(function () {
       var _left = canvas.left;
       var _top = canvas.top;
 
-      QUnit.test('options.movable: false', function (assert) {
+      QUnit.test('options#movable: false', function (assert) {
         $image2.cropper('move', 10, 10);
         assert.equal(canvas.left, _left);
         assert.equal(canvas.top, _top);

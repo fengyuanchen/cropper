@@ -9,7 +9,7 @@ $(function () {
 
     built: function () {
 
-      QUnit.test('options.minCropBoxHeight', function (assert) {
+      QUnit.test('options#minCropBoxHeight', function (assert) {
         var data = $image.cropper('setCropBoxData', {
               height: 100
             }).cropper('getCropBoxData');

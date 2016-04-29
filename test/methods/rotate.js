@@ -7,7 +7,7 @@ $(function () {
   $image.cropper({
     built: function () {
 
-      QUnit.test('methods.rotate', function (assert) {
+      QUnit.test('methods#rotate', function (assert) {
         $image.cropper('rotate', 360);
         assert.equal($image.cropper('getImageData').rotate, 0);
 

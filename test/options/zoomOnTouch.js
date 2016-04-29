@@ -13,7 +13,7 @@ $(function () {
       var cropper = $image.data('cropper');
       var _ratio = cropper.image.ratio;
 
-      QUnit.test('options.zoomOnTouch', function (assert) {
+      QUnit.test('options#zoomOnTouch', function (assert) {
         cropper.$cropper.trigger($.Event('touchstart', {
           originalEvent: {
             touches: [

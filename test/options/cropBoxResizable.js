@@ -10,7 +10,7 @@ $(function () {
     built: function () {
       var cropper = $image.data('cropper');
 
-      QUnit.test('options.cropBoxResizable', function (assert) {
+      QUnit.test('options#cropBoxResizable', function (assert) {
         assert.ok(cropper.$cropper.find('.cropper-line, .cropper-point').hasClass('cropper-hidden'));
       });
 

@@ -6,7 +6,7 @@ $(function () {
 
   $image.on('cropstart.cropper', function (e) {
 
-    QUnit.test('events.cropstart', function (assert) {
+    QUnit.test('events#cropstart', function (assert) {
       assert.equal(e.type, 'cropstart');
       assert.equal(e.namespace, 'cropper');
       assert.equal(e.action, 'crop');
@@ -22,7 +22,7 @@ $(function () {
 
     cropstart: function (e) {
 
-      QUnit.test('options.cropstart', function (assert) {
+      QUnit.test('options#cropstart', function (assert) {
         assert.equal(e.type, 'cropstart');
         assert.equal(e.namespace, 'cropper');
         assert.equal(e.action, 'crop');

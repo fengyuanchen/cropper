@@ -11,7 +11,7 @@ $(function () {
   $image.cropper({
     built: function () {
 
-      QUnit.test('methods.getCropBoxData', function (assert) {
+      QUnit.test('methods#getCropBoxData', function (assert) {
         var data = $image.cropper('getCropBoxData');
 
         assert.ok(isNumber(data.left));

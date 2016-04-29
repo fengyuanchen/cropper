@@ -10,7 +10,7 @@ $(function () {
 
   $image.on('crop.cropper', function (e) {
 
-    QUnit.test('events.crop', function (assert) {
+    QUnit.test('events#crop', function (assert) {
       assert.equal(e.type, 'crop');
       assert.equal(e.namespace, 'cropper');
       assert.ok(isNumber(e.x));
@@ -32,7 +32,7 @@ $(function () {
 
     crop: function (e) {
 
-      QUnit.test('options.crop', function (assert) {
+      QUnit.test('options#crop', function (assert) {
         assert.equal(e.type, 'crop');
         assert.equal(e.namespace, 'cropper');
         assert.ok(isNumber(e.x));

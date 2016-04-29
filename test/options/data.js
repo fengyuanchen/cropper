@@ -17,7 +17,7 @@ $(function () {
     built: function () {
       var data = $image.cropper('getData');
 
-      QUnit.test('options.data', function (assert) {
+      QUnit.test('options#data', function (assert) {
         assert.equal(Math.round(data.x), _data.x);
         assert.equal(Math.round(data.y), _data.y);
         assert.equal(Math.round(data.width), _data.width);

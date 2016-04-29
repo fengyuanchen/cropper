@@ -8,7 +8,7 @@ $(function () {
 
     built: function () {
 
-      QUnit.test('methods.scale', function (assert) {
+      QUnit.test('methods#scale', function (assert) {
         var imageData = $image.cropper('scale', -1, -1).cropper('getImageData');
 
         assert.equal(imageData.scaleX, -1);

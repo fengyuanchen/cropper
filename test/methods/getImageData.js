@@ -11,7 +11,7 @@ $(function () {
   $image.cropper({
     built: function () {
 
-      QUnit.test('methods.getImageData', function (assert) {
+      QUnit.test('methods#getImageData', function (assert) {
         var data = $image.cropper('getImageData');
 
         // Not rotate

@@ -2,7 +2,7 @@ $(function () {
 
   'use strict';
 
-  QUnit.test('options.checkOrientation: true', function (assert) {
+  QUnit.test('options#checkOrientation: true', function (assert) {
     var done = assert.async();
     var $image = $(window.createCropperImage({
           src: '../assets/img/picture-3.jpg'
@@ -18,7 +18,7 @@ $(function () {
     });
   });
 
-  QUnit.test('options.checkOrientation: false', function (assert) {
+  QUnit.test('options#checkOrientation: false', function (assert) {
     var done = assert.async();
     var $image = $(window.createCropperImage({
           src: '../assets/img/picture-3.jpg'

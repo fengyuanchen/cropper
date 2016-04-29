@@ -8,7 +8,7 @@ $(function () {
     autoCrop: false,
 
     crop: function () {
-      QUnit.test('options.autoCrop', function (assert) {
+      QUnit.test('options#autoCrop', function (assert) {
         assert.ok(false);
       });
     },
@@ -16,7 +16,7 @@ $(function () {
     built: function () {
       var cropper = $image.data('cropper');
 
-      QUnit.test('options.autoCrop', function (assert) {
+      QUnit.test('options#autoCrop', function (assert) {
         assert.equal(cropper.isCropped, false);
       });
 

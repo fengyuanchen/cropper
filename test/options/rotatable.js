@@ -9,7 +9,7 @@ $(function () {
     built: function () {
       var cropper = $image.data('cropper');
 
-      QUnit.test('options.rotatable: true', function (assert) {
+      QUnit.test('options#rotatable: true', function (assert) {
         $image.cropper('rotate', 90);
 
         assert.equal(cropper.image.rotate, 90);
@@ -24,7 +24,7 @@ $(function () {
     built: function () {
       var cropper = $image2.data('cropper');
 
-      QUnit.test('options.rotatable: false', function (assert) {
+      QUnit.test('options#rotatable: false', function (assert) {
         $image2.cropper('rotate', 90);
 
         assert.ok(typeof cropper.image.rotate === 'undefined');

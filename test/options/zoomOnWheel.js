@@ -16,7 +16,7 @@ $(function () {
     },
 
     zoom: function () {
-      QUnit.test('options.zoomOnWheel: true', function (assert) {
+      QUnit.test('options#zoomOnWheel: true', function (assert) {
         assert.ok(true);
       });
     }
@@ -39,7 +39,7 @@ $(function () {
       },
 
       zoom: function () {
-        QUnit.test('options.zoomOnWheel: false', function (assert) {
+        QUnit.test('options#zoomOnWheel: false', function (assert) {
           assert.ok(false);
         });
       }

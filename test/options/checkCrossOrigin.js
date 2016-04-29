@@ -11,7 +11,7 @@ $(function () {
     built: function () {
       var cropper = $image.data('cropper');
 
-      QUnit.test('options.checkCrossOrigin: true', function (assert) {
+      QUnit.test('options#checkCrossOrigin: true', function (assert) {
         assert.ok(cropper.$clone.attr('crossOrigin') === 'anonymous');
         assert.ok(cropper.$clone.attr('src').indexOf('timestamp') !== -1);
       });
@@ -30,7 +30,7 @@ $(function () {
       built: function () {
         var cropper = $image.data('cropper');
 
-        QUnit.test('options.checkCrossOrigin: false', function (assert) {
+        QUnit.test('options#checkCrossOrigin: false', function (assert) {
           assert.ok(cropper.$clone.attr('crossOrigin') === undefined);
           assert.ok(cropper.$clone.attr('src').indexOf('timestamp') === -1);
         });
@@ -49,7 +49,7 @@ $(function () {
       built: function () {
         var cropper = $image.data('cropper');
 
-        QUnit.test('options.checkCrossOrigin: exists crossOrigin attribute', function (assert) {
+        QUnit.test('options#checkCrossOrigin: exists crossOrigin attribute', function (assert) {
           assert.ok(cropper.$clone.attr('crossOrigin') === 'anonymous');
           assert.ok(cropper.$clone.attr('src').indexOf('timestamp') === -1);
         });
