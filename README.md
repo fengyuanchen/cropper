@@ -619,7 +619,7 @@ $().cropper('zoom', -0.1);
 Zoom the canvas (image wrapper) to an absolute ratio.
 
 ```js
-$().cropper('zoom', 1); // 1:1 (canvasData.width === canvasData.naturalWidth)
+$().cropper('zoomTo', 1); // 1:1 (canvasData.width === canvasData.naturalWidth)
 ```
 
 
