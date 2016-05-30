@@ -456,11 +456,5 @@
 
       if (this.isCompleted) {
         this.trigger(EVENT_CROP, this.getData());
-      } else if (!this.isBuilt) {
-
-        // Only trigger one crop event before complete
-        this.$element.one(EVENT_BUILT, $.proxy(function () {
-          this.trigger(EVENT_CROP, this.getData());
-        }, this));
       }
     },
