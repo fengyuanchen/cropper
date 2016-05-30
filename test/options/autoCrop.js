@@ -7,17 +7,11 @@ $(function () {
   $image.cropper({
     autoCrop: false,
 
-    crop: function () {
-      QUnit.test('options#autoCrop', function (assert) {
-        assert.ok(false);
-      });
-    },
-
     built: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options#autoCrop', function (assert) {
-        assert.equal(cropper.isCropped, false);
+        assert.notOk(cropper.isCropped);
       });
 
     }
