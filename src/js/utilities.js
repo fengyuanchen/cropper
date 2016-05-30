@@ -50,7 +50,7 @@
     var newImage;
 
     // Modern browsers (ignore Safari, #120 & #509)
-    if (image.naturalWidth && !IS_SAFARI) {
+    if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
       return callback(image.naturalWidth, image.naturalHeight);
     }
 
@@ -268,7 +268,7 @@
           orientation = dataView.getUint16(offset, littleEndian);
 
           // Override the orientation with its default value for Safari (#120)
-          if (IS_SAFARI) {
+          if (IS_SAFARI_OR_UIWEBVIEW) {
             dataView.setUint16(offset, 1, littleEndian);
           }
 
