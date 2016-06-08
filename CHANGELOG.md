@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 2.3.2 (Jun 8, 2016)
+
+- Fixed wrong property reference (#705)
+- Fixed the wrong place of the crop event triggering (#706).
+- Fixed the calling order of `scale` and `rotate` (#709).
+
+
 ## 2.3.1 (May 28, 2016)
 
 - Improved the rotate and scale transform behaviour (#633, idea by afeibus).

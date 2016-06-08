@@ -48,7 +48,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (79 KB)
+├── cropper.js      (78 KB)
 └── cropper.min.js  (28 KB)
 ```
 
@@ -1076,10 +1076,10 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 - [ngCropper](https://github.com/koorgoo/ngCropper) by @koorgoo
 - [ngCropper](https://github.com/alexisnomine/ngCropper) by @alexisnomine
 - [react-cropper](https://github.com/roadmanfong/react-cropper) by @roadmanfong
-- [redux-cropper](https://github.com/lapanoid/redux-cropper) @lapanoid
-- [meteor-cropper](https://github.com/jonblum/meteor-cropper) @jonblum
-- [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) @anilmaurya
-- [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) @mhretab
+- [redux-cropper](https://github.com/lapanoid/redux-cropper) by @lapanoid
+- [meteor-cropper](https://github.com/jonblum/meteor-cropper) by @jonblum
+- [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) by @anilmaurya
+- [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) by @mhretab
 
 
 [⬆ back to top](#table-of-contents)

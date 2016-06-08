@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.3.1
+ * Cropper v2.3.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2016 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2016-05-28T14:47:08.528Z
+ * Date: 2016-06-08T12:14:46.286Z
  */
 
 (function (factory) {
@@ -90,7 +90,7 @@
 
   // Supports
   var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);
-  var IS_SAFARI = navigator && /safari/i.test(navigator.userAgent) && /apple computer/i.test(navigator.vendor);
+  var IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
   // Maths
   var num = Number;
@@ -158,7 +158,7 @@
     var newImage;
 
     // Modern browsers (ignore Safari, #120 & #509)
-    if (image.naturalWidth && !IS_SAFARI) {
+    if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
       return callback(image.naturalWidth, image.naturalHeight);
     }
 
@@ -263,13 +263,13 @@
       context.translate(translateX, translateY);
     }
 
-    if (rotatable) {
-      context.rotate(rotate * Math.PI / 180);
-    }
-
-    // Should call `scale` after rotated
+    // Scale should come first before rotate (#633, #709)
     if (scalable) {
       context.scale(scaleX, scaleY);
+    }
+
+    if (rotatable) {
+      context.rotate(rotate * Math.PI / 180);
     }
 
     context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
@@ -376,7 +376,7 @@
           orientation = dataView.getUint16(offset, littleEndian);
 
           // Override the orientation with its default value for Safari (#120)
-          if (IS_SAFARI) {
+          if (IS_SAFARI_OR_UIWEBVIEW) {
             dataView.setUint16(offset, 1, littleEndian);
           }
 
@@ -737,6 +737,7 @@
       // Trigger the built event asynchronously to keep `data('cropper')` is defined
       setTimeout($.proxy(function () {
         this.trigger(EVENT_BUILT);
+        this.trigger(EVENT_CROP, this.getData());
         this.isCompleted = true;
       }, this), 0);
     },
@@ -1231,12 +1232,6 @@
 
       if (this.isCompleted) {
         this.trigger(EVENT_CROP, this.getData());
-      } else if (!this.isBuilt) {
-
-        // Only trigger one crop event before complete
-        this.$element.one(EVENT_BUILT, $.proxy(function () {
-          this.trigger(EVENT_CROP, this.getData());
-        }, this));
       }
     },
 
@@ -1661,7 +1656,7 @@
         aspectRatio = width && height ? width / height : 1;
       }
 
-      if (this.limited) {
+      if (this.isLimited) {
         minLeft = cropBox.minLeft;
         minTop = cropBox.minTop;
         maxWidth = minLeft + min(container.width, canvas.left + canvas.width);
@@ -2013,7 +2008,7 @@
             this.$cropBox.removeClass(CLASS_HIDDEN);
             this.isCropped = true;
 
-            if (this.limited) {
+            if (this.isLimited) {
               this.limitCropBox(true, true);
             }
           }
