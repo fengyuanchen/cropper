@@ -155,13 +155,13 @@
       context.translate(translateX, translateY);
     }
 
-    if (rotatable) {
-      context.rotate(rotate * Math.PI / 180);
-    }
-
-    // Should call `scale` after rotated
+    // Scale should come first before rotate (#633, #709)
     if (scalable) {
       context.scale(scaleX, scaleY);
+    }
+
+    if (rotatable) {
+      context.rotate(rotate * Math.PI / 180);
     }
 
     context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
