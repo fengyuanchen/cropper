@@ -200,17 +200,18 @@
 
       if (options.fitCanvasToContainer) {
         //Set the size to the desired size, then let the rotate calculations fix it
+
         if (container.width < container.height) {
-            canvas.width = container.width;
-            canvas.height = canvas.width / canvas.aspectRatio;
-            canvas.left = 0;
-            canvas.top = (container.height - canvas.height) / 2;
+          canvas.width = container.width;
+          canvas.height = canvas.width / canvas.aspectRatio;
+          canvas.left = 0;
+          canvas.top = (container.height - canvas.height) / 2;
         } else {
-            canvas.height = container.height;
-            canvas.width = canvas.height * canvas.aspectRatio;
-            canvas.top = 0;
-            canvas.left = (container.width - canvas.width) / 2;
-            canvas.aspectRatio = canvas.width / canvas.height;
+          canvas.height = container.height;
+          canvas.width = canvas.height * canvas.aspectRatio;
+          canvas.top = 0;
+          canvas.left = (container.width - canvas.width) / 2;
+          canvas.aspectRatio = canvas.width / canvas.height;
         }
         canvas.aspectRatio = canvas.width / canvas.height;
         canvas.naturalWidth = naturalWidth;
@@ -256,14 +257,15 @@
 
       if (options.fitCanvasToContainer) {
         //The rotate calculations sometimes make the image smaller than the canvas, so resize again:
+
         var orientation = canvas.width > canvas.height ? LANDSCAPE : PORTRAIT;
         if ((rotate > 0 && rotate < 45) || (rotate > 135 && rotate < 180)) {
-            orientation = (orientation == PORTRAIT ? LANDSCAPE : PORTRAIT);
+          orientation = (orientation == PORTRAIT ? LANDSCAPE : PORTRAIT);
         }
 
         switch (orientation) {
           case LANDSCAPE:
-            if(parseInt(canvas.width) != parseInt(container.width)){
+            if (parseInt(canvas.width) != parseInt(container.width)) {
               canvas.width = container.width;
               canvas.height = canvas.width / canvas.aspectRatio;
               canvas.left = 0;
@@ -271,7 +273,7 @@
             }
             break;
           case PORTRAIT:
-            if(parseInt(canvas.height) != parseInt(container.height)){
+            if (parseInt(canvas.height) != parseInt(container.height)) {
               canvas.height = container.height;
               canvas.width = canvas.height * canvas.aspectRatio;
               canvas.top = 0;
