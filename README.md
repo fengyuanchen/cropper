@@ -431,6 +431,12 @@ The minimum height of the crop box.
 
 **Note:** This size is relative to the page, not the image.
 
+### fitCanvasToContainer
+
+- Type: `Boolean`
+- Default: `false`
+
+Set to true to ensure that the image is resized so that it remains entirely visible within the container (eg: when rotating).
 
 ### build
 
