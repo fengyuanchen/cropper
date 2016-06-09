@@ -10,6 +10,8 @@
 
   // Constants
   var NAMESPACE = 'cropper';
+  var PORTRAIT = 'portrait';
+  var LANDSCAPE = 'landscape';
 
   // Classes
   var CLASS_MODAL = 'cropper-modal';
