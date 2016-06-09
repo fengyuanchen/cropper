@@ -199,8 +199,7 @@
       var rotated;
 
       if (options.fitCanvasToContainer) {
-        //Set the size to the desired size, then let the rotate calculations fix it
-
+        // Set the size to the desired size, then let the rotate calculations fix it
         if (container.width < container.height) {
           canvas.width = container.width;
           canvas.height = canvas.width / canvas.aspectRatio;
@@ -256,8 +255,7 @@
       }
 
       if (options.fitCanvasToContainer) {
-        //The rotate calculations sometimes make the image smaller than the canvas, so resize again:
-
+        // The rotate calculations sometimes make the image smaller than the canvas, so resize again:
         var orientation = canvas.width > canvas.height ? LANDSCAPE : PORTRAIT;
         if ((rotate > 0 && rotate < 45) || (rotate > 135 && rotate < 180)) {
           orientation = (orientation == PORTRAIT ? LANDSCAPE : PORTRAIT);
