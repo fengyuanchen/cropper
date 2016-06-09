@@ -28,8 +28,8 @@ $(function () {
       QUnit.test('options#fitCanvasToContainer: false', function (assert) {
         $image2.cropper('rotate', 90);
 
-        var canvasData = $image.cropper('getCanvasData');
-        var containerData = $image.cropper('getContainerData');
+        var canvasData = $image2.cropper('getCanvasData');
+        var containerData = $image2.cropper('getContainerData');
 
         assert.ok(parseInt(canvasData.height, 10) >= parseInt(containerData.height, 10));
       });
@@ -45,8 +45,8 @@ $(function () {
         $image3.cropper('rotate', 90);
         $image3.cropper('zoom', 200);
 
-        var canvasData = $image.cropper('getCanvasData');
-        var containerData = $image.cropper('getContainerData');
+        var canvasData = $image3.cropper('getCanvasData');
+        var containerData = $image3.cropper('getContainerData');
 
         assert.ok(parseInt(canvasData.height, 10) <= parseInt(containerData.height, 10));
         assert.ok(parseInt(canvasData.width, 10) <= parseInt(containerData.width, 10));
