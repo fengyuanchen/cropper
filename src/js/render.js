@@ -235,15 +235,15 @@
         }
       }
 
-      if(options.fitCanvasToContainer) {
-        if(canvas.aspectRatio > (container.width / container.height)) {
-          if(parseInt(canvas.width) != parseInt(container.width)){
+      if (options.fitCanvasToContainer) {
+        if (canvas.aspectRatio > (container.width / container.height)) {
+          if (parseInt(canvas.width) != parseInt(container.width)) {
             canvas.width = container.width;
             canvas.height = canvas.width / canvas.aspectRatio;
             canvas.left = 0;
             canvas.top = (container.height - canvas.height) / 2;
           }
-        } else if(parseInt(canvas.height) != parseInt(container.height)) {
+        } else if (parseInt(canvas.height) != parseInt(container.height)) {
           canvas.height = container.height;
           canvas.width = canvas.height * canvas.aspectRatio;
           canvas.top = 0;
