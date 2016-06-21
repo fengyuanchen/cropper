@@ -155,7 +155,7 @@ If you want to change the global default options, You may use `$.fn.cropper.setD
   - `1`: the crop box should be within the canvas
   - `2`: the canvas should not be within the container
   - `3`: the container should be within the canvas
-  - `4`: the crop box should be within the image
+  - `4`: the crop box should be within the image and the canvas within the container
 
 Define the view mode of the cropper.
 
