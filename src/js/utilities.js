@@ -309,6 +309,17 @@
     return 'data:image/jpeg;base64,' + btoa(base64);
   }
 
+  function vector(p1, p2) {
+    return {
+      x: (p2.x - p1.x),
+      y: (p2.y - p1.y)
+    };
+  }
+
+  function dot(u, v) {
+    return u.x * v.x + u.y * v.y;
+  }
+
   function pointInRectangle(m, r) {
     var AB = vector(r.A, r.B);
     var AM = vector(r.A, m);
@@ -321,17 +332,6 @@
     return 0 <= dotABAM && dotABAM <= dotABAB && 0 <= dotBCBM && dotBCBM <= dotBCBC;
   }
 
-  function vector(p1, p2) {
-    return {
-      x: (p2.x - p1.x),
-      y: (p2.y - p1.y)
-    };
-  }
-
-  function dot(u, v) {
-    return u.x * v.x + u.y * v.y;
-  }
-
   function rotatePoint(pivot, point, angle) {
     // Rotate clockwise, angle in radians
     var x = round((cos(angle) * (point.x - pivot.x)) -
@@ -340,15 +340,15 @@
         y = round((sin(angle) * (point.x - pivot.x)) +
                        (cos(angle) * (point.y - pivot.y)) +
                        pivot.y);
-    return {x: x, y: y};
+    return { x: x, y: y };
   }
 
   function cropBoxInImage(cropBox, canvas, image) {
     var cropBoxPoints = {
-      A: {x: cropBox.left, y: cropBox.top},
-      B: {x: cropBox.left + cropBox.width, y: cropBox.top},
-      C: {x: cropBox.left + cropBox.width, y: cropBox.top + cropBox.height},
-      D: {x: cropBox.left, y: cropBox.top + cropBox.height}
+      A: { x: cropBox.left, y: cropBox.top },
+      B: { x: cropBox.left + cropBox.width, y: cropBox.top },
+      C: { x: cropBox.left + cropBox.width, y: cropBox.top + cropBox.height },
+      D: { x: cropBox.left, y: cropBox.top + cropBox.height }
     };
 
     var centers = {
@@ -357,10 +357,10 @@
     };
     var angle = (image.rotate ? image.rotate : 0) * Math.PI / 180;
     var imagePoints = {
-        A: rotatePoint(centers, {x: canvas.left + image.left, y: canvas.top + image.top}, angle),
-        B: rotatePoint(centers, {x: canvas.left + image.left + image.width, y: canvas.top + image.top}, angle),
-        C: rotatePoint(centers, {x: canvas.left + image.left + image.width, y: canvas.top + image.top + image.height}, angle),
-        D: rotatePoint(centers, {x: canvas.left + image.left, y: canvas.top + image.top + image.height}, angle)
+      A: rotatePoint(centers, { x: canvas.left + image.left, y: canvas.top + image.top }, angle),
+      B: rotatePoint(centers, { x: canvas.left + image.left + image.width, y: canvas.top + image.top }, angle),
+      C: rotatePoint(centers, { x: canvas.left + image.left + image.width, y: canvas.top + image.top + image.height }, angle),
+      D: rotatePoint(centers, { x: canvas.left + image.left, y: canvas.top + image.top + image.height }, angle)
     };
 
     return pointInRectangle(cropBoxPoints.A, imagePoints) &&
@@ -376,9 +376,9 @@
     var dimensions = {};
     if (cropBoxAspectRatio < 1) {
       // Portrait:
-      dimensions = {height: side, width: side * cropBoxAspectRatio};
+      dimensions = { height: side, width: side * cropBoxAspectRatio };
     } else {
-      dimensions = {width: side, height: side / cropBoxAspectRatio};
+      dimensions = { width: side, height: side / cropBoxAspectRatio };
     }
     return dimensions;
   }
