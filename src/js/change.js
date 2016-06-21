@@ -394,14 +394,14 @@
         height: height
       };
 
-      if (options.viewMode === 4 && !cropBoxInImage(prospective, canvas, this.image)) {
+      if (options.viewMode === 4 && !cropBoxInImage(prospective, canvas, image)) {
         prospective.top = cropBox.top;
         // Let’s try just X axis:
-        if (!cropBoxInImage(prospective, canvas, this.image)) {
+        if (!cropBoxInImage(prospective, canvas, image)) {
           prospective.top = top;
           prospective.left = cropBox.left;
           // Let’s give the Y axis a go:
-          renderable = cropBoxInImage(prospective, canvas, this.image);
+          renderable = cropBoxInImage(prospective, canvas, image);
         }
       }
 
