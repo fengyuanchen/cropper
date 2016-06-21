@@ -19,7 +19,6 @@
       var renderable = true;
       var offset;
       var range;
-      var largestContainedSize = largestContainedCropBox(image, canvas.aspectRatio);
 
       // Locking aspect ratio in "free mode" by holding shift key (#259)
       if (!aspectRatio && shiftKey) {
