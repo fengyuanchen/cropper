@@ -4,6 +4,7 @@
       var action = this.action;
       var container = this.container;
       var canvas = this.canvas;
+      var image = this.image;
       var cropBox = this.cropBox;
       var width = cropBox.width;
       var height = cropBox.height;
@@ -18,6 +19,7 @@
       var renderable = true;
       var offset;
       var range;
+      var largestContainedSize = largestContainedCropBox(image, canvas.aspectRatio);
 
       // Locking aspect ratio in "free mode" by holding shift key (#259)
       if (!aspectRatio && shiftKey) {
@@ -386,11 +388,29 @@
         // No default
       }
 
+      var prospective = {
+        top: top,
+        left: left,
+        width: width,
+        height: height
+      };
+
+      if (options.viewMode === 4 && !cropBoxInImage(prospective, canvas, this.image)) {
+        prospective.top = cropBox.top;
+        // Let’s try just X axis:
+        if (!cropBoxInImage(prospective, canvas, this.image)) {
+          prospective.top = top;
+          prospective.left = cropBox.left;
+          // Let’s give the Y axis a go:
+          renderable = cropBoxInImage(prospective, canvas, this.image);
+        }
+      }
+
       if (renderable) {
-        cropBox.width = width;
-        cropBox.height = height;
-        cropBox.left = left;
-        cropBox.top = top;
+        cropBox.width = prospective.width;
+        cropBox.height = prospective.height;
+        cropBox.left = prospective.left;
+        cropBox.top = prospective.top;
         this.action = action;
 
         this.renderCropBox();

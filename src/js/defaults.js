@@ -1,7 +1,7 @@
   Cropper.DEFAULTS = {
 
     // Define the view mode of the cropper
-    viewMode: 0, // 0, 1, 2, 3
+    viewMode: 0, // 0, 1, 2, 3, 4
 
     // Define the dragging mode of the cropper
     dragMode: 'crop', // 'crop', 'move' or 'none'
@@ -77,9 +77,6 @@
 
     // Toggle drag mode between "crop" and "move" when click twice on the cropper
     toggleDragModeOnDblclick: true,
-
-    // Enable force canvas to fit inside container even when rotating
-    rotateMode: 0,
 
     // Size limitation
     minCanvasWidth: 0,

@@ -71,7 +71,7 @@
       canvas.oldTop = canvas.top = (containerHeight - canvasHeight) / 2;
 
       this.canvas = canvas;
-      this.isLimited = (viewMode === 1 || viewMode === 2);
+      this.isLimited = (viewMode === 1 || viewMode === 2 || viewMode === 4);
       this.limitCanvas(true, true);
       this.initialImage = $.extend({}, image);
       this.initialCanvas = $.extend({}, canvas);
@@ -145,7 +145,7 @@
       }
 
       if (isPositionLimited) {
-        if (viewMode) {
+        if (viewMode && viewMode !== 4) {
           newCanvasLeft = containerWidth - canvas.width;
           newCanvasTop = containerHeight - canvas.height;
 
@@ -365,6 +365,7 @@
       var containerWidth = container.width;
       var containerHeight = container.height;
       var canvas = this.canvas;
+      var image = this.image;
       var cropBox = this.cropBox;
       var isLimited = this.isLimited;
       var minCropBoxWidth;
@@ -421,6 +422,21 @@
           cropBox.maxLeft = containerWidth - cropBox.width;
           cropBox.maxTop = containerHeight - cropBox.height;
         }
+      }
+
+      if (isSizeLimited && isPositionLimited && options.viewMode === 4 && image.left && image.height && !cropBoxInImage(cropBox, canvas, image)) {
+        var largestContainedSize = largestContainedCropBox(image, canvas.aspectRatio);
+        cropBox.width = largestContainedSize.width;
+        cropBox.maxWidth = cropBox.width;
+        cropBox.height = largestContainedSize.height;
+        cropBox.maxHeight = cropBox.height;
+        cropBox.left = (container.width - cropBox.width) / 2;
+        cropBox.maxLeft = cropBox.left;
+        cropBox.minLeft = cropBox.left;
+        cropBox.top = (container.height - cropBox.height) / 2;
+        cropBox.maxTop = cropBox.top;
+        cropBox.minTop = cropBox.top;
+        this.renderCropBox();
       }
     },
 
