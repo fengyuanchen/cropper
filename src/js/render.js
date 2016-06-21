@@ -425,7 +425,7 @@
       }
 
       if (isSizeLimited && isPositionLimited && options.viewMode === 4 && image.left && image.height && !cropBoxInImage(cropBox, canvas, image)) {
-        var largestContainedSize = largestContainedCropBox(image, canvas.aspectRatio);
+        var largestContainedSize = largestContainedCropBox(image, options.aspectRatio || canvas.aspectRatio);
         cropBox.width = largestContainedSize.width;
         cropBox.maxWidth = cropBox.width;
         cropBox.height = largestContainedSize.height;
