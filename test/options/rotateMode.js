@@ -7,10 +7,10 @@ $(function () {
   var $image3 = $(window.createCropperImage());
 
   $image.cropper({
-    fitCanvasToContainer: true,
+    rotateMode: 1,
 
     built: function () {
-      QUnit.test('options#fitCanvasToContainer: true', function (assert) {
+      QUnit.test('options#rotateMode: 1', function (assert) {
         $image.cropper('rotate', 90);
 
         var canvasData = $image.cropper('getCanvasData');
@@ -25,7 +25,7 @@ $(function () {
 
   $image2.cropper({
     built: function () {
-      QUnit.test('options#fitCanvasToContainer: false', function (assert) {
+      QUnit.test('options#rotateMode: 0', function (assert) {
         $image2.cropper('rotate', 90);
 
         var canvasData = $image2.cropper('getCanvasData');
@@ -38,10 +38,10 @@ $(function () {
   });
 
   $image3.cropper({
-    fitCanvasToContainer: true,
+    rotateMode: 1,
 
     built: function () {
-      QUnit.test('options#fitCanvasToContainer: true with options#zoomable: true', function (assert) {
+      QUnit.test('options#rotateMode: 1 with options#zoomable: true', function (assert) {
         $image3.cropper('rotate', 90);
         $image3.cropper('zoom', 200);
 

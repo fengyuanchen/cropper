@@ -235,7 +235,7 @@
         }
       }
 
-      if (options.fitCanvasToContainer) {
+      if (options.rotateMode === 1) {
         if (canvas.aspectRatio > (container.width / container.height)) {
           if (parseInt(canvas.width) != parseInt(container.width)) {
             canvas.width = container.width;

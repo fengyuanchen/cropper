@@ -78,6 +78,9 @@
     // Toggle drag mode between "crop" and "move" when click twice on the cropper
     toggleDragModeOnDblclick: true,
 
+    // Enable force canvas to fit inside container even when rotating
+    rotateMode: 0,
+
     // Size limitation
     minCanvasWidth: 0,
     minCanvasHeight: 0,
