@@ -345,10 +345,10 @@
 
   function cropBoxInImage(cropBox, canvas, image) {
     var cropBoxPoints = {
-      A: { x: cropBox.left, y: cropBox.top },
-      B: { x: cropBox.left + cropBox.width, y: cropBox.top },
-      C: { x: cropBox.left + cropBox.width, y: cropBox.top + cropBox.height },
-      D: { x: cropBox.left, y: cropBox.top + cropBox.height }
+      A: { x: round(cropBox.left), y: round(cropBox.top) },
+      B: { x: round(cropBox.left + cropBox.width), y: round(cropBox.top) },
+      C: { x: round(cropBox.left + cropBox.width), y: round(cropBox.top + cropBox.height) },
+      D: { x: round(cropBox.left), y: round(cropBox.top + cropBox.height) }
     };
 
     var centers = {
