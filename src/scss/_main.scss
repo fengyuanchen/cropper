@@ -7,8 +7,6 @@
   line-height: 0;
   direction: ltr !important; // Ignore global rtl
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
 
   img {
     // Avoid margin top issue (Occur only when margin-top <= -height)
