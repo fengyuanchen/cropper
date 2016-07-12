@@ -90,9 +90,9 @@
       var options = this.options;
       var orientation = getOrientation(arrayBuffer);
       var image = this.image;
-      var rotate;
-      var scaleX;
-      var scaleY;
+      var rotate = 0;
+      var scaleX = 1;
+      var scaleY = 1;
 
       if (orientation > 1) {
         this.url = arrayBufferToDataURL(arrayBuffer);

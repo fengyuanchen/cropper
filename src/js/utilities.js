@@ -70,13 +70,17 @@
     var scaleX = options.scaleX;
     var scaleY = options.scaleY;
 
-    // Scale should come first before rotate (#633)
-    if (isNumber(scaleX) && isNumber(scaleY)) {
-      transforms.push('scale(' + scaleX + ',' + scaleY + ')');
+    // Rotate should come first before scale to match orientation transform
+    if (isNumber(rotate) && rotate !== 0) {
+      transforms.push('rotate(' + rotate + 'deg)');
     }
 
-    if (isNumber(rotate)) {
-      transforms.push('rotate(' + rotate + 'deg)');
+    if (isNumber(scaleX) && scaleX !== 1) {
+      transforms.push('scaleX(' + scaleX + ')');
+    }
+
+    if (isNumber(scaleY) && scaleY !== 1) {
+      transforms.push('scaleY(' + scaleY + ')');
     }
 
     return transforms.length ? transforms.join(' ') : 'none';
@@ -155,13 +159,13 @@
       context.translate(translateX, translateY);
     }
 
-    // Scale should come first before rotate (#633, #709)
-    if (scalable) {
-      context.scale(scaleX, scaleY);
-    }
-
+    // Rotate should come first before scale as in the "getTransform" function
     if (rotatable) {
       context.rotate(rotate * Math.PI / 180);
+    }
+
+    if (scalable) {
+      context.scale(scaleX, scaleY);
     }
 
     context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
