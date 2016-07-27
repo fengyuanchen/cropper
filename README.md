@@ -432,6 +432,38 @@ The minimum height of the crop box.
 **Note:** This size is relative to the page, not the image.
 
 
+### bleedN
+
+- Type: `Number`
+- Default: `null`
+
+Specify the north bleed marker (in %)
+
+
+### bleedS
+
+- Type: `Number`
+- Default: `null`
+
+Specify the south bleed marker (in %)
+
+
+### bleedE
+
+- Type: `Number`
+- Default: `null`
+
+Specify the east bleed marker (in %)
+
+
+### bleedW
+
+- Type: `Number`
+- Default: `null`
+
+Specify the west bleed marker (in %)
+
+
 ### build
 
 - Type: `Function`
@@ -486,6 +518,7 @@ A shortcut of the "crop.cropper" event.
 - Default: `null`
 
 A shortcut of the "zoom.cropper" event.
+
 
 
 [⬆ back to top](#table-of-contents)

@@ -38,7 +38,29 @@
       options.aspectRatio = max(0, options.aspectRatio) || NaN;
       options.viewMode = max(0, min(3, round(options.viewMode))) || 0;
 
-      if (options.autoCrop) {
+      //Do we need to apply the bleed;
+      if (options.bleedN){
+          $(".bleed-n").show().css('height',options.bleedN + '%');
+      }
+
+       //Do we need to apply the bleed;
+       if (options.bleedS){
+          $(".bleed-s").show().css('height',options.bleedS + '%');
+       }
+
+        //Do we need to apply the bleed;
+        if (options.bleedE){
+           $(".bleed-e").show().css('width',options.bleedE + '%');
+        }
+
+        //Do we need to apply the bleed;
+        if (options.bleedW){
+           $(".bleed-w").show().css('width',options.bleedW + '%');
+        }
+
+
+
+        if (options.autoCrop) {
         this.isCropped = true;
 
         if (options.modal) {
