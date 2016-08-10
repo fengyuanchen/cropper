@@ -357,12 +357,14 @@
       if (isSizeLimited) {
         minCropBoxWidth = num(options.minCropBoxWidth) || 0;
         minCropBoxHeight = num(options.minCropBoxHeight) || 0;
+        maxCropBoxWidth = num((options.maxCropBoxWidth) ? options.maxCropBoxWidth : canvas.width);
+        maxCropBoxHeight = num((options.maxCropBoxHeight) ? options.maxCropBoxHeight : canvas.height);
 
         // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
         minCropBoxWidth = min(minCropBoxWidth, containerWidth);
         minCropBoxHeight = min(minCropBoxHeight, containerHeight);
-        maxCropBoxWidth = min(containerWidth, isLimited ? canvas.width : containerWidth);
-        maxCropBoxHeight = min(containerHeight, isLimited ? canvas.height : containerHeight);
+        maxCropBoxWidth = min(maxCropBoxWidth, isLimited ? canvas.width : containerWidth);
+        maxCropBoxHeight = min(maxCropBoxHeight, isLimited ? canvas.height : containerHeight);
 
         if (aspectRatio) {
           if (minCropBoxWidth && minCropBoxHeight) {
