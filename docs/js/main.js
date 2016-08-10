@@ -129,7 +129,15 @@ $(function () {
         }
       }
 
+      if (data.method === 'rotate') {
+        $image.cropper('clear');
+      }
+
       result = $image.cropper(data.method, data.option, data.secondOption);
+
+      if (data.method === 'rotate') {
+        $image.cropper('crop');
+      }
 
       switch (data.method) {
         case 'scaleX':
