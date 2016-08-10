@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 2.3.3 (Aug 10, 2016)
+
+- Allow scroll when the `dragMode` is "none" on touch screens (#727).
+- Fixed the issue of orientation transform (#740).
+
+
 ## 2.3.2 (Jun 8, 2016)
 
 - Fixed wrong property reference (#705)

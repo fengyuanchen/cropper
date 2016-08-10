@@ -11,17 +11,17 @@
 
 ## Table of contents
 
-  - [Features](#features)
-  - [Main](#main)
-  - [Getting started](#getting-started)
-  - [Options](#options)
-  - [Methods](#methods)
-  - [Events](#events)
-  - [No conflict](#no-conflict)
-  - [Browser support](#browser-support)
-  - [Contributing](#contributing)
-  - [Versioning](#versioning)
-  - [License](#license)
+- [Features](#features)
+- [Main](#main)
+- [Getting started](#getting-started)
+- [Options](#options)
+- [Methods](#methods)
+- [Events](#events)
+- [No conflict](#no-conflict)
+- [Browser support](#browser-support)
+- [Contributing](#contributing)
+- [Versioning](#versioning)
+- [License](#license)
 
 
 
@@ -62,8 +62,8 @@ Four quick start options are available:
 
 - [Download the latest release](https://github.com/fengyuanchen/cropper/archive/master.zip).
 - Clone the repository: `git clone https://github.com/fengyuanchen/cropper.git`.
-- Install with [NPM](http://npmjs.org): `npm install cropper`.
-- Install with [Bower](http://bower.io): `bower install cropper`.
+- Install with [NPM](https://npmjs.com): `npm install cropper`.
+- Install with [Bower](https://bower.io): `bower install cropper`.
 
 
 
@@ -116,7 +116,24 @@ $('#image').cropper({
 
 #### FAQ
 
-See the [FAQ](FAQ.md) documentation.
+##### How to crop a new area after zoom in or zoom out?
+
+> Just double click your mouse to enter crop mode.
+
+
+##### How to move the image after crop an area?
+
+> Just double click your mouse to enter move mode.
+
+
+##### How to fix aspect ratio in free ratio mode?
+
+> Just hold the `shift` key when you resize the crop box.
+
+
+##### How to crop a square area in free ratio mode?
+
+> Just hold the `shift` key when you crop on the image.
 
 
 #### Notes
