@@ -187,26 +187,26 @@ gulp.task('htmlcomb', ['htmlcomb:demo', 'htmlcomb:docs', 'htmlcomb:examples']);
 
 gulp.task('assets:js', function () {
   return gulp.src([
-      'bower_components/jquery/dist/jquery.min.js',
-      'bower_components/bootstrap/dist/js/bootstrap.min.js',
-      'bower_components/qunit/qunit/qunit.js'
+      'node_modules/jquery/dist/jquery.min.js',
+      'node_modules/bootstrap/dist/js/bootstrap.min.js',
+      'node_modules/qunitjs/qunit/qunit.js'
     ])
     .pipe(gulp.dest('assets/js'));
 });
 
 gulp.task('assets:fonts', function () {
   return gulp.src([
-      'bower_components/bootstrap/fonts/*',
-      'bower_components/fontawesome/fonts/*'
+      'node_modules/bootstrap/fonts/*',
+      'node_modules/font-awesome/fonts/*'
     ])
     .pipe(gulp.dest('assets/fonts'));
 });
 
 gulp.task('assets:css', ['assets:fonts'], function () {
   return gulp.src([
-      'bower_components/bootstrap/dist/css/bootstrap.min.css',
-      'bower_components/fontawesome/css/font-awesome.min.css',
-      'bower_components/qunit/qunit/qunit.css'
+      'node_modules/bootstrap/dist/css/bootstrap.min.css',
+      'node_modules/font-awesome/css/font-awesome.min.css',
+      'node_modules/qunitjs/qunit/qunit.css'
     ])
     .pipe(gulp.dest('assets/css'));
 });

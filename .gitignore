@@ -1,7 +1,9 @@
 # Project
-node_modules
+archives
 bower_components
 dist/*.map
+node_modules
+resources
 /_*
 
 # Windows image file caches
