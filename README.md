@@ -850,6 +850,7 @@ Change the crop box position and size with new data.
     - `width`: the destination width of the output canvas
     - `height`: the destination height of the output canvas
     - `fillColor`: a color to fill any alpha values in the output canvas
+  - Note: The aspect ratio of the output canvas will be fitted to aspect ratio of the crop box automatically.
 
 - (return  value):
   - Type: `HTMLCanvasElement`
