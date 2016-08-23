@@ -30,12 +30,10 @@
     "development"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "font-awesome": "^4.6.3",
-    "jquery": "^1.12.4",
-    "qunitjs": "^2.0.1"
   },
   "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.6.3",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
@@ -52,6 +50,8 @@
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
-    "jshint": "^2.9.2"
+    "jshint": "^2.9.2",
+    "jquery": "^1.12.4",
+    "qunitjs": "^2.0.1"
   }
 }
