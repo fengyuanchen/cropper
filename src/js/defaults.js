@@ -93,7 +93,11 @@
     cropmove: null,
     cropend: null,
     crop: null,
-    zoom: null
+    zoom: null,
+    bleedN: null,
+    bleedS: null,
+    bleedE: null,
+    bleedW: null,
   };
 
   Cropper.setDefaults = function (options) {

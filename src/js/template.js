@@ -5,6 +5,10 @@
       '</div>' +
       '<div class="cropper-drag-box"></div>' +
       '<div class="cropper-crop-box">' +
+        '<div class="cropper-bleed bleed-horizontal bleed-n"></div>' +
+        '<div class="cropper-bleed bleed-horizontal bleed-s"></div>' +
+        '<div class="cropper-bleed bleed-vertical bleed-e"></div>' +
+        '<div class="cropper-bleed bleed-vertical bleed-w"></div>' +
         '<span class="cropper-view-box"></span>' +
         '<span class="cropper-dashed dashed-h"></span>' +
         '<span class="cropper-dashed dashed-v"></span>' +

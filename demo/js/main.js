@@ -15,6 +15,10 @@ $(function () {
   var options = {
         aspectRatio: 16 / 9,
         preview: '.img-preview',
+        bleedN : 10,
+        bleedS : 15,
+        bleedE : 17,
+        bleedW : 22,
         crop: function (e) {
           $dataX.val(Math.round(e.x));
           $dataY.val(Math.round(e.y));
