@@ -30,6 +30,7 @@
     "development"
   ],
   "dependencies": {
+    "jquery": ">= 1.9.1"
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
