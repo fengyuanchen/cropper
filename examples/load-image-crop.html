@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cropper</title>
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <script>
+    function test(dom) {
+      var f = document.getElementById("image_input");
+      var r = new FileReader();
+      file = f.files[0];
+      r.onloadend = function() {
+        image = document.getElementById("image2");
+        console.log(image);
+        image.src = r.result;
+        $(function () {
+          $('#image2').cropper({
+            viewMode: 1,
+            dragMode: 'crop',
+            autoCropArea: 0.65,
+            autoCrop: true,
+            restore: false,
+            guides: false,
+            highlight: false,
+            cropBoxMovable: false,
+            cropBoxResizable: false,
+            crop: function (e) {
+              var c = $('#image2').cropper("getCroppedCanvas");
+              var p = document.getElementById('preview');
+              var preview_image = document.getElementById("preview_image");
+              preview_image.src = c.toDataURL();
+            },
+          });
+        });
+      }
+      r.readAsDataURL(file);
+    }
+  </script>
+  <style>
+    .container {
+      max-width: 960px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <input type="file" id="image_input" onchange="test(this)">
+    <div>
+      <img id="image2" src="" alt="please choose a file above" alt="Picture">
+    </div>
+  </div>
+  <div id="preview" width=320px height=320px>
+    <img id="preview_image" alt="preview place" width=320px height=320px>
+  </div>
+
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../dist/cropper.js"></script>
+  <script>
+  </script>
+</body>
+</html>
