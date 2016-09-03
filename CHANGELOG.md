@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 2.3.4 (Sep 3, 2016)
+
+- Fixed a bug of cropping in view mode 1 and 2.
+- Fixed a bug of calling `ready` event twice when call `replace` method.
+- Fixed dependencies problem in the package.json file.
+
+
 ## 2.3.3 (Aug 10, 2016)
 
 - Allow scroll when the `dragMode` is "none" on touch screens (#727).

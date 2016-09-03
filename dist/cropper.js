@@ -1,11 +1,11 @@
 /*!
- * Cropper v2.3.3
+ * Cropper v2.3.4
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2016 Fengyuan Chen and contributors
  * Released under the MIT license
  *
- * Date: 2016-08-10T08:58:55.176Z
+ * Date: 2016-09-03T05:50:45.412Z
  */
 
 (function (factory) {
@@ -739,7 +739,7 @@
       $this.one(EVENT_BUILT, options.built);
 
       // Trigger the built event asynchronously to keep `data('cropper')` is defined
-      setTimeout($.proxy(function () {
+      this.completing = setTimeout($.proxy(function () {
         this.trigger(EVENT_BUILT);
         this.trigger(EVENT_CROP, this.getData());
         this.isCompleted = true;
@@ -749,6 +749,10 @@
     unbuild: function () {
       if (!this.isBuilt) {
         return;
+      }
+
+      if (!this.isCompleted) {
+        clearTimeout(this.completing);
       }
 
       this.isBuilt = false;
@@ -1663,8 +1667,8 @@
       if (this.isLimited) {
         minLeft = cropBox.minLeft;
         minTop = cropBox.minTop;
-        maxWidth = minLeft + min(container.width, canvas.left + canvas.width);
-        maxHeight = minTop + min(container.height, canvas.top + canvas.height);
+        maxWidth = minLeft + min(container.width, canvas.width, canvas.left + canvas.width);
+        maxHeight = minTop + min(container.height, canvas.height, canvas.top + canvas.height);
       }
 
       range = {
