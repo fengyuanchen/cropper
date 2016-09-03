@@ -123,7 +123,7 @@ gulp.task('css+', function () {
 gulp.task('csslint', ['css+'], function () {
   return gulp.src(styles.all)
     .pipe(plugins.csslint('.csslintrc'))
-    .pipe(plugins.csslint.reporter());
+    .pipe(plugins.csslint.formatter());
 });
 
 gulp.task('css', ['csslint'], function () {
