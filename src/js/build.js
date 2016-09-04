@@ -38,9 +38,9 @@
       options.aspectRatio = max(0, options.aspectRatio) || NaN;
       options.viewMode = max(0, min(3, round(options.viewMode))) || 0;
 
-      if (options.autoCrop) {
-        this.isCropped = true;
+      this.isCropped = options.autoCrop;
 
+      if (options.autoCrop) {
         if (options.modal) {
           this.$dragBox.addClass(CLASS_MODAL);
         }
