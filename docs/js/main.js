@@ -3,6 +3,7 @@ $(function () {
   'use strict';
 
   var console = window.console || { log: function () {} };
+  var URL = window.URL || window.webkitURL;
   var $image = $('#image');
   var $download = $('#download');
   var $dataX = $('#dataX');
@@ -25,6 +26,8 @@ $(function () {
           $dataScaleY.val(e.scaleY);
         }
       };
+  var originalImageURL = $image.attr('src');
+  var uploadedImageURL;
 
 
   // Tooltip
@@ -157,6 +160,15 @@ $(function () {
           }
 
           break;
+
+        case 'destroy':
+          if (uploadedImageURL) {
+            URL.revokeObjectURL(uploadedImageURL);
+            uploadedImageURL = '';
+            $image.attr('src', originalImageURL);
+          }
+
+          break;
       }
 
       if ($.isPlainObject(result) && $target) {
@@ -205,8 +217,6 @@ $(function () {
 
   // Import image
   var $inputImage = $('#inputImage');
-  var URL = window.URL || window.webkitURL;
-  var blobURL;
 
   if (URL) {
     $inputImage.change(function () {
@@ -221,12 +231,12 @@ $(function () {
         file = files[0];
 
         if (/^image\/\w+$/.test(file.type)) {
-          blobURL = URL.createObjectURL(file);
-          $image.one('built.cropper', function () {
+          if (uploadedImageURL) {
+            URL.revokeObjectURL(uploadedImageURL);
+          }
 
-            // Revoke when load complete
-            URL.revokeObjectURL(blobURL);
-          }).cropper('reset').cropper('replace', blobURL);
+          uploadedImageURL = URL.createObjectURL(file);
+          $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
           $inputImage.val('');
         } else {
           window.alert('Please choose an image file.');
