@@ -1100,6 +1100,7 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 - [meteor-cropper](https://github.com/jonblum/meteor-cropper) by @jonblum
 - [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) by @anilmaurya
 - [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) by @mhretab
+- [Image Widget Crop](https://www.drupal.org/project/image_widget_crop) - the main Crop solution in Drupal 8
 
 
 [⬆ back to top](#table-of-contents)
