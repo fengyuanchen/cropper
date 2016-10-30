@@ -7,6 +7,7 @@
   line-height: 0;
   direction: ltr !important; // Ignore global rtl
   user-select: none;
+  touch-action: none;
 
   img {
     // Avoid margin top issue (Occur only when margin-top <= -height)
