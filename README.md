@@ -1093,14 +1093,11 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 ## Related projects
 
-- [ngCropper](https://github.com/koorgoo/ngCropper) by @koorgoo
-- [ngCropper](https://github.com/alexisnomine/ngCropper) by @alexisnomine
-- [react-cropper](https://github.com/roadmanfong/react-cropper) by @roadmanfong
-- [redux-cropper](https://github.com/lapanoid/redux-cropper) by @lapanoid
-- [meteor-cropper](https://github.com/jonblum/meteor-cropper) by @jonblum
-- [ember-cli-cropper](https://github.com/anilmaurya/ember-cli-cropper) by @anilmaurya
 - [ember-cli-image-cropper](https://github.com/mhretab/ember-cli-image-cropper) by @mhretab
 - [Image Widget Crop](https://www.drupal.org/project/image_widget_crop) - the main Crop solution in Drupal 8
+- [meteor-cropper](https://github.com/jonblum/meteor-cropper) by @jonblum
+- [ngCropper](https://github.com/koorgoo/ngCropper) by @koorgoo
+- [redux-cropper](https://github.com/lapanoid/redux-cropper) by @lapanoid
 
 
 [⬆ back to top](#table-of-contents)
