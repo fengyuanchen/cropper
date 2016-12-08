@@ -669,6 +669,53 @@
         context.fillStyle = options.fillColor;
         context.fillRect(0, 0, canvasWidth, canvasHeight);
       }
+	  
+
+	  //-- WaterMark
+	  if (this.options.watermark != undefined){ 
+		 var watermark_posX = this.options.watermark.x;
+		 var watermark_posY = this.options.watermark.y;
+		 var watermark_opacity = this.options.watermark.opacity;
+		 var watermark_source = this.options.watermark.src;
+		 var watermark_height = this.options.watermark.height;
+		 var watermark_width = this.options.watermark.width;
+
+		 if ( typeof watermark_posX !== undefined && typeof watermark_posX !== "number"){watermark_posX = watermark_posX.replace("px","");}
+		 if ( typeof watermark_posY !== undefined && typeof watermark_posY !== "number"){watermark_posY = watermark_posY.replace("px","");}		 
+		 if ( typeof watermark_height !== undefined && typeof watermark_height !== "number"){watermark_height = watermark_height.replace("px","");}
+		 if ( typeof watermark_width !== undefined && typeof watermark_height !== "number"){watermark_width = watermark_width.replace("px","");}
+		 
+		 //-- Check Opacity value
+		 if (!$.isNumeric(watermark_opacity)){
+			watermark_opacity = 1;	 
+		 }else{
+			if (watermark_opacity <0 || watermark_opacity >= 10){
+				watermark_opacity = 1;
+			}
+		 }
+		 
+		  //-- Calculate Percent
+		  if ( typeof watermark_posX === 'string'){
+				if (watermark_posX.indexOf("%") >=0){ watermark_posX = parseInt(watermark_posX.replace("%","")) * canvas.width / 100;}
+		  }
+		  if ( typeof watermark_posY === 'string'){
+				if (watermark_posY.indexOf("%") >=0){ watermark_posY = parseInt(watermark_posY.replace("%","")) * canvas.height / 100;}
+		  }
+		  //-- Print watermark on canvas
+		  var  base_image = new Image();
+		  base_image.src = watermark_source;
+		  base_image.onload = function(){
+			context.save();
+			context.globalAlpha = watermark_opacity;
+			//-- Check height and width values
+			if ($.isNumeric(watermark_height)){
+				context.drawImage(base_image, watermark_posX, watermark_posY,watermark_width,watermark_height);
+			}else{
+				context.drawImage(base_image, watermark_posX, watermark_posY);
+			}
+			context.restore();		
+		}		  
+	  } 
 
       // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
       context.drawImage.apply(context, (function () {
