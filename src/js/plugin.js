@@ -37,3 +37,5 @@
     $.fn.cropper = Cropper.other;
     return this;
   };
+
+  return $.fn.cropper; // for AMD callback
