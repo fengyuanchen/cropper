@@ -334,8 +334,9 @@
           this.zoom((function (x1, y1, x2, y2) {
             var z1 = sqrt(x1 * x1 + y1 * y1);
             var z2 = sqrt(x2 * x2 + y2 * y2);
+			var z = (z2 - z1) / z1;
 
-            return (z2 - z1) / z1;
+            return abs(z) < 0.2 ? z : 0;
           })(
             abs(this.startX - this.startX2),
             abs(this.startY - this.startY2),
