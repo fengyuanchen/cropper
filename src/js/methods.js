@@ -585,12 +585,12 @@
           cropBox.top = data.top;
         }
 
-        if (isNumber(data.width)) {
+        if (isNumber(data.width) && data.width !== cropBox.width) {
           isWidthChanged = true;
           cropBox.width = data.width;
         }
 
-        if (isNumber(data.height)) {
+        if (isNumber(data.height) && data.height !== cropBox.height) {
           isHeightChanged = true;
           cropBox.height = data.height;
         }
