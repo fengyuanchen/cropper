@@ -7,6 +7,7 @@
   var Uint8Array = window.Uint8Array;
   var DataView = window.DataView;
   var btoa = window.btoa;
+  var PointerEvent = window.PointerEvent;
 
   // Constants
   var NAMESPACE = 'cropper';
@@ -22,9 +23,9 @@
   var CLASS_BG = 'cropper-bg';
 
   // Events
-  var EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown';
-  var EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove';
-  var EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel';
+  var EVENT_MOUSE_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+  var EVENT_MOUSE_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
+  var EVENT_MOUSE_UP = PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
   var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
   var EVENT_DBLCLICK = 'dblclick';
   var EVENT_LOAD = 'load.' + NAMESPACE;

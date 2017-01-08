@@ -78,36 +78,31 @@
       this.zoom(-delta * ratio, event);
     },
 
-    cropStart: function (event) {
-      var options = this.options;
-      var originalEvent = event.originalEvent;
-      var touches = originalEvent && originalEvent.touches;
-      var e = event;
-      var touchesLength;
-      var action;
-
+    cropStart: function (e) {
       if (this.isDisabled) {
         return;
       }
 
-      if (touches) {
-        touchesLength = touches.length;
+      var options = this.options;
+      var pointers = this.pointers;
+      var originalEvent = e.originalEvent;
+      var action;
 
-        if (touchesLength > 1) {
-          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
-            e = touches[1];
-            this.startX2 = e.pageX;
-            this.startY2 = e.pageY;
-            action = ACTION_ZOOM;
-          } else {
-            return;
-          }
-        }
-
-        e = touches[0];
+      if (originalEvent && originalEvent.changedTouches) {
+        // Handle touch event
+        $.each(originalEvent.changedTouches, function (i, touch) {
+          pointers[touch.identifier] = getPointer(touch);
+        });
+      } else {
+        // Handle mouse event and pointer event
+        pointers[(originalEvent && originalEvent.pointerId) || 0] = getPointer(e);
       }
 
-      action = action || $(e.target).data(DATA_ACTION);
+      if (objectKeys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
+        action = 'zoom';
+      } else {
+        action = $(e.target).data(DATA_ACTION);
+      }
 
       if (REGEXP_ACTIONS.test(action)) {
         if (this.trigger(EVENT_CROP_START, {
@@ -117,15 +112,10 @@
           return;
         }
 
-        event.preventDefault();
+        e.preventDefault();
 
         this.action = action;
         this.cropping = false;
-
-        // IE8  has `event.pageX/Y`, but not `event.originalEvent.pageX/Y`
-        // IE10 has `event.originalEvent.pageX/Y`, but not `event.pageX/Y`
-        this.startX = e.pageX || originalEvent && originalEvent.pageX;
-        this.startY = e.pageY || originalEvent && originalEvent.pageY;
 
         if (action === ACTION_CROP) {
           this.cropping = true;
@@ -134,72 +124,67 @@
       }
     },
 
-    cropMove: function (event) {
-      var options = this.options;
-      var originalEvent = event.originalEvent;
-      var touches = originalEvent && originalEvent.touches;
-      var e = event;
+    cropMove: function (e) {
       var action = this.action;
-      var touchesLength;
 
-      if (this.isDisabled) {
+      if (this.isDisabled || !action) {
         return;
       }
 
-      if (touches) {
-        touchesLength = touches.length;
+      var pointers = this.pointers;
+      var originalEvent = e.originalEvent;
 
-        if (touchesLength > 1) {
-          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
-            e = touches[1];
-            this.endX2 = e.pageX;
-            this.endY2 = e.pageY;
-          } else {
-            return;
-          }
-        }
+      e.preventDefault();
 
-        e = touches[0];
+      if (this.trigger(EVENT_CROP_MOVE, {
+        originalEvent: originalEvent,
+        action: action
+      }).isDefaultPrevented()) {
+        return;
       }
 
-      if (action) {
-        if (this.trigger(EVENT_CROP_MOVE, {
-          originalEvent: originalEvent,
-          action: action
-        }).isDefaultPrevented()) {
-          return;
-        }
-
-        event.preventDefault();
-
-        this.endX = e.pageX || originalEvent && originalEvent.pageX;
-        this.endY = e.pageY || originalEvent && originalEvent.pageY;
-
-        this.change(e.shiftKey, action === ACTION_ZOOM ? event : null);
+      if (originalEvent && originalEvent.changedTouches) {
+        $.each(originalEvent.changedTouches, function (i, touch) {
+          $.extend(pointers[touch.identifier], getPointer(touch, true));
+        });
+      } else {
+        $.extend(pointers[(originalEvent && originalEvent.pointerId) || 0], getPointer(e, true));
       }
+
+      this.change(e);
     },
 
-    cropEnd: function (event) {
-      var originalEvent = event.originalEvent;
+    cropEnd: function (e) {
       var action = this.action;
 
-      if (this.isDisabled) {
+      if (this.isDisabled || !action) {
         return;
       }
 
-      if (action) {
-        event.preventDefault();
+      var pointers = this.pointers;
+      var originalEvent = e.originalEvent;
 
-        if (this.cropping) {
-          this.cropping = false;
-          this.$dragBox.toggleClass(CLASS_MODAL, this.isCropped && this.options.modal);
-        }
+      e.preventDefault();
 
-        this.action = '';
-
-        this.trigger(EVENT_CROP_END, {
-          originalEvent: originalEvent,
-          action: action
+      if (originalEvent && originalEvent.changedTouches) {
+        $.each(originalEvent.changedTouches, function (i, touch) {
+          delete pointers[touch.identifier];
         });
+      } else {
+        delete pointers[(originalEvent && originalEvent.pointerId) || 0];
       }
+
+      if (!objectKeys(pointers).length) {
+        this.action = '';
+      }
+
+      if (this.cropping) {
+        this.cropping = false;
+        this.$dragBox.toggleClass(CLASS_MODAL, this.isCropped && this.options.modal);
+      }
+
+      this.trigger(EVENT_CROP_END, {
+        originalEvent: originalEvent,
+        action: action
+      });
     },

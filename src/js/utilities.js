@@ -26,6 +26,16 @@
     };
   }
 
+  function objectKeys(obj) {
+    var keys = [];
+
+    $.each(obj, function (key) {
+      keys.push(key);
+    });
+
+    return keys;
+  }
+
   function isCrossOriginURL(url) {
     var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
 
@@ -177,25 +187,72 @@
     return canvas;
   }
 
-  function getTouchesCenter(touches) {
-    var length = touches.length;
+  function getPointersCenter(pointers) {
     var pageX = 0;
     var pageY = 0;
+    var count = 0;
 
-    if (length) {
-      $.each(touches, function (i, touch) {
-        pageX += touch.pageX;
-        pageY += touch.pageY;
-      });
+    $.each(pointers, function (i, pointer) {
+      pageX += pointer.startX;
+      pageY += pointer.startY;
+      count += 1;
+    });
 
-      pageX /= length;
-      pageY /= length;
-    }
+    pageX /= count;
+    pageY /= count;
 
     return {
       pageX: pageX,
       pageY: pageY
     };
+  }
+
+  function getPointer(event, endOnly) {
+    // IE8  has `event.pageX/Y`, but not `event.originalEvent.pageX/Y`
+    // IE10 has `event.originalEvent.pageX/Y`, but not `event.pageX/Y`
+    var originalEvent = event.originalEvent;
+    var pageX = event.pageX || originalEvent && originalEvent.pageX;
+    var pageY = event.pageY || originalEvent && originalEvent.pageY;
+    var end = {
+      endX: pageX,
+      endY: pageY
+    };
+
+    if (endOnly) {
+      return end;
+    }
+
+    return $.extend({
+      startX: pageX,
+      startY: pageY
+    }, end);
+  }
+
+  function getMaxZoomRatio(pointers) {
+    var pointers2 = $.extend({}, pointers);
+    var ratios = [];
+
+    $.each(pointers, function (pointerId, pointer) {
+      delete pointers2[pointerId];
+
+      $.each(pointers2, function (pointerId2, pointer2) {
+        var x1 = Math.abs(pointer.startX - pointer2.startX);
+        var y1 = Math.abs(pointer.startY - pointer2.startY);
+        var x2 = Math.abs(pointer.endX - pointer2.endX);
+        var y2 = Math.abs(pointer.endY - pointer2.endY);
+        var z1 = Math.sqrt((x1 * x1) + (y1 * y1));
+        var z2 = Math.sqrt((x2 * x2) + (y2 * y2));
+        var ratio = (z2 - z1) / z1;
+
+        ratios.push(ratio);
+      });
+    });
+
+    ratios.sort(function (a, b) {
+      return Math.abs(a) < Math.abs(b);
+    });
+
+    return ratios[0];
   }
 
   function getStringFromCharCode(dataView, start, length) {

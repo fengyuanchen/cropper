@@ -1,5 +1,7 @@
-    change: function (shiftKey, event) {
+    change: function (e) {
       var options = this.options;
+      var pointers = this.pointers;
+      var pointer = pointers[objectKeys(pointers)[0]];
       var aspectRatio = options.aspectRatio;
       var action = this.action;
       var container = this.container;
@@ -20,7 +22,7 @@
       var range;
 
       // Locking aspect ratio in "free mode" by holding shift key (#259)
-      if (!aspectRatio && shiftKey) {
+      if (!aspectRatio && e.shiftKey) {
         aspectRatio = width && height ? width / height : 1;
       }
 
@@ -32,8 +34,8 @@
       }
 
       range = {
-        x: this.endX - this.startX,
-        y: this.endY - this.startY
+        x: pointer.endX - pointer.startX,
+        y: pointer.endY - pointer.startY
       };
 
       if (aspectRatio) {
@@ -331,19 +333,7 @@
 
         // Zoom canvas
         case ACTION_ZOOM:
-          this.zoom((function (x1, y1, x2, y2) {
-            var z1 = sqrt(x1 * x1 + y1 * y1);
-            var z2 = sqrt(x2 * x2 + y2 * y2);
-
-            return (z2 - z1) / z1;
-          })(
-            abs(this.startX - this.startX2),
-            abs(this.startY - this.startY2),
-            abs(this.endX - this.endX2),
-            abs(this.endY - this.endY2)
-          ), event);
-          this.startX2 = this.endX2;
-          this.startY2 = this.endY2;
+          this.zoom(getMaxZoomRatio(pointers), e.originalEvent);
           renderable = false;
           break;
 
@@ -355,8 +345,8 @@
           }
 
           offset = this.$cropper.offset();
-          left = this.startX - offset.left;
-          top = this.startY - offset.top;
+          left = pointer.startX - offset.left;
+          top = pointer.startY - offset.top;
           width = cropBox.minWidth;
           height = cropBox.minHeight;
 
@@ -392,11 +382,12 @@
         cropBox.left = left;
         cropBox.top = top;
         this.action = action;
-
         this.renderCropBox();
       }
 
       // Override
-      this.startX = this.endX;
-      this.startY = this.endY;
+      $.each(pointers, function (i, p) {
+        p.startX = p.endX;
+        p.startY = p.endY;
+      });
     },

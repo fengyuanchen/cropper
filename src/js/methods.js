@@ -207,6 +207,7 @@
      */
     zoomTo: function (ratio, _event) {
       var options = this.options;
+      var pointers = this.pointers;
       var canvas = this.canvas;
       var width = canvas.width;
       var height = canvas.height;
@@ -238,7 +239,7 @@
 
         if (originalEvent) {
           offset = this.$cropper.offset();
-          center = originalEvent.touches ? getTouchesCenter(originalEvent.touches) : {
+          center = pointers && objectKeys(pointers).length ? getPointersCenter(pointers) : {
             pageX: _event.pageX || originalEvent.pageX || 0,
             pageY: _event.pageY || originalEvent.pageY || 0
           };
@@ -251,7 +252,6 @@
             ((center.pageY - offset.top) - canvas.top) / height
           );
         } else {
-
           // Zoom from the center of the canvas
           canvas.left -= (newWidth - width) / 2;
           canvas.top -= (newHeight - height) / 2;

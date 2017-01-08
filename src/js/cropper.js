@@ -14,5 +14,6 @@
     this.originalUrl = '';
     this.canvas = null;
     this.cropBox = null;
+    this.pointers = {};
     this.init();
   }
