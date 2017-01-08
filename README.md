@@ -3,7 +3,7 @@
 > A simple jQuery image cropping plugin.
 
 - [Website](https://fengyuanchen.github.io/cropper)
-- [Cropper without jQuery](https://github.com/fengyuanchen/cropperjs)
+- [Cropper.js](https://github.com/fengyuanchen/cropperjs) - the non-jQuery version of Cropper (**recommended**).
 
 [![Build Status Images](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper)
 
