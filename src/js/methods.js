@@ -758,6 +758,50 @@
     },
 
     /**
+     * Change the minimum height of the crop box
+     *
+     * @param {Number} minCropBoxHeight
+     */
+    setMinCropBoxHeight: function (minCropBoxHeight) {
+      var options = this.options;
+
+      if (!this.disabled && !isUndefined(minCropBoxHeight)) {
+
+        options.minCropBoxHeight = num(minCropBoxHeight) || 0;
+
+        if (this.isBuilt) {
+          this.initCropBox();
+
+          if (this.isCropped) {
+            this.renderCropBox();
+          }
+        }
+      }
+    },
+
+    /**
+     * Change the minimum width of the crop box
+     *
+     * @param {Number} minCropBoxWidth
+     */
+    setMinCropBoxWidth: function (minCropBoxWidth) {
+      var options = this.options;
+
+      if (!this.disabled && !isUndefined(minCropBoxWidth)) {
+
+        options.minCropBoxWidth = num(minCropBoxWidth) || 0;
+
+        if (this.isBuilt) {
+          this.initCropBox();
+
+          if (this.isCropped) {
+            this.renderCropBox();
+          }
+        }
+      }
+    },
+
+    /**
      * Change the drag mode
      *
      * @param {String} mode (optional)

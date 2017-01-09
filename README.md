@@ -28,7 +28,7 @@
 ## Features
 
 - Supports 39 [options](#options)
-- Supports 27 [methods](#methods)
+- Supports 29 [methods](#methods)
 - Supports 7 [events](#events)
 - Supports touch (mobile)
 - Supports zooming
@@ -513,7 +513,7 @@ A shortcut of the "zoom.cropper" event.
 
 ## Methods
 
-As there is an **asynchronous** process when load the image, you **should call most of the methods after built**, except "setAspectRatio", "replace" and "destroy".
+As there is an **asynchronous** process when load the image, you **should call most of the methods after built**, except "setAspectRatio", "setMinCropBoxHeight", "setMinCropBoxWidth", "replace" and "destroy".
 
 ```js
 $().cropper({
@@ -915,6 +915,24 @@ Change the aspect ratio of the crop box.
 Change the drag mode.
 
 **Tips:** You can toggle the "crop" and "move" mode by double click on the cropper.
+
+
+### setMinCropBoxHeight(minCropBoxHeight)
+
+- **minCropBoxHeight**:
+  - Type: `Number`
+  - Requires a non-negative number.
+
+Change the minimum height of the crop box.
+
+
+### setMinCropBoxWidth(minCropBoxWidth)
+
+- **minCropBoxWidth**:
+  - Type: `Number`
+  - Requires a non-negative number.
+
+Change the minimum width of the crop box.
 
 
 [⬆ back to top](#table-of-contents)
