@@ -581,6 +581,11 @@ Disable (freeze) the cropper.
 Destroy the cropper and remove the instance from the image.
 
 
+### reinitialize()
+
+Reinitialize the cropper with exactly same data than before.
+
+
 ### move(offsetX[, offsetY])
 
 - **offsetX**:
