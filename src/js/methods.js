@@ -756,7 +756,15 @@
         }
       }
     },
-
+    
+    /**
+     * Get the drag mode
+     * @return {String} canvas
+     */
+    getDragMode: function() {
+      return this.$dragBox.hasClass(CLASS_CROP) ? ACTION_CROP : ACTION_MOVE;
+    },
+    
     /**
      * Change the drag mode
      *
