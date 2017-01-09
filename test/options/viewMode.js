@@ -82,4 +82,24 @@ $(function () {
     });
   })();
 
+  (function () {
+    var $image = $(window.createCropperImage());
+
+    $image.cropper({
+      viewMode: 4,
+      built: function () {
+
+
+        QUnit.test('options#viewMode: 4', function (assert) {
+          var canvasData = $image.cropper('rotateTo', 45).cropper('getCanvasData');
+          var cropBoxData = $image.cropper('getCropBoxData');
+          console.log(canvasData, cropBoxData);
+          assert.ok(canvasData.width >= cropBoxData.width);
+          assert.ok(canvasData.height >= cropBoxData.height);
+        });
+
+      }
+    });
+  })();
+
 });

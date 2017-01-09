@@ -172,6 +172,7 @@ If you want to change the global default options, You may use `$.fn.cropper.setD
   - `1`: the crop box should be within the canvas
   - `2`: the canvas should not be within the container
   - `3`: the container should be within the canvas
+  - `4`: the crop box should be within the image and the canvas within the container
 
 Define the view mode of the cropper.
 
@@ -450,6 +451,12 @@ The minimum height of the crop box.
 
 **Note:** This size is relative to the page, not the image.
 
+### rotateMode
+
+- Type: `Number`
+- Default: `0`
+
+Set to 1 to ensure that the image is resized so that it remains entirely visible within the container when rotating.
 
 ### build
 

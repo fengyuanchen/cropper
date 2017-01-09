@@ -369,3 +369,77 @@
 
     return 'data:image/jpeg;base64,' + btoa(base64);
   }
+
+  function vector(p1, p2) {
+    return {
+      x: (p2.x - p1.x),
+      y: (p2.y - p1.y)
+    };
+  }
+
+  function dot(u, v) {
+    return u.x * v.x + u.y * v.y;
+  }
+
+  function pointInRectangle(m, r) {
+    var AB = vector(r.A, r.B);
+    var AM = vector(r.A, m);
+    var BC = vector(r.B, r.C);
+    var BM = vector(r.B, m);
+    var dotABAM = dot(AB, AM);
+    var dotABAB = dot(AB, AB);
+    var dotBCBM = dot(BC, BM);
+    var dotBCBC = dot(BC, BC);
+    return 0 <= dotABAM && dotABAM <= dotABAB && 0 <= dotBCBM && dotBCBM <= dotBCBC;
+  }
+
+  function rotatePoint(pivot, point, angle) {
+    // Rotate clockwise, angle in radians
+    var x = round((cos(angle) * (point.x - pivot.x)) -
+                       (sin(angle) * (point.y - pivot.y)) +
+                       pivot.x),
+        y = round((sin(angle) * (point.x - pivot.x)) +
+                       (cos(angle) * (point.y - pivot.y)) +
+                       pivot.y);
+    return { x: x, y: y };
+  }
+
+  function cropBoxInImage(cropBox, canvas, image) {
+    var cropBoxPoints = {
+      A: { x: round(cropBox.left), y: round(cropBox.top) },
+      B: { x: round(cropBox.left + cropBox.width), y: round(cropBox.top) },
+      C: { x: round(cropBox.left + cropBox.width), y: round(cropBox.top + cropBox.height) },
+      D: { x: round(cropBox.left), y: round(cropBox.top + cropBox.height) }
+    };
+
+    var centers = {
+      x: canvas.left + image.left + (image.width / 2),
+      y: canvas.top + image.top + (image.height / 2)
+    };
+    var angle = (image.rotate ? image.rotate : 0) * Math.PI / 180;
+    var imagePoints = {
+      A: rotatePoint(centers, { x: canvas.left + image.left, y: canvas.top + image.top }, angle),
+      B: rotatePoint(centers, { x: canvas.left + image.left + image.width, y: canvas.top + image.top }, angle),
+      C: rotatePoint(centers, { x: canvas.left + image.left + image.width, y: canvas.top + image.top + image.height }, angle),
+      D: rotatePoint(centers, { x: canvas.left + image.left, y: canvas.top + image.top + image.height }, angle)
+    };
+
+    return pointInRectangle(cropBoxPoints.A, imagePoints) &&
+        pointInRectangle(cropBoxPoints.B, imagePoints) &&
+        pointInRectangle(cropBoxPoints.C, imagePoints) &&
+        pointInRectangle(cropBoxPoints.D, imagePoints)
+    ;
+  }
+
+  function largestContainedCropBox(image, cropBoxAspectRatio) {
+    var imageShortestSide = min(image.width, image.height);
+    var side = sqrt(pow(imageShortestSide, 2) / 2);
+    var dimensions = {};
+    if (cropBoxAspectRatio < 1) {
+      // Portrait:
+      dimensions = { height: side, width: side * cropBoxAspectRatio };
+    } else {
+      dimensions = { width: side, height: side / cropBoxAspectRatio };
+    }
+    return dimensions;
+  }

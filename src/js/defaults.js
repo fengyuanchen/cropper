@@ -1,7 +1,7 @@
   Cropper.DEFAULTS = {
 
     // Define the view mode of the cropper
-    viewMode: 0, // 0, 1, 2, 3
+    viewMode: 0, // 0, 1, 2, 3, 4
 
     // Define the dragging mode of the cropper
     dragMode: 'crop', // 'crop', 'move' or 'none'

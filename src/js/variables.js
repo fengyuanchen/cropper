@@ -78,6 +78,7 @@
   var sqrt = Math.sqrt;
   var round = Math.round;
   var floor = Math.floor;
+  var pow = Math.pow;
 
   // Utilities
   var fromCharCode = String.fromCharCode;

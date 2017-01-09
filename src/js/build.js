@@ -36,7 +36,7 @@
       this.bind();
 
       options.aspectRatio = max(0, options.aspectRatio) || NaN;
-      options.viewMode = max(0, min(3, round(options.viewMode))) || 0;
+      options.viewMode = max(0, min(4, round(options.viewMode))) || 0;
 
       this.isCropped = options.autoCrop;
 
