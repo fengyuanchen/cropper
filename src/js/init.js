@@ -138,14 +138,9 @@
         }
       }
 
-      if (options.rotatable) {
-        image.rotate = rotate;
-      }
-
-      if (options.scalable) {
-        image.scaleX = scaleX;
-        image.scaleY = scaleY;
-      }
+      image.rotate = rotate;
+      image.scaleX = scaleX;
+      image.scaleY = scaleY;
 
       this.clone();
     },
