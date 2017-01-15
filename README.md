@@ -27,9 +27,9 @@
 
 ## Features
 
-- Supports 39 [options](#options)
+- Supports 38 [options](#options)
 - Supports 27 [methods](#methods)
-- Supports 7 [events](#events)
+- Supports 6 [events](#events)
 - Supports touch (mobile)
 - Supports zooming
 - Supports rotating
@@ -49,7 +49,7 @@ dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
 ├── cropper.js      (78 KB)
-└── cropper.min.js  (28 KB)
+└── cropper.min.js  (29 KB)
 ```
 
 
@@ -451,20 +451,12 @@ The minimum height of the crop box.
 **Note:** This size is relative to the page, not the image.
 
 
-### build
+### ready
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "build.cropper" event.
-
-
-### built
-
-- Type: `Function`
-- Default: `null`
-
-A shortcut of the "built.cropper" event.
+A shortcut of the "ready" event.
 
 
 ### cropstart
@@ -472,7 +464,7 @@ A shortcut of the "built.cropper" event.
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "cropstart.cropper" event.
+A shortcut of the "cropstart" event.
 
 
 ### cropmove
@@ -480,7 +472,7 @@ A shortcut of the "cropstart.cropper" event.
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "cropmove.cropper" event.
+A shortcut of the "cropmove" event.
 
 
 ### cropend
@@ -488,7 +480,7 @@ A shortcut of the "cropmove.cropper" event.
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "cropend.cropper" event.
+A shortcut of the "cropend" event.
 
 
 ### crop
@@ -496,7 +488,7 @@ A shortcut of the "cropend.cropper" event.
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "crop.cropper" event.
+A shortcut of the "crop" event.
 
 
 ### zoom
@@ -504,7 +496,7 @@ A shortcut of the "crop.cropper" event.
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "zoom.cropper" event.
+A shortcut of the "zoom" event.
 
 
 [⬆ back to top](#table-of-contents)
@@ -513,11 +505,11 @@ A shortcut of the "zoom.cropper" event.
 
 ## Methods
 
-As there is an **asynchronous** process when load the image, you **should call most of the methods after built**, except "setAspectRatio", "replace" and "destroy".
+As there is an **asynchronous** process when load the image, you **should call most of the methods after ready**, except "setAspectRatio", "replace" and "destroy".
 
 ```js
 $().cropper({
-  built: function () {
+  ready: function () {
     $().cropper('method', argument1, , argument2, ..., argumentN);
   }
 });
@@ -531,7 +523,7 @@ Show the crop box manually.
 ```js
 $().cropper({
   autoCrop: false,
-  built: function () {
+  ready: function () {
     // Do something here
     // ...
 
@@ -923,17 +915,12 @@ Change the drag mode.
 
 ## Events
 
-### build.cropper
-
-This event fires when a cropper instance starts to load an image.
-
-
-### built.cropper
+### ready
 
 This event fires when a cropper instance has built completely.
 
 
-### cropstart.cropper
+### cropstart
 
 - **event.originalEvent**:
   - Type: `Event`
@@ -958,7 +945,7 @@ This event fires when a cropper instance has built completely.
 This event fires when the canvas (image wrapper) or the crop box starts to change.
 
 ```js
-$().on('cropstart.cropper', function (e) {
+$().on('cropstart', function (e) {
   console.log(e.type); // cropstart
   console.log(e.namespace); // cropper
   console.log(e.action); // ...
@@ -972,29 +959,29 @@ $().on('cropstart.cropper', function (e) {
 ```
 
 
-### cropmove.cropper
+### cropmove
 
 - **event.originalEvent**:
   - Type: `Event`
   - Options: `mousemove`, `touchmove` and `pointermove`.
 
-- **event.action**: the same as "cropstart.cropper".
+- **event.action**: the same as "cropstart".
 
 This event fires when the canvas (image wrapper) or the crop box is changing.
 
 
-### cropend.cropper
+### cropend
 
 - **event.originalEvent**:
   - Type: `Event`
   - Options: `mouseup`, `touchend`, `touchcancel`, `pointerup` and `pointercancel`.
 
-- **event.action**: the same as "cropstart.cropper".
+- **event.action**: the same as "cropstart".
 
 This event fires when the canvas (image wrapper) or the crop box stops to change.
 
 
-### crop.cropper
+### crop
 
 - **event.x**
 - **event.y**
@@ -1009,7 +996,7 @@ This event fires when the canvas (image wrapper) or the crop box stops to change
 This event fires when the canvas (image wrapper) or the crop box changed.
 
 
-### zoom.cropper
+### zoom
 
 - **event.originalEvent**:
   - Type: `Event`
@@ -1026,7 +1013,7 @@ This event fires when the canvas (image wrapper) or the crop box changed.
 This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
 ```js
-$().on('zoom.cropper', function (e) {
+$().on('zoom', function (e) {
 
   // Zoom in
   if (e.ratio > e.oldRatio) {
@@ -1067,7 +1054,7 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 - Safari (latest)
 - Opera (latest)
 - Edge (latest)
-- Internet Explorer 8+
+- Internet Explorer 9+
 
 As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jquery.com/browser-support/).
 

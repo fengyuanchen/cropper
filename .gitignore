@@ -1,9 +1,6 @@
 # Project
-archives
-bower_components
-dist/*.map
 node_modules
-resources
+*.map
 /_*
 
 # Windows image file caches

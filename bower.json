@@ -31,14 +31,12 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "tests",
-    "test",
-    "examples",
-    "assets",
-    "demo",
+    "build",
     "docs",
-    "gulpfile.js",
+    "examples",
+    "test",
+    "postcss.config.json",
+    "rollup.config.js",
     "CONTRIBUTING.md",
     "ISSUE_TEMPLATE.md"
   ]

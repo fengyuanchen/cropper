@@ -1,6 +1,25 @@
 # Changelog
 
 
+## 3.0.0-alpha (Jan 15, 2017)
+
+- Removed `build` event.
+- Renamed `built` event to `ready`.
+- Removed event namespace.
+  ```js
+  // Before
+  $('img').on('zoom.cropper', handler)
+
+  // After
+  $('img').on('zoom', handler)
+  ```
+- Ported code to ECMAScript 6.
+- Dropped IE8 support.
+- Improved event handler for Pointer Events (#824).
+- Improved setCropBoxData method.
+- Fixed a bug of auto crop when replace the image.
+
+
 ## 2.3.4 (Sep 3, 2016)
 
 - Fixed a bug of cropping in view mode 1 and 2.
