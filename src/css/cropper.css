@@ -1,26 +1,31 @@
-// Cropper
-// =========================
+:root {
+  --blue: #39f;
+}
 
 .cropper-container {
-  position: relative;
   font-size: 0;
   line-height: 0;
-  direction: ltr;
+
+  position: relative;
+
   user-select: none;
+
+  direction: ltr;
   touch-action: none;
 
-  img {
-    // Avoid margin top issue (Occur only when margin-top <= -height)
+  & img {
+    /* Avoid margin top issue (Occur only when margin-top <= -height) */
     display: block;
 
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation
-    image-orientation: 0deg !important;
-
     min-width: 0 !important;
-    min-height: 0 !important;
     max-width: none !important;
+    min-height: 0 !important;
     max-height: none !important;
-    @include square(100%);
+
+    width: 100%;
+    height: 100%;
+
+    image-orientation: 0deg;
   }
 }
 
@@ -41,43 +46,54 @@
 }
 
 .cropper-drag-box {
+  opacity: 0;
   background-color: #fff;
-  @include opacity(0);
 }
 
 .cropper-modal {
+  opacity: .5;
   background-color: #000;
-  @include opacity(.5);
 }
 
 .cropper-view-box {
   display: block;
   overflow: hidden;
-  outline: 1px solid $color-brand;
-  outline-color: rgba($color-brand, .75);
-  @include square(100%);
+
+  width: 100%;
+  height: 100%;
+
+  outline: 1px solid var(--blue);
+  outline-color: color(var(--blue) alpha(75%));
 }
 
 .cropper-dashed {
   position: absolute;
+
   display: block;
+
+  opacity: .5;
   border: 0 dashed #eee;
-  @include opacity(.5);
 
   &.dashed-h {
-    top: percentage(1 / 3);
+    top: calc(100 / 3)%;
     left: 0;
+
+    width: 100%;
+    height: calc(100 / 3)%;
+
     border-top-width: 1px;
     border-bottom-width: 1px;
-    @include size(100%, percentage(1 / 3));
   }
 
   &.dashed-v {
     top: 0;
-    left: percentage(1 / 3);
+    left: calc(100 / 3)%;
+
+    width: calc(100 / 3)%;
+    height: 100%;
+
     border-right-width: 1px;
     border-left-width: 1px;
-    @include size(percentage(1 / 3), 100%);
   }
 }
 
@@ -85,22 +101,29 @@
   position: absolute;
   top: 50%;
   left: 50%;
+
   display: block;
+
   width: 0;
   height: 0;
-  @include opacity(.75);
+
+  opacity: .75;
 
   &:before,
   &:after {
     position: absolute;
+
     display: block;
+
+    content: ' ';
+
     background-color: #eee;
-    content: " ";
   }
 
   &:before {
     top: 0;
     left: -3px;
+
     width: 7px;
     height: 1px;
   }
@@ -108,6 +131,7 @@
   &:after {
     top: -3px;
     left: 0;
+
     width: 1px;
     height: 7px;
   }
@@ -117,135 +141,205 @@
 .cropper-line,
 .cropper-point {
   position: absolute;
+
   display: block;
-  @include square(100%);
-  @include opacity(.1);
+
+  width: 100%;
+  height: 100%;
+
+  opacity: .1;
 }
 
 .cropper-face {
   top: 0;
   left: 0;
+
   background-color: #fff;
 }
 
 .cropper-line {
-  background-color: $color-brand;
+  background-color: var(--blue);
 
   &.line-e {
     top: 0;
     right: -3px;
+
     width: 5px;
+
     cursor: e-resize;
   }
 
   &.line-n {
     top: -3px;
     left: 0;
+
     height: 5px;
+
     cursor: n-resize;
   }
 
   &.line-w {
     top: 0;
     left: -3px;
+
     width: 5px;
+
     cursor: w-resize;
   }
 
   &.line-s {
     bottom: -3px;
     left: 0;
+
     height: 5px;
+
     cursor: s-resize;
   }
 }
 
 .cropper-point {
-  background-color: $color-brand;
-  @include square(5px);
-  @include opacity(.75);
+  width: 5px;
+  height: 5px;
+
+  opacity: .75;
+  background-color: var(--blue);
 
   &.point-e {
     top: 50%;
     right: -3px;
+
     margin-top: -3px;
+
     cursor: e-resize;
   }
 
   &.point-n {
     top: -3px;
     left: 50%;
+
     margin-left: -3px;
+
     cursor: n-resize;
   }
 
   &.point-w {
     top: 50%;
     left: -3px;
+
     margin-top: -3px;
+
     cursor: w-resize;
   }
 
   &.point-s {
     bottom: -3px;
     left: 50%;
+
     margin-left: -3px;
+
     cursor: s-resize;
   }
 
   &.point-ne {
     top: -3px;
     right: -3px;
+
     cursor: ne-resize;
   }
 
   &.point-nw {
     top: -3px;
     left: -3px;
+
     cursor: nw-resize;
   }
 
   &.point-sw {
     bottom: -3px;
     left: -3px;
+
     cursor: sw-resize;
   }
 
   &.point-se {
     right: -3px;
     bottom: -3px;
+
+    width: 20px;
+    height: 20px;
+
     cursor: se-resize;
-    @include square(20px);
-    @include opacity(1);
+
+    opacity: 1;
+
+    @media (min-width: 768px) {
+      width: 15px;
+      height: 15px;
+    }
+
+    @media (min-width: 992px) {
+      width: 10px;
+      height: 10px;
+    }
+
+    @media (min-width: 1200px) {
+      width: 5px;
+      height: 5px;
+
+      opacity: .75;
+    }
   }
 
   &.point-se:before {
     position: absolute;
     right: -50%;
     bottom: -50%;
+
     display: block;
-    content: " ";
-    background-color: $color-brand;
-    @include square(200%);
-    @include opacity(0);
-  }
 
-  @media (min-width: $screen-sm) {
-    &.point-se {
-      @include square(15px);
-    }
-  }
+    width: 200%;
+    height: 200%;
 
-  @media (min-width: $screen-md) {
-    &.point-se {
-      @include square(10px);
-    }
-  }
+    content: ' ';
 
-  @media (min-width: $screen-lg) {
-    &.point-se {
-      @include square(5px);
-      @include opacity(.75);
-    }
+    opacity: 0;
+    background-color: var(--blue);
   }
 }
+
+.cropper-invisible {
+  opacity: 0;
+}
+
+.cropper-bg {
+  background-image: inline('../images/bg.png');
+}
+
+.cropper-hide {
+  position: absolute;
+
+  display: block;
+
+  width: 0;
+  height: 0;
+}
+
+.cropper-hidden {
+  display: none !important;
+}
+
+.cropper-move {
+  cursor: move;
+}
+
+.cropper-crop {
+  cursor: crosshair;
+}
+
+.cropper-disabled .cropper-drag-box,
+.cropper-disabled .cropper-face,
+.cropper-disabled .cropper-line,
+.cropper-disabled .cropper-point {
+  cursor: not-allowed;
+}
+
