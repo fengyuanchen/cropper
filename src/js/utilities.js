@@ -1,371 +1,313 @@
-  function isNumber(n) {
-    return typeof n === 'number' && !isNaN(n);
+import $ from 'jquery';
+
+const REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
+const REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
+const navigator = typeof window !== 'undefined' ? window.navigator : null;
+const IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);
+const fromCharCode = String.fromCharCode;
+
+export function isNumber(n) {
+  return typeof n === 'number' && !isNaN(n);
+}
+
+export function isUndefined(n) {
+  return typeof n === 'undefined';
+}
+
+export function toArray(obj, offset) {
+  const args = [];
+
+  // This is necessary for IE8
+  if (isNumber(offset)) {
+    args.push(offset);
   }
 
-  function isUndefined(n) {
-    return typeof n === 'undefined';
+  return args.slice.apply(obj, args);
+}
+
+// Custom proxy to avoid jQuery's guid
+export function proxy(fn, context, ...args) {
+  return (...args2) => {
+    return fn.apply(context, args.concat(toArray(args2)));
+  };
+}
+
+export function objectKeys(obj) {
+  const keys = [];
+
+  $.each(obj, (key) => {
+    keys.push(key);
+  });
+
+  return keys;
+}
+
+export function isCrossOriginURL(url) {
+  const parts = url.match(/^(https?:)\/\/([^:/?#]+):?(\d*)/i);
+
+  return parts && (
+    parts[1] !== location.protocol ||
+    parts[2] !== location.hostname ||
+    parts[3] !== location.port
+  );
+}
+
+export function addTimestamp(url) {
+  const timestamp = `timestamp=${(new Date()).getTime()}`;
+
+  return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
+}
+
+export function getCrossOrigin(crossOrigin) {
+  return crossOrigin ? ` crossOrigin="${crossOrigin}"` : '';
+}
+
+export function getImageSize(image, callback) {
+  // Modern browsers (ignore Safari, #120 & #509)
+  if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
+    callback(image.naturalWidth, image.naturalHeight);
+    return;
   }
 
-  function toArray(obj, offset) {
-    var args = [];
+  // IE8: Don't use `new Image()` here (#319)
+  const newImage = document.createElement('img');
 
-    // This is necessary for IE8
-    if (isNumber(offset)) {
-      args.push(offset);
-    }
+  newImage.onload = function load() {
+    callback(this.width, this.height);
+  };
 
-    return args.slice.apply(obj, args);
+  newImage.src = image.src;
+}
+
+export function getTransform(options) {
+  const transforms = [];
+  const rotate = options.rotate;
+  const scaleX = options.scaleX;
+  const scaleY = options.scaleY;
+
+  // Rotate should come first before scale to match orientation transform
+  if (isNumber(rotate) && rotate !== 0) {
+    transforms.push(`rotate(${rotate}deg)`);
   }
 
-  // Custom proxy to avoid jQuery's guid
-  function proxy(fn, context) {
-    var args = toArray(arguments, 2);
-
-    return function () {
-      return fn.apply(context, args.concat(toArray(arguments)));
-    };
+  if (isNumber(scaleX) && scaleX !== 1) {
+    transforms.push(`scaleX(${scaleX})`);
   }
 
-  function objectKeys(obj) {
-    var keys = [];
+  if (isNumber(scaleY) && scaleY !== 1) {
+    transforms.push(`scaleY(${scaleY})`);
+  }
 
-    $.each(obj, function (key) {
-      keys.push(key);
+  return transforms.length ? transforms.join(' ') : 'none';
+}
+
+export function getRotatedSizes(data, isReversed) {
+  const deg = Math.abs(data.degree) % 180;
+  const arc = ((deg > 90 ? (180 - deg) : deg) * Math.PI) / 180;
+  const sinArc = Math.sin(arc);
+  const cosArc = Math.cos(arc);
+  const width = data.width;
+  const height = data.height;
+  const aspectRatio = data.aspectRatio;
+  let newWidth;
+  let newHeight;
+
+  if (!isReversed) {
+    newWidth = (width * cosArc) + (height * sinArc);
+    newHeight = (width * sinArc) + (height * cosArc);
+  } else {
+    newWidth = width / (cosArc + (sinArc / aspectRatio));
+    newHeight = newWidth / aspectRatio;
+  }
+
+  return {
+    width: newWidth,
+    height: newHeight
+  };
+}
+
+export function getSourceCanvas(image, data) {
+  const canvas = $('<canvas>')[0];
+  const context = canvas.getContext('2d');
+  let dstX = 0;
+  let dstY = 0;
+  const dstWidth = data.naturalWidth;
+  const dstHeight = data.naturalHeight;
+  const rotate = data.rotate;
+  const scaleX = data.scaleX;
+  const scaleY = data.scaleY;
+  const scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
+  const rotatable = isNumber(rotate) && rotate !== 0;
+  const advanced = rotatable || scalable;
+  let canvasWidth = dstWidth * Math.abs(scaleX || 1);
+  let canvasHeight = dstHeight * Math.abs(scaleY || 1);
+  let translateX;
+  let translateY;
+  let rotated;
+
+  if (scalable) {
+    translateX = canvasWidth / 2;
+    translateY = canvasHeight / 2;
+  }
+
+  if (rotatable) {
+    rotated = getRotatedSizes({
+      width: canvasWidth,
+      height: canvasHeight,
+      degree: rotate
     });
 
-    return keys;
+    canvasWidth = rotated.width;
+    canvasHeight = rotated.height;
+    translateX = canvasWidth / 2;
+    translateY = canvasHeight / 2;
   }
 
-  function isCrossOriginURL(url) {
-    var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
 
-    return parts && (
-      parts[1] !== location.protocol ||
-      parts[2] !== location.hostname ||
-      parts[3] !== location.port
-    );
+  if (advanced) {
+    dstX = -dstWidth / 2;
+    dstY = -dstHeight / 2;
+
+    context.save();
+    context.translate(translateX, translateY);
   }
 
-  function addTimestamp(url) {
-    var timestamp = 'timestamp=' + (new Date()).getTime();
-
-    return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
+  // Rotate should come first before scale as in the "getTransform" function
+  if (rotatable) {
+    context.rotate((rotate * Math.PI) / 180);
   }
 
-  function getCrossOrigin(crossOrigin) {
-    return crossOrigin ? ' crossOrigin="' + crossOrigin + '"' : '';
+  if (scalable) {
+    context.scale(scaleX, scaleY);
   }
 
-  function getImageSize(image, callback) {
-    var newImage;
+  context.drawImage(
+    image,
+    Math.floor(dstX),
+    Math.floor(dstY),
+    Math.floor(dstWidth),
+    Math.floor(dstHeight)
+  );
 
-    // Modern browsers (ignore Safari, #120 & #509)
-    if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
-      return callback(image.naturalWidth, image.naturalHeight);
-    }
-
-    // IE8: Don't use `new Image()` here (#319)
-    newImage = document.createElement('img');
-
-    newImage.onload = function () {
-      callback(this.width, this.height);
-    };
-
-    newImage.src = image.src;
+  if (advanced) {
+    context.restore();
   }
 
-  function getTransform(options) {
-    var transforms = [];
-    var rotate = options.rotate;
-    var scaleX = options.scaleX;
-    var scaleY = options.scaleY;
+  return canvas;
+}
 
-    // Rotate should come first before scale to match orientation transform
-    if (isNumber(rotate) && rotate !== 0) {
-      transforms.push('rotate(' + rotate + 'deg)');
-    }
+export function getStringFromCharCode(dataView, start, length) {
+  let str = '';
+  let i;
 
-    if (isNumber(scaleX) && scaleX !== 1) {
-      transforms.push('scaleX(' + scaleX + ')');
-    }
-
-    if (isNumber(scaleY) && scaleY !== 1) {
-      transforms.push('scaleY(' + scaleY + ')');
-    }
-
-    return transforms.length ? transforms.join(' ') : 'none';
+  for (i = start, length += start; i < length; i++) {
+    str += fromCharCode(dataView.getUint8(i));
   }
 
-  function getRotatedSizes(data, isReversed) {
-    var deg = abs(data.degree) % 180;
-    var arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
-    var sinArc = sin(arc);
-    var cosArc = cos(arc);
-    var width = data.width;
-    var height = data.height;
-    var aspectRatio = data.aspectRatio;
-    var newWidth;
-    var newHeight;
+  return str;
+}
 
-    if (!isReversed) {
-      newWidth = width * cosArc + height * sinArc;
-      newHeight = width * sinArc + height * cosArc;
-    } else {
-      newWidth = width / (cosArc + sinArc / aspectRatio);
-      newHeight = newWidth / aspectRatio;
-    }
+export function getOrientation(arrayBuffer) {
+  const dataView = new DataView(arrayBuffer);
+  let length = dataView.byteLength;
+  let orientation;
+  let exifIDCode;
+  let tiffOffset;
+  let firstIFDOffset;
+  let littleEndian;
+  let endianness;
+  let app1Start;
+  let ifdStart;
+  let offset;
+  let i;
 
-    return {
-      width: newWidth,
-      height: newHeight
-    };
-  }
+  // Only handle JPEG image (start by 0xFFD8)
+  if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
+    offset = 2;
 
-  function getSourceCanvas(image, data) {
-    var canvas = $('<canvas>')[0];
-    var context = canvas.getContext('2d');
-    var dstX = 0;
-    var dstY = 0;
-    var dstWidth = data.naturalWidth;
-    var dstHeight = data.naturalHeight;
-    var rotate = data.rotate;
-    var scaleX = data.scaleX;
-    var scaleY = data.scaleY;
-    var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
-    var rotatable = isNumber(rotate) && rotate !== 0;
-    var advanced = rotatable || scalable;
-    var canvasWidth = dstWidth * abs(scaleX || 1);
-    var canvasHeight = dstHeight * abs(scaleY || 1);
-    var translateX;
-    var translateY;
-    var rotated;
-
-    if (scalable) {
-      translateX = canvasWidth / 2;
-      translateY = canvasHeight / 2;
-    }
-
-    if (rotatable) {
-      rotated = getRotatedSizes({
-        width: canvasWidth,
-        height: canvasHeight,
-        degree: rotate
-      });
-
-      canvasWidth = rotated.width;
-      canvasHeight = rotated.height;
-      translateX = canvasWidth / 2;
-      translateY = canvasHeight / 2;
-    }
-
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-
-    if (advanced) {
-      dstX = -dstWidth / 2;
-      dstY = -dstHeight / 2;
-
-      context.save();
-      context.translate(translateX, translateY);
-    }
-
-    // Rotate should come first before scale as in the "getTransform" function
-    if (rotatable) {
-      context.rotate(rotate * Math.PI / 180);
-    }
-
-    if (scalable) {
-      context.scale(scaleX, scaleY);
-    }
-
-    context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
-
-    if (advanced) {
-      context.restore();
-    }
-
-    return canvas;
-  }
-
-  function getPointersCenter(pointers) {
-    var pageX = 0;
-    var pageY = 0;
-    var count = 0;
-
-    $.each(pointers, function (i, pointer) {
-      pageX += pointer.startX;
-      pageY += pointer.startY;
-      count += 1;
-    });
-
-    pageX /= count;
-    pageY /= count;
-
-    return {
-      pageX: pageX,
-      pageY: pageY
-    };
-  }
-
-  function getPointer(event, endOnly) {
-    // IE8  has `event.pageX/Y`, but not `event.originalEvent.pageX/Y`
-    // IE10 has `event.originalEvent.pageX/Y`, but not `event.pageX/Y`
-    var originalEvent = event.originalEvent;
-    var pageX = event.pageX || originalEvent && originalEvent.pageX;
-    var pageY = event.pageY || originalEvent && originalEvent.pageY;
-    var end = {
-      endX: pageX,
-      endY: pageY
-    };
-
-    if (endOnly) {
-      return end;
-    }
-
-    return $.extend({
-      startX: pageX,
-      startY: pageY
-    }, end);
-  }
-
-  function getMaxZoomRatio(pointers) {
-    var pointers2 = $.extend({}, pointers);
-    var ratios = [];
-
-    $.each(pointers, function (pointerId, pointer) {
-      delete pointers2[pointerId];
-
-      $.each(pointers2, function (pointerId2, pointer2) {
-        var x1 = abs(pointer.startX - pointer2.startX);
-        var y1 = abs(pointer.startY - pointer2.startY);
-        var x2 = abs(pointer.endX - pointer2.endX);
-        var y2 = abs(pointer.endY - pointer2.endY);
-        var z1 = sqrt((x1 * x1) + (y1 * y1));
-        var z2 = sqrt((x2 * x2) + (y2 * y2));
-        var ratio = (z2 - z1) / z1;
-
-        ratios.push(ratio);
-      });
-    });
-
-    ratios.sort(function (a, b) {
-      return abs(a) < abs(b);
-    });
-
-    return ratios[0];
-  }
-
-  function getStringFromCharCode(dataView, start, length) {
-    var str = '';
-    var i;
-
-    for (i = start, length += start; i < length; i++) {
-      str += fromCharCode(dataView.getUint8(i));
-    }
-
-    return str;
-  }
-
-  function getOrientation(arrayBuffer) {
-    var dataView = new DataView(arrayBuffer);
-    var length = dataView.byteLength;
-    var orientation;
-    var exifIDCode;
-    var tiffOffset;
-    var firstIFDOffset;
-    var littleEndian;
-    var endianness;
-    var app1Start;
-    var ifdStart;
-    var offset;
-    var i;
-
-    // Only handle JPEG image (start by 0xFFD8)
-    if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
-      offset = 2;
-
-      while (offset < length) {
-        if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
-          app1Start = offset;
-          break;
-        }
-
-        offset++;
+    while (offset < length) {
+      if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
+        app1Start = offset;
+        break;
       }
+
+      offset++;
     }
+  }
 
-    if (app1Start) {
-      exifIDCode = app1Start + 4;
-      tiffOffset = app1Start + 10;
+  if (app1Start) {
+    exifIDCode = app1Start + 4;
+    tiffOffset = app1Start + 10;
 
-      if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
-        endianness = dataView.getUint16(tiffOffset);
-        littleEndian = endianness === 0x4949;
+    if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
+      endianness = dataView.getUint16(tiffOffset);
+      littleEndian = endianness === 0x4949;
 
-        if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
-          if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-            firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+      if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
+        if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+          firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
 
-            if (firstIFDOffset >= 0x00000008) {
-              ifdStart = tiffOffset + firstIFDOffset;
-            }
+          if (firstIFDOffset >= 0x00000008) {
+            ifdStart = tiffOffset + firstIFDOffset;
           }
         }
       }
     }
+  }
 
-    if (ifdStart) {
-      length = dataView.getUint16(ifdStart, littleEndian);
+  if (ifdStart) {
+    length = dataView.getUint16(ifdStart, littleEndian);
 
-      for (i = 0; i < length; i++) {
-        offset = ifdStart + i * 12 + 2;
+    for (i = 0; i < length; i++) {
+      offset = ifdStart + (i * 12) + 2;
 
-        if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
+      if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
+        // 8 is the offset of the current tag's value
+        offset += 8;
 
-          // 8 is the offset of the current tag's value
-          offset += 8;
+        // Get the original orientation value
+        orientation = dataView.getUint16(offset, littleEndian);
 
-          // Get the original orientation value
-          orientation = dataView.getUint16(offset, littleEndian);
-
-          // Override the orientation with its default value for Safari (#120)
-          if (IS_SAFARI_OR_UIWEBVIEW) {
-            dataView.setUint16(offset, 1, littleEndian);
-          }
-
-          break;
+        // Override the orientation with its default value for Safari (#120)
+        if (IS_SAFARI_OR_UIWEBVIEW) {
+          dataView.setUint16(offset, 1, littleEndian);
         }
+
+        break;
       }
     }
-
-    return orientation;
   }
 
-  function dataURLToArrayBuffer(dataURL) {
-    var base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
-    var binary = atob(base64);
-    var length = binary.length;
-    var arrayBuffer = new ArrayBuffer(length);
-    var dataView = new Uint8Array(arrayBuffer);
-    var i;
+  return orientation;
+}
 
-    for (i = 0; i < length; i++) {
-      dataView[i] = binary.charCodeAt(i);
-    }
+export function dataURLToArrayBuffer(dataURL) {
+  const base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
+  const binary = atob(base64);
+  const length = binary.length;
+  const arrayBuffer = new ArrayBuffer(length);
+  const dataView = new Uint8Array(arrayBuffer);
+  let i;
 
-    return arrayBuffer;
+  for (i = 0; i < length; i++) {
+    dataView[i] = binary.charCodeAt(i);
   }
 
-  // Only available for JPEG image
-  function arrayBufferToDataURL(arrayBuffer) {
-    var dataView = new Uint8Array(arrayBuffer);
-    var length = dataView.length;
-    var base64 = '';
-    var i;
+  return arrayBuffer;
+}
 
-    for (i = 0; i < length; i++) {
-      base64 += fromCharCode(dataView[i]);
-    }
+// Only available for JPEG image
+export function arrayBufferToDataURL(arrayBuffer) {
+  const dataView = new Uint8Array(arrayBuffer);
+  const length = dataView.length;
+  let base64 = '';
+  let i;
 
-    return 'data:image/jpeg;base64,' + btoa(base64);
+  for (i = 0; i < length; i++) {
+    base64 += fromCharCode(dataView[i]);
   }
+
+  return `data:image/jpeg;base64,${btoa(base64)}`;
+}
