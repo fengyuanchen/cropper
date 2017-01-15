@@ -8,12 +8,11 @@ $(function () {
 
     QUnit.test('events#zoom', function (assert) {
       assert.equal(e.type, 'zoom');
-      assert.equal(e.namespace, 'cropper');
       assert.ok(e.ratio > e.oldRatio);
     });
 
   }).cropper({
-    built: function () {
+    ready: function () {
       $image.cropper('zoom', 0.1);
     },
 
@@ -21,7 +20,6 @@ $(function () {
 
       QUnit.test('options#zoom', function (assert) {
         assert.equal(e.type, 'zoom');
-        assert.equal(e.namespace, 'cropper');
         assert.ok(e.ratio > e.oldRatio);
       });
 

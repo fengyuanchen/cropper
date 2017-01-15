@@ -7,12 +7,12 @@ $(function () {
   $image.cropper({
     autoCrop: false,
 
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('methods#crop', function (assert) {
         $image.cropper('crop');
-        assert.equal(cropper.isCropped, true);
+        assert.equal(cropper.cropped, true);
         assert.ok(cropper.$cropBox.is(':visible'));
       });
 

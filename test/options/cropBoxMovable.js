@@ -7,7 +7,7 @@ $(function () {
   $image.cropper({
     cropBoxMovable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options#cropBoxMovable', function (assert) {

@@ -8,7 +8,7 @@ $(function () {
   $image.cropper({
     minCanvasWidth: minCanvasWidth,
 
-    built: function () {
+    ready: function () {
 
       QUnit.test('options#minCanvasWidth', function (assert) {
         var data = $image.cropper('setCanvasData', {

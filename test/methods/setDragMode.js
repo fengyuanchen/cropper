@@ -5,7 +5,7 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var $dragBox = $image.data('cropper').$dragBox;
 
       QUnit.test('methods#setDragMode', function (assert) {

@@ -9,26 +9,23 @@ $(function () {
   $image.cropper({
     zoomOnTouch: false,
 
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
       var _ratio = cropper.image.ratio;
 
       QUnit.test('options#zoomOnTouch', function (assert) {
         cropper.$cropper.trigger($.Event('touchstart', {
-          originalEvent: {
-            touches: [
-              {
-                pageX: pageX,
-                pageY: pageY
-              },
-              {
-                pageX: pageX,
-                pageY: pageY
-              }
-            ]
-          }
+          touches: [
+            {
+              pageX: pageX,
+              pageY: pageY
+            },
+            {
+              pageX: pageX,
+              pageY: pageY
+            }
+          ]
         })).trigger($.Event('touchmove', {
-          originalEvent: {
             touches: [
               {
                 pageX: pageX - 10,
@@ -39,7 +36,6 @@ $(function () {
                 pageY: pageY + 10
               }
             ]
-          }
         })).trigger('touchend');
 
         assert.equal(cropper.image.ratio, _ratio);

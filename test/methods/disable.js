@@ -5,14 +5,14 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
       var options = cropper.options;
 
       $image.cropper('disable');
 
       QUnit.test('methods#disable', function (assert) {
-        assert.equal(cropper.isDisabled, true);
+        assert.equal(cropper.disabled, true);
         assert.ok(cropper.$cropper.hasClass('cropper-disabled'));
       });
 

@@ -8,15 +8,14 @@ $(function () {
 
     QUnit.test('events#cropend', function (assert) {
       assert.equal(e.type, 'cropend');
-      assert.equal(e.namespace, 'cropper');
       assert.equal(e.action, 'crop');
     });
 
   }).cropper({
-    built: function () {
+    ready: function () {
       var $dragBox = $image.data('cropper').$dragBox;
 
-      // Triggers events manually when built
+      // Triggers events manually when ready
       $dragBox.trigger('mousedown').trigger('mouseup');
     },
 
@@ -24,7 +23,6 @@ $(function () {
 
       QUnit.test('options#cropend', function (assert) {
         assert.equal(e.type, 'cropend');
-        assert.equal(e.namespace, 'cropper');
         assert.equal(e.action, 'crop');
       });
 

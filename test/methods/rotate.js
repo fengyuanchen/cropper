@@ -5,7 +5,7 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
 
       QUnit.test('methods#rotate', function (assert) {
         $image.cropper('rotate', 360);

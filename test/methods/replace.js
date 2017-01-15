@@ -4,15 +4,15 @@ $(function () {
 
   var $image = $(window.createCropperImage());
 
-  $image.one('built.cropper', function () {
+  $image.one('ready', function () {
 
     QUnit.test('methods#replace', function (assert) {
       var done = assert.async();
 
-      $image.one('built.cropper', function () {
+      $image.one('ready', function () {
         assert.ok(true);
         done();
-      }).cropper('replace', '../assets/img/picture-2.jpg');
+      }).cropper('replace', '../docs/images/picture-2.jpg');
 
     });
 

@@ -10,7 +10,7 @@
     }
 
     if (!attrs.src) {
-      attrs.src = '../assets/img/picture.jpg';
+      attrs.src = '../docs/images/picture.jpg';
     }
 
     $('<div>').addClass('container').append($(image).attr(attrs)).appendTo(document.body);

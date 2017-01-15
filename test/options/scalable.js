@@ -6,7 +6,7 @@ $(function () {
   var $image2 = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
       var image = cropper.image;
 
@@ -23,7 +23,7 @@ $(function () {
   $image2.cropper({
     scalable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = $image2.data('cropper');
       var image = cropper.image;
 

@@ -5,13 +5,11 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       cropper.$cropper.trigger($.Event('wheel', {
-        originalEvent: {
-          deltaY: 1
-        }
+        deltaY: 1
       }));
     },
 
@@ -28,13 +26,11 @@ $(function () {
     $image.cropper({
       zoomOnWheel: false,
 
-      built: function () {
+      ready: function () {
         var cropper = $image.data('cropper');
 
         cropper.$cropper.trigger($.Event('wheel', {
-          originalEvent: {
-            deltaY: 1
-          }
+          deltaY: 1
         }));
       },
 

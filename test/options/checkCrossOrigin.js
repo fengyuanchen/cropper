@@ -2,13 +2,13 @@ $(function () {
 
   'use strict';
 
-  var crossOriginImage = 'http://fengyuanchen.github.io/cropper/img/picture.jpg';
+  var crossOriginImage = 'http://fengyuanchen.github.io/cropper/images/picture.jpg';
   var $image = $(window.createCropperImage({
         src: crossOriginImage
       }));
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options#checkCrossOrigin: true', function (assert) {
@@ -27,7 +27,7 @@ $(function () {
     $image.cropper({
       checkCrossOrigin: false,
 
-      built: function () {
+      ready: function () {
         var cropper = $image.data('cropper');
 
         QUnit.test('options#checkCrossOrigin: false', function (assert) {
@@ -46,7 +46,7 @@ $(function () {
         }));
 
     $image.cropper({
-      built: function () {
+      ready: function () {
         var cropper = $image.data('cropper');
 
         QUnit.test('options#checkCrossOrigin: exists crossOrigin attribute', function (assert) {

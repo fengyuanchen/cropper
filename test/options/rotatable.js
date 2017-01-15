@@ -6,7 +6,7 @@ $(function () {
   var $image2 = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options#rotatable: true', function (assert) {
@@ -21,7 +21,7 @@ $(function () {
   $image2.cropper({
     rotatable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = $image2.data('cropper');
 
       QUnit.test('options#rotatable: false', function (assert) {

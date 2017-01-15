@@ -5,7 +5,7 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options#toggleDragModeOnDblclick: true', function (assert) {
@@ -23,7 +23,7 @@ $(function () {
     $image.cropper({
       toggleDragModeOnDblclick: false,
 
-      built: function () {
+      ready: function () {
         var cropper = $image.data('cropper');
 
         QUnit.test('options#toggleDragModeOnDblclick: false', function (assert) {

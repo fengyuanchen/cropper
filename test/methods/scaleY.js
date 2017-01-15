@@ -6,7 +6,7 @@ $(function () {
 
   $image.cropper({
 
-    built: function () {
+    ready: function () {
 
       QUnit.test('methods#scaleY', function (assert) {
         var imageData = $image.cropper('scaleY', -1).cropper('getImageData');
