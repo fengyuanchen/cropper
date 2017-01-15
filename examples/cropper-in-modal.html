@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cropper</title>
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
     img {
@@ -16,10 +16,10 @@
 <body>
 
   <div class="container">
-    <h1 class="page-header">Cropper in a Bootstrap modal</h1>
+    <h1>Cropper in a Bootstrap modal</h1>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-target="#modal" data-toggle="modal">
+    <button type="button" class="btn btn-primary" data-target="#modal" data-toggle="modal">
       Launch demo modal
     </button>
 
@@ -28,12 +28,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Crop the image</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="modalLabel">Crop the image</h4>
           </div>
           <div class="modal-body">
             <div>
-              <img id="image" src="../assets/img/picture.jpg" alt="Picture">
+              <img id="image" src="../docs/images/picture.jpg" alt="Picture">
             </div>
           </div>
           <div class="modal-footer">
@@ -45,8 +45,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
   <script src="../dist/cropper.js"></script>
   <script>
     $(function () {
@@ -57,7 +58,7 @@
       $('#modal').on('shown.bs.modal', function () {
         $image.cropper({
           autoCropArea: 0.5,
-          built: function () {
+          ready: function () {
             $image.cropper('setCanvasData', canvasData);
             $image.cropper('setCropBoxData', cropBoxData);
           }
