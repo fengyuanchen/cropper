@@ -727,7 +727,7 @@ Output the final cropped area position and size data (base on the natural size o
 
 > You can send the data to server-side to crop the image directly.
 
-![a schematic diagram of data's properties](assets/img/data.jpg)
+![a schematic diagram of data's properties](docs/img/data.jpg)
 
 
 ### setData(data)
@@ -751,7 +751,7 @@ Change the cropped area position and size with new data (base on the original im
 
 Output the container size data.
 
-![a schematic diagram of cropper's layers](assets/img/layers.jpg)
+![a schematic diagram of cropper's layers](docs/img/layers.jpg)
 
 
 ### getImageData()
