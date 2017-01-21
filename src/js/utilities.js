@@ -81,9 +81,19 @@ export function getImageSize(image, callback) {
 
 export function getTransform(options) {
   const transforms = [];
+  const translateX = options.translateX;
+  const translateY = options.translateY;
   const rotate = options.rotate;
   const scaleX = options.scaleX;
   const scaleY = options.scaleY;
+
+  if (isNumber(translateX) && translateX !== 0) {
+    transforms.push(`translateX(${translateX}px)`);
+  }
+
+  if (isNumber(translateY) && translateY !== 0) {
+    transforms.push(`translateY(${translateY}px)`);
+  }
 
   // Rotate should come first before scale to match orientation transform
   if (isNumber(rotate) && rotate !== 0) {

@@ -254,8 +254,10 @@ export default {
     self.$canvas.css({
       width: canvas.width,
       height: canvas.height,
-      left: canvas.left,
-      top: canvas.top
+      transform: utils.getTransform({
+        translateX: canvas.left,
+        translateY: canvas.top,
+      })
     });
 
     self.renderImage();
@@ -299,9 +301,10 @@ export default {
     self.$clone.css({
       width: image.width,
       height: image.height,
-      marginLeft: image.left,
-      marginTop: image.top,
-      transform: utils.getTransform(image)
+      transform: utils.getTransform($.extend({
+        translateX: image.left,
+        translateY: image.top,
+      }, image))
     });
 
     if (isChanged) {
@@ -445,8 +448,10 @@ export default {
     self.$cropBox.css({
       width: cropBox.width,
       height: cropBox.height,
-      left: cropBox.left,
-      top: cropBox.top
+      transform: utils.getTransform({
+        translateX: cropBox.left,
+        translateY: cropBox.top,
+      }),
     });
 
     if (self.cropped && self.limited) {

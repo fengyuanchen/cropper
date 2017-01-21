@@ -69,9 +69,10 @@ export default {
     self.$clone2.css({
       width,
       height,
-      marginLeft: -left,
-      marginTop: -top,
-      transform: utils.getTransform(image),
+      transform: utils.getTransform($.extend({
+        translateX: -left,
+        translateY: -top,
+      }, image)),
     });
 
     self.$preview.each((i, element) => {
@@ -100,9 +101,10 @@ export default {
       }).find('img').css({
         width: width * ratio,
         height: height * ratio,
-        marginLeft: -left * ratio,
-        marginTop: -top * ratio,
-        transform: utils.getTransform(image),
+        transform: utils.getTransform($.extend({
+          translateX: -left * ratio,
+          translateY: -top * ratio,
+        }, image)),
       });
     });
   },
