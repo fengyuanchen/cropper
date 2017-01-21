@@ -113,6 +113,7 @@ class Cropper {
 
     xhr.open('get', url);
     xhr.responseType = 'arraybuffer';
+    xhr.withCredentials = $this.prop('crossOrigin') === 'use-credentials';
     xhr.send();
   }
 
