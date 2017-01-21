@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.0.0-alpha
+ * Cropper v3.0.0-alpha.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-01-15T05:01:51.904Z
+ * Date: 2017-01-21T11:58:14.219Z
  */
 
 (function (global, factory) {
@@ -199,9 +199,19 @@ function getImageSize(image, callback) {
 
 function getTransform(options) {
   var transforms = [];
+  var translateX = options.translateX;
+  var translateY = options.translateY;
   var rotate = options.rotate;
   var scaleX = options.scaleX;
   var scaleY = options.scaleY;
+
+  if (isNumber(translateX) && translateX !== 0) {
+    transforms.push('translateX(' + translateX + 'px)');
+  }
+
+  if (isNumber(translateY) && translateY !== 0) {
+    transforms.push('translateY(' + translateY + 'px)');
+  }
 
   // Rotate should come first before scale to match orientation transform
   if (isNumber(rotate) && rotate !== 0) {
@@ -669,8 +679,10 @@ var render$1 = {
     self.$canvas.css({
       width: canvas.width,
       height: canvas.height,
-      left: canvas.left,
-      top: canvas.top
+      transform: getTransform({
+        translateX: canvas.left,
+        translateY: canvas.top
+      })
     });
 
     self.renderImage();
@@ -713,9 +725,10 @@ var render$1 = {
     self.$clone.css({
       width: image.width,
       height: image.height,
-      marginLeft: image.left,
-      marginTop: image.top,
-      transform: getTransform(image)
+      transform: getTransform($.extend({
+        translateX: image.left,
+        translateY: image.top
+      }, image))
     });
 
     if (isChanged) {
@@ -850,8 +863,10 @@ var render$1 = {
     self.$cropBox.css({
       width: cropBox.width,
       height: cropBox.height,
-      left: cropBox.left,
-      top: cropBox.top
+      transform: getTransform({
+        translateX: cropBox.left,
+        translateY: cropBox.top
+      })
     });
 
     if (self.cropped && self.limited) {
@@ -933,9 +948,10 @@ var preview$1 = {
     self.$clone2.css({
       width: width,
       height: height,
-      marginLeft: -left,
-      marginTop: -top,
-      transform: getTransform(image)
+      transform: getTransform($.extend({
+        translateX: -left,
+        translateY: -top
+      }, image))
     });
 
     self.$preview.each(function (i, element) {
@@ -964,9 +980,10 @@ var preview$1 = {
       }).find('img').css({
         width: width * ratio,
         height: height * ratio,
-        marginLeft: -left * ratio,
-        marginTop: -top * ratio,
-        transform: getTransform(image)
+        transform: getTransform($.extend({
+          translateX: -left * ratio,
+          translateY: -top * ratio
+        }, image))
       });
     });
   }
@@ -2779,6 +2796,7 @@ var Cropper = function () {
 
       xhr.open('get', url);
       xhr.responseType = 'arraybuffer';
+      xhr.withCredentials = $this.prop('crossOrigin') === 'use-credentials';
       xhr.send();
     }
   }, {

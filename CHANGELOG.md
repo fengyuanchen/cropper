@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 3.0.0-alpha.1 (Jan 21, 2017)
+
+- Use CSS3 2D Transforms instead of `left` and `top` for better performance.
+- Set `withCredentials` attribute when read the image data by XMLHttpRequest.
+
+
 ## 3.0.0-alpha (Jan 15, 2017)
 
 - Removed `build` event.
