@@ -116,7 +116,7 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  background: #fff url("../img/loading.gif") no-repeat center center;
+  background: #fff url("../images/loading.gif") no-repeat center center;
   opacity: .75;
   filter: alpha(opacity=75);
   z-index: 20140628;

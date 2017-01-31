@@ -3,22 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cropper</title>
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
     .container {
-      max-width: 960px;
+      max-width: 640px;
       margin: 20px auto;
     }
 
-    .img-container {
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .img-container img {
+    img {
       width: 100%;
     }
   </style>
@@ -26,20 +20,21 @@
 <body>
 
   <div class="container">
-    <h1 class="page-header">Cropper with responsive container</h1>
-    <button type="button" class="btn btn-primary" id="replace">Replace Image</button>
-    <div class="img-container">
-      <img src="../assets/img/picture.jpg" alt="Picture">
+    <h1>Cropper with responsive container</h1>
+    <p>
+      <button type="button" id="replace">Replace Image</button>
+    </p>
+    <div>
+      <img id="image" src="../docs/images/picture.jpg" alt="Picture">
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
   <script src="../dist/cropper.js"></script>
   <script>
     $(function () {
-      var $image = $('.img-container > img');
+      var $image = $('#image');
 
       $image.cropper({
         movable: false,
@@ -49,7 +44,7 @@
       });
 
       $('#replace').on('click', function () {
-        $image.cropper('replace', '../assets/img/picture-2.jpg');
+        $image.cropper('replace', '../docs/images/picture-2.jpg');
       });
     });
   </script>

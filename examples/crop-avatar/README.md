@@ -12,7 +12,7 @@ A complete example of Cropper.
 
 - Chrome (latest 2)
 - Firefox (latest 2)
-- Internet Explorer 8+
+- Internet Explorer 9+
 - Opera (latest 2)
 - Safari (latest 2)
 

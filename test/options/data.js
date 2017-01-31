@@ -14,7 +14,7 @@ $(function () {
   $image.cropper({
     data: _data,
 
-    built: function () {
+    ready: function () {
       var data = $image.cropper('getData');
 
       QUnit.test('options#data', function (assert) {

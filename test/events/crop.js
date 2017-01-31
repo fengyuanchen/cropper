@@ -12,7 +12,6 @@ $(function () {
 
     QUnit.test('events#crop', function (assert) {
       assert.equal(e.type, 'crop');
-      assert.equal(e.namespace, 'cropper');
       assert.ok(isNumber(e.x));
       assert.ok(isNumber(e.y));
       assert.ok(isNumber(e.width));
@@ -23,10 +22,10 @@ $(function () {
     });
 
   }).cropper({
-    built: function () {
+    ready: function () {
       var $dragBox = $image.data('cropper').$dragBox;
 
-      // Triggers events manually when built
+      // Triggers events manually when ready
       $dragBox.trigger('mousedown').trigger('mousemove').trigger('mouseup');
     },
 
@@ -34,7 +33,6 @@ $(function () {
 
       QUnit.test('options#crop', function (assert) {
         assert.equal(e.type, 'crop');
-        assert.equal(e.namespace, 'cropper');
         assert.ok(isNumber(e.x));
         assert.ok(isNumber(e.y));
         assert.ok(isNumber(e.width));

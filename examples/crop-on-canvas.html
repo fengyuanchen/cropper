@@ -3,34 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cropper</title>
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    .container {
+      max-width: 640px;
+      margin: 20px auto;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  </style>
 </head>
 <body>
 
   <div class="container">
-    <h1 class="page-header">Crop on canvas with Cropper</h1>
-    <div class="row">
-      <div class="col-sm-6">
-        <h3 class="page-header">Image</h3>
-        <div>
-          <img class="img-responsive" id="image" src="../assets/img/picture.jpg" alt="Picture">
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <h3 class="page-header">Canvas</h3>
-        <div>
-          <canvas id="canvas"></canvas>
-        </div>
-      </div>
+    <h1>Crop on canvas with Cropper</h1>
+    <h3>Image</h3>
+    <div>
+      <img id="image" src="../docs/images/picture.jpg" alt="Picture">
+    </div>
+    <h3>Canvas</h3>
+    <div>
+      <canvas id="canvas"></canvas>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
   <script src="../dist/cropper.js"></script>
   <script>
     $(function () {

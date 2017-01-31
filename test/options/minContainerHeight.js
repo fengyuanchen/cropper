@@ -8,7 +8,7 @@ $(function () {
   $image.cropper({
     minContainerHeight: minContainerHeight,
 
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
       var container = cropper.container;
 

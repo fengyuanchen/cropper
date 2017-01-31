@@ -36,25 +36,22 @@ $(function () {
 
   // Cropper
   $image.on({
-    'build.cropper': function (e) {
+    ready: function (e) {
       console.log(e.type);
     },
-    'built.cropper': function (e) {
-      console.log(e.type);
-    },
-    'cropstart.cropper': function (e) {
+    cropstart: function (e) {
       console.log(e.type, e.action);
     },
-    'cropmove.cropper': function (e) {
+    cropmove: function (e) {
       console.log(e.type, e.action);
     },
-    'cropend.cropper': function (e) {
+    cropend: function (e) {
       console.log(e.type, e.action);
     },
-    'crop.cropper': function (e) {
+    crop: function (e) {
       console.log(e.type, e.x, e.y, e.width, e.height, e.rotate, e.scaleX, e.scaleY);
     },
-    'zoom.cropper': function (e) {
+    zoom: function (e) {
       console.log(e.type, e.ratio);
     }
   }).cropper(options);
@@ -94,7 +91,7 @@ $(function () {
       cropBoxData = $image.cropper('getCropBoxData');
       canvasData = $image.cropper('getCanvasData');
 
-      options.built = function () {
+      options.ready = function () {
         $image.cropper('setCropBoxData', cropBoxData);
         $image.cropper('setCanvasData', canvasData);
       };

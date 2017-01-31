@@ -7,7 +7,7 @@ $(function () {
   $image.cropper({
     modal: false,
 
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options#modal', function (assert) {

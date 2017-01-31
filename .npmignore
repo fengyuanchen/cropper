@@ -1,16 +1,14 @@
 # Files to ignore
 
-archives
-bower_components
-examples
-assets
-demo
+build
 docs
+examples
 test
 /_*
 /.*
-dist/*.map
+*.map
 bower.json
-gulpfile.js
+postcss.config.json
+rollup.config.js
 CONTRIBUTING.md
 ISSUE_TEMPLATE.md

@@ -1,0 +1,248 @@
+/* Main
+ * ========================================================================== */
+
+/* Basic style
+ * -------------------------------------------------------------------------- */
+
+/* Overview */
+
+.docs-overview h3,
+.docs-getting-started h4 {
+  border-left: 1px solid #69f;
+  padding-left: 10px;
+}
+
+.docs-getting-started h4 {
+  padding-left: 8px;
+}
+
+.img-container,
+.img-preview {
+  background-color: #f7f7f7;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+}
+
+.img-container {
+  box-shadow: inset 0 0 5px #eee;
+  height: 344px;
+}
+
+.img-container > img {
+  max-width: 100%;
+  max-height: inherit;
+}
+
+.img-preview {
+  margin-bottom: 10px;
+}
+
+.img-preview-sm {
+  height: 90px;
+  width: 160px;
+}
+
+.img-preview-xs {
+  height: 36px;
+  width: 64px;
+}
+
+.docs-btn-group .input-group {
+  margin-bottom: 10px;
+}
+
+.docs-btn-group .button-group > .btn {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.docs-toolbar {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  text-align: center;
+}
+
+.docs-toolbar .docs-tooltip {
+  display: block;
+  margin: -6px -12px;
+  padding: 6px 12px;
+}
+
+.docs-data-url .btn {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.docs-data-url textarea {
+  margin-bottom: 10px;
+}
+
+.docs-data-url img {
+  max-height: 174px;
+}
+
+.docs-flip-horizontal {
+  -ms-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+
+.docs-data > .input-group {
+  margin-bottom: 10px;
+}
+
+.docs-data > .input-group > label {
+  min-width: 80px;
+}
+
+.docs-data > .input-group > span {
+  min-width: 50px;
+}
+
+
+/* Examples */
+
+.bootstrap-modal-cropper img {
+  width: 100%;
+}
+
+/* Footer */
+
+.docs-footer {
+  border-top: 1px solid #eee;
+  margin-top: 100px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+
+/* Reset Bootstrap
+ * -------------------------------------------------------------------------- */
+
+code {
+  white-space: normal;
+}
+
+/* Top navbar */
+
+.docs-navbar-top {
+  margin-bottom: 0;
+}
+
+.docs-navbar-top .nav > li > a {
+  border-top: 1px solid transparent;
+}
+
+.docs-navbar-top .nav > li > a:hover {
+  border-color: #85c9de;
+  background-color: #fcfcfc;
+}
+
+@media (max-width: 767px) {
+  .docs-navbar-top .nav > li > a {
+    border-top: 0;
+    border-left: 1px solid transparent;
+  }
+}
+
+.docs-navbar-top .navbar-toggle {
+    border-color: #85c9de;
+}
+
+.docs-navbar-top .navbar-toggle .icon-bar {
+  background-color: #85c9de;
+}
+
+/* Banner */
+
+.docs-jumbotron {
+  background-color: #85c9de;
+  color: #fff;
+}
+
+/* Sidebar fixed */
+
+@media (min-width: 992px) {
+  .docs-sidebar.fixed {
+    position: fixed;
+    top: 20px;
+  }
+}
+
+.docs-sidebar .back-to-top {
+  margin-top: 5px;
+  padding-left: 11px;
+  font-size: 12px;
+}
+
+/* Sidebar nav */
+
+.docs-sidebar .nav > li > a {
+  border-left: 1px solid transparent;
+  padding: 4px 10px;
+}
+
+.docs-sidebar .nav > li > a:hover {
+  border-color: #85c9de;
+  background-color: #fcfcfc;
+}
+
+/* Alerts
+ * -------------------------------------------------------------------------- */
+.docs-alert {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 0;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.docs-alert .message {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 2px;
+  background-color: #aaa;
+  color: #fff;
+}
+
+.docs-alert .primary {
+  background-color: #0074d9;
+}
+
+.docs-alert .success {
+  background-color: #2ecc40;
+}
+
+.docs-alert .info {
+  background-color: #39cccc;
+}
+
+.docs-alert .warning {
+  background-color: #ff851b;
+}
+
+.docs-alert .danger {
+  background-color: #ff4136;
+}
+
+/* Examples
+ * -------------------------------------------------------------------------- */
+.fixed-dragger-cropper {
+  max-height: 354px;
+  overflow: hidden;
+}
+
+.fixed-dragger-cropper > img {
+  width: 100%;
+}
+
+/* Google code prettify
+ * -------------------------------------------------------------------------- */
+.prettyprint {
+  border: 1px solid #ddd !important;
+  padding: 10px 15px !important;
+}

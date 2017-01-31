@@ -9,7 +9,7 @@ $(function () {
   }
 
   $image.cropper({
-    built: function () {
+    ready: function () {
 
       QUnit.test('methods#getImageData', function (assert) {
         var data = $image.cropper('getImageData');

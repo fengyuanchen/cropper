@@ -5,7 +5,7 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
 
       QUnit.test('methods#moveTo', function (assert) {
         var canvasData = $image.cropper('moveTo', 0, 0).cropper('getCanvasData');

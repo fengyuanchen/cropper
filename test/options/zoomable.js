@@ -7,7 +7,7 @@ $(function () {
   $image.cropper({
     zoomable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
       var _ratio = cropper.image.ratio;
 

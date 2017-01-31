@@ -5,7 +5,7 @@ $(function () {
   var $image = $(window.createCropperImage());
 
   $image.cropper({
-    built: function () {
+    ready: function () {
       var cropper = $image.data('cropper');
 
       QUnit.test('options#dragMode: crop', function (assert) {
@@ -21,7 +21,7 @@ $(function () {
     $image.cropper({
       dragMode: 'move',
 
-      built: function () {
+      ready: function () {
         var cropper = $image.data('cropper');
 
         QUnit.test('options#dragMode: move', function (assert) {
@@ -38,7 +38,7 @@ $(function () {
     $image.cropper({
       dragMode: 'none',
 
-      built: function () {
+      ready: function () {
         var cropper = $image.data('cropper');
 
         QUnit.test('options#dragMode: none', function (assert) {
