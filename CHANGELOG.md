@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 3.0.0-beta (Feb 25, 2017)
+
+- Fixed the bug of rotate square image lead image shrink.
+- Improved RegExps for DataURL processing.
+
+
 ## 3.0.0-alpha.1 (Jan 21, 2017)
 
 - Use CSS3 2D Transforms instead of `left` and `top` for better performance.

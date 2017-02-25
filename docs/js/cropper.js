@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.0.0-alpha.1
+ * Cropper v3.0.0-beta
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-01-21T11:58:14.219Z
+ * Date: 2017-02-25T07:44:44.656Z
  */
 
 (function (global, factory) {
@@ -114,7 +114,7 @@ var DEFAULTS = {
 
 var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
 
-var REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
+var REGEXP_DATA_URL_HEAD = /^data:.*,/;
 var REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
 var navigator = typeof window !== 'undefined' ? window.navigator : null;
 var IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);
@@ -620,22 +620,20 @@ var render$1 = {
     var rotate = image.rotate;
     var naturalWidth = image.naturalWidth;
     var naturalHeight = image.naturalHeight;
-    var aspectRatio = void 0;
-    var rotated = void 0;
 
     if (self.rotated) {
       self.rotated = false;
 
       // Computes rotated sizes with image sizes
-      rotated = getRotatedSizes({
+      var rotated = getRotatedSizes({
         width: image.width,
         height: image.height,
         degree: rotate
       });
+      var aspectRatio = rotated.width / rotated.height;
+      var isSquareImage = image.aspectRatio === 1;
 
-      aspectRatio = rotated.width / rotated.height;
-
-      if (aspectRatio !== canvas.aspectRatio) {
+      if (isSquareImage || aspectRatio !== canvas.aspectRatio) {
         canvas.left -= (rotated.width - canvas.width) / 2;
         canvas.top -= (rotated.height - canvas.height) / 2;
         canvas.width = rotated.width;
@@ -645,15 +643,15 @@ var render$1 = {
         canvas.naturalHeight = naturalHeight;
 
         // Computes rotated sizes with natural image sizes
-        if (rotate % 180) {
-          rotated = getRotatedSizes({
+        if (isSquareImage && rotate % 90 || rotate % 180) {
+          var rotated2 = getRotatedSizes({
             width: naturalWidth,
             height: naturalHeight,
             degree: rotate
           });
 
-          canvas.naturalWidth = rotated.width;
-          canvas.naturalHeight = rotated.height;
+          canvas.naturalWidth = rotated2.width;
+          canvas.naturalHeight = rotated2.height;
         }
 
         self.limitCanvas(true, false);
@@ -2686,7 +2684,7 @@ var methods = {
 
 var CLASS_HIDDEN = 'cropper-hidden';
 var REGEXP_DATA_URL = /^data:/;
-var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg.*;base64,/;
+var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 
 var Cropper = function () {
   function Cropper(element, options) {
