@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-const REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
+const REGEXP_DATA_URL_HEAD = /^data:.*,/;
 const REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
 const navigator = typeof window !== 'undefined' ? window.navigator : null;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);

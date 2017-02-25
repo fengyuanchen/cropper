@@ -11,7 +11,7 @@ import * as utils from './utilities';
 
 const CLASS_HIDDEN = 'cropper-hidden';
 const REGEXP_DATA_URL = /^data:/;
-const REGEXP_DATA_URL_JPEG = /^data:image\/jpeg.*;base64,/;
+const REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 
 class Cropper {
   constructor(element, options) {
