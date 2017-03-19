@@ -27,5 +27,4 @@ module.exports = {
       jsnext: true,
     }),
   ],
-  sourceMap: true,
 };
