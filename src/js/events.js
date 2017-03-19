@@ -5,9 +5,9 @@ import * as utils from './utilities';
 const PointerEvent = typeof window !== 'undefined' ? window.PointerEvent : null;
 
 // Events
-const EVENT_MOUSE_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-const EVENT_MOUSE_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
-const EVENT_MOUSE_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+const EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+const EVENT_POINTER_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
+const EVENT_POINTER_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 const EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
 const EVENT_DBLCLICK = 'dblclick';
 const EVENT_RESIZE = 'resize';
@@ -44,7 +44,7 @@ export default {
       $this.on(EVENT_ZOOM, options.zoom);
     }
 
-    $cropper.on(EVENT_MOUSE_DOWN, utils.proxy(self.cropStart, this));
+    $cropper.on(EVENT_POINTER_DOWN, utils.proxy(self.cropStart, this));
 
     if (options.zoomable && options.zoomOnWheel) {
       $cropper.on(EVENT_WHEEL, utils.proxy(self.wheel, this));
@@ -55,8 +55,8 @@ export default {
     }
 
     $(document)
-      .on(EVENT_MOUSE_MOVE, (self.onCropMove = utils.proxy(self.cropMove, this)))
-      .on(EVENT_MOUSE_UP, (self.onCropEnd = utils.proxy(self.cropEnd, this)));
+      .on(EVENT_POINTER_MOVE, (self.onCropMove = utils.proxy(self.cropMove, this)))
+      .on(EVENT_POINTER_UP, (self.onCropEnd = utils.proxy(self.cropEnd, this)));
 
     if (options.responsive) {
       $(window).on(EVENT_RESIZE, (self.onResize = utils.proxy(self.resize, this)));
@@ -89,7 +89,7 @@ export default {
       $this.off(EVENT_ZOOM, options.zoom);
     }
 
-    $cropper.off(EVENT_MOUSE_DOWN, self.cropStart);
+    $cropper.off(EVENT_POINTER_DOWN, self.cropStart);
 
     if (options.zoomable && options.zoomOnWheel) {
       $cropper.off(EVENT_WHEEL, self.wheel);
@@ -100,8 +100,8 @@ export default {
     }
 
     $(document)
-      .off(EVENT_MOUSE_MOVE, self.onCropMove)
-      .off(EVENT_MOUSE_UP, self.onCropEnd);
+      .off(EVENT_POINTER_MOVE, self.onCropMove)
+      .off(EVENT_POINTER_UP, self.onCropEnd);
 
     if (options.responsive) {
       $(window).off(EVENT_RESIZE, self.onResize);
