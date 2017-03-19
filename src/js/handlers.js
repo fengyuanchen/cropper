@@ -120,7 +120,7 @@ export default {
       });
     } else {
       // Handle mouse event and pointer event
-      pointers[(originalEvent && originalEvent.pointerId) || 0] = getPointer(e);
+      pointers[(originalEvent && originalEvent.pointerId) || 0] = getPointer(originalEvent || e);
     }
 
     if (utils.objectKeys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
@@ -174,7 +174,10 @@ export default {
         $.extend(pointers[touch.identifier], getPointer(touch, true));
       });
     } else {
-      $.extend(pointers[(originalEvent && originalEvent.pointerId) || 0], getPointer(e, true));
+      $.extend(
+        pointers[(originalEvent && originalEvent.pointerId) || 0],
+        getPointer(originalEvent || e, true)
+      );
     }
 
     self.change(e);
