@@ -129,23 +129,25 @@ export default {
       action = $(e.target).data('action');
     }
 
-    if (REGEXP_ACTIONS.test(action)) {
-      if (self.trigger('cropstart', {
-        originalEvent,
-        action,
-      }).isDefaultPrevented()) {
-        return;
-      }
+    if (!REGEXP_ACTIONS.test(action)) {
+      return;
+    }
 
-      e.preventDefault();
+    if (self.trigger('cropstart', {
+      originalEvent,
+      action,
+    }).isDefaultPrevented()) {
+      return;
+    }
 
-      self.action = action;
-      self.cropping = false;
+    e.preventDefault();
 
-      if (action === 'crop') {
-        self.cropping = true;
-        self.$dragBox.addClass('cropper-modal');
-      }
+    self.action = action;
+    self.cropping = false;
+
+    if (action === 'crop') {
+      self.cropping = true;
+      self.$dragBox.addClass('cropper-modal');
     }
   },
 
@@ -185,16 +187,14 @@ export default {
 
   cropEnd(e) {
     const self = this;
-    const action = self.action;
 
-    if (self.disabled || !action) {
+    if (self.disabled) {
       return;
     }
 
+    const action = self.action;
     const pointers = self.pointers;
     const originalEvent = e.originalEvent;
-
-    e.preventDefault();
 
     if (originalEvent && originalEvent.changedTouches) {
       $.each(originalEvent.changedTouches, (i, touch) => {
@@ -203,6 +203,12 @@ export default {
     } else {
       delete pointers[(originalEvent && originalEvent.pointerId) || 0];
     }
+
+    if (!action) {
+      return;
+    }
+
+    e.preventDefault();
 
     if (!utils.objectKeys(pointers).length) {
       self.action = '';
