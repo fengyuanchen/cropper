@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 3.0.0-rc (Mar 25, 2017)
+
+- Clear cached pointers correctly to avoid touch zoom problem.
+- Improve the `responsive` option (only available when the container width/height great than the minContainerWidth/Height)
+- Improve the `toggleDragModeOnDblclick` option (only available when the `dragMode` option is set to `crop` or `move`)
+
+
 ## 3.0.0-beta (Feb 25, 2017)
 
 - Fixed the bug of rotate square image lead image shrink.

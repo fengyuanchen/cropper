@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.0.0-beta
+ * Cropper v3.0.0-rc
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-02-25T07:44:44.656Z
+ * Date: 2017-03-25T12:04:34.654Z
  */
 
 (function (global, factory) {
@@ -991,9 +991,9 @@ var preview$1 = {
 var PointerEvent = typeof window !== 'undefined' ? window.PointerEvent : null;
 
 // Events
-var EVENT_MOUSE_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-var EVENT_MOUSE_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_MOUSE_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_POINTER_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_POINTER_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
 var EVENT_DBLCLICK = 'dblclick';
 var EVENT_RESIZE = 'resize';
@@ -1030,7 +1030,7 @@ var events = {
       $this.on(EVENT_ZOOM, options.zoom);
     }
 
-    $cropper.on(EVENT_MOUSE_DOWN, proxy(self.cropStart, this));
+    $cropper.on(EVENT_POINTER_DOWN, proxy(self.cropStart, this));
 
     if (options.zoomable && options.zoomOnWheel) {
       $cropper.on(EVENT_WHEEL, proxy(self.wheel, this));
@@ -1040,7 +1040,7 @@ var events = {
       $cropper.on(EVENT_DBLCLICK, proxy(self.dblclick, this));
     }
 
-    $(document).on(EVENT_MOUSE_MOVE, self.onCropMove = proxy(self.cropMove, this)).on(EVENT_MOUSE_UP, self.onCropEnd = proxy(self.cropEnd, this));
+    $(document).on(EVENT_POINTER_MOVE, self.onCropMove = proxy(self.cropMove, this)).on(EVENT_POINTER_UP, self.onCropEnd = proxy(self.cropEnd, this));
 
     if (options.responsive) {
       $(window).on(EVENT_RESIZE, self.onResize = proxy(self.resize, this));
@@ -1072,7 +1072,7 @@ var events = {
       $this.off(EVENT_ZOOM, options.zoom);
     }
 
-    $cropper.off(EVENT_MOUSE_DOWN, self.cropStart);
+    $cropper.off(EVENT_POINTER_DOWN, self.cropStart);
 
     if (options.zoomable && options.zoomOnWheel) {
       $cropper.off(EVENT_WHEEL, self.wheel);
@@ -1082,7 +1082,7 @@ var events = {
       $cropper.off(EVENT_DBLCLICK, self.dblclick);
     }
 
-    $(document).off(EVENT_MOUSE_MOVE, self.onCropMove).off(EVENT_MOUSE_UP, self.onCropEnd);
+    $(document).off(EVENT_POINTER_MOVE, self.onCropMove).off(EVENT_POINTER_UP, self.onCropEnd);
 
     if (options.responsive) {
       $(window).off(EVENT_RESIZE, self.onResize);
@@ -1114,12 +1114,13 @@ function getPointer(_ref, endOnly) {
 var handlers = {
   resize: function resize() {
     var self = this;
-    var restore = self.options.restore;
+    var options = self.options;
     var $container = self.$container;
     var container = self.container;
+    var minContainerWidth = Number(options.minContainerWidth) || 200;
+    var minContainerHeight = Number(options.minContainerHeight) || 100;
 
-    // Check `container` is necessary for IE8
-    if (self.disabled || !container) {
+    if (self.disabled || container.width === minContainerWidth || container.height === minContainerHeight) {
       return;
     }
 
@@ -1131,14 +1132,14 @@ var handlers = {
         var canvasData = void 0;
         var cropBoxData = void 0;
 
-        if (restore) {
+        if (options.restore) {
           canvasData = self.getCanvasData();
           cropBoxData = self.getCropBoxData();
         }
 
         self.render();
 
-        if (restore) {
+        if (options.restore) {
           self.setCanvasData($.each(canvasData, function (i, n) {
             canvasData[i] = n * ratio;
           }));
@@ -1152,7 +1153,7 @@ var handlers = {
   dblclick: function dblclick() {
     var self = this;
 
-    if (self.disabled) {
+    if (self.disabled || self.options.dragMode === 'none') {
       return;
     }
 
@@ -1211,7 +1212,7 @@ var handlers = {
       });
     } else {
       // Handle mouse event and pointer event
-      pointers[originalEvent && originalEvent.pointerId || 0] = getPointer(e);
+      pointers[originalEvent && originalEvent.pointerId || 0] = getPointer(originalEvent || e);
     }
 
     if (objectKeys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
@@ -1220,23 +1221,25 @@ var handlers = {
       action = $(e.target).data('action');
     }
 
-    if (REGEXP_ACTIONS.test(action)) {
-      if (self.trigger('cropstart', {
-        originalEvent: originalEvent,
-        action: action
-      }).isDefaultPrevented()) {
-        return;
-      }
+    if (!REGEXP_ACTIONS.test(action)) {
+      return;
+    }
 
-      e.preventDefault();
+    if (self.trigger('cropstart', {
+      originalEvent: originalEvent,
+      action: action
+    }).isDefaultPrevented()) {
+      return;
+    }
 
-      self.action = action;
-      self.cropping = false;
+    e.preventDefault();
 
-      if (action === 'crop') {
-        self.cropping = true;
-        self.$dragBox.addClass('cropper-modal');
-      }
+    self.action = action;
+    self.cropping = false;
+
+    if (action === 'crop') {
+      self.cropping = true;
+      self.$dragBox.addClass('cropper-modal');
     }
   },
   cropMove: function cropMove(e) {
@@ -1264,23 +1267,21 @@ var handlers = {
         $.extend(pointers[touch.identifier], getPointer(touch, true));
       });
     } else {
-      $.extend(pointers[originalEvent && originalEvent.pointerId || 0], getPointer(e, true));
+      $.extend(pointers[originalEvent && originalEvent.pointerId || 0], getPointer(originalEvent || e, true));
     }
 
     self.change(e);
   },
   cropEnd: function cropEnd(e) {
     var self = this;
-    var action = self.action;
 
-    if (self.disabled || !action) {
+    if (self.disabled) {
       return;
     }
 
+    var action = self.action;
     var pointers = self.pointers;
     var originalEvent = e.originalEvent;
-
-    e.preventDefault();
 
     if (originalEvent && originalEvent.changedTouches) {
       $.each(originalEvent.changedTouches, function (i, touch) {
@@ -1289,6 +1290,12 @@ var handlers = {
     } else {
       delete pointers[originalEvent && originalEvent.pointerId || 0];
     }
+
+    if (!action) {
+      return;
+    }
+
+    e.preventDefault();
 
     if (!objectKeys(pointers).length) {
       self.action = '';
@@ -3127,4 +3134,3 @@ $.fn.cropper.noConflict = function noConflict() {
 };
 
 })));
-//# sourceMappingURL=cropper.js.map
