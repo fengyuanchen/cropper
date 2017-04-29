@@ -16,7 +16,7 @@ module.exports = {
   moduleName: 'Cropper',
   external: ['jquery'],
   globals: {
-    jquery: '$',
+    jquery: 'jQuery',
   },
   plugins: [
     babel({
