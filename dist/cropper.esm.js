@@ -8,13 +8,7 @@
  * Date: 2017-04-30T03:10:34.736Z
  */
 
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
-  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
-  (factory(global.jQuery));
-}(this, (function ($) { 'use strict';
-
-$ = 'default' in $ ? $['default'] : $;
+import $ from 'jquery';
 
 var DEFAULTS = {
   // Define the view mode of the cropper
@@ -3132,5 +3126,3 @@ $.fn.cropper.noConflict = function noConflict() {
   $.fn.cropper = OtherCropper;
   return this;
 };
-
-})));

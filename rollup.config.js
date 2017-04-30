@@ -9,6 +9,14 @@ module.exports = {
       dest: 'dist/cropper.js',
     },
     {
+      dest: 'dist/cropper.common.js',
+      format: 'cjs',
+    },
+    {
+      dest: 'dist/cropper.esm.js',
+      format: 'es',
+    },
+    {
       dest: 'docs/js/cropper.js',
     },
   ],
@@ -19,12 +27,12 @@ module.exports = {
     jquery: 'jQuery',
   },
   plugins: [
-    babel({
-      exclude: '/node_modules/**',
-    }),
     commonjs(),
     nodeResolve({
       jsnext: true,
+    }),
+    babel({
+      exclude: '/node_modules/**',
     }),
   ],
 };

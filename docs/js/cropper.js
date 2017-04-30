@@ -1,17 +1,17 @@
 /*!
- * Cropper v3.0.0-rc
+ * Cropper v3.0.0-rc.1
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-03-25T12:04:34.654Z
+ * Date: 2017-04-30T03:10:34.736Z
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
   typeof define === 'function' && define.amd ? define(['jquery'], factory) :
-  (factory(global.$));
+  (factory(global.jQuery));
 }(this, (function ($) { 'use strict';
 
 $ = 'default' in $ ? $['default'] : $;

@@ -1,8 +1,10 @@
 {
   "name": "cropper",
   "description": "A simple jQuery image cropping plugin.",
-  "version": "3.0.0-rc",
-  "main": "dist/cropper.js",
+  "version": "3.0.0-rc.1",
+  "main": "dist/cropper.common.js",
+  "module": "dist/cropper.esm.js",
+  "browser": "dist/cropper.js",
   "license": "MIT",
   "repository": "fengyuanchen/cropper",
   "homepage": "https://fengyuanchen.github.io/cropper",

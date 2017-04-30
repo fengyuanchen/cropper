@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 3.0.0-rc.1 (Apr 30, 2017)
+
+- Use `window.jQuery` instead of `window.$` for browser side usage (#876).
+- Change the `main` field value from `dist/cropper.js` (UMD) to `dist/cropper.common.js` (CommonJS).
+- Added `module` and `browser` fields to `package.json`.
+
+
 ## 3.0.0-rc (Mar 25, 2017)
 
 - Clear cached pointers correctly to avoid touch zoom problem.
