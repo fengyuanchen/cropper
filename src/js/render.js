@@ -46,7 +46,7 @@ export default {
     const image = self.image;
     const imageNaturalWidth = image.naturalWidth;
     const imageNaturalHeight = image.naturalHeight;
-    const is90Degree = Math.abs(image.rotate) === 90;
+    const is90Degree = Math.abs(image.rotate) % 180 === 90;
     const naturalWidth = is90Degree ? imageNaturalHeight : imageNaturalWidth;
     const naturalHeight = is90Degree ? imageNaturalWidth : imageNaturalHeight;
     const aspectRatio = naturalWidth / naturalHeight;
