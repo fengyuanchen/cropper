@@ -82,7 +82,7 @@ class Cropper {
     self.url = url;
     self.image = {};
 
-    if (!options.checkOrientation || !ArrayBuffer) {
+    if (!options.checkOrientation || !window.ArrayBuffer) {
       self.clone();
       return;
     }
