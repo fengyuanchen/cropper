@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 3.0.0-rc.2 (May 30, 2017)
+
+- Improved performance for large images(#856).
+- Fixed the issue of `ArrayBuffer` reference error in IE9 (#885).
+- Fixed an issue of canvas box initialization.
+
+
 ## 3.0.0-rc.1 (Apr 30, 2017)
 
 - Use `window.jQuery` instead of `window.$` for browser side usage (#876).

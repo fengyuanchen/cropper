@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.0.0-rc.1
+ * Cropper v3.0.0-rc.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-04-30T03:10:34.736Z
+ * Date: 2017-05-30T05:04:38.958Z
  */
 
 (function (global, factory) {
@@ -174,10 +174,6 @@ function addTimestamp(url) {
   var timestamp = 'timestamp=' + new Date().getTime();
 
   return url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp;
-}
-
-function getCrossOrigin(crossOrigin) {
-  return crossOrigin ? ' crossOrigin="' + crossOrigin + '"' : '';
 }
 
 function getImageSize(image, callback) {
@@ -479,7 +475,7 @@ var render$1 = {
     var image = self.image;
     var imageNaturalWidth = image.naturalWidth;
     var imageNaturalHeight = image.naturalHeight;
-    var is90Degree = Math.abs(image.rotate) === 90;
+    var is90Degree = Math.abs(image.rotate) % 180 === 90;
     var naturalWidth = is90Degree ? imageNaturalHeight : imageNaturalWidth;
     var naturalHeight = is90Degree ? imageNaturalWidth : imageNaturalHeight;
     var aspectRatio = naturalWidth / naturalHeight;
@@ -891,15 +887,24 @@ var DATA_PREVIEW = 'preview';
 var preview$1 = {
   initPreview: function initPreview() {
     var self = this;
-    var crossOrigin = getCrossOrigin(self.crossOrigin);
+    var crossOrigin = self.crossOrigin;
     var url = crossOrigin ? self.crossOriginUrl : self.url;
-    var $clone2 = void 0;
+    var image = document.createElement('img');
+
+    if (crossOrigin) {
+      image.crossOrigin = crossOrigin;
+    }
+
+    image.src = url;
+
+    var $clone2 = $(image);
 
     self.$preview = $(self.options.preview);
-    self.$clone2 = $clone2 = $('<img ' + crossOrigin + ' src="' + url + '">');
+    self.$clone2 = $clone2;
     self.$viewBox.html($clone2);
     self.$preview.each(function (i, element) {
       var $this = $(element);
+      var img = document.createElement('img');
 
       // Save the original size for recover
       $this.data(DATA_PREVIEW, {
@@ -908,12 +913,21 @@ var preview$1 = {
         html: $this.html()
       });
 
+      if (crossOrigin) {
+        img.crossOrigin = crossOrigin;
+      }
+
+      img.src = url;
+
       /**
        * Override img element styles
        * Add `display:block` to avoid margin top issue
+       * Add `height:auto` to override `height` attribute on IE8
        * (Occur only when margin-top <= -height)
        */
-      $this.html('<img ' + crossOrigin + ' src="' + url + '" style="' + 'display:block;width:100%;height:auto;' + 'min-width:0!important;min-height:0!important;' + 'max-width:none!important;max-height:none!important;' + 'image-orientation:0deg!important;">');
+      img.style.cssText = 'display:block;' + 'width:100%;' + 'height:auto;' + 'min-width:0!important;' + 'min-height:0!important;' + 'max-width:none!important;' + 'max-height:none!important;' + 'image-orientation:0deg!important;"';
+
+      $this.html(img);
     });
   },
   resetPreview: function resetPreview() {
@@ -2770,7 +2784,7 @@ var Cropper = function () {
       self.url = url;
       self.image = {};
 
-      if (!options.checkOrientation || !ArrayBuffer) {
+      if (!options.checkOrientation || !window.ArrayBuffer) {
         self.clone();
         return;
       }
@@ -2896,7 +2910,15 @@ var Cropper = function () {
       self.crossOrigin = crossOrigin;
       self.crossOriginUrl = crossOriginUrl;
 
-      var $clone = $('<img ' + getCrossOrigin(crossOrigin) + ' src="' + (crossOriginUrl || url) + '">');
+      var image = document.createElement('img');
+
+      if (crossOrigin) {
+        image.crossOrigin = crossOrigin;
+      }
+
+      image.src = crossOriginUrl || url;
+
+      var $clone = $(image);
 
       self.$clone = $clone;
 
