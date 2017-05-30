@@ -58,10 +58,6 @@ export function addTimestamp(url) {
   return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
 }
 
-export function getCrossOrigin(crossOrigin) {
-  return crossOrigin ? ` crossOrigin="${crossOrigin}"` : '';
-}
-
 export function getImageSize(image, callback) {
   // Modern browsers (ignore Safari, #120 & #509)
   if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {

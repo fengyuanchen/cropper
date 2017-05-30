@@ -206,7 +206,15 @@ class Cropper {
     self.crossOrigin = crossOrigin;
     self.crossOriginUrl = crossOriginUrl;
 
-    const $clone = $(`<img ${utils.getCrossOrigin(crossOrigin)} src="${crossOriginUrl || url}">`);
+    const image = document.createElement('img');
+
+    if (crossOrigin) {
+      image.crossOrigin = crossOrigin;
+    }
+
+    image.src = crossOriginUrl || url;
+
+    const $clone = $(image);
 
     self.$clone = $clone;
 

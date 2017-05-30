@@ -6,15 +6,24 @@ const DATA_PREVIEW = 'preview';
 export default {
   initPreview() {
     const self = this;
-    const crossOrigin = utils.getCrossOrigin(self.crossOrigin);
+    const crossOrigin = self.crossOrigin;
     const url = crossOrigin ? self.crossOriginUrl : self.url;
-    let $clone2;
+    const image = document.createElement('img');
+
+    if (crossOrigin) {
+      image.crossOrigin = crossOrigin;
+    }
+
+    image.src = url;
+
+    const $clone2 = $(image);
 
     self.$preview = $(self.options.preview);
-    self.$clone2 = $clone2 = $(`<img ${crossOrigin} src="${url}">`);
+    self.$clone2 = $clone2;
     self.$viewBox.html($clone2);
     self.$preview.each((i, element) => {
       const $this = $(element);
+      const img = document.createElement('img');
 
       // Save the original size for recover
       $this.data(DATA_PREVIEW, {
@@ -23,18 +32,30 @@ export default {
         html: $this.html()
       });
 
+      if (crossOrigin) {
+        img.crossOrigin = crossOrigin;
+      }
+
+      img.src = url;
+
       /**
        * Override img element styles
        * Add `display:block` to avoid margin top issue
+       * Add `height:auto` to override `height` attribute on IE8
        * (Occur only when margin-top <= -height)
        */
-      $this.html(
-        `<img ${crossOrigin} src="${url}" style="` +
-        'display:block;width:100%;height:auto;' +
-        'min-width:0!important;min-height:0!important;' +
-        'max-width:none!important;max-height:none!important;' +
-        'image-orientation:0deg!important;">'
+      img.style.cssText = (
+        'display:block;' +
+        'width:100%;' +
+        'height:auto;' +
+        'min-width:0!important;' +
+        'min-height:0!important;' +
+        'max-width:none!important;' +
+        'max-height:none!important;' +
+        'image-orientation:0deg!important;"'
       );
+
+      $this.html(img);
     });
   },
 
