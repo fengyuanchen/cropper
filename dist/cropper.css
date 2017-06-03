@@ -255,7 +255,7 @@
 
 @media (min-width: 768px) {
 
-  .cropper-point.point-se {
+  .cropper-point {
     width: 15px;
     height: 15px
   }
@@ -263,7 +263,7 @@
 
 @media (min-width: 992px) {
 
-  .cropper-point.point-se {
+  .cropper-point {
     width: 10px;
     height: 10px
   }
@@ -271,7 +271,7 @@
 
 @media (min-width: 1200px) {
 
-  .cropper-point.point-se {
+  .cropper-point {
     width: 5px;
     height: 5px;
     opacity: .75
