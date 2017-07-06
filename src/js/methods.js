@@ -662,12 +662,12 @@ export default {
       return null;
     }
 
-    if (!self.cropped) {
-      return utils.getSourceCanvas(self.$clone[0], self.image);
-    }
-
     if (!$.isPlainObject(options)) {
       options = {};
+    }
+
+    if (!self.cropped) {
+      return utils.getSourceCanvas(self.$clone[0], self.image, options);
     }
 
     const data = self.getData();
@@ -706,13 +706,9 @@ export default {
       context.fillRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    if ($.isFunction(options.beforeDrawImage)) {
-      options.beforeDrawImage(canvas);
-    }
-
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
     const parameters = (() => {
-      const source = utils.getSourceCanvas(self.$clone[0], self.image);
+      const source = utils.getSourceCanvas(self.$clone[0], self.image, options);
       const sourceWidth = source.width;
       const sourceHeight = source.height;
       const canvasData = self.canvas;
@@ -775,6 +771,14 @@ export default {
 
       return params;
     })();
+
+    if (options.imageSmoothingEnabled) {
+      context.imageSmoothingEnabled = options.imageSmoothingEnabled;
+    }
+
+    if (options.imageSmoothingQuality) {
+      context.imageSmoothingQuality = options.imageSmoothingQuality;
+    }
 
     context.drawImage(...parameters);
 

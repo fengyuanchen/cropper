@@ -132,7 +132,7 @@ export function getRotatedSizes(data, isReversed) {
   };
 }
 
-export function getSourceCanvas(image, data) {
+export function getSourceCanvas(image, data, options) {
   const canvas = $('<canvas>')[0];
   const context = canvas.getContext('2d');
   let dstX = 0;
@@ -172,6 +172,11 @@ export function getSourceCanvas(image, data) {
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
+  if (options.fillColor) {
+    context.fillStyle = options.fillColor;
+    context.fillRect(0, 0, canvasWidth, canvasHeight);
+  }
+
   if (advanced) {
     dstX = -dstWidth / 2;
     dstY = -dstHeight / 2;
@@ -187,6 +192,14 @@ export function getSourceCanvas(image, data) {
 
   if (scalable) {
     context.scale(scaleX, scaleY);
+  }
+
+  if (options.imageSmoothingEnabled) {
+    context.imageSmoothingEnabled = options.imageSmoothingEnabled;
+  }
+
+  if (options.imageSmoothingQuality) {
+    context.imageSmoothingQuality = options.imageSmoothingQuality;
   }
 
   context.drawImage(
