@@ -27,6 +27,7 @@ $(function () {
         }
       };
   var originalImageURL = $image.attr('src');
+  var uploadedImageType = 'image/jpeg';
   var uploadedImageURL;
 
 
@@ -129,17 +130,30 @@ $(function () {
         }
       }
 
-      if (data.method === 'rotate') {
-        $image.cropper('clear');
+      switch (data.method) {
+        case 'rotate':
+          $image.cropper('clear');
+          break;
+
+        case 'getCroppedCanvas':
+          if (uploadedImageType === 'image/jpeg') {
+            if (!data.option) {
+              data.option = {};
+            }
+
+            data.option.fillColor = '#fff';
+          }
+
+          break;
       }
 
       result = $image.cropper(data.method, data.option, data.secondOption);
 
-      if (data.method === 'rotate') {
-        $image.cropper('crop');
-      }
-
       switch (data.method) {
+        case 'rotate':
+          $image.cropper('crop');
+          break;
+
         case 'scaleX':
         case 'scaleY':
           $(this).data('option', -data.option);
@@ -147,12 +161,11 @@ $(function () {
 
         case 'getCroppedCanvas':
           if (result) {
-
             // Bootstrap's Modal
             $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
             if (!$download.hasClass('disabled')) {
-              $download.attr('href', result.toDataURL('image/jpeg'));
+              $download.attr('href', result.toDataURL(uploadedImageType));
             }
           }
 
@@ -228,6 +241,8 @@ $(function () {
         file = files[0];
 
         if (/^image\/\w+$/.test(file.type)) {
+          uploadedImageType = file.type;
+
           if (uploadedImageURL) {
             URL.revokeObjectURL(uploadedImageURL);
           }
