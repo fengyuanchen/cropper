@@ -49,10 +49,10 @@
 dist/
 ├── cropper.css       ( 5 KB)
 ├── cropper.min.css   ( 4 KB)
-├── cropper.js        (79 KB, UMD)
+├── cropper.js        (80 KB, UMD)
 ├── cropper.min.js    (30 KB, UMD, compressed)
-├── cropper.common.js (79 KB, CommonJS)
-└── cropper.esm.js    (79 KB, ES Module)
+├── cropper.common.js (80 KB, CommonJS)
+└── cropper.esm.js    (80 KB, ES Module)
 ```
 
 

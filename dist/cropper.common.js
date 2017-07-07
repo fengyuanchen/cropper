@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.0.0-rc.2
+ * Cropper v3.0.0-rc.3
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-05-30T05:04:38.958Z
+ * Date: 2017-07-07T13:00:47.346Z
  */
 
 'use strict';
@@ -248,7 +248,7 @@ function getRotatedSizes(data, isReversed) {
   };
 }
 
-function getSourceCanvas(image, data) {
+function getSourceCanvas(image, data, options) {
   var canvas = $('<canvas>')[0];
   var context = canvas.getContext('2d');
   var dstX = 0;
@@ -288,6 +288,11 @@ function getSourceCanvas(image, data) {
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
+  if (options.fillColor) {
+    context.fillStyle = options.fillColor;
+    context.fillRect(0, 0, canvasWidth, canvasHeight);
+  }
+
   if (advanced) {
     dstX = -dstWidth / 2;
     dstY = -dstHeight / 2;
@@ -303,6 +308,12 @@ function getSourceCanvas(image, data) {
 
   if (scalable) {
     context.scale(scaleX, scaleY);
+  }
+
+  context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
+
+  if (options.imageSmoothingQuality) {
+    context.imageSmoothingQuality = options.imageSmoothingQuality;
   }
 
   context.drawImage(image, Math.floor(dstX), Math.floor(dstY), Math.floor(dstWidth), Math.floor(dstHeight));
@@ -2540,12 +2551,12 @@ var methods = {
       return null;
     }
 
-    if (!self.cropped) {
-      return getSourceCanvas(self.$clone[0], self.image);
-    }
-
     if (!$.isPlainObject(options)) {
       options = {};
+    }
+
+    if (!self.cropped) {
+      return getSourceCanvas(self.$clone[0], self.image, options);
     }
 
     var data = self.getData();
@@ -2586,7 +2597,7 @@ var methods = {
 
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
     var parameters = function () {
-      var source = getSourceCanvas(self.$clone[0], self.image);
+      var source = getSourceCanvas(self.$clone[0], self.image, options);
       var sourceWidth = source.width;
       var sourceHeight = source.height;
       var canvasData = self.canvas;
@@ -2644,6 +2655,12 @@ var methods = {
 
       return params;
     }();
+
+    context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
+
+    if (options.imageSmoothingQuality) {
+      context.imageSmoothingQuality = options.imageSmoothingQuality;
+    }
 
     context.drawImage.apply(context, toConsumableArray(parameters));
 
