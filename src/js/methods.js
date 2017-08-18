@@ -637,6 +637,16 @@ export default {
         cropBox.height = data.height;
       }
 
+      if (utils.isNumber(data.minCropBoxHeight)) {
+					cropBox.minHeight = data.minCropBoxHeight;
+					self.options.minCropBoxHeight = data.minCropBoxHeight;
+				}
+
+				if (utils.isNumber(data.minCropBoxWidth)) {
+					cropBox.minWidth = data.minCropBoxWidth;
+					self.options.minCropBoxWidth = data.minCropBoxWidth;
+				}
+
       if (aspectRatio) {
         if (widthChanged) {
           cropBox.height = cropBox.width / aspectRatio;
@@ -645,6 +655,7 @@ export default {
         }
       }
 
+      self.options.cropBox = cropBox;
       self.renderCropBox();
     }
   },
