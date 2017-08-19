@@ -128,7 +128,7 @@ export function getRotatedSizes(data, isReversed) {
 
   return {
     width: newWidth,
-    height: newHeight
+    height: newHeight,
   };
 }
 
@@ -160,7 +160,7 @@ export function getSourceCanvas(image, data, options) {
     rotated = getRotatedSizes({
       width: canvasWidth,
       height: canvasHeight,
-      degree: rotate
+      degree: rotate,
     });
 
     canvasWidth = rotated.width;
@@ -205,7 +205,7 @@ export function getSourceCanvas(image, data, options) {
     Math.floor(dstX),
     Math.floor(dstY),
     Math.floor(dstWidth),
-    Math.floor(dstHeight)
+    Math.floor(dstHeight),
   );
 
   if (advanced) {
@@ -219,7 +219,7 @@ export function getStringFromCharCode(dataView, start, length) {
   let str = '';
   let i;
 
-  for (i = start, length += start; i < length; i++) {
+  for (i = start, length += start; i < length; i += 1) {
     str += fromCharCode(dataView.getUint8(i));
   }
 
@@ -250,7 +250,7 @@ export function getOrientation(arrayBuffer) {
         break;
       }
 
-      offset++;
+      offset += 1;
     }
   }
 
@@ -277,7 +277,7 @@ export function getOrientation(arrayBuffer) {
   if (ifdStart) {
     length = dataView.getUint16(ifdStart, littleEndian);
 
-    for (i = 0; i < length; i++) {
+    for (i = 0; i < length; i += 1) {
       offset = ifdStart + (i * 12) + 2;
 
       if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
@@ -308,7 +308,7 @@ export function dataURLToArrayBuffer(dataURL) {
   const dataView = new Uint8Array(arrayBuffer);
   let i;
 
-  for (i = 0; i < length; i++) {
+  for (i = 0; i < length; i += 1) {
     dataView[i] = binary.charCodeAt(i);
   }
 
@@ -322,7 +322,7 @@ export function arrayBufferToDataURL(arrayBuffer) {
   let base64 = '';
   let i;
 
-  for (i = 0; i < length; i++) {
+  for (i = 0; i < length; i += 1) {
     base64 += fromCharCode(dataView[i]);
   }
 

@@ -76,7 +76,7 @@ export default {
 
     const range = {
       x: pointer.endX - pointer.startX,
-      y: pointer.endY - pointer.startY
+      y: pointer.endY - pointer.startY,
     };
 
     if (aspectRatio) {
@@ -410,7 +410,7 @@ export default {
 
         break;
 
-      // No default
+      default:
     }
 
     if (renderable) {

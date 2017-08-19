@@ -45,7 +45,8 @@ class Cropper {
       self.isImg = true;
 
       // Should use `$.fn.attr` here. e.g.: "img/picture.jpg"
-      self.originalUrl = url = $this.attr('src');
+      url = $this.attr('src');
+      self.originalUrl = url;
 
       // Stop when it's a blank image
       if (!url) {
@@ -99,7 +100,7 @@ class Cropper {
 
     const xhr = new XMLHttpRequest();
 
-    xhr.onerror = xhr.onabort = $.proxy(() => {
+    xhr.onerror = $.proxy(() => {
       self.clone();
     }, this);
 
@@ -130,7 +131,6 @@ class Cropper {
       self.url = utils.arrayBufferToDataURL(arrayBuffer);
 
       switch (orientation) {
-
         // flip horizontal
         case 2:
           scaleX = -1;
@@ -167,6 +167,8 @@ class Cropper {
         case 8:
           rotate = -90;
           break;
+
+        default:
       }
     }
 
@@ -246,7 +248,7 @@ class Cropper {
       $.extend(self.image, {
         naturalWidth,
         naturalHeight,
-        aspectRatio: naturalWidth / naturalHeight
+        aspectRatio: naturalWidth / naturalHeight,
       });
 
       self.loaded = true;
@@ -266,9 +268,6 @@ class Cropper {
     const options = self.options;
     const $this = self.$element;
     const $clone = self.$clone;
-    let $cropper;
-    let $cropBox;
-    let $face;
 
     if (!self.loaded) {
       return;
@@ -279,14 +278,18 @@ class Cropper {
       self.unbuild();
     }
 
+    const $cropper = $(TEMPLATE);
+    const $cropBox = $cropper.find('.cropper-crop-box');
+    const $face = $cropBox.find('.cropper-face');
+
     // Create cropper elements
     self.$container = $this.parent();
-    self.$cropper = $cropper = $(TEMPLATE);
+    self.$cropper = $cropper;
     self.$canvas = $cropper.find('.cropper-canvas').append($clone);
     self.$dragBox = $cropper.find('.cropper-drag-box');
-    self.$cropBox = $cropBox = $cropper.find('.cropper-crop-box');
+    self.$cropBox = $cropBox;
     self.$viewBox = $cropper.find('.cropper-view-box');
-    self.$face = $face = $cropBox.find('.cropper-face');
+    self.$face = $face;
 
     // Hide the original image
     $this.addClass(CLASS_HIDDEN).after($cropper);

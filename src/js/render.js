@@ -29,7 +29,7 @@ export default {
 
     $cropper.css((self.container = {
       width: Math.max($container.width(), Number(options.minContainerWidth) || 200),
-      height: Math.max($container.height(), Number(options.minContainerHeight) || 100)
+      height: Math.max($container.height(), Number(options.minContainerHeight) || 100),
     }));
 
     $this.addClass(hidden);
@@ -73,8 +73,10 @@ export default {
       height: canvasHeight,
     };
 
-    canvas.oldLeft = canvas.left = (containerWidth - canvasWidth) / 2;
-    canvas.oldTop = canvas.top = (containerHeight - canvasHeight) / 2;
+    canvas.left = (containerWidth - canvasWidth) / 2;
+    canvas.top = (containerHeight - canvasHeight) / 2;
+    canvas.oldLeft = canvas.left;
+    canvas.oldTop = canvas.top;
 
     self.canvas = canvas;
     self.limited = (viewMode === 1 || viewMode === 2);
@@ -158,11 +160,11 @@ export default {
         if (cropped && self.limited) {
           canvas.minLeft = Math.min(
             cropBox.left,
-            (cropBox.left + cropBox.width) - canvas.width
+            (cropBox.left + cropBox.width) - canvas.width,
           );
           canvas.minTop = Math.min(
             cropBox.top,
-            (cropBox.top + cropBox.height) - canvas.height
+            (cropBox.top + cropBox.height) - canvas.height,
           );
           canvas.maxLeft = cropBox.left;
           canvas.maxTop = cropBox.top;
@@ -203,7 +205,7 @@ export default {
       const rotated = utils.getRotatedSizes({
         width: image.width,
         height: image.height,
-        degree: rotate
+        degree: rotate,
       });
       const aspectRatio = rotated.width / rotated.height;
       const isSquareImage = image.aspectRatio === 1;
@@ -222,7 +224,7 @@ export default {
           const rotated2 = utils.getRotatedSizes({
             width: naturalWidth,
             height: naturalHeight,
-            degree: rotate
+            degree: rotate,
           });
 
           canvas.naturalWidth = rotated2.width;
@@ -246,8 +248,10 @@ export default {
 
     self.limitCanvas(false, true);
 
-    canvas.oldLeft = canvas.left = Math.min(Math.max(canvas.left, canvas.minLeft), canvas.maxLeft);
-    canvas.oldTop = canvas.top = Math.min(Math.max(canvas.top, canvas.minTop), canvas.maxTop);
+    canvas.left = Math.min(Math.max(canvas.left, canvas.minLeft), canvas.maxLeft);
+    canvas.top = Math.min(Math.max(canvas.top, canvas.minTop), canvas.maxTop);
+    canvas.oldLeft = canvas.left;
+    canvas.oldTop = canvas.top;
 
     self.$canvas.css({
       width: canvas.width,
@@ -255,7 +259,7 @@ export default {
       transform: utils.getTransform({
         translateX: canvas.left,
         translateY: canvas.top,
-      })
+      }),
     });
 
     self.renderImage();
@@ -280,7 +284,7 @@ export default {
         width: canvas.width,
         height: canvas.height,
         degree: image.rotate,
-        aspectRatio: image.aspectRatio
+        aspectRatio: image.aspectRatio,
       }, true);
     }
 
@@ -288,12 +292,12 @@ export default {
       width: reversed.width,
       height: reversed.height,
       left: (canvas.width - reversed.width) / 2,
-      top: (canvas.height - reversed.height) / 2
+      top: (canvas.height - reversed.height) / 2,
     } : {
       width: canvas.width,
       height: canvas.height,
       left: 0,
-      top: 0
+      top: 0,
     });
 
     self.$clone.css({
@@ -302,7 +306,7 @@ export default {
       transform: utils.getTransform($.extend({
         translateX: image.left,
         translateY: image.top,
-      }, image))
+      }, image)),
     });
 
     if (isChanged) {
@@ -318,7 +322,7 @@ export default {
     const autoCropArea = Number(options.autoCropArea) || 0.8;
     const cropBox = {
       width: canvas.width,
-      height: canvas.height
+      height: canvas.height,
     };
 
     if (aspectRatio) {
@@ -339,8 +343,10 @@ export default {
     // The width of auto crop area must large than "minWidth", and the height too. (#164)
     cropBox.width = Math.max(cropBox.minWidth, cropBox.width * autoCropArea);
     cropBox.height = Math.max(cropBox.minHeight, cropBox.height * autoCropArea);
-    cropBox.oldLeft = cropBox.left = canvas.left + ((canvas.width - cropBox.width) / 2);
-    cropBox.oldTop = cropBox.top = canvas.top + ((canvas.height - cropBox.height) / 2);
+    cropBox.left = canvas.left + ((canvas.width - cropBox.width) / 2);
+    cropBox.top = canvas.top + ((canvas.height - cropBox.height) / 2);
+    cropBox.oldLeft = cropBox.left;
+    cropBox.oldTop = cropBox.top;
 
     self.initialCropBox = $.extend({}, cropBox);
   },
@@ -429,14 +435,16 @@ export default {
 
     self.limitCropBox(false, true);
 
-    cropBox.oldLeft = cropBox.left = Math.min(
+    cropBox.left = Math.min(
       Math.max(cropBox.left, cropBox.minLeft),
-      cropBox.maxLeft
+      cropBox.maxLeft,
     );
-    cropBox.oldTop = cropBox.top = Math.min(
+    cropBox.top = Math.min(
       Math.max(cropBox.top, cropBox.minTop),
-      cropBox.maxTop
+      cropBox.maxTop,
     );
+    cropBox.oldLeft = cropBox.left;
+    cropBox.oldTop = cropBox.top;
 
     if (options.movable && options.cropBoxMovable) {
       // Turn to move the canvas when the crop box is equal to the container

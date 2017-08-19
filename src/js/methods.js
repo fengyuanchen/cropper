@@ -75,7 +75,7 @@ export default {
       left: 0,
       top: 0,
       width: 0,
-      height: 0
+      height: 0,
     });
 
     self.cropped = false;
@@ -176,7 +176,7 @@ export default {
 
     self.moveTo(
       utils.isUndefined(offsetX) ? offsetX : canvas.left + Number(offsetX),
-      utils.isUndefined(offsetY) ? offsetY : canvas.top + Number(offsetY)
+      utils.isUndefined(offsetY) ? offsetY : canvas.top + Number(offsetY),
     );
   },
 
@@ -267,7 +267,7 @@ export default {
       if (self.trigger('zoom', {
         originalEvent,
         oldRatio: width / naturalWidth,
-        ratio: newWidth / naturalWidth
+        ratio: newWidth / naturalWidth,
       }).isDefaultPrevented()) {
         return;
       }
@@ -277,7 +277,7 @@ export default {
         const center = pointers && utils.objectKeys(pointers).length ?
           getPointersCenter(pointers) : {
             pageX: _event.pageX || originalEvent.pageX || 0,
-            pageY: _event.pageY || originalEvent.pageY || 0
+            pageY: _event.pageY || originalEvent.pageY || 0,
           };
 
         // Zoom from the triggering point of the event
@@ -409,7 +409,7 @@ export default {
         x: cropBox.left - canvas.left,
         y: cropBox.top - canvas.top,
         width: cropBox.width,
-        height: cropBox.height
+        height: cropBox.height,
       };
 
       ratio = image.width / image.naturalWidth;
@@ -423,7 +423,7 @@ export default {
         x: 0,
         y: 0,
         width: 0,
-        height: 0
+        height: 0,
       };
     }
 
@@ -462,7 +462,8 @@ export default {
       if (options.rotatable) {
         if (utils.isNumber(data.rotate) && data.rotate !== image.rotate) {
           image.rotate = data.rotate;
-          self.rotated = rotated = true;
+          rotated = true;
+          self.rotated = rotated;
         }
       }
 
@@ -541,7 +542,7 @@ export default {
         'width',
         'height',
         'naturalWidth',
-        'naturalHeight'
+        'naturalHeight',
       ], (i, n) => {
         data[n] = canvas[n];
       });
@@ -598,7 +599,7 @@ export default {
       left: cropBox.left,
       top: cropBox.top,
       width: cropBox.width,
-      height: cropBox.height
+      height: cropBox.height,
     } : {};
   },
 
@@ -727,25 +728,35 @@ export default {
       let dstHeight;
 
       if (srcX <= -originalWidth || srcX > sourceWidth) {
-        srcX = srcWidth = dstX = dstWidth = 0;
+        srcX = 0;
+        srcWidth = 0;
+        dstX = 0;
+        dstWidth = 0;
       } else if (srcX <= 0) {
         dstX = -srcX;
         srcX = 0;
-        srcWidth = dstWidth = Math.min(sourceWidth, originalWidth + srcX);
+        dstWidth = Math.min(sourceWidth, originalWidth + srcX);
+        srcWidth = dstWidth;
       } else if (srcX <= sourceWidth) {
         dstX = 0;
-        srcWidth = dstWidth = Math.min(originalWidth, sourceWidth - srcX);
+        dstWidth = Math.min(originalWidth, sourceWidth - srcX);
+        srcWidth = dstWidth;
       }
 
       if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
-        srcY = srcHeight = dstY = dstHeight = 0;
+        srcY = 0;
+        srcHeight = 0;
+        dstY = 0;
+        dstHeight = 0;
       } else if (srcY <= 0) {
         dstY = -srcY;
         srcY = 0;
-        srcHeight = dstHeight = Math.min(sourceHeight, originalHeight + srcY);
+        dstHeight = Math.min(sourceHeight, originalHeight + srcY);
+        srcHeight = dstHeight;
       } else if (srcY <= sourceHeight) {
         dstY = 0;
-        srcHeight = dstHeight = Math.min(originalHeight, sourceHeight - srcY);
+        dstHeight = Math.min(originalHeight, sourceHeight - srcY);
+        srcHeight = dstHeight;
       }
 
       // All the numerical parameters should be integer for `drawImage` (#476)
@@ -765,7 +776,7 @@ export default {
           Math.floor(dstX),
           Math.floor(dstY),
           Math.floor(dstWidth),
-          Math.floor(dstHeight)
+          Math.floor(dstHeight),
         );
       }
 
@@ -835,5 +846,5 @@ export default {
           .toggleClass('cropper-move', movable);
       }
     }
-  }
+  },
 };

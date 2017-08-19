@@ -29,7 +29,7 @@ export default {
       $this.data(DATA_PREVIEW, {
         width: $this.width(),
         height: $this.height(),
-        html: $this.html()
+        html: $this.html(),
       });
 
       if (crossOrigin) {
@@ -66,7 +66,7 @@ export default {
 
       $this.css({
         width: data.width,
-        height: data.height
+        height: data.height,
       }).html(data.html).removeData(DATA_PREVIEW);
     });
   },
@@ -118,7 +118,7 @@ export default {
 
       $this.css({
         width: newWidth,
-        height: newHeight
+        height: newHeight,
       }).find('img').css({
         width: width * ratio,
         height: height * ratio,
