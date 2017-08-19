@@ -1,14 +1,13 @@
-# Files to ignore
-
-build
-docs
-examples
-test
 /_*
 /.*
 *.map
+build
+docs
+examples
+node_modules
+test
 bower.json
-postcss.config.json
+postcss.config.js
 rollup.config.js
 CONTRIBUTING.md
 ISSUE_TEMPLATE.md
