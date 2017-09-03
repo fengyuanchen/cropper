@@ -3,25 +3,26 @@ const commonjs = require('rollup-plugin-commonjs');
 const nodeResolve = require('rollup-plugin-node-resolve');
 
 module.exports = {
-  entry: 'src/js/index.js',
-  targets: [
+  input: 'src/js/index.js',
+  output: [
     {
-      dest: 'dist/cropper.js',
+      file: 'dist/cropper.js',
+      format: 'umd',
     },
     {
-      dest: 'dist/cropper.common.js',
+      file: 'dist/cropper.common.js',
       format: 'cjs',
     },
     {
-      dest: 'dist/cropper.esm.js',
+      file: 'dist/cropper.esm.js',
       format: 'es',
     },
     {
-      dest: 'docs/js/cropper.js',
+      file: 'docs/js/cropper.js',
+      format: 'umd',
     },
   ],
-  format: 'umd',
-  moduleName: 'Cropper',
+  name: 'Cropper',
   external: ['jquery'],
   globals: {
     jquery: 'jQuery',
@@ -32,7 +33,7 @@ module.exports = {
       jsnext: true,
     }),
     babel({
-      exclude: '/node_modules/**',
+      exclude: 'node_modules/**',
     }),
   ],
 };

@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0 (Sep 3, 2017)
+
+- Improve crop box resizing behaviour.
+
 
 ## 3.0.0-rc.3 (Jul 7, 2017)
 
