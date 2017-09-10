@@ -78,6 +78,39 @@ export default {
       x: pointer.endX - pointer.startX,
       y: pointer.endY - pointer.startY,
     };
+    const check = (side) => {
+      switch (side) {
+        case ACTION_EAST:
+          if (right + range.x > maxWidth) {
+            range.x = maxWidth - right;
+          }
+
+          break;
+
+        case ACTION_WEST:
+          if (left + range.x < minLeft) {
+            range.x = minLeft - left;
+          }
+
+          break;
+
+        case ACTION_NORTH:
+          if (top + range.y < minTop) {
+            range.y = minTop - top;
+          }
+
+          break;
+
+        case ACTION_SOUTH:
+          if (bottom + range.y > maxHeight) {
+            range.y = maxHeight - bottom;
+          }
+
+          break;
+
+        default:
+      }
+    };
 
     switch (action) {
       // Move crop box
@@ -94,10 +127,7 @@ export default {
           break;
         }
 
-        if (right + range.x > maxWidth) {
-          range.x = maxWidth - right;
-        }
-
+        check(ACTION_EAST);
         width += range.x;
 
         if (aspectRatio) {
@@ -119,10 +149,7 @@ export default {
           break;
         }
 
-        if (top + range.y < minTop) {
-          range.y = minTop - top;
-        }
-
+        check(ACTION_NORTH);
         height -= range.y;
         top += range.y;
 
@@ -145,10 +172,7 @@ export default {
           break;
         }
 
-        if (left + range.x < minLeft) {
-          range.x = minLeft - left;
-        }
-
+        check(ACTION_WEST);
         width -= range.x;
         left += range.x;
 
@@ -171,10 +195,7 @@ export default {
           break;
         }
 
-        if (bottom + range.y > maxHeight) {
-          range.y = maxHeight - bottom;
-        }
-
+        check(ACTION_SOUTH);
         height += range.y;
 
         if (aspectRatio) {
@@ -196,10 +217,14 @@ export default {
             break;
           }
 
+          check(ACTION_NORTH);
           height -= range.y;
           top += range.y;
           width = height * aspectRatio;
         } else {
+          check(ACTION_NORTH);
+          check(ACTION_EAST);
+
           if (range.x >= 0) {
             if (right < maxWidth) {
               width += range.x;
@@ -242,11 +267,15 @@ export default {
             break;
           }
 
+          check(ACTION_NORTH);
           height -= range.y;
           top += range.y;
           width = height * aspectRatio;
           left += range.y * aspectRatio;
         } else {
+          check(ACTION_NORTH);
+          check(ACTION_WEST);
+
           if (range.x <= 0) {
             if (left > minLeft) {
               width -= range.x;
@@ -291,10 +320,14 @@ export default {
             break;
           }
 
+          check(ACTION_WEST);
           width -= range.x;
           left += range.x;
           height = width / aspectRatio;
         } else {
+          check(ACTION_SOUTH);
+          check(ACTION_WEST);
+
           if (range.x <= 0) {
             if (left > minLeft) {
               width -= range.x;
@@ -337,9 +370,13 @@ export default {
             break;
           }
 
+          check(ACTION_EAST);
           width += range.x;
           height = width / aspectRatio;
         } else {
+          check(ACTION_SOUTH);
+          check(ACTION_EAST);
+
           if (range.x >= 0) {
             if (right < maxWidth) {
               width += range.x;
