@@ -108,6 +108,8 @@ $(function () {
   $('.docs-buttons').on('click', '[data-method]', function () {
     var $this = $(this);
     var data = $this.data();
+    var cropper = $image.data('cropper');
+    var cropped;
     var $target;
     var result;
 
@@ -115,7 +117,7 @@ $(function () {
       return;
     }
 
-    if ($image.data('cropper') && data.method) {
+    if (cropper && data.method) {
       data = $.extend({}, data); // Clone a new one
 
       if (typeof data.target !== 'undefined') {
@@ -130,9 +132,14 @@ $(function () {
         }
       }
 
+      cropped = cropper.cropped;
+
       switch (data.method) {
         case 'rotate':
-          $image.cropper('clear');
+          if (cropper.cropped) {
+            $image.cropper('clear');
+          }
+
           break;
 
         case 'getCroppedCanvas':
@@ -151,7 +158,10 @@ $(function () {
 
       switch (data.method) {
         case 'rotate':
-          $image.cropper('crop');
+          if (cropped) {
+            $image.cropper('crop');
+          }
+
           break;
 
         case 'scaleX':
