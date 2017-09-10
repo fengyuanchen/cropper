@@ -2,7 +2,7 @@ import $ from 'jquery';
 import * as utils from './utilities';
 
 // Globals
-const PointerEvent = typeof window !== 'undefined' ? window.PointerEvent : null;
+const PointerEvent = window.PointerEvent;
 
 // Events
 const EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';

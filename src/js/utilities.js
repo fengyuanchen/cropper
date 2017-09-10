@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 const REGEXP_DATA_URL_HEAD = /^data:.*,/;
 const REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
-const navigator = typeof window !== 'undefined' ? window.navigator : null;
+const navigator = window.navigator;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);
 const fromCharCode = String.fromCharCode;
 
