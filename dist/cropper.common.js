@@ -1,13 +1,3 @@
-/*!
- * Cropper v3.0.0
- * https://github.com/fengyuanchen/cropper
- *
- * Copyright (c) 2017 Fengyuan Chen
- * Released under the MIT license
- *
- * Date: 2017-09-03T13:13:53.439Z
- */
-
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -868,7 +858,7 @@ var render = {
 
     if (options.movable && options.cropBoxMovable) {
       // Turn to move the canvas when the crop box is equal to the container
-      self.$face.data('action', cropBox.width === containerWidth && cropBox.height === containerHeight ? 'move' : 'all');
+      self.$face.data('action', parseInt(cropBox.width) === parseInt(containerWidth) && parseInt(cropBox.height) === parseInt(containerHeight) ? 'move' : 'all');
     }
 
     self.$cropBox.css({
