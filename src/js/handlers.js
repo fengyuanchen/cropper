@@ -28,8 +28,8 @@ export default {
     const minContainerWidth = Number(options.minContainerWidth) || 200;
     const minContainerHeight = Number(options.minContainerHeight) || 100;
 
-    if (self.disabled || container.width === minContainerWidth ||
-      container.height === minContainerHeight) {
+    if (self.disabled || container.width <= minContainerWidth ||
+      container.height <= minContainerHeight) {
       return;
     }
 
