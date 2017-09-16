@@ -448,7 +448,7 @@ export default {
 
     if (options.movable && options.cropBoxMovable) {
       // Turn to move the canvas when the crop box is equal to the container
-      self.$face.data('action', (cropBox.width === containerWidth && cropBox.height === containerHeight) ? 'move' : 'all');
+      self.$face.data('action', (cropBox.width >= containerWidth && cropBox.height >= containerHeight) ? 'move' : 'all');
     }
 
     self.$cropBox.css({
