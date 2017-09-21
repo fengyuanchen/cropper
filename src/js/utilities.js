@@ -182,7 +182,7 @@ export function getSourceCanvas(
   },
   {
     fillColor,
-    imageSmoothingEnabled,
+    imageSmoothingEnabled = true,
     imageSmoothingQuality,
     maxWidth,
     maxHeight,
