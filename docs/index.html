@@ -15,16 +15,15 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/cropper.css">
   <link rel="stylesheet" href="css/main.css">
-
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
 </head>
 <body>
-  <!--[if lt IE 8]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <!--[if lt IE 9]>
+  <div class="alert alert-warning alert-dismissible fade show m-0 rounded-0" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+  </div>
   <![endif]-->
 
   <!-- Header -->
@@ -46,13 +45,17 @@
   </header>
 
   <!-- Jumbotron -->
-  <div class="jumbotron docs-jumbotron">
+  <div class="jumbotron bg-primary text-white rounded-0">
     <div class="container">
-      <h1>Cropper <small class="version">v3.0.0</small></h1>
-      <p class="lead">A simple jQuery image cropping plugin.</p>
-      <div class="docs-carbonads-container">
-        <div class="docs-carbonads">
-          <script id="_carbonads_js" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=fengyuanchen" async></script>
+      <div class="row">
+        <div class="col-md">
+          <h1>Cropper <small class="h6">v3.0.0</small></h1>
+          <p class="lead">A simple jQuery image cropping plugin.</p>
+        </div>
+        <div class="col-md">
+          <div class="docs-carbonads">
+            <script id="_carbonads_js" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=fengyuanchen" async></script>
+          </div>
         </div>
       </div>
     </div>
@@ -238,17 +241,17 @@
         </div>
 
         <div class="btn-group btn-group-crop">
-          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
+          <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
             <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getCroppedCanvas&quot;, { maxWidth: 4096, maxHeight: 4096 })">
               Get Cropped Canvas
             </span>
           </button>
-          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }">
+          <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }">
             <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getCroppedCanvas&quot;, { width: 160, height: 90 })">
               160&times;90
             </span>
           </button>
-          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
+          <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
             <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getCroppedCanvas&quot;, { width: 320, height: 180 })">
               320&times;180
             </span>
@@ -274,62 +277,67 @@
           </div>
         </div><!-- /.modal -->
 
-        <button type="button" class="btn btn-primary" data-method="getData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getData&quot;)">
             Get Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="setData" data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="setData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;setData&quot;, data)">
             Set Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getContainerData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getContainerData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getContainerData&quot;)">
             Get Container Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getImageData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getImageData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getImageData&quot;)">
             Get Image Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getCanvasData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getCanvasData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getCanvasData&quot;)">
             Get Canvas Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="setCanvasData" data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="setCanvasData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;setCanvasData&quot;, data)">
             Set Canvas Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getCropBoxData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getCropBoxData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getCropBoxData&quot;)">
             Get Crop Box Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="setCropBoxData" data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="setCropBoxData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;setCropBoxData&quot;, data)">
             Set Crop Box Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="moveTo" data-option="0">
+        <button type="button" class="btn btn-secondary" data-method="moveTo" data-option="0">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="cropper.moveTo(0)">
             Move to [0,0]
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="zoomTo" data-option="1">
+        <button type="button" class="btn btn-secondary" data-method="zoomTo" data-option="1">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="cropper.zoomTo(1)">
             Zoom to 100%
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="rotateTo" data-option="180">
+        <button type="button" class="btn btn-secondary" data-method="rotateTo" data-option="180">
           <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="cropper.rotateTo(180)">
             Rotate 180°
           </span>
         </button>
-        <input type="text" class="form-control" id="putData" placeholder="Get data to here or set data with this value">
+        <button type="button" class="btn btn-secondary" data-method="scale" data-option="-2" data-second-option="-1">
+          <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scale(-2, -1)">
+            Scale (-2, -1)
+          </span>
+        </button>
+        <textarea type="text" class="form-control" id="putData" rows="1" placeholder="Get data to here or set data with this value"></textarea>
       </div><!-- /.docs-buttons -->
 
       <div class="col-md-3 docs-toggles">
@@ -519,7 +527,7 @@
           </ul>
         </div><!-- /.dropdown -->
 
-        <a class="btn btn-outline-primary btn-block" data-toggle="tooltip" data-animation="false" href="https://fengyuanchen.github.io/cropperjs" title="The non-jQuery version of Cropper (recommended)">Cropper.js</a>
+        <a class="btn btn-success btn-block" data-toggle="tooltip" data-animation="false" href="https://fengyuanchen.github.io/cropperjs" title="The non-jQuery version of Cropper (recommended)">Cropper.js</a>
 
       </div><!-- /.docs-toggles -->
     </div>
@@ -529,7 +537,7 @@
   <footer class="docs-footer">
     <div class="container">
       <p class="heart"></p>
-      <nav class="nav flex-wrap justify-content-center">
+      <nav class="nav flex-wrap justify-content-center mb-3">
         <a class="nav-link" href="https://github.com/fengyuanchen/cropper">GitHub</a>
         <a class="nav-link" href="https://github.com/fengyuanchen/cropper/tree/master/examples">Examples</a>
         <a class="nav-link" href="https://github.com/fengyuanchen/cropper/blob/master/LICENSE">License</a>
