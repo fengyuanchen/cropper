@@ -190,49 +190,27 @@ export default {
     }
   },
 
-  renderCanvas(isChanged) {
-    const self = this;
-    const canvas = self.canvas;
-    const image = self.image;
-    const rotate = image.rotate;
-    const naturalWidth = image.naturalWidth;
-    const naturalHeight = image.naturalHeight;
+  renderCanvas(changed, transformed) {
+    const { canvas, image } = this;
 
-    if (self.rotated) {
-      self.rotated = false;
-
-      // Computes rotated sizes with image sizes
-      const rotated = utils.getRotatedSizes({
-        width: image.width,
-        height: image.height,
-        degree: rotate,
+    if (transformed) {
+      const { width: naturalWidth, height: naturalHeight } = utils.getRotatedSizes({
+        width: image.naturalWidth * Math.abs(image.scaleX),
+        height: image.naturalHeight * Math.abs(image.scaleY),
+        degree: image.rotate,
       });
-      const aspectRatio = rotated.width / rotated.height;
-      const isSquareImage = image.aspectRatio === 1;
 
-      if (isSquareImage || aspectRatio !== canvas.aspectRatio) {
-        canvas.left -= (rotated.width - canvas.width) / 2;
-        canvas.top -= (rotated.height - canvas.height) / 2;
-        canvas.width = rotated.width;
-        canvas.height = rotated.height;
-        canvas.aspectRatio = aspectRatio;
-        canvas.naturalWidth = naturalWidth;
-        canvas.naturalHeight = naturalHeight;
+      const width = canvas.width * (naturalWidth / canvas.naturalWidth);
+      const height = canvas.height * (naturalHeight / canvas.naturalHeight);
 
-        // Computes rotated sizes with natural image sizes
-        if ((isSquareImage && rotate % 90) || rotate % 180) {
-          const rotated2 = utils.getRotatedSizes({
-            width: naturalWidth,
-            height: naturalHeight,
-            degree: rotate,
-          });
-
-          canvas.naturalWidth = rotated2.width;
-          canvas.naturalHeight = rotated2.height;
-        }
-
-        self.limitCanvas(true, false);
-      }
+      canvas.left -= (width - canvas.width) / 2;
+      canvas.top -= (height - canvas.height) / 2;
+      canvas.width = width;
+      canvas.height = height;
+      canvas.aspectRatio = naturalWidth / naturalHeight;
+      canvas.naturalWidth = naturalWidth;
+      canvas.naturalHeight = naturalHeight;
+      this.limitCanvas(true, false);
     }
 
     if (canvas.width > canvas.maxWidth || canvas.width < canvas.minWidth) {
@@ -246,14 +224,14 @@ export default {
     canvas.width = Math.min(Math.max(canvas.width, canvas.minWidth), canvas.maxWidth);
     canvas.height = Math.min(Math.max(canvas.height, canvas.minHeight), canvas.maxHeight);
 
-    self.limitCanvas(false, true);
+    this.limitCanvas(false, true);
 
     canvas.left = Math.min(Math.max(canvas.left, canvas.minLeft), canvas.maxLeft);
     canvas.top = Math.min(Math.max(canvas.top, canvas.minTop), canvas.maxTop);
     canvas.oldLeft = canvas.left;
     canvas.oldTop = canvas.top;
 
-    self.$canvas.css({
+    this.$canvas.css({
       width: canvas.width,
       height: canvas.height,
       transform: utils.getTransform({
@@ -262,45 +240,26 @@ export default {
       }),
     });
 
-    self.renderImage();
+    this.renderImage(changed);
 
-    if (self.cropped && self.limited) {
-      self.limitCropBox(true, true);
-    }
-
-    if (isChanged) {
-      self.output();
+    if (this.cropped && this.limited) {
+      this.limitCropBox(true, true);
     }
   },
 
-  renderImage(isChanged) {
-    const self = this;
-    const canvas = self.canvas;
-    const image = self.image;
-    let reversed;
+  renderImage(changed) {
+    const { canvas, image } = this;
+    const width = image.naturalWidth * (canvas.width / canvas.naturalWidth);
+    const height = image.naturalHeight * (canvas.height / canvas.naturalHeight);
 
-    if (image.rotate) {
-      reversed = utils.getRotatedSizes({
-        width: canvas.width,
-        height: canvas.height,
-        degree: image.rotate,
-        aspectRatio: image.aspectRatio,
-      }, true);
-    }
-
-    $.extend(image, reversed ? {
-      width: reversed.width,
-      height: reversed.height,
-      left: (canvas.width - reversed.width) / 2,
-      top: (canvas.height - reversed.height) / 2,
-    } : {
-      width: canvas.width,
-      height: canvas.height,
-      left: 0,
-      top: 0,
+    $.extend(image, {
+      width,
+      height,
+      left: (canvas.width - width) / 2,
+      top: (canvas.height - height) / 2,
     });
 
-    self.$clone.css({
+    this.$clone.css({
       width: image.width,
       height: image.height,
       transform: utils.getTransform($.extend({
@@ -309,8 +268,8 @@ export default {
       }, image)),
     });
 
-    if (isChanged) {
-      self.output();
+    if (changed) {
+      this.output();
     }
   },
 
