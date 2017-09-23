@@ -13,10 +13,13 @@ $(function () {
 
   }).cropper({
     ready: function () {
+      var PonterEvent = window.PonterEvent;
       var $dragBox = $image.data('cropper').$dragBox;
 
       // Triggers events manually when ready
-      $dragBox.trigger('mousedown').trigger('mousemove').trigger('mouseup');
+      $dragBox.trigger(PonterEvent ? 'pointerdown' : 'mousedown')
+        .trigger(PonterEvent ? 'pointermove' : 'mousemove')
+        .trigger(PonterEvent ? 'pointerup' : 'mouseup');
     },
 
     cropmove: function (e) {
