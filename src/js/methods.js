@@ -508,7 +508,7 @@ export default {
    * @return {Object} data
    */
   getContainerData() {
-    return this.ready ? this.container : {};
+    return this.ready ? $.extend({}, this.container) : {};
   },
 
   /**
@@ -517,7 +517,7 @@ export default {
    * @return {Object} data
    */
   getImageData() {
-    return this.loaded ? this.image : {};
+    return this.loaded ? $.extend({}, this.image) : {};
   },
 
   /**
