@@ -129,17 +129,11 @@ export default {
         }
       }
 
-      if (minCanvasWidth && minCanvasHeight) {
-        if (minCanvasHeight * aspectRatio > minCanvasWidth) {
-          minCanvasHeight = minCanvasWidth / aspectRatio;
-        } else {
-          minCanvasWidth = minCanvasHeight * aspectRatio;
-        }
-      } else if (minCanvasWidth) {
-        minCanvasHeight = minCanvasWidth / aspectRatio;
-      } else if (minCanvasHeight) {
-        minCanvasWidth = minCanvasHeight * aspectRatio;
-      }
+      ({ width: minCanvasWidth, height: minCanvasHeight } = utils.getContainSizes({
+        aspectRatio,
+        width: minCanvasWidth,
+        height: minCanvasHeight,
+      }));
 
       canvas.minWidth = minCanvasWidth;
       canvas.minHeight = minCanvasHeight;
