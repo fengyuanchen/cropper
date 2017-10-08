@@ -1,13 +1,15 @@
 import $ from 'jquery';
-import * as utils from './utilities';
-
-const DATA_PREVIEW = 'preview';
+import {
+  DATA_PREVIEW,
+} from './constants';
+import {
+  getTransformValues,
+} from './utilities';
 
 export default {
   initPreview() {
-    const self = this;
-    const crossOrigin = self.crossOrigin;
-    const url = crossOrigin ? self.crossOriginUrl : self.url;
+    const { crossOrigin } = this;
+    const url = crossOrigin ? this.crossOriginUrl : this.url;
     const image = document.createElement('img');
 
     if (crossOrigin) {
@@ -18,18 +20,18 @@ export default {
 
     const $clone2 = $(image);
 
-    self.$preview = $(self.options.preview);
-    self.$clone2 = $clone2;
-    self.$viewBox.html($clone2);
-    self.$preview.each((i, element) => {
-      const $this = $(element);
+    this.$preview = $(this.options.preview);
+    this.$clone2 = $clone2;
+    this.$viewBox.html($clone2);
+    this.$preview.each((i, element) => {
+      const $element = $(element);
       const img = document.createElement('img');
 
       // Save the original size for recover
-      $this.data(DATA_PREVIEW, {
-        width: $this.width(),
-        height: $this.height(),
-        html: $this.html(),
+      $element.data(DATA_PREVIEW, {
+        width: $element.width(),
+        height: $element.height(),
+        html: $element.html(),
       });
 
       if (crossOrigin) {
@@ -55,16 +57,16 @@ export default {
         'image-orientation:0deg!important;"'
       );
 
-      $this.html(img);
+      $element.html(img);
     });
   },
 
   resetPreview() {
     this.$preview.each((i, element) => {
-      const $this = $(element);
-      const data = $this.data(DATA_PREVIEW);
+      const $element = $(element);
+      const data = $element.data(DATA_PREVIEW);
 
-      $this.css({
+      $element.css({
         width: data.width,
         height: data.height,
       }).html(data.html).removeData(DATA_PREVIEW);
@@ -72,33 +74,28 @@ export default {
   },
 
   preview() {
-    const self = this;
-    const image = self.image;
-    const canvas = self.canvas;
-    const cropBox = self.cropBox;
-    const cropBoxWidth = cropBox.width;
-    const cropBoxHeight = cropBox.height;
-    const width = image.width;
-    const height = image.height;
+    const { image, canvas, cropBox } = this;
+    const { width: cropBoxWidth, height: cropBoxHeight } = cropBox;
+    const { width, height } = image;
     const left = cropBox.left - canvas.left - image.left;
     const top = cropBox.top - canvas.top - image.top;
 
-    if (!self.cropped || self.disabled) {
+    if (!this.cropped || this.disabled) {
       return;
     }
 
-    self.$clone2.css({
+    this.$clone2.css({
       width,
       height,
-      transform: utils.getTransform($.extend({
+      transform: getTransformValues($.extend({
         translateX: -left,
         translateY: -top,
       }, image)),
     });
 
-    self.$preview.each((i, element) => {
-      const $this = $(element);
-      const data = $this.data(DATA_PREVIEW);
+    this.$preview.each((i, element) => {
+      const $element = $(element);
+      const data = $element.data(DATA_PREVIEW);
       const originalWidth = data.width;
       const originalHeight = data.height;
       let newWidth = originalWidth;
@@ -116,13 +113,13 @@ export default {
         newHeight = originalHeight;
       }
 
-      $this.css({
+      $element.css({
         width: newWidth,
         height: newHeight,
       }).find('img').css({
         width: width * ratio,
         height: height * ratio,
-        transform: utils.getTransform($.extend({
+        transform: getTransformValues($.extend({
           translateX: -left * ratio,
           translateY: -top * ratio,
         }, image)),

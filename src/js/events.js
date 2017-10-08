@@ -1,110 +1,103 @@
 import $ from 'jquery';
-import * as utils from './utilities';
-
-// Globals
-const PointerEvent = window.PointerEvent;
-
-// Events
-const EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-const EVENT_POINTER_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
-const EVENT_POINTER_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
-const EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
-const EVENT_DBLCLICK = 'dblclick';
-const EVENT_RESIZE = 'resize';
-const EVENT_CROP_START = 'cropstart';
-const EVENT_CROP_MOVE = 'cropmove';
-const EVENT_CROP_END = 'cropend';
-const EVENT_CROP = 'crop';
-const EVENT_ZOOM = 'zoom';
+import {
+  EVENT_CROP,
+  EVENT_CROP_END,
+  EVENT_CROP_MOVE,
+  EVENT_CROP_START,
+  EVENT_DBLCLICK,
+  EVENT_POINTER_DOWN,
+  EVENT_POINTER_MOVE,
+  EVENT_POINTER_UP,
+  EVENT_RESIZE,
+  EVENT_WHEEL,
+  EVENT_ZOOM,
+} from './constants';
+import {
+  proxy,
+} from './utilities';
 
 export default {
   bind() {
-    const self = this;
-    const options = self.options;
-    const $this = self.$element;
-    const $cropper = self.$cropper;
+    const { $element, options, $cropper } = this;
 
     if ($.isFunction(options.cropstart)) {
-      $this.on(EVENT_CROP_START, options.cropstart);
+      $element.on(EVENT_CROP_START, options.cropstart);
     }
 
     if ($.isFunction(options.cropmove)) {
-      $this.on(EVENT_CROP_MOVE, options.cropmove);
+      $element.on(EVENT_CROP_MOVE, options.cropmove);
     }
 
     if ($.isFunction(options.cropend)) {
-      $this.on(EVENT_CROP_END, options.cropend);
+      $element.on(EVENT_CROP_END, options.cropend);
     }
 
     if ($.isFunction(options.crop)) {
-      $this.on(EVENT_CROP, options.crop);
+      $element.on(EVENT_CROP, options.crop);
     }
 
     if ($.isFunction(options.zoom)) {
-      $this.on(EVENT_ZOOM, options.zoom);
+      $element.on(EVENT_ZOOM, options.zoom);
     }
 
-    $cropper.on(EVENT_POINTER_DOWN, utils.proxy(self.cropStart, this));
+    $cropper.on(EVENT_POINTER_DOWN, proxy(this.cropStart, this));
 
     if (options.zoomable && options.zoomOnWheel) {
-      $cropper.on(EVENT_WHEEL, utils.proxy(self.wheel, this));
+      $cropper.on(EVENT_WHEEL, proxy(this.wheel, this));
     }
 
     if (options.toggleDragModeOnDblclick) {
-      $cropper.on(EVENT_DBLCLICK, utils.proxy(self.dblclick, this));
+      $cropper.on(EVENT_DBLCLICK, proxy(this.dblclick, this));
     }
 
     $(document)
-      .on(EVENT_POINTER_MOVE, (self.onCropMove = utils.proxy(self.cropMove, this)))
-      .on(EVENT_POINTER_UP, (self.onCropEnd = utils.proxy(self.cropEnd, this)));
+      .on(EVENT_POINTER_MOVE, (this.onCropMove = proxy(this.cropMove, this)))
+      .on(EVENT_POINTER_UP, (this.onCropEnd = proxy(this.cropEnd, this)));
 
     if (options.responsive) {
-      $(window).on(EVENT_RESIZE, (self.onResize = utils.proxy(self.resize, this)));
+      $(window).on(EVENT_RESIZE, (this.onResize = proxy(this.resize, this)));
     }
   },
 
   unbind() {
-    const self = this;
-    const options = self.options;
-    const $this = self.$element;
-    const $cropper = self.$cropper;
+    const { $element, options, $cropper } = this;
 
     if ($.isFunction(options.cropstart)) {
-      $this.off(EVENT_CROP_START, options.cropstart);
+      $element.off(EVENT_CROP_START, options.cropstart);
     }
 
     if ($.isFunction(options.cropmove)) {
-      $this.off(EVENT_CROP_MOVE, options.cropmove);
+      $element.off(EVENT_CROP_MOVE, options.cropmove);
     }
 
     if ($.isFunction(options.cropend)) {
-      $this.off(EVENT_CROP_END, options.cropend);
+      $element.off(EVENT_CROP_END, options.cropend);
     }
 
     if ($.isFunction(options.crop)) {
-      $this.off(EVENT_CROP, options.crop);
+      $element.off(EVENT_CROP, options.crop);
     }
 
     if ($.isFunction(options.zoom)) {
-      $this.off(EVENT_ZOOM, options.zoom);
+      $element.off(EVENT_ZOOM, options.zoom);
     }
 
-    $cropper.off(EVENT_POINTER_DOWN, self.cropStart);
+    $cropper.off(EVENT_POINTER_DOWN, this.cropStart);
 
     if (options.zoomable && options.zoomOnWheel) {
-      $cropper.off(EVENT_WHEEL, self.wheel);
+      $cropper.off(EVENT_WHEEL, this.wheel);
     }
 
     if (options.toggleDragModeOnDblclick) {
-      $cropper.off(EVENT_DBLCLICK, self.dblclick);
+      $cropper.off(EVENT_DBLCLICK, this.dblclick);
     }
 
     $(document)
-      .off(EVENT_POINTER_MOVE, self.onCropMove)
-      .off(EVENT_POINTER_UP, self.onCropEnd);
+      .off(EVENT_POINTER_MOVE, this.onCropMove)
+      .off(EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      $(window).off(EVENT_RESIZE, self.onResize);
+      $(window).off(EVENT_RESIZE, this.onResize);
     }
   },
 };

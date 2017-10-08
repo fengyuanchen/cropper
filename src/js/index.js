@@ -1,26 +1,34 @@
 import $ from 'jquery';
 import Cropper from './cropper';
+import {
+  NAMESPACE,
+} from './constants';
+import {
+  isString,
+  isUndefined,
+} from './utilities';
 
-const NAMESPACE = 'cropper';
-const OtherCropper = $.fn.cropper;
+const AnotherCropper = $.fn.cropper;
 
 $.fn.cropper = function jQueryCropper(option, ...args) {
   let result;
 
   this.each((i, element) => {
-    const $this = $(element);
-    let data = $this.data(NAMESPACE);
+    const $element = $(element);
+    let data = $element.data(NAMESPACE);
 
     if (!data) {
       if (/destroy/.test(option)) {
         return;
       }
 
-      const options = $.extend({}, $this.data(), $.isPlainObject(option) && option);
-      $this.data(NAMESPACE, (data = new Cropper(element, options)));
+      const options = $.extend({}, $element.data(), $.isPlainObject(option) && option);
+
+      data = new Cropper(element, options);
+      $element.data(NAMESPACE, data);
     }
 
-    if (typeof option === 'string') {
+    if (isString(option)) {
       const fn = data[option];
 
       if ($.isFunction(fn)) {
@@ -29,14 +37,12 @@ $.fn.cropper = function jQueryCropper(option, ...args) {
     }
   });
 
-  return typeof result !== 'undefined' ? result : this;
+  return isUndefined(result) ? this : result;
 };
 
 $.fn.cropper.Constructor = Cropper;
 $.fn.cropper.setDefaults = Cropper.setDefaults;
-
-// No conflict
 $.fn.cropper.noConflict = function noConflict() {
-  $.fn.cropper = OtherCropper;
+  $.fn.cropper = AnotherCropper;
   return this;
 };
