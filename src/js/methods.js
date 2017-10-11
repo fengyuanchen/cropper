@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import global from './global';
 import {
   CLASS_CROP,
   CLASS_DISABLED,
@@ -593,7 +594,7 @@ export default {
    * @returns {HTMLCanvasElement} - The result canvas.
    */
   getCroppedCanvas(options = {}) {
-    if (!this.ready || !window.HTMLCanvasElement) {
+    if (!this.ready || !global.HTMLCanvasElement) {
       return null;
     }
 

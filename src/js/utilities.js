@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import global from './global';
 
 /**
  * Check if the given value is a string.
@@ -12,7 +13,7 @@ export function isString(value) {
 /**
  * Check if the given value is not a number.
  */
-export const isNaN = Number.isNaN || window.isNaN;
+export const isNaN = Number.isNaN || global.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -58,7 +59,7 @@ export const objectKeys = Object.keys || function objectKeys(obj) {
   return keys;
 };
 
-const { location } = window;
+const { location } = global;
 const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
 /**
@@ -125,6 +126,7 @@ export function getTransformValues({
   return values.length ? values.join(' ') : 'none';
 }
 
+const { navigator } = global;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
 /**
@@ -228,7 +230,7 @@ export function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-export const isFinite = Number.isFinite || window.isFinite;
+export const isFinite = Number.isFinite || global.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -375,7 +377,6 @@ export function getStringFromCharCode(dataView, start, length) {
   return str;
 }
 
-const { atob } = window;
 const REGEXP_DATA_URL_HEAD = /^data:.*,/;
 
 /**

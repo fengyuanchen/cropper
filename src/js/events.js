@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import global from './global';
 import {
   EVENT_CROP,
   EVENT_CROP_END,
@@ -55,7 +56,7 @@ export default {
       .on(EVENT_POINTER_UP, (this.onCropEnd = proxy(this.cropEnd, this)));
 
     if (options.responsive) {
-      $(window).on(EVENT_RESIZE, (this.onResize = proxy(this.resize, this)));
+      $(global).on(EVENT_RESIZE, (this.onResize = proxy(this.resize, this)));
     }
   },
 
@@ -97,7 +98,7 @@ export default {
       .off(EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      $(window).off(EVENT_RESIZE, this.onResize);
+      $(global).off(EVENT_RESIZE, this.onResize);
     }
   },
 };
