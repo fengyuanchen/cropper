@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.1.0
+ * Cropper v3.1.1
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright (c) 2014-2017 Fengyuan Chen
+ * Copyright (c) 2014-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-08T08:56:38.353Z
+ * Date: 2017-10-11T13:34:24.201Z
  */
 
 (function (global, factory) {
@@ -16,9 +16,7 @@
 
 $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
 
-var _window = window;
-var PointerEvent = _window.PointerEvent;
-
+var global = typeof window !== 'undefined' ? window : {};
 
 var NAMESPACE = 'cropper';
 
@@ -62,9 +60,9 @@ var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
 var EVENT_ERROR = 'error';
 var EVENT_LOAD = 'load';
-var EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-var EVENT_POINTER_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_DOWN = global.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_POINTER_MOVE = global.PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_POINTER_UP = global.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
@@ -186,7 +184,7 @@ function isString(value) {
 /**
  * Check if the given value is not a number.
  */
-var isNaN = Number.isNaN || window.isNaN;
+var isNaN = Number.isNaN || global.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -242,8 +240,7 @@ var objectKeys = Object.keys || function objectKeys(obj) {
   return keys;
 };
 
-var _window$1 = window;
-var location = _window$1.location;
+var location = global.location;
 
 var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
@@ -306,6 +303,8 @@ function getTransformValues(_ref) {
 
   return values.length ? values.join(' ') : 'none';
 }
+
+var navigator = global.navigator;
 
 var IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
@@ -418,7 +417,7 @@ function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-var isFinite = Number.isFinite || window.isFinite;
+var isFinite = Number.isFinite || global.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -565,9 +564,6 @@ function getStringFromCharCode(dataView, start, length) {
 
   return str;
 }
-
-var _window2 = window;
-var atob = _window2.atob;
 
 var REGEXP_DATA_URL_HEAD = /^data:.*,/;
 
@@ -1302,7 +1298,7 @@ var events = {
     $(document).on(EVENT_POINTER_MOVE, this.onCropMove = proxy(this.cropMove, this)).on(EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
 
     if (options.responsive) {
-      $(window).on(EVENT_RESIZE, this.onResize = proxy(this.resize, this));
+      $(global).on(EVENT_RESIZE, this.onResize = proxy(this.resize, this));
     }
   },
   unbind: function unbind() {
@@ -1344,7 +1340,7 @@ var events = {
     $(document).off(EVENT_POINTER_MOVE, this.onCropMove).off(EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      $(window).off(EVENT_RESIZE, this.onResize);
+      $(global).off(EVENT_RESIZE, this.onResize);
     }
   }
 };
@@ -2584,7 +2580,7 @@ var methods = {
   getCroppedCanvas: function getCroppedCanvas() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (!this.ready || !window.HTMLCanvasElement) {
+    if (!this.ready || !global.HTMLCanvasElement) {
       return null;
     }
 
@@ -2808,7 +2804,7 @@ var Cropper = function () {
         this.isImg = true;
 
         // Should use `$.fn.attr` here. e.g.: "img/picture.jpg"
-        url = $element.attr('src');
+        url = $element.attr('src') || '';
         this.originalUrl = url;
 
         // Stop when it's a blank image
@@ -2818,7 +2814,7 @@ var Cropper = function () {
 
         // Should use `$.fn.prop` here. e.g.: "http://example.com/img/picture.jpg"
         url = $element.prop('src');
-      } else if ($element.is('canvas') && window.HTMLCanvasElement) {
+      } else if ($element.is('canvas') && global.HTMLCanvasElement) {
         url = $element[0].toDataURL();
       }
 
@@ -2852,7 +2848,7 @@ var Cropper = function () {
           options = this.options;
 
 
-      if (!options.checkOrientation || !window.ArrayBuffer) {
+      if (!options.checkOrientation || !global.ArrayBuffer) {
         this.clone();
         return;
       }
@@ -3146,49 +3142,53 @@ var Cropper = function () {
   return Cropper;
 }();
 
-$.extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+if ($.extend) {
+  $.extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+}
 
-var AnotherCropper = $.fn.cropper;
+if ($.fn) {
+  var AnotherCropper = $.fn.cropper;
 
-$.fn.cropper = function jQueryCropper(option) {
-  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  var result = void 0;
-
-  this.each(function (i, element) {
-    var $element = $(element);
-    var data = $element.data(NAMESPACE);
-
-    if (!data) {
-      if (/destroy/.test(option)) {
-        return;
-      }
-
-      var options = $.extend({}, $element.data(), $.isPlainObject(option) && option);
-
-      data = new Cropper(element, options);
-      $element.data(NAMESPACE, data);
+  $.fn.cropper = function jQueryCropper(option) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
 
-    if (isString(option)) {
-      var fn = data[option];
+    var result = void 0;
 
-      if ($.isFunction(fn)) {
-        result = fn.apply(data, args);
+    this.each(function (i, element) {
+      var $element = $(element);
+      var data = $element.data(NAMESPACE);
+
+      if (!data) {
+        if (/destroy/.test(option)) {
+          return;
+        }
+
+        var options = $.extend({}, $element.data(), $.isPlainObject(option) && option);
+
+        data = new Cropper(element, options);
+        $element.data(NAMESPACE, data);
       }
-    }
-  });
 
-  return isUndefined(result) ? this : result;
-};
+      if (isString(option)) {
+        var fn = data[option];
 
-$.fn.cropper.Constructor = Cropper;
-$.fn.cropper.setDefaults = Cropper.setDefaults;
-$.fn.cropper.noConflict = function noConflict() {
-  $.fn.cropper = AnotherCropper;
-  return this;
-};
+        if ($.isFunction(fn)) {
+          result = fn.apply(data, args);
+        }
+      }
+    });
+
+    return isUndefined(result) ? this : result;
+  };
+
+  $.fn.cropper.Constructor = Cropper;
+  $.fn.cropper.setDefaults = Cropper.setDefaults;
+  $.fn.cropper.noConflict = function noConflict() {
+    $.fn.cropper = AnotherCropper;
+    return this;
+  };
+}
 
 })));
