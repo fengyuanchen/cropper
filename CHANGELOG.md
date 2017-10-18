@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.1.2 (Oct 18, 2017)
+
+- Normalize related decimal numbers when crop an image with canvas (#918).
+- Ignore unnecessary files when publish to NPM (#928).
+
 ## 3.1.1 (Oct 11, 2017)
 
 - Supports to load in node environment.

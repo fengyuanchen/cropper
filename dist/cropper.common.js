@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.1.1
+ * Cropper v3.1.2
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-11T13:34:24.201Z
+ * Date: 2017-10-18T13:23:24.651Z
  */
 
 'use strict';
@@ -170,6 +170,8 @@ var DEFAULTS = {
 
 var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 /**
  * Check if the given value is a string.
  * @param {*} value - The value to check.
@@ -237,6 +239,21 @@ var objectKeys = Object.keys || function objectKeys(obj) {
 
   return keys;
 };
+
+var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/ }
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+function normalizeDecimalNumber(value) {
+  var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
+
+  return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
+}
 
 var location = global.location;
 
@@ -524,9 +541,10 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   var height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
   var canvas = document.createElement('canvas');
   var context = canvas.getContext('2d');
+  var params = [-imageNaturalWidth / 2, -imageNaturalHeight / 2, imageNaturalWidth, imageNaturalHeight];
 
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
   context.fillStyle = fillColor;
   context.fillRect(0, 0, width, height);
   context.save();
@@ -535,7 +553,9 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = !!imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage(image, Math.floor(-imageNaturalWidth / 2), Math.floor(-imageNaturalHeight / 2), Math.floor(imageNaturalWidth), Math.floor(imageNaturalHeight));
+  context.drawImage.apply(context, [image].concat(_toConsumableArray($.map(params, function (param) {
+    return Math.floor(normalizeDecimalNumber(param));
+  }))));
   context.restore();
   return canvas;
 }
@@ -1978,6 +1998,8 @@ var change = {
   }
 };
 
+function _toConsumableArray$1(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var methods = {
   // Show the crop box manually
   crop: function crop() {
@@ -2623,9 +2645,8 @@ var methods = {
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
-    canvas.width = width;
-    canvas.height = height;
-
+    canvas.width = normalizeDecimalNumber(width);
+    canvas.height = normalizeDecimalNumber(height);
     context.fillStyle = options.fillColor || 'transparent';
     context.fillRect(0, 0, width, height);
 
@@ -2690,17 +2711,18 @@ var methods = {
 
     // All the numerical parameters should be integer for `drawImage`
     // https://github.com/fengyuanchen/cropper/issues/476
-    var params = [Math.floor(srcX), Math.floor(srcY), Math.floor(srcWidth), Math.floor(srcHeight)];
+    var params = [srcX, srcY, srcWidth, srcHeight];
 
     // Avoid "IndexSizeError"
     if (dstWidth > 0 && dstHeight > 0) {
       var scale = width / initialWidth;
 
-      params.push(Math.floor(dstX * scale), Math.floor(dstY * scale), Math.floor(dstWidth * scale), Math.floor(dstHeight * scale));
+      params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
-    context.drawImage.apply(context, [source].concat(params));
-
+    context.drawImage.apply(context, [source].concat(_toConsumableArray$1($.map(params, function (param) {
+      return Math.floor(normalizeDecimalNumber(param));
+    }))));
     return canvas;
   },
 
