@@ -1,5 +1,7 @@
 import $ from 'jquery';
-import global from './global';
+import {
+  WINDOW,
+} from './constants';
 
 /**
  * Check if the given value is a string.
@@ -13,7 +15,7 @@ export function isString(value) {
 /**
  * Check if the given value is not a number.
  */
-export const isNaN = Number.isNaN || global.isNaN;
+export const isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -72,7 +74,7 @@ export function normalizeDecimalNumber(value, times = 100000000000) {
   return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
 }
 
-const { location } = global;
+const { location } = WINDOW;
 const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
 /**
@@ -139,7 +141,7 @@ export function getTransformValues({
   return values.length ? values.join(' ') : 'none';
 }
 
-const { navigator } = global;
+const { navigator } = WINDOW;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
 /**
@@ -243,7 +245,7 @@ export function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-export const isFinite = Number.isFinite || global.isFinite;
+export const isFinite = Number.isFinite || WINDOW.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.

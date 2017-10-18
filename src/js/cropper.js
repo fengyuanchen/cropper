@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import global from './global';
 import DEFAULTS from './defaults';
 import TEMPLATE from './template';
 import render from './render';
@@ -83,7 +82,7 @@ class Cropper {
 
       // Should use `$.fn.prop` here. e.g.: "http://example.com/img/picture.jpg"
       url = $element.prop('src');
-    } else if ($element.is('canvas') && global.HTMLCanvasElement) {
+    } else if ($element.is('canvas') && window.HTMLCanvasElement) {
       url = $element[0].toDataURL();
     }
 
@@ -109,7 +108,7 @@ class Cropper {
 
     const { $element, options } = this;
 
-    if (!options.checkOrientation || !global.ArrayBuffer) {
+    if (!options.checkOrientation || !window.ArrayBuffer) {
       this.clone();
       return;
     }
