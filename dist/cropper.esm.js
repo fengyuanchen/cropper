@@ -1,17 +1,16 @@
 /*!
- * Cropper v3.1.2
+ * Cropper v3.1.3
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-18T13:23:24.651Z
+ * Date: 2017-10-21T10:04:29.734Z
  */
 
 import $ from 'jquery';
 
-var global = typeof window !== 'undefined' ? window : {};
-
+var WINDOW = typeof window !== 'undefined' ? window : {};
 var NAMESPACE = 'cropper';
 
 // Actions
@@ -54,9 +53,9 @@ var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
 var EVENT_ERROR = 'error';
 var EVENT_LOAD = 'load';
-var EVENT_POINTER_DOWN = global.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-var EVENT_POINTER_MOVE = global.PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = global.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_POINTER_UP = WINDOW.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
@@ -180,7 +179,7 @@ function isString(value) {
 /**
  * Check if the given value is not a number.
  */
-var isNaN = Number.isNaN || global.isNaN;
+var isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -251,7 +250,7 @@ function normalizeDecimalNumber(value) {
   return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
 }
 
-var location = global.location;
+var location = WINDOW.location;
 
 var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
@@ -315,7 +314,7 @@ function getTransformValues(_ref) {
   return values.length ? values.join(' ') : 'none';
 }
 
-var navigator = global.navigator;
+var navigator = WINDOW.navigator;
 
 var IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
@@ -428,7 +427,7 @@ function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-var isFinite = Number.isFinite || global.isFinite;
+var isFinite = Number.isFinite || WINDOW.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -502,9 +501,12 @@ function getRotatedSizes(_ref5) {
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   var imageNaturalWidth = _ref6.naturalWidth,
       imageNaturalHeight = _ref6.naturalHeight,
-      rotate = _ref6.rotate,
-      scaleX = _ref6.scaleX,
-      scaleY = _ref6.scaleY;
+      _ref6$rotate = _ref6.rotate,
+      rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
+      _ref6$scaleX = _ref6.scaleX,
+      scaleX = _ref6$scaleX === undefined ? 1 : _ref6$scaleX,
+      _ref6$scaleY = _ref6.scaleY,
+      scaleY = _ref6$scaleY === undefined ? 1 : _ref6$scaleY;
   var aspectRatio = _ref7.aspectRatio,
       naturalWidth = _ref7.naturalWidth,
       naturalHeight = _ref7.naturalHeight;
@@ -924,9 +926,9 @@ var render = {
 
     if (transformed) {
       var _getRotatedSizes = getRotatedSizes({
-        width: image.naturalWidth * Math.abs(image.scaleX),
-        height: image.naturalHeight * Math.abs(image.scaleY),
-        degree: image.rotate
+        width: image.naturalWidth * Math.abs(image.scaleX || 1),
+        height: image.naturalHeight * Math.abs(image.scaleY || 1),
+        degree: image.rotate || 0
       }),
           naturalWidth = _getRotatedSizes.width,
           naturalHeight = _getRotatedSizes.height;
@@ -1312,7 +1314,7 @@ var events = {
     $(document).on(EVENT_POINTER_MOVE, this.onCropMove = proxy(this.cropMove, this)).on(EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
 
     if (options.responsive) {
-      $(global).on(EVENT_RESIZE, this.onResize = proxy(this.resize, this));
+      $(window).on(EVENT_RESIZE, this.onResize = proxy(this.resize, this));
     }
   },
   unbind: function unbind() {
@@ -1354,7 +1356,7 @@ var events = {
     $(document).off(EVENT_POINTER_MOVE, this.onCropMove).off(EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      $(global).off(EVENT_RESIZE, this.onResize);
+      $(window).off(EVENT_RESIZE, this.onResize);
     }
   }
 };
@@ -2596,7 +2598,7 @@ var methods = {
   getCroppedCanvas: function getCroppedCanvas() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (!this.ready || !global.HTMLCanvasElement) {
+    if (!this.ready || !window.HTMLCanvasElement) {
       return null;
     }
 
@@ -2830,7 +2832,7 @@ var Cropper = function () {
 
         // Should use `$.fn.prop` here. e.g.: "http://example.com/img/picture.jpg"
         url = $element.prop('src');
-      } else if ($element.is('canvas') && global.HTMLCanvasElement) {
+      } else if ($element.is('canvas') && window.HTMLCanvasElement) {
         url = $element[0].toDataURL();
       }
 
@@ -2864,7 +2866,7 @@ var Cropper = function () {
           options = this.options;
 
 
-      if (!options.checkOrientation || !global.ArrayBuffer) {
+      if (!options.checkOrientation || !window.ArrayBuffer) {
         this.clone();
         return;
       }
