@@ -50,7 +50,7 @@ export default {
       $cropper.on(EVENT_DBLCLICK, proxy(this.dblclick, this));
     }
 
-    $(document)
+    $(this.element.ownerDocument)
       .on(EVENT_POINTER_MOVE, (this.onCropMove = proxy(this.cropMove, this)))
       .on(EVENT_POINTER_UP, (this.onCropEnd = proxy(this.cropEnd, this)));
 
@@ -92,7 +92,7 @@ export default {
       $cropper.off(EVENT_DBLCLICK, this.dblclick);
     }
 
-    $(document)
+    $(this.element.ownerDocument)
       .off(EVENT_POINTER_MOVE, this.onCropMove)
       .off(EVENT_POINTER_UP, this.onCropEnd);
 
