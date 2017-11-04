@@ -1,4 +1,6 @@
-# Cropper [![Build Status](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper)
+# Cropper
+
+[![Build Status](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper) [![Downloads](https://img.shields.io/npm/dm/cropper.svg)](https://www.npmjs.com/package/cropper) [![Version](https://img.shields.io/npm/v/cropper.svg)](https://www.npmjs.com/package/cropper)
 
 > A simple jQuery image cropping plugin.
 
