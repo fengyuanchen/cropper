@@ -37,10 +37,10 @@
   ],
   "scripts": {
     "build": "npm run build:css && npm run build:js",
-    "build:css": "postcss src/css/cropper.css -o dist/cropper.css -m",
+    "build:css": "postcss src/css/cropper.css -o dist/cropper.css --no-map",
     "build:js": "rollup -c",
     "compress": "npm run compress:css && npm run compress:js",
-    "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css -m",
+    "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
     "copy": "cpy dist/cropper.css docs/css",
     "lint": "eslint src/js --fix",
