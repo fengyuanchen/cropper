@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.1.3 (Oct 21, 2017)
+
+- Fixed a bug of render when disable one of `rotatable` and `scalable` options.
+
+## 3.1.2 (Oct 18, 2017)
+
+- Normalize related decimal numbers when crop an image with canvas (#918).
+- Ignore unnecessary files when publish to NPM (#928).
+
+## 3.1.1 (Oct 11, 2017)
+
+- Supports to load in node environment.
+
 ## 3.1.0 (Oct 8, 2017)
 
 - Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth` and `maxHeight`.

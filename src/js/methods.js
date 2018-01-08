@@ -19,6 +19,7 @@ import {
   getSourceCanvas,
   isNumber,
   isUndefined,
+  normalizeDecimalNumber,
   objectKeys,
 } from './utilities';
 
@@ -637,9 +638,8 @@ export default {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
 
-    canvas.width = width;
-    canvas.height = height;
-
+    canvas.width = normalizeDecimalNumber(width);
+    canvas.height = normalizeDecimalNumber(height);
     context.fillStyle = options.fillColor || 'transparent';
     context.fillRect(0, 0, width, height);
 
@@ -702,10 +702,10 @@ export default {
     // All the numerical parameters should be integer for `drawImage`
     // https://github.com/fengyuanchen/cropper/issues/476
     const params = [
-      Math.floor(srcX),
-      Math.floor(srcY),
-      Math.floor(srcWidth),
-      Math.floor(srcHeight),
+      srcX,
+      srcY,
+      srcWidth,
+      srcHeight,
     ];
 
     // Avoid "IndexSizeError"
@@ -713,15 +713,14 @@ export default {
       const scale = width / initialWidth;
 
       params.push(
-        Math.floor(dstX * scale),
-        Math.floor(dstY * scale),
-        Math.floor(dstWidth * scale),
-        Math.floor(dstHeight * scale),
+        dstX * scale,
+        dstY * scale,
+        dstWidth * scale,
+        dstHeight * scale,
       );
     }
 
-    context.drawImage(source, ...params);
-
+    context.drawImage(source, ...$.map(params, param => Math.floor(normalizeDecimalNumber(param))));
     return canvas;
   },
 

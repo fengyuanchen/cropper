@@ -1,4 +1,6 @@
-# Cropper [![Build Status](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper)
+# Cropper
+
+[![Build Status](https://travis-ci.org/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper) [![Downloads](https://img.shields.io/npm/dm/cropper.svg)](https://www.npmjs.com/package/cropper) [![Version](https://img.shields.io/npm/v/cropper.svg)](https://www.npmjs.com/package/cropper)
 
 > A simple jQuery image cropping plugin.
 
@@ -989,7 +991,7 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://chenfengyuan.com)
+[MIT](http://opensource.org/licenses/MIT) © [Chen Fengyuan](http://chenfengyuan.com)
 
 ## Related projects
 

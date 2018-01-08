@@ -136,7 +136,7 @@ $(function () {
 
       switch (data.method) {
         case 'rotate':
-          if (cropper.cropped) {
+          if (cropped && options.viewMode > 0) {
             $image.cropper('clear');
           }
 
@@ -158,7 +158,7 @@ $(function () {
 
       switch (data.method) {
         case 'rotate':
-          if (cropped) {
+          if (cropped && options.viewMode > 0) {
             $image.cropper('crop');
           }
 

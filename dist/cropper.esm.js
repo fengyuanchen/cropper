@@ -1,19 +1,16 @@
 /*!
- * Cropper v3.1.0
+ * Cropper v3.1.3
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright (c) 2014-2017 Fengyuan Chen
+ * Copyright (c) 2014-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-08T08:56:38.353Z
+ * Date: 2017-10-21T10:04:29.734Z
  */
 
 import $ from 'jquery';
 
-var _window = window;
-var PointerEvent = _window.PointerEvent;
-
-
+var WINDOW = typeof window !== 'undefined' ? window : {};
 var NAMESPACE = 'cropper';
 
 // Actions
@@ -56,9 +53,9 @@ var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
 var EVENT_ERROR = 'error';
 var EVENT_LOAD = 'load';
-var EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-var EVENT_POINTER_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_POINTER_UP = WINDOW.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
@@ -168,6 +165,8 @@ var DEFAULTS = {
 
 var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 /**
  * Check if the given value is a string.
  * @param {*} value - The value to check.
@@ -180,7 +179,7 @@ function isString(value) {
 /**
  * Check if the given value is not a number.
  */
-var isNaN = Number.isNaN || window.isNaN;
+var isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -236,8 +235,22 @@ var objectKeys = Object.keys || function objectKeys(obj) {
   return keys;
 };
 
-var _window$1 = window;
-var location = _window$1.location;
+var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/ }
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+function normalizeDecimalNumber(value) {
+  var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
+
+  return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
+}
+
+var location = WINDOW.location;
 
 var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
@@ -300,6 +313,8 @@ function getTransformValues(_ref) {
 
   return values.length ? values.join(' ') : 'none';
 }
+
+var navigator = WINDOW.navigator;
 
 var IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
@@ -412,7 +427,7 @@ function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-var isFinite = Number.isFinite || window.isFinite;
+var isFinite = Number.isFinite || WINDOW.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -486,9 +501,12 @@ function getRotatedSizes(_ref5) {
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   var imageNaturalWidth = _ref6.naturalWidth,
       imageNaturalHeight = _ref6.naturalHeight,
-      rotate = _ref6.rotate,
-      scaleX = _ref6.scaleX,
-      scaleY = _ref6.scaleY;
+      _ref6$rotate = _ref6.rotate,
+      rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
+      _ref6$scaleX = _ref6.scaleX,
+      scaleX = _ref6$scaleX === undefined ? 1 : _ref6$scaleX,
+      _ref6$scaleY = _ref6.scaleY,
+      scaleY = _ref6$scaleY === undefined ? 1 : _ref6$scaleY;
   var aspectRatio = _ref7.aspectRatio,
       naturalWidth = _ref7.naturalWidth,
       naturalHeight = _ref7.naturalHeight;
@@ -521,9 +539,10 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   var height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
   var canvas = document.createElement('canvas');
   var context = canvas.getContext('2d');
+  var params = [-imageNaturalWidth / 2, -imageNaturalHeight / 2, imageNaturalWidth, imageNaturalHeight];
 
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
   context.fillStyle = fillColor;
   context.fillRect(0, 0, width, height);
   context.save();
@@ -532,7 +551,9 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = !!imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage(image, Math.floor(-imageNaturalWidth / 2), Math.floor(-imageNaturalHeight / 2), Math.floor(imageNaturalWidth), Math.floor(imageNaturalHeight));
+  context.drawImage.apply(context, [image].concat(_toConsumableArray($.map(params, function (param) {
+    return Math.floor(normalizeDecimalNumber(param));
+  }))));
   context.restore();
   return canvas;
 }
@@ -559,9 +580,6 @@ function getStringFromCharCode(dataView, start, length) {
 
   return str;
 }
-
-var _window2 = window;
-var atob = _window2.atob;
 
 var REGEXP_DATA_URL_HEAD = /^data:.*,/;
 
@@ -908,9 +926,9 @@ var render = {
 
     if (transformed) {
       var _getRotatedSizes = getRotatedSizes({
-        width: image.naturalWidth * Math.abs(image.scaleX),
-        height: image.naturalHeight * Math.abs(image.scaleY),
-        degree: image.rotate
+        width: image.naturalWidth * Math.abs(image.scaleX || 1),
+        height: image.naturalHeight * Math.abs(image.scaleY || 1),
+        degree: image.rotate || 0
       }),
           naturalWidth = _getRotatedSizes.width,
           naturalHeight = _getRotatedSizes.height;
@@ -1978,6 +1996,8 @@ var change = {
   }
 };
 
+function _toConsumableArray$1(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var methods = {
   // Show the crop box manually
   crop: function crop() {
@@ -2623,9 +2643,8 @@ var methods = {
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
-    canvas.width = width;
-    canvas.height = height;
-
+    canvas.width = normalizeDecimalNumber(width);
+    canvas.height = normalizeDecimalNumber(height);
     context.fillStyle = options.fillColor || 'transparent';
     context.fillRect(0, 0, width, height);
 
@@ -2690,17 +2709,18 @@ var methods = {
 
     // All the numerical parameters should be integer for `drawImage`
     // https://github.com/fengyuanchen/cropper/issues/476
-    var params = [Math.floor(srcX), Math.floor(srcY), Math.floor(srcWidth), Math.floor(srcHeight)];
+    var params = [srcX, srcY, srcWidth, srcHeight];
 
     // Avoid "IndexSizeError"
     if (dstWidth > 0 && dstHeight > 0) {
       var scale = width / initialWidth;
 
-      params.push(Math.floor(dstX * scale), Math.floor(dstY * scale), Math.floor(dstWidth * scale), Math.floor(dstHeight * scale));
+      params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
-    context.drawImage.apply(context, [source].concat(params));
-
+    context.drawImage.apply(context, [source].concat(_toConsumableArray$1($.map(params, function (param) {
+      return Math.floor(normalizeDecimalNumber(param));
+    }))));
     return canvas;
   },
 
@@ -2802,7 +2822,7 @@ var Cropper = function () {
         this.isImg = true;
 
         // Should use `$.fn.attr` here. e.g.: "img/picture.jpg"
-        url = $element.attr('src');
+        url = $element.attr('src') || '';
         this.originalUrl = url;
 
         // Stop when it's a blank image
@@ -3140,47 +3160,51 @@ var Cropper = function () {
   return Cropper;
 }();
 
-$.extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+if ($.extend) {
+  $.extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+}
 
-var AnotherCropper = $.fn.cropper;
+if ($.fn) {
+  var AnotherCropper = $.fn.cropper;
 
-$.fn.cropper = function jQueryCropper(option) {
-  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  var result = void 0;
-
-  this.each(function (i, element) {
-    var $element = $(element);
-    var data = $element.data(NAMESPACE);
-
-    if (!data) {
-      if (/destroy/.test(option)) {
-        return;
-      }
-
-      var options = $.extend({}, $element.data(), $.isPlainObject(option) && option);
-
-      data = new Cropper(element, options);
-      $element.data(NAMESPACE, data);
+  $.fn.cropper = function jQueryCropper(option) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
 
-    if (isString(option)) {
-      var fn = data[option];
+    var result = void 0;
 
-      if ($.isFunction(fn)) {
-        result = fn.apply(data, args);
+    this.each(function (i, element) {
+      var $element = $(element);
+      var data = $element.data(NAMESPACE);
+
+      if (!data) {
+        if (/destroy/.test(option)) {
+          return;
+        }
+
+        var options = $.extend({}, $element.data(), $.isPlainObject(option) && option);
+
+        data = new Cropper(element, options);
+        $element.data(NAMESPACE, data);
       }
-    }
-  });
 
-  return isUndefined(result) ? this : result;
-};
+      if (isString(option)) {
+        var fn = data[option];
 
-$.fn.cropper.Constructor = Cropper;
-$.fn.cropper.setDefaults = Cropper.setDefaults;
-$.fn.cropper.noConflict = function noConflict() {
-  $.fn.cropper = AnotherCropper;
-  return this;
-};
+        if ($.isFunction(fn)) {
+          result = fn.apply(data, args);
+        }
+      }
+    });
+
+    return isUndefined(result) ? this : result;
+  };
+
+  $.fn.cropper.Constructor = Cropper;
+  $.fn.cropper.setDefaults = Cropper.setDefaults;
+  $.fn.cropper.noConflict = function noConflict() {
+    $.fn.cropper = AnotherCropper;
+    return this;
+  };
+}

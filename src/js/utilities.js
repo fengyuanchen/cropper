@@ -1,4 +1,7 @@
 import $ from 'jquery';
+import {
+  WINDOW,
+} from './constants';
 
 /**
  * Check if the given value is a string.
@@ -12,7 +15,7 @@ export function isString(value) {
 /**
  * Check if the given value is not a number.
  */
-export const isNaN = Number.isNaN || window.isNaN;
+export const isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -58,7 +61,20 @@ export const objectKeys = Object.keys || function objectKeys(obj) {
   return keys;
 };
 
-const { location } = window;
+const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/ }
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+export function normalizeDecimalNumber(value, times = 100000000000) {
+  return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
+}
+
+const { location } = WINDOW;
 const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
 /**
@@ -125,6 +141,7 @@ export function getTransformValues({
   return values.length ? values.join(' ') : 'none';
 }
 
+const { navigator } = WINDOW;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
 /**
@@ -228,7 +245,7 @@ export function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-export const isFinite = Number.isFinite || window.isFinite;
+export const isFinite = Number.isFinite || WINDOW.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -266,9 +283,9 @@ export function getContainSizes({
  * @returns {Object} The result sizes.
  */
 export function getRotatedSizes({ width, height, degree }) {
-  degree = Math.abs(degree);
+  degree = Math.abs(degree) % 180;
 
-  if (degree % 180 === 90) {
+  if (degree === 90) {
     return {
       width: height,
       height: width,
@@ -278,10 +295,15 @@ export function getRotatedSizes({ width, height, degree }) {
   const arc = ((degree % 90) * Math.PI) / 180;
   const sinArc = Math.sin(arc);
   const cosArc = Math.cos(arc);
+  const newWidth = (width * cosArc) + (height * sinArc);
+  const newHeight = (width * sinArc) + (height * cosArc);
 
-  return {
-    width: (width * cosArc) + (height * sinArc),
-    height: (width * sinArc) + (height * cosArc),
+  return degree > 90 ? {
+    width: newHeight,
+    height: newWidth,
+  } : {
+    width: newWidth,
+    height: newHeight,
   };
 }
 
@@ -298,9 +320,9 @@ export function getSourceCanvas(
   {
     naturalWidth: imageNaturalWidth,
     naturalHeight: imageNaturalHeight,
-    rotate,
-    scaleX,
-    scaleY,
+    rotate = 0,
+    scaleX = 1,
+    scaleY = 1,
   },
   {
     aspectRatio,
@@ -331,9 +353,15 @@ export function getSourceCanvas(
   const height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
+  const params = [
+    -imageNaturalWidth / 2,
+    -imageNaturalHeight / 2,
+    imageNaturalWidth,
+    imageNaturalHeight,
+  ];
 
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
   context.fillStyle = fillColor;
   context.fillRect(0, 0, width, height);
   context.save();
@@ -342,13 +370,7 @@ export function getSourceCanvas(
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = !!imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage(
-    image,
-    Math.floor(-imageNaturalWidth / 2),
-    Math.floor(-imageNaturalHeight / 2),
-    Math.floor(imageNaturalWidth),
-    Math.floor(imageNaturalHeight),
-  );
+  context.drawImage(image, ...$.map(params, param => Math.floor(normalizeDecimalNumber(param))));
   context.restore();
   return canvas;
 }
@@ -375,7 +397,6 @@ export function getStringFromCharCode(dataView, start, length) {
   return str;
 }
 
-const { atob } = window;
 const REGEXP_DATA_URL_HEAD = /^data:.*,/;
 
 /**

@@ -72,7 +72,7 @@ class Cropper {
       this.isImg = true;
 
       // Should use `$.fn.attr` here. e.g.: "img/picture.jpg"
-      url = $element.attr('src');
+      url = $element.attr('src') || '';
       this.originalUrl = url;
 
       // Stop when it's a blank image
@@ -379,6 +379,8 @@ class Cropper {
   }
 }
 
-$.extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+if ($.extend) {
+  $.extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+}
 
 export default Cropper;

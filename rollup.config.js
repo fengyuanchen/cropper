@@ -31,10 +31,8 @@ module.exports = {
     jquery: 'jQuery',
   },
   plugins: [
+    nodeResolve(),
     commonjs(),
-    nodeResolve({
-      jsnext: true,
-    }),
     babel({
       exclude: 'node_modules/**',
     }),
