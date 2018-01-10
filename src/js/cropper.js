@@ -134,7 +134,8 @@ class Cropper {
       this.read(xhr.response);
     };
 
-    if (options.checkCrossOrigin && isCrossOriginURL(url) && $element.prop('crossOrigin')) {
+    // Bust cache when there is a "crossOrigin" property
+    if (options.checkCrossOrigin && isCrossOriginURL(url) && !$element.prop('crossOrigin')) {
       url = addTimestamp(url);
     }
 
