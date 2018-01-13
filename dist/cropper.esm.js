@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.1.3
+ * Cropper v3.1.4
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright (c) 2014-2017 Chen Fengyuan
+ * Copyright (c) 2014-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-21T10:04:29.734Z
+ * Date: 2018-01-13T09:37:52.890Z
  */
 
 import $ from 'jquery';
@@ -55,7 +55,7 @@ var EVENT_ERROR = 'error';
 var EVENT_LOAD = 'load';
 var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
 var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = WINDOW.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
@@ -165,7 +165,79 @@ var DEFAULTS = {
 
 var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
 
 /**
  * Check if the given value is a string.
@@ -471,9 +543,9 @@ function getRotatedSizes(_ref5) {
       height = _ref5.height,
       degree = _ref5.degree;
 
-  degree = Math.abs(degree);
+  degree = Math.abs(degree) % 180;
 
-  if (degree % 180 === 90) {
+  if (degree === 90) {
     return {
       width: height,
       height: width
@@ -483,10 +555,15 @@ function getRotatedSizes(_ref5) {
   var arc = degree % 90 * Math.PI / 180;
   var sinArc = Math.sin(arc);
   var cosArc = Math.cos(arc);
+  var newWidth = width * cosArc + height * sinArc;
+  var newHeight = width * sinArc + height * cosArc;
 
-  return {
-    width: width * cosArc + height * sinArc,
-    height: width * sinArc + height * cosArc
+  return degree > 90 ? {
+    width: newHeight,
+    height: newWidth
+  } : {
+    width: newWidth,
+    height: newHeight
   };
 }
 
@@ -551,7 +628,7 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = !!imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage.apply(context, [image].concat(_toConsumableArray($.map(params, function (param) {
+  context.drawImage.apply(context, [image].concat(toConsumableArray($.map(params, function (param) {
     return Math.floor(normalizeDecimalNumber(param));
   }))));
   context.restore();
@@ -1311,7 +1388,7 @@ var events = {
       $cropper.on(EVENT_DBLCLICK, proxy(this.dblclick, this));
     }
 
-    $(document).on(EVENT_POINTER_MOVE, this.onCropMove = proxy(this.cropMove, this)).on(EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
+    $(this.element.ownerDocument).on(EVENT_POINTER_MOVE, this.onCropMove = proxy(this.cropMove, this)).on(EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
 
     if (options.responsive) {
       $(window).on(EVENT_RESIZE, this.onResize = proxy(this.resize, this));
@@ -1353,7 +1430,7 @@ var events = {
       $cropper.off(EVENT_DBLCLICK, this.dblclick);
     }
 
-    $(document).off(EVENT_POINTER_MOVE, this.onCropMove).off(EVENT_POINTER_UP, this.onCropEnd);
+    $(this.element.ownerDocument).off(EVENT_POINTER_MOVE, this.onCropMove).off(EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
       $(window).off(EVENT_RESIZE, this.onResize);
@@ -1995,8 +2072,6 @@ var change = {
     });
   }
 };
-
-function _toConsumableArray$1(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var methods = {
   // Show the crop box manually
@@ -2718,7 +2793,7 @@ var methods = {
       params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
-    context.drawImage.apply(context, [source].concat(_toConsumableArray$1($.map(params, function (param) {
+    context.drawImage.apply(context, [source].concat(toConsumableArray($.map(params, function (param) {
       return Math.floor(normalizeDecimalNumber(param));
     }))));
     return canvas;
@@ -2773,10 +2848,6 @@ var methods = {
   }
 };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var Cropper = function () {
   /**
    * Create a new Cropper.
@@ -2785,8 +2856,7 @@ var Cropper = function () {
    */
   function Cropper(element) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, Cropper);
+    classCallCheck(this, Cropper);
 
     if (!element || !REGEXP_TAG_NAME.test(element.tagName)) {
       throw new Error('The first argument is required and must be an <img> or <canvas> element.');
@@ -2811,7 +2881,7 @@ var Cropper = function () {
     this.init();
   }
 
-  _createClass(Cropper, [{
+  createClass(Cropper, [{
     key: 'init',
     value: function init() {
       var $element = this.$element;
@@ -2892,7 +2962,8 @@ var Cropper = function () {
         _this.read(xhr.response);
       };
 
-      if (options.checkCrossOrigin && isCrossOriginURL(url) && $element.prop('crossOrigin')) {
+      // Bust cache when there is a "crossOrigin" property
+      if (options.checkCrossOrigin && isCrossOriginURL(url) && !$element.prop('crossOrigin')) {
         url = addTimestamp(url);
       }
 
@@ -3156,7 +3227,6 @@ var Cropper = function () {
       $.extend(DEFAULTS, $.isPlainObject(options) && options);
     }
   }]);
-
   return Cropper;
 }();
 

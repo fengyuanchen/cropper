@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.4 (Jan 13, 2018)
+
+- Fixed a bug of rotation (#938).
+
 ## 3.1.3 (Oct 21, 2017)
 
 - Fixed a bug of render when disable one of `rotatable` and `scalable` options.
