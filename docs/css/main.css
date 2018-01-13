@@ -239,11 +239,7 @@ label.btn {
   padding: .125rem 1rem;
 }
 
-.docs-options .dropdown-menu > li:hover {
-  background-color: #f7f7f7;
-}
-
-.docs-options .dropdown-menu > li > label {
+.docs-options .dropdown-menu .form-check-label {
   display: block;
 }
 
