@@ -6,6 +6,7 @@ A complete example of Cropper.
 ## Server Dependencies
 
 - PHP 5.5+
+- ASP.NET MVC 5+   (change "crop.php" to "UploadAvatar" in the index.html)
 
 
 ## Browser Support
