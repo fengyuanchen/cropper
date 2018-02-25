@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.1.4
+ * Cropper v3.1.5
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-01-13T09:37:52.890Z
+ * Date: 2018-02-25T09:07:38.300Z
  */
 
 import $ from 'jquery';
@@ -188,46 +188,6 @@ var createClass = function () {
     return Constructor;
   };
 }();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var toConsumableArray = function (arr) {
   if (Array.isArray(arr)) {
@@ -504,19 +464,24 @@ var isFinite = Number.isFinite || WINDOW.isFinite;
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
  * @param {Object} data - The original sizes.
+ * @param {string} [type='contain'] - The adjust type.
  * @returns {Object} The result sizes.
  */
-function getContainSizes(_ref4) {
+function getAdjustedSizes(_ref4) // or 'cover'
+{
   var aspectRatio = _ref4.aspectRatio,
       height = _ref4.height,
       width = _ref4.width;
+  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'contain';
 
   var isValidNumber = function isValidNumber(value) {
     return isFinite(value) && value > 0;
   };
 
   if (isValidNumber(width) && isValidNumber(height)) {
-    if (height * aspectRatio > width) {
+    var adjustedWidth = height * aspectRatio;
+
+    if (type === 'contain' && adjustedWidth > width || type === 'cover' && adjustedWidth < width) {
       height = width / aspectRatio;
     } else {
       width = height * aspectRatio;
@@ -576,9 +541,7 @@ function getRotatedSizes(_ref5) {
  * @returns {HTMLCanvasElement} The result canvas.
  */
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
-  var imageNaturalWidth = _ref6.naturalWidth,
-      imageNaturalHeight = _ref6.naturalHeight,
-      _ref6$rotate = _ref6.rotate,
+  var _ref6$rotate = _ref6.rotate,
       rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
       _ref6$scaleX = _ref6.scaleX,
       scaleX = _ref6$scaleX === undefined ? 1 : _ref6$scaleX,
@@ -602,21 +565,21 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
       _ref8$minHeight = _ref8.minHeight,
       minHeight = _ref8$minHeight === undefined ? 0 : _ref8$minHeight;
 
-  var maxSizes = getContainSizes({
+  var canvas = document.createElement('canvas');
+  var context = canvas.getContext('2d');
+  var maxSizes = getAdjustedSizes({
     aspectRatio: aspectRatio,
     width: maxWidth,
     height: maxHeight
   });
-  var minSizes = getContainSizes({
+  var minSizes = getAdjustedSizes({
     aspectRatio: aspectRatio,
     width: minWidth,
     height: minHeight
-  });
+  }, 'cover');
   var width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
   var height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
-  var canvas = document.createElement('canvas');
-  var context = canvas.getContext('2d');
-  var params = [-imageNaturalWidth / 2, -imageNaturalHeight / 2, imageNaturalWidth, imageNaturalHeight];
+  var params = [-width / 2, -height / 2, width, height];
 
   canvas.width = normalizeDecimalNumber(width);
   canvas.height = normalizeDecimalNumber(height);
@@ -626,7 +589,7 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   context.translate(width / 2, height / 2);
   context.rotate(rotate * Math.PI / 180);
   context.scale(scaleX, scaleY);
-  context.imageSmoothingEnabled = !!imageSmoothingEnabled;
+  context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
   context.drawImage.apply(context, [image].concat(toConsumableArray($.map(params, function (param) {
     return Math.floor(normalizeDecimalNumber(param));
@@ -944,14 +907,14 @@ var render = {
         }
       }
 
-      var _getContainSizes = getContainSizes({
+      var _getAdjustedSizes = getAdjustedSizes({
         aspectRatio: aspectRatio,
         width: minCanvasWidth,
         height: minCanvasHeight
-      });
+      }, 'cover');
 
-      minCanvasWidth = _getContainSizes.width;
-      minCanvasHeight = _getContainSizes.height;
+      minCanvasWidth = _getAdjustedSizes.width;
+      minCanvasHeight = _getAdjustedSizes.height;
 
 
       canvas.minWidth = minCanvasWidth;
@@ -2687,30 +2650,39 @@ var methods = {
     }
 
     var _getData = this.getData(),
-        x = _getData.x,
-        y = _getData.y,
+        initialX = _getData.x,
+        initialY = _getData.y,
         initialWidth = _getData.width,
         initialHeight = _getData.height;
 
+    var ratio = source.width / Math.floor(canvasData.naturalWidth);
+
+    if (ratio !== 1) {
+      initialX *= ratio;
+      initialY *= ratio;
+      initialWidth *= ratio;
+      initialHeight *= ratio;
+    }
+
     var aspectRatio = initialWidth / initialHeight;
-    var maxSizes = getContainSizes({
+    var maxSizes = getAdjustedSizes({
       aspectRatio: aspectRatio,
       width: options.maxWidth || Infinity,
       height: options.maxHeight || Infinity
     });
-    var minSizes = getContainSizes({
+    var minSizes = getAdjustedSizes({
       aspectRatio: aspectRatio,
       width: options.minWidth || 0,
       height: options.minHeight || 0
-    });
+    }, 'cover');
 
-    var _getContainSizes = getContainSizes({
+    var _getAdjustedSizes = getAdjustedSizes({
       aspectRatio: aspectRatio,
-      width: options.width || initialWidth,
-      height: options.height || initialHeight
+      width: options.width || (ratio !== 1 ? source.width : initialWidth),
+      height: options.height || (ratio !== 1 ? source.height : initialHeight)
     }),
-        width = _getContainSizes.width,
-        height = _getContainSizes.height;
+        width = _getAdjustedSizes.width,
+        height = _getAdjustedSizes.height;
 
     width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
     height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
@@ -2739,8 +2711,8 @@ var methods = {
     var sourceHeight = source.height;
 
     // Source canvas parameters
-    var srcX = x;
-    var srcY = y;
+    var srcX = initialX;
+    var srcY = initialY;
     var srcWidth = void 0;
     var srcHeight = void 0;
 

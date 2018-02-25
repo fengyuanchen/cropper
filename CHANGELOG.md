@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.5 (Feb 25, 2018)
+
+- Fixed a bug of `getCroppedCanvas` method when provide `maxWidth` or `maxHeight` options (#953).
+
 ## 3.1.4 (Jan 13, 2018)
 
 - Fixed a bug of rotation (#938).
@@ -21,11 +25,11 @@
 
 - Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth` and `maxHeight`.
 - Enhanced image scaling: the `scaleX` and `scaleY` values should only be `1` or `-1` before, but now they can be any numbers.
-- Improved crop box resizing behaviour in the northeast, northwest, southeast and southwest directions.
+- Improved crop box resizing behavior in the northeast, northwest, southeast and southwest directions.
 
 ## 3.0.0 (Sep 3, 2017)
 
-- Improved crop box resizing behaviour in the east, west, south and north directions.
+- Improved crop box resizing behavior in the east, west, south and north directions.
 
 ## 3.0.0-rc.3 (Jul 7, 2017)
 
@@ -89,7 +93,7 @@
 
 ## 2.3.1 (May 28, 2016)
 
-- Improved the rotate and scale transform behaviour (#633, idea by afeibus).
+- Improved the rotate and scale transform behavior (#633, idea by afeibus).
 - Improved the `getCroppedCanvas` method to return the whole canvas if it is not cropped (#666, PR by @vinnymac).
 - Check cross origin setting when load image by XMLHTTPRequest (#669)
 

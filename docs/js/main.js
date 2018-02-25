@@ -27,6 +27,7 @@ $(function () {
         }
       };
   var originalImageURL = $image.attr('src');
+  var uploadedImageName = 'cropped.jpg';
   var uploadedImageType = 'image/jpeg';
   var uploadedImageURL;
 
@@ -175,6 +176,7 @@ $(function () {
             $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
             if (!$download.hasClass('disabled')) {
+              download.download = uploadedImageName;
               $download.attr('href', result.toDataURL(uploadedImageType));
             }
           }
@@ -251,6 +253,7 @@ $(function () {
         file = files[0];
 
         if (/^image\/\w+$/.test(file.type)) {
+          uploadedImageName = file.name;
           uploadedImageType = file.type;
 
           if (uploadedImageURL) {
