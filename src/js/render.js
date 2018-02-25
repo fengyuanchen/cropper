@@ -7,7 +7,7 @@ import {
   EVENT_CROP,
 } from './constants';
 import {
-  getContainSizes,
+  getAdjustedSizes,
   getRotatedSizes,
   getTransformValues,
 } from './utilities';
@@ -136,11 +136,11 @@ export default {
         }
       }
 
-      ({ width: minCanvasWidth, height: minCanvasHeight } = getContainSizes({
+      ({ width: minCanvasWidth, height: minCanvasHeight } = getAdjustedSizes({
         aspectRatio,
         width: minCanvasWidth,
         height: minCanvasHeight,
-      }));
+      }, 'cover'));
 
       canvas.minWidth = minCanvasWidth;
       canvas.minHeight = minCanvasHeight;

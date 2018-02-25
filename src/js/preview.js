@@ -1,10 +1,6 @@
 import $ from 'jquery';
-import {
-  DATA_PREVIEW,
-} from './constants';
-import {
-  getTransformValues,
-} from './utilities';
+import { DATA_PREVIEW } from './constants';
+import { getTransformValues } from './utilities';
 
 export default {
   initPreview() {

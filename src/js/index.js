@@ -1,8 +1,6 @@
 import $ from 'jquery';
 import Cropper from './cropper';
-import {
-  NAMESPACE,
-} from './constants';
+import { NAMESPACE } from './constants';
 import {
   isString,
   isUndefined,

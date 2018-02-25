@@ -12,9 +12,7 @@ import {
   EVENT_WHEEL,
   EVENT_ZOOM,
 } from './constants';
-import {
-  proxy,
-} from './utilities';
+import { proxy } from './utilities';
 
 export default {
   bind() {
