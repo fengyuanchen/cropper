@@ -1,11 +1,11 @@
 /*!
- * Cropper v3.1.5
+ * Cropper v3.1.6
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-02-25T09:07:38.300Z
+ * Date: 2018-03-01T13:33:48.179Z
  */
 
 import $ from 'jquery';
@@ -911,7 +911,7 @@ var render = {
         aspectRatio: aspectRatio,
         width: minCanvasWidth,
         height: minCanvasHeight
-      }, 'cover');
+      });
 
       minCanvasWidth = _getAdjustedSizes.width;
       minCanvasHeight = _getAdjustedSizes.height;

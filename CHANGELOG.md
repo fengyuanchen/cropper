@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.6 (Mar 1, 2018)
+
+- Fixed a bug of incorrect behavior of `viewMode: 2`.
+
 ## 3.1.5 (Feb 25, 2018)
 
 - Fixed a bug of `getCroppedCanvas` method when provide `maxWidth` or `maxHeight` options (#953).
