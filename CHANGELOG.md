@@ -1,5 +1,42 @@
 # Changelog
 
+## 4.0.0-alpha (Mar 1, 2018)
+
+- The core code of Cropper is replaced with [Cropper.js](https://github.com/fengyuanchen/cropperjs) now.
+- Migration from Cropper 3.x:
+  - **Before:**
+    ```js
+    $().cropper({
+      crop(event) {
+        console.log(
+          event.x,
+          event.y,
+          event.width,
+          event.height,
+          event.rotate,
+          event.scaleX,
+          event.scaleY,
+        );
+      },
+    });
+    ```
+  - **After:**
+    ```js
+    $().cropper({
+      crop(event) {
+        console.log(
+          event.detail.x,
+          event.detail.y,
+          event.detail.width,
+          event.detail.height,
+          event.detail.rotate,
+          event.detail.scaleX,
+          event.detail.scaleY,
+        );
+      },
+    });
+    ```
+
 ## 3.1.6 (Mar 1, 2018)
 
 - Fixed a bug of incorrect behavior of `viewMode: 2`.

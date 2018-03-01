@@ -17,13 +17,13 @@ $(function () {
         aspectRatio: 16 / 9,
         preview: '.img-preview',
         crop: function (e) {
-          $dataX.val(Math.round(e.detail.x));
-          $dataY.val(Math.round(e.detail.y));
-          $dataHeight.val(Math.round(e.detail.height));
-          $dataWidth.val(Math.round(e.detail.width));
-          $dataRotate.val(e.detail.rotate);
-          $dataScaleX.val(e.detail.scaleX);
-          $dataScaleY.val(e.detail.scaleY);
+          $dataX.val(Math.round(e.x));
+          $dataY.val(Math.round(e.y));
+          $dataHeight.val(Math.round(e.height));
+          $dataWidth.val(Math.round(e.width));
+          $dataRotate.val(e.rotate);
+          $dataScaleX.val(e.scaleX);
+          $dataScaleY.val(e.scaleY);
         }
       };
   var originalImageURL = $image.attr('src');
@@ -42,19 +42,19 @@ $(function () {
       console.log(e.type);
     },
     cropstart: function (e) {
-      console.log(e.type, e.detail.action);
+      console.log(e.type, e.action);
     },
     cropmove: function (e) {
-      console.log(e.type, e.detail.action);
+      console.log(e.type, e.action);
     },
     cropend: function (e) {
-      console.log(e.type, e.detail.action);
+      console.log(e.type, e.action);
     },
     crop: function (e) {
-      console.log(e.type);
+      console.log(e.type, e.x, e.y, e.width, e.height, e.rotate, e.scaleX, e.scaleY);
     },
     zoom: function (e) {
-      console.log(e.type, e.detail.ratio);
+      console.log(e.type, e.ratio);
     }
   }).cropper(options);
 
