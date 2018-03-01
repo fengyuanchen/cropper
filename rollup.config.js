@@ -16,40 +16,48 @@ const banner = `/*!
 `;
 
 module.exports = {
-  input: 'src/js/index.js',
+  input: 'src/index.js',
   output: [
     {
       banner,
       file: 'dist/cropper.js',
       format: 'umd',
       name: 'Cropper',
+      globals: {
+        jquery: 'jQuery',
+      },
     },
     {
       banner,
       file: 'dist/cropper.common.js',
       format: 'cjs',
+      globals: {
+        jquery: 'jQuery',
+      },
     },
     {
       banner,
       file: 'dist/cropper.esm.js',
       format: 'es',
+      globals: {
+        jquery: 'jQuery',
+      },
     },
     {
       banner,
       file: 'docs/js/cropper.js',
       format: 'umd',
       name: 'Cropper',
+      globals: {
+        jquery: 'jQuery',
+      },
     },
   ],
   external: ['jquery'],
-  globals: {
-    jquery: 'jQuery',
-  },
   plugins: [
     nodeResolve(),
     commonjs(),
     babel({
-      exclude: 'node_modules/**',
       plugins: ['external-helpers'],
     }),
   ],
