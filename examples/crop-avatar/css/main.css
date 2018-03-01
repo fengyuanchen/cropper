@@ -31,12 +31,10 @@ body {
   display: block;
   float: left;
   clear: left;
-  width: 100px;
 }
 
-.avatar-upload input {
-  display: block;
-  margin-left: 110px;
+.avatar-upload .avatar-input-label input[type="file"] {
+  display: none;
 }
 
 .avatar-alert {
