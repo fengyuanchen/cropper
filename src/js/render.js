@@ -140,7 +140,7 @@ export default {
         aspectRatio,
         width: minCanvasWidth,
         height: minCanvasHeight,
-      }, 'cover'));
+      }));
 
       canvas.minWidth = minCanvasWidth;
       canvas.minHeight = minCanvasHeight;
