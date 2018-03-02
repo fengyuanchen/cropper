@@ -72,6 +72,12 @@ $('#image').cropper({
 });
 ```
 
+After initialize can get `Cropper` instance:
+
+```js
+$('#image').data('cropper');
+```
+
 ## Options
 
 See the available [options](https://github.com/fengyuanchen/cropperjs#options) of Cropper.js.
