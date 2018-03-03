@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.0-beta (Mar 3, 2018)
+
+- Upgrade Cropper.js from 1.3.1 to 1.3.2.
+
 ## 4.0.0-alpha (Mar 1, 2018)
 
 - The core code of Cropper is replaced with [Cropper.js](https://github.com/fengyuanchen/cropperjs) now.
