@@ -119,7 +119,7 @@ It is the same as the [browser support of Cropper.js](https://github.com/fengyua
 
 ## Contributing
 
-Please read through our [contributing guidelines](CONTRIBUTING.md).
+Please read through our [contributing guidelines](.github/CONTRIBUTING.md).
 
 ## Versioning
 

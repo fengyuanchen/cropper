@@ -46,7 +46,6 @@ Cropper version: X.Y.Z
 <!-- Check whether this is still an issue in the most recent Cropper version -->
 
 Browser:
-
 - [ ] Chrome (desktop) version XX
 - [ ] Chrome (Android) version XX
 - [ ] Chrome (iOS) version XX
@@ -57,5 +56,5 @@ Browser:
 - [ ] Edge version XX
 
 Others:
-<!-- Anything else relevant?  Operating system version, IDE, package manager, HTTP server, ... -->
+<!-- Anything else relevant? -->
 </code></pre>
