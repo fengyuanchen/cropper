@@ -22,7 +22,7 @@ dist/
 
 ## Getting started
 
-### Install
+### Installation
 
 ```shell
 npm install cropper
@@ -35,8 +35,6 @@ Include files:
 <link  href="/path/to/cropper.css" rel="stylesheet">
 <script src="/path/to/cropper.js"></script>
 ```
-
-The [cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropper).
 
 ### Usage
 
