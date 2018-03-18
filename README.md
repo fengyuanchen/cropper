@@ -25,7 +25,7 @@ dist/
 ### Installation
 
 ```shell
-npm install cropper
+npm install cropper jquery
 ```
 
 Include files:
