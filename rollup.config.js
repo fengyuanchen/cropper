@@ -31,17 +31,11 @@ module.exports = {
       banner,
       file: 'dist/cropper.common.js',
       format: 'cjs',
-      globals: {
-        jquery: 'jQuery',
-      },
     },
     {
       banner,
       file: 'dist/cropper.esm.js',
       format: 'es',
-      globals: {
-        jquery: 'jQuery',
-      },
     },
     {
       banner,
