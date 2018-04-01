@@ -1,8 +1,12 @@
 # Changelog
 
+## 4.0.0 (Apr 1, 2018)
+
+- Upgrade Cropper.js to 1.3.4.
+
 ## 4.0.0-beta (Mar 3, 2018)
 
-- Upgrade Cropper.js from 1.3.1 to 1.3.2.
+- Upgrade Cropper.js to 1.3.2.
 
 ## 4.0.0-alpha (Mar 1, 2018)
 

@@ -1,16 +1,17 @@
 /*!
- * Cropper v4.0.0-beta
+ * Cropper v4.0.0
  * https://github.com/fengyuanchen/cropper
  *
  * Copyright (c) 2014-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-03-03T03:59:36.917Z
+ * Date: 2018-04-01T06:27:27.267Z
  */
 
 import $ from 'jquery';
 
-var WINDOW = typeof window !== 'undefined' ? window : {};
+var IN_BROWSER = typeof window !== 'undefined';
+var WINDOW = IN_BROWSER ? window : {};
 var NAMESPACE = 'cropper';
 
 // Actions
@@ -325,7 +326,7 @@ var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
 
 /**
  * Normalize decimal number.
- * Check out {@link http://0.30000000000000004.com/ }
+ * Check out {@link http://0.30000000000000004.com/}
  * @param {number} value - The value to normalize.
  * @param {number} [times=100000000000] - The times for normalizing.
  * @returns {number} Returns the normalized number.
@@ -518,6 +519,35 @@ function removeData(element, name) {
 }
 
 var REGEXP_SPACES = /\s\s*/;
+var onceSupported = function () {
+  var supported = false;
+
+  if (IN_BROWSER) {
+    var once = false;
+    var listener = function listener() {};
+    var options = Object.defineProperty({}, 'once', {
+      get: function get$$1() {
+        supported = true;
+        return once;
+      },
+
+
+      /**
+       * This setter can fix a `TypeError` in strict mode
+       * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
+       * @param {boolean} value - The value to set
+       */
+      set: function set$$1(value) {
+        once = value;
+      }
+    });
+
+    WINDOW.addEventListener('test', listener, options);
+    WINDOW.removeEventListener('test', listener, options);
+  }
+
+  return supported;
+}();
 
 /**
  * Remove event listener from the target element.
@@ -529,8 +559,28 @@ var REGEXP_SPACES = /\s\s*/;
 function removeListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  forEach(type.trim().split(REGEXP_SPACES), function (t) {
-    element.removeEventListener(t, listener, options);
+  var handler = listener;
+
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (!onceSupported) {
+      var listeners = element.listeners;
+
+
+      if (listeners && listeners[event] && listeners[event][listener]) {
+        handler = listeners[event][listener];
+        delete listeners[event][listener];
+
+        if (Object.keys(listeners[event]).length === 0) {
+          delete listeners[event];
+        }
+
+        if (Object.keys(listeners).length === 0) {
+          delete element.listeners;
+        }
+      }
+    }
+
+    element.removeEventListener(event, handler, options);
   });
 }
 
@@ -541,24 +591,40 @@ function removeListener(element, type, listener) {
  * @param {Function} listener - The event listener.
  * @param {Object} options - The event options.
  */
-function addListener(element, type, _listener) {
+function addListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  if (options.once) {
-    var originalListener = _listener;
+  var _handler = listener;
 
-    _listener = function listener() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (options.once && !onceSupported) {
+      var _element$listeners = element.listeners,
+          listeners = _element$listeners === undefined ? {} : _element$listeners;
+
+
+      _handler = function handler() {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        delete listeners[event][listener];
+        element.removeEventListener(event, _handler, options);
+        listener.apply(element, args);
+      };
+
+      if (!listeners[event]) {
+        listeners[event] = {};
       }
 
-      removeListener(element, type, _listener, options);
-      return originalListener.apply(element, args);
-    };
-  }
+      if (listeners[event][listener]) {
+        element.removeEventListener(event, listeners[event][listener], options);
+      }
 
-  forEach(type.trim().split(REGEXP_SPACES), function (t) {
-    element.addEventListener(t, _listener, options);
+      listeners[event][listener] = _handler;
+      element.listeners = listeners;
+    }
+
+    element.addEventListener(event, _handler, options);
   });
 }
 
@@ -837,7 +903,8 @@ function getRotatedSizes(_ref5) {
  * @returns {HTMLCanvasElement} The result canvas.
  */
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
-  var imageNaturalWidth = _ref6.naturalWidth,
+  var imageAspectRatio = _ref6.aspectRatio,
+      imageNaturalWidth = _ref6.naturalWidth,
       imageNaturalHeight = _ref6.naturalHeight,
       _ref6$rotate = _ref6.rotate,
       rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
@@ -880,8 +947,18 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
 
   // Note: should always use image's natural sizes for drawing as
   // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
-  var destWidth = Math.min(maxSizes.width, Math.max(minSizes.width, imageNaturalWidth));
-  var destHeight = Math.min(maxSizes.height, Math.max(minSizes.height, imageNaturalHeight));
+  var destMaxSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: maxWidth,
+    height: maxHeight
+  });
+  var destMinSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: minWidth,
+    height: minHeight
+  }, 'cover');
+  var destWidth = Math.min(destMaxSizes.width, Math.max(destMinSizes.width, imageNaturalWidth));
+  var destHeight = Math.min(destMaxSizes.height, Math.max(destMinSizes.height, imageNaturalHeight));
   var params = [-destWidth / 2, -destHeight / 2, destWidth, destHeight];
 
   canvas.width = normalizeDecimalNumber(width);
@@ -3095,8 +3172,6 @@ var methods = {
       dstHeight = srcHeight;
     }
 
-    // All the numerical parameters should be integer for `drawImage`
-    // https://github.com/fengyuanchen/cropper/issues/476
     var params = [srcX, srcY, srcWidth, srcHeight];
 
     // Avoid "IndexSizeError"
@@ -3106,6 +3181,8 @@ var methods = {
       params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
+    // All the numerical parameters should be integer for `drawImage`
+    // https://github.com/fengyuanchen/cropper/issues/476
     context.drawImage.apply(context, [source].concat(toConsumableArray(params.map(function (param) {
       return Math.floor(normalizeDecimalNumber(param));
     }))));
@@ -3376,6 +3453,7 @@ var Cropper = function () {
 
       if (this.isImg) {
         if (element.complete) {
+          // start asynchronously to keep `this.cropper` is accessible in `ready` event handler.
           this.timeout = setTimeout(start, 0);
         } else {
           addListener(element, EVENT_LOAD, start, {
@@ -3663,7 +3741,7 @@ if ($.fn) {
       }
     });
 
-    return typeof result === 'undefined' ? this : result;
+    return result !== undefined ? result : this;
   };
 
   $.fn.cropper.Constructor = Cropper;
