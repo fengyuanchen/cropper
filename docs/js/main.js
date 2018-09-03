@@ -1,5 +1,4 @@
 $(function () {
-
   'use strict';
 
   var console = window.console || { log: function () {} };
@@ -14,27 +13,25 @@ $(function () {
   var $dataScaleX = $('#dataScaleX');
   var $dataScaleY = $('#dataScaleY');
   var options = {
-        aspectRatio: 16 / 9,
-        preview: '.img-preview',
-        crop: function (e) {
-          $dataX.val(Math.round(e.detail.x));
-          $dataY.val(Math.round(e.detail.y));
-          $dataHeight.val(Math.round(e.detail.height));
-          $dataWidth.val(Math.round(e.detail.width));
-          $dataRotate.val(e.detail.rotate);
-          $dataScaleX.val(e.detail.scaleX);
-          $dataScaleY.val(e.detail.scaleY);
-        }
-      };
+    aspectRatio: 16 / 9,
+    preview: '.img-preview',
+    crop: function (e) {
+      $dataX.val(Math.round(e.detail.x));
+      $dataY.val(Math.round(e.detail.y));
+      $dataHeight.val(Math.round(e.detail.height));
+      $dataWidth.val(Math.round(e.detail.width));
+      $dataRotate.val(e.detail.rotate);
+      $dataScaleX.val(e.detail.scaleX);
+      $dataScaleY.val(e.detail.scaleY);
+    }
+  };
   var originalImageURL = $image.attr('src');
   var uploadedImageName = 'cropped.jpg';
   var uploadedImageType = 'image/jpeg';
   var uploadedImageURL;
 
-
   // Tooltip
   $('[data-toggle="tooltip"]').tooltip();
-
 
   // Cropper
   $image.on({
@@ -58,7 +55,6 @@ $(function () {
     }
   }).cropper(options);
 
-
   // Buttons
   if (!$.isFunction(document.createElement('canvas').getContext)) {
     $('button[data-method="getCroppedCanvas"]').prop('disabled', true);
@@ -69,12 +65,10 @@ $(function () {
     $('button[data-method="scale"]').prop('disabled', true);
   }
 
-
   // Download
   if (typeof $download[0].download === 'undefined') {
     $download.addClass('disabled');
   }
-
 
   // Options
   $('.docs-toggles').on('change', 'input', function () {
@@ -103,7 +97,6 @@ $(function () {
 
     $image.cropper('destroy').cropper(options);
   });
-
 
   // Methods
   $('.docs-buttons').on('click', '[data-method]', function () {
@@ -200,15 +193,12 @@ $(function () {
           console.log(e.message);
         }
       }
-
     }
   });
 
-
   // Keyboard
   $(document.body).on('keydown', function (e) {
-
-    if (!$image.data('cropper') || this.scrollTop > 300) {
+    if (e.target !== this || !$image.data('cropper') || this.scrollTop > 300) {
       return;
     }
 
@@ -233,9 +223,7 @@ $(function () {
         $image.cropper('move', 0, 1);
         break;
     }
-
   });
-
 
   // Import image
   var $inputImage = $('#inputImage');
@@ -271,5 +259,4 @@ $(function () {
   } else {
     $inputImage.prop('disabled', true).parent().addClass('disabled');
   }
-
 });
