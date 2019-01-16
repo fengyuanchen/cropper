@@ -8,12 +8,10 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 
 <!-- Check one of the following options with "x" -->
 
-<pre><code>
-[ ] Regression (a behavior that used to work and stopped working in a new release)
-[ ] Bug report <!-- Please search GitHub for a similar issue or PR before submitting -->
-[ ] Feature request
-[ ] Documentation issue or request
-</code></pre>
+- [ ] Regression (a behavior that used to work and stopped working in a new release)
+- [ ] Bug report <!-- Please search GitHub for a similar issue or PR before submitting -->
+- [ ] Feature request
+- [ ] Documentation issue or request
 
 
 ## Current behavior
@@ -44,8 +42,9 @@ https://codepen.io/pen or similar.
 <pre><code>
 Cropper version: X.Y.Z
 <!-- Check whether this is still an issue in the most recent Cropper version -->
+</pre></code>
 
-Browser:
+### Browser:
 - [ ] Chrome (desktop) version XX
 - [ ] Chrome (Android) version XX
 - [ ] Chrome (iOS) version XX
@@ -55,6 +54,5 @@ Browser:
 - [ ] IE version XX
 - [ ] Edge version XX
 
-Others:
+### Others:
 <!-- Anything else relevant? -->
-</code></pre>
