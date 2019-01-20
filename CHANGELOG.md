@@ -423,7 +423,7 @@
 ## 0.7.4 (Nov 24, 2014)
 
 - Improve "getDataURL" method, enable to customize the image sizes (#105).
-- Fix the issue of destory (#101).
+- Fix the issue of destroy (#101).
 - Fix the issue of canvas (#106).
 
 ## 0.7.3 (Nov 15, 2014)
