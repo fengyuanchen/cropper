@@ -3107,8 +3107,15 @@
           width = _getAdjustedSizes.width,
           height = _getAdjustedSizes.height;
 
-      width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
-      height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
+      // if set to fixed size in options override width and height options
+      // it is required for multiple image crops same time
+      if (options.fixedWidth > 0 && options.fixedHeight > 0) {
+        width = options.fixedWidth;
+        height = options.fixedHeight;
+      } else {
+        width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
+        height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
+      }
 
       var canvas = document.createElement('canvas');
       var context = canvas.getContext('2d');
