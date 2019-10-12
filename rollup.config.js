@@ -1,47 +1,45 @@
 const babel = require('rollup-plugin-babel');
 const commonjs = require('rollup-plugin-commonjs');
 const nodeResolve = require('rollup-plugin-node-resolve');
+const changeCase = require('change-case');
+const createBanner = require('create-banner');
 const pkg = require('./package');
 
-const now = new Date();
-const banner = `/*!
- * Cropper v${pkg.version}
- * https://github.com/${pkg.repository}
- *
- * Copyright (c) 2014-${now.getFullYear()} ${pkg.author.name}
- * Released under the ${pkg.license} license
- *
- * Date: ${now.toISOString()}
- */
-`;
+const name = changeCase.pascalCase(pkg.name);
+const banner = createBanner({
+  data: {
+    name,
+    year: '2014-present',
+  },
+});
 
 module.exports = {
   input: 'src/index.js',
   output: [
     {
       banner,
-      file: 'dist/cropper.js',
+      name,
+      file: `dist/${pkg.name}.js`,
       format: 'umd',
-      name: 'Cropper',
       globals: {
         jquery: 'jQuery',
       },
     },
     {
       banner,
-      file: 'dist/cropper.common.js',
+      file: `dist/${pkg.name}.common.js`,
       format: 'cjs',
     },
     {
       banner,
-      file: 'dist/cropper.esm.js',
+      file: `dist/${pkg.name}.esm.js`,
       format: 'es',
     },
     {
       banner,
-      file: 'docs/js/cropper.js',
+      name,
+      file: `docs/js/${pkg.name}.js`,
       format: 'umd',
-      name: 'Cropper',
       globals: {
         jquery: 'jQuery',
       },
@@ -51,8 +49,6 @@ module.exports = {
   plugins: [
     nodeResolve(),
     commonjs(),
-    babel({
-      plugins: ['external-helpers'],
-    }),
+    babel(),
   ],
 };

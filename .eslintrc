@@ -3,11 +3,28 @@
   "env": {
     "browser": true
   },
+  "root": true,
   "rules": {
+    "import/no-extraneous-dependencies": "off",
     "no-param-reassign": "off",
     "no-restricted-properties": "off",
     "valid-jsdoc": ["error", {
       "requireReturn": false
     }]
-  }
+  },
+  "overrides": [
+    {
+      "files": "test/**/*.js",
+      "env": {
+        "jquery": true,
+        "mocha": true
+      },
+      "globals": {
+        "expect": true
+      },
+      "rules": {
+        "no-unused-expressions": "off"
+      }
+    }
+  ]
 }
