@@ -1,22 +1,35 @@
 {
   "name": "cropper",
   "description": "A simple jQuery image cropping plugin.",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
-  "unpkg": "dist/cropper.js",
+  "browser": "dist/cropper.js",
   "style": "dist/cropper.css",
-  "repository": "fengyuanchen/cropper",
-  "homepage": "https://fengyuanchen.github.io/cropper",
-  "license": "MIT",
-  "author": {
-    "name": "Chen Fengyuan",
-    "url": "http://chenfengyuan.com"
-  },
   "files": [
     "src",
     "dist"
   ],
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
+    "build:js": "rollup -c",
+    "clear": "del-cli dist",
+    "compress": "npm run compress:css && npm run compress:js",
+    "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
+    "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
+    "copy": "cpy dist/cropper.css docs/css",
+    "lint": "eslint src test *.js --fix",
+    "release": "npm run clear && npm run lint && npm run build && npm run compress && npm run copy && npm test",
+    "start": "npm-run-all --parallel watch:*",
+    "test": "karma start",
+    "watch:css": "postcss src/index.css -o docs/css/cropper.css -m -w",
+    "watch:js": "rollup -c -m -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengyuanchen/cropper.git"
+  },
   "keywords": [
     "image",
     "crop",
@@ -37,64 +50,94 @@
     "front-end",
     "web"
   ],
-  "scripts": {
-    "build": "npm run build:css && npm run build:js",
-    "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
-    "build:js": "rollup -c",
-    "clear": "del-cli dist",
-    "commitmsg": "npm run lint && commitlint -e",
-    "compress": "npm run compress:css && npm run compress:js",
-    "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
-    "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
-    "copy": "cpy dist/cropper.css docs/css",
-    "lint": "eslint src test *.js --fix",
-    "release": "npm run clear && npm run lint && npm run build && npm run compress && npm run copy && npm test",
-    "start": "npm-run-all --parallel watch:*",
-    "test": "karma start test/karma.conf.js",
-    "watch:css": "postcss src/index.css -o docs/css/cropper.css -m -w",
-    "watch:js": "rollup -c -m -w"
+  "author": {
+    "name": "Chen Fengyuan",
+    "url": "https://chenfengyuan.com"
   },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fengyuanchen/cropper/issues"
+  },
+  "homepage": "https://fengyuanchen.github.io/cropper",
   "dependencies": {
-    "cropperjs": "^1.3.4"
+    "cropperjs": "^1.5.6"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.1.3",
-    "@commitlint/config-angular": "^6.1.3",
-    "babel-core": "^6.26.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "chai": "^4.1.2",
-    "cpy-cli": "^1.0.1",
-    "cssnano": "^3.10.0",
-    "del-cli": "^1.1.0",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.10.0",
-    "husky": "^0.14.3",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "babel-plugin-istanbul": "^5.2.0",
+    "chai": "^4.2.0",
+    "change-case": "^3.1.0",
+    "cpy-cli": "^2.0.0",
+    "create-banner": "^1.0.0",
+    "cssnano": "^4.1.10",
+    "del-cli": "^3.0.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.8",
     "jquery": "^3.3.1",
-    "karma": "^2.0.0",
+    "karma": "^4.3.0",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage-istanbul-reporter": "^2.1.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-rollup-preprocessor": "^5.1.1",
-    "mocha": "^5.0.5",
-    "npm-run-all": "^4.1.2",
-    "postcss-cli": "^5.0.0",
-    "postcss-cssnext": "^3.1.0",
+    "karma-rollup-preprocessor": "^7.0.2",
+    "lint-staged": "^8.2.1",
+    "mocha": "^6.2.1",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^6.1.3",
     "postcss-header": "^1.0.0",
-    "postcss-import": "^11.1.0",
-    "postcss-url": "^7.3.1",
-    "puppeteer": "^1.2.0",
-    "rollup": "^0.57.1",
-    "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "postcss-import": "^12.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "postcss-url": "^8.0.0",
+    "puppeteer": "^1.20.0",
+    "rollup": "^1.23.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-watch": "^4.3.1",
-    "stylefmt": "^6.0.0",
-    "uglify-js": "^3.3.17"
+    "stylelint": "^11.1.1",
+    "stylelint-config-standard": "^19.0.0",
+    "stylelint-order": "^3.1.1",
+    "uglify-js": "^3.6.1"
   },
   "peerDependencies": {
-    "jquery": ">= 1.9.1"
+    "jquery": ">=1.9.1"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not ie <= 8"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "eslint --fix",
+        "git add"
+      ],
+      "*.{css,scss,html}": [
+        "stylelint --fix",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "{dist,docs}/**/*.js",
+      "*.min.*"
+    ]
   }
 }

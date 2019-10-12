@@ -1,6 +1,6 @@
 # Cropper
 
-[![Build Status](https://img.shields.io/travis/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper) [![Downloads](https://img.shields.io/npm/dm/cropper.svg)](https://www.npmjs.com/package/cropper) [![Version](https://img.shields.io/npm/v/cropper.svg)](https://www.npmjs.com/package/cropper)
+[![Build Status](https://img.shields.io/travis/fengyuanchen/cropper.svg)](https://travis-ci.org/fengyuanchen/cropper) [![Downloads](https://img.shields.io/npm/dm/cropper.svg)](https://www.npmjs.com/package/cropper) [![Version](https://img.shields.io/npm/v/cropper.svg)](https://www.npmjs.com/package/cropper) [![Dependencies](https://img.shields.io/david/fengyuanchen/cropper.svg)](https://www.npmjs.com/package/cropper)
 
 > A simple jQuery image cropping plugin. As of v4.0.0, the core code of Cropper is replaced with [Cropper.js](https://github.com/fengyuanchen/cropperjs).
 
@@ -79,7 +79,7 @@ var cropper = $image.data('cropper');
 See the available [options](https://github.com/fengyuanchen/cropperjs#options) of Cropper.js.
 
 ```js
-$().cropper(options);
+$('img').cropper(options);
 ```
 
 ## Methods
@@ -87,7 +87,9 @@ $().cropper(options);
 See the available [methods](https://github.com/fengyuanchen/cropperjs#methods) of Cropper.js.
 
 ```js
-$().cropper('method', argument1, , argument2, ..., argumentN);
+$('img').once('ready', function () {
+  $(this).cropper('method', argument1, , argument2, ..., argumentN);
+});
 ```
 
 ## Events
@@ -95,7 +97,7 @@ $().cropper('method', argument1, , argument2, ..., argumentN);
 See the available [events](https://github.com/fengyuanchen/cropperjs#events) of Cropper.js.
 
 ```js
-$().on('event', handler);
+$('img').on('event', handler);
 ```
 
 ## No conflict
@@ -107,7 +109,7 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 <script src="cropper.js"></script>
 <script>
   $.fn.cropper.noConflict();
-  // Code that uses other plugin's "$().cropper" can follow here.
+  // Code that uses other plugin's "$('img').cropper" can follow here.
 </script>
 ```
 

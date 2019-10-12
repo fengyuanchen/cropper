@@ -1,12 +1,16 @@
 # Changelog
 
+## 4.1.0 (Oct 12, 2019)
+
+- Upgrade the built-in Cropper.js to v1.5.6.
+
 ## 4.0.0 (Apr 1, 2018)
 
-- Upgrade Cropper.js to 1.3.4.
+- Upgrade the built-in Cropper.js to v1.3.4.
 
 ## 4.0.0-beta (Mar 3, 2018)
 
-- Upgrade Cropper.js to 1.3.2.
+- Upgrade the built-in Cropper.js to v1.3.2.
 
 ## 4.0.0-alpha (Mar 1, 2018)
 
