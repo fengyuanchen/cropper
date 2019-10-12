@@ -1,22 +1,19 @@
+const babel = require('rollup-plugin-babel');
+const commonjs = require('rollup-plugin-commonjs');
+const nodeResolve = require('rollup-plugin-node-resolve');
 const puppeteer = require('puppeteer');
-const rollupConfig = require('../rollup.config');
 
 process.env.CHROME_BIN = puppeteer.executablePath();
+process.env.NODE_ENV = 'test';
 
 module.exports = (config) => {
   config.set({
     autoWatch: false,
-    basePath: '..',
-    browsers: ['ChromeHeadlessWithoutSandbox'],
-    customLaunchers: {
-      ChromeHeadlessWithoutSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox'],
-      },
+    browsers: ['ChromeHeadless'],
+    coverageIstanbulReporter: {
+      reports: ['html', 'lcovonly', 'text-summary'],
     },
     files: [
-      'node_modules/jquery/dist/jquery.js',
-      'dist/cropper.js',
       'dist/cropper.css',
       'test/index.js',
       {
@@ -28,12 +25,18 @@ module.exports = (config) => {
     preprocessors: {
       'test/index.js': ['rollup'],
     },
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage-istanbul'],
     rollupPreprocessor: {
-      plugins: rollupConfig.plugins,
       output: {
         format: 'iife',
+        name: 'Anonymous',
+        sourcemap: 'inline',
       },
+      plugins: [
+        nodeResolve(),
+        commonjs(),
+        babel(),
+      ],
     },
     singleRun: true,
   });
