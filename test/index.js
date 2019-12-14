@@ -20,6 +20,13 @@ describe('cropper', () => {
     expect($.fn.cropper.setDefaults).to.be.a('function');
   });
 
+  it('should not initialize the cropper when call the destroy method first', () => {
+    const $image = $(createImage());
+
+    $image.cropper('destroy');
+    expect($image.data('cropper')).to.be.undefined;
+  });
+
   it('should remove data after destroyed', () => {
     const $image = $(createImage());
 
