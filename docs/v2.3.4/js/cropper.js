@@ -458,7 +458,7 @@
           return;
         }
 
-        // Should use `$.fn.prop` here. e.g.: "http://example.com/img/picture.jpg"
+        // Should use `$.fn.prop` here. e.g.: "https://example.com/img/picture.jpg"
         url = $this.prop('src');
       } else if ($this.is('canvas') && SUPPORT_CANVAS) {
         url = $this[0].toDataURL();

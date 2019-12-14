@@ -115,7 +115,7 @@ If you have to use other plugin with the same namespace, just call the `$.fn.cro
 
 ## Browser support
 
-It is the same as the [browser support of Cropper.js](https://github.com/fengyuanchen/cropperjs#browser-support). As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jquery.com/browser-support/).
+It is the same as the [browser support of Cropper.js](https://github.com/fengyuanchen/cropperjs#browser-support). As a jQuery plugin, you also need to see the [jQuery Browser Support](https://jquery.com/browser-support/).
 
 ## Contributing
 
@@ -127,4 +127,4 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com)
+[MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com/)

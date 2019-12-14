@@ -388,7 +388,7 @@
   var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
   /**
    * Normalize decimal number.
-   * Check out {@link http://0.30000000000000004.com/}
+   * Check out {@link https://0.30000000000000004.com/}
    * @param {number} value - The value to normalize.
    * @param {number} [times=100000000000] - The times for normalizing.
    * @returns {number} Returns the normalized number.
@@ -3252,7 +3252,7 @@
 
           if (!url) {
             return;
-          } // e.g.: "http://example.com/img/picture.jpg"
+          } // e.g.: "https://example.com/img/picture.jpg"
 
 
           url = element.src;
